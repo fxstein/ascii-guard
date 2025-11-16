@@ -17,7 +17,6 @@
 ZERO dependencies - uses only Python stdlib.
 """
 
-
 from ascii_guard.models import (
     HORIZONTAL_CHARS,
     VERTICAL_CHARS,
@@ -81,7 +80,7 @@ def validate_box(box: Box) -> list[ValidationError]:
                         line=actual_line_num,
                         column=box.left_col,
                         message=(
-                            f"Left border misaligned: expected vertical character, " f"got '{char}'"
+                            f"Left border misaligned: expected vertical character, got '{char}'"
                         ),
                         severity="error",
                         fix="Replace with vertical border character │",
@@ -107,8 +106,7 @@ def validate_box(box: Box) -> list[ValidationError]:
                         line=actual_line_num,
                         column=box.right_col,
                         message=(
-                            f"Right border misaligned: expected vertical character, "
-                            f"got '{char}'"
+                            f"Right border misaligned: expected vertical character, got '{char}'"
                         ),
                         severity="error",
                         fix="Replace with vertical border character │",

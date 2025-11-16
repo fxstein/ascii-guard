@@ -8,7 +8,7 @@ jobs:
   pr-metadata:
     name: PR Metadata Check
     runs-on: ubuntu-latest
-    if: github.event.pull_request.draft == false
+    if: github.event.pull_request.draft == false && github.actor != 'dependabot[bot]'
 
     steps:
       - name: Check PR title
@@ -23,10 +23,12 @@ jobs:
 
       - name: Check PR description
         run: |
-          BODY="${{ github.event.pull_request.body }}"
+          # Skip detailed PR body check - just verify it exists
+          # PR body can contain special characters that break shell parsing
+          BODY_LENGTH=$(echo '${{ github.event.pull_request.body }}' | wc -c)
 
-          if [ -z "$BODY" ] || [ "$BODY" = "null" ]; then
-            echo "::error::PR description is empty"
+          if [ "$BODY_LENGTH" -lt 10 ]; then
+            echo "::error::PR description is too short or empty"
             echo "Please provide a description of your changes"
             exit 1
           fi

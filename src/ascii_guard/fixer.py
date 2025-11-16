@@ -17,7 +17,6 @@
 ZERO dependencies - uses only Python stdlib.
 """
 
-
 from ascii_guard.models import HORIZONTAL_CHARS, Box
 
 

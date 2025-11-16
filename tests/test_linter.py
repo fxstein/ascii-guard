@@ -110,7 +110,7 @@ class TestFixFile:
         """Test that perfect files are not modified."""
         test_file = tmp_path / "test_perfect.txt"
         original_content = (
-            "┌────────────────────┐\n" "│ Perfect box        │\n" "└────────────────────┘\n"
+            "┌────────────────────┐\n│ Perfect box        │\n└────────────────────┘\n"
         )
         test_file.write_text(original_content)
 
@@ -162,7 +162,7 @@ class TestFixFile:
         """Test that fixes are actually written to the file."""
         test_file = tmp_path / "test_write.txt"
         test_file.write_text(
-            "┌────────────────────┐\n" "│ Content            │\n" "└────────────────────\n"
+            "┌────────────────────┐\n│ Content            │\n└────────────────────\n"
         )
 
         fix_file(str(test_file))

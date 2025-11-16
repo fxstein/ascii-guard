@@ -124,7 +124,7 @@ class TestCLIFixCommand:
     ) -> None:
         """Test fix command on a broken file."""
         test_file = tmp_path / "broken.txt"
-        test_file.write_text("┌────────────┐\n" "│ Content    │\n" "└────────────\n")
+        test_file.write_text("┌────────────┐\n│ Content    │\n└────────────\n")
 
         class Args:
             files = [str(test_file)]
@@ -139,7 +139,7 @@ class TestCLIFixCommand:
     def test_fix_command_dry_run(self, tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
         """Test fix command with dry-run mode."""
         test_file = tmp_path / "broken.txt"
-        original_content = "┌────────────┐\n" "│ Content    │\n" "└────────────\n"
+        original_content = "┌────────────┐\n│ Content    │\n└────────────\n"
         test_file.write_text(original_content)
 
         class Args:
@@ -160,7 +160,7 @@ class TestCLIFixCommand:
     ) -> None:
         """Test fix command on a perfect file."""
         test_file = tmp_path / "perfect.txt"
-        test_file.write_text("┌────────────┐\n" "│ Content    │\n" "└────────────┘\n")
+        test_file.write_text("┌────────────┐\n│ Content    │\n└────────────┘\n")
 
         class Args:
             files = [str(test_file)]

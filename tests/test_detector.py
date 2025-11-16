@@ -119,7 +119,7 @@ class TestEdgeCases:
     def test_box_at_start_of_file(self, tmp_path: Path) -> None:
         """Test box detection when box is at the very start."""
         test_file = tmp_path / "box_at_start.txt"
-        test_file.write_text("┌────────┐\n" "│ Box    │\n" "└────────┘\n")
+        test_file.write_text("┌────────┐\n│ Box    │\n└────────┘\n")
 
         boxes = detect_boxes(str(test_file))
         assert len(boxes) == 1
@@ -129,7 +129,7 @@ class TestEdgeCases:
         """Test box detection when box is at the very end."""
         test_file = tmp_path / "box_at_end.txt"
         test_file.write_text(
-            "Some text\n" "┌────────┐\n" "│ Box    │\n" "└────────┘"  # No trailing newline
+            "Some text\n┌────────┐\n│ Box    │\n└────────┘"  # No trailing newline
         )
 
         boxes = detect_boxes(str(test_file))

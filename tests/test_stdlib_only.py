@@ -194,10 +194,9 @@ class TestStdlibOnly:
                     is_empty = True
 
         assert found_dependencies, "No dependencies field found in [project]"
-        assert is_empty, (
-            "CRITICAL: pyproject.toml must have 'dependencies = []' "
-            "for ZERO runtime dependencies!"
-        )
+        assert (
+            is_empty
+        ), "CRITICAL: pyproject.toml must have 'dependencies = []' for ZERO runtime dependencies!"
 
 
 class TestPackageCanRunStandalone:
