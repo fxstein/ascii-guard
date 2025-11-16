@@ -14,7 +14,7 @@
 - [x] **#12** Create GitHub repository and push initial setup `#setup` `#github`
 - [x] **#11** Initialize git repository and create .gitignore for Python `#setup` `#git`
   > Python .gitignore must include: .venv/, venv/, __pycache__/, *.pyc, *.pyo, *.egg-info/, dist/, build/, .pytest_cache/, .mypy_cache/, .ruff_cache/, .coverage, htmlcov/. Use GitHub's Python template as base.
-- [ ] **#10** Write README with project overview and AI agent installation prompt `#documentation`
+- [x] **#10** Write README with project overview and AI agent installation prompt `#documentation`
   > Emphasize in README: 'ZERO dependencies - pure Python stdlib only'. This is a KEY FEATURE. AI agent prompt should be: 'pip install ascii-guard' (no other deps needed). Highlight: lightweight, fast, no dependency hell.
   > README must include: (1) AI agent prompt for pip install, (2) Developer setup with venv isolation, (3) pre-commit installation instructions. Example: 'Install: python -m venv .venv && source .venv/bin/activate && pip install ascii-guard' for users, 'git clone && ./setup-venv.sh && pre-commit install' for contributors.
 - [ ] **#9** Create comprehensive documentation (usage, examples, API) `#documentation`
@@ -23,9 +23,9 @@
   > GitHub Actions workflow must use 'pre-commit run --all-files' for consistency. Same hooks locally and in CI. Add matrix testing for Python 3.11, 3.12, 3.13. Cache pip and pre-commit environments.
 - [ ] **#6** Add comprehensive test suite with pytest `#testing`
   > Test suite uses pytest (dev dependency only). The linter itself must work standalone with ZERO deps. Tests verify: stdlib-only usage, no import of external packages, works with python -m ascii_guard.
-- [ ] **#5** Implement CLI interface with lint and fix commands `#feature` `#cli`
+- [x] **#5** Implement CLI interface with lint and fix commands `#feature` `#cli`
   > CRITICAL: Use argparse (stdlib) only, NO click/typer. Simple CLI: 'ascii-guard lint <file>', 'ascii-guard fix <file>'. ANSI escape codes for colored output (no colorama). Keep it minimal and standalone.
-- [ ] **#4** Create core linter module structure (detection, validation, fixing) `#feature` `#core`
+- [x] **#4** Create core linter module structure (detection, validation, fixing) `#feature`
   > CRITICAL: ZERO runtime dependencies. Use only Python stdlib. No external libs (no markdown, no click, no colorama). Pure Python 3.11+ stdlib only. Parse files with open(), use argparse for CLI, ANSI codes for colors.
 - [x] **#3** Set up development tooling (ruff, black, mypy, pytest) `#setup` `#tooling`
   > CRITICAL: Use pre-commit framework for ALL linting. Install: 'pip install pre-commit'. Config .pre-commit-config.yaml with: ruff (lint+format), mypy (types), pytest (tests), trailing-whitespace, end-of-file-fixer, check-yaml. Run 'pre-commit install' to enable hooks. NO system-level tool pollution.
@@ -46,7 +46,7 @@
 
 ---
 
-**Last Updated:** Sun Nov 16 11:57:15 CET 2025
+**Last Updated:** Sun Nov 16 12:03:30 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata
