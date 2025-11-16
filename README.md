@@ -4,8 +4,11 @@
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Python](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![CI](https://github.com/fxstein/ascii-guard/actions/workflows/ci.yml/badge.svg)](https://github.com/fxstein/ascii-guard/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/fxstein/ascii-guard/branch/main/graph/badge.svg)](https://codecov.io/gh/fxstein/ascii-guard)
 [![Code style: ruff](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
 [![Type checked: mypy](https://img.shields.io/badge/type%20checked-mypy-blue.svg)](https://mypy-lang.org/)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/fxstein/ascii-guard/pulls)
 
 ---
 

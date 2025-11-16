@@ -1,0 +1,175 @@
+name: PR Checks
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+jobs:
+  pr-metadata:
+    name: PR Metadata Check
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == false
+
+    steps:
+      - name: Check PR title
+        run: |
+          TITLE="${{ github.event.pull_request.title }}"
+
+          # Check for conventional commit style (optional but nice)
+          if [[ ! "$TITLE" =~ ^(feat|fix|docs|style|refactor|test|chore|ci|perf|build)(\(.+\))?:\ .+ ]]; then
+            echo "::warning::PR title doesn't follow conventional commit style"
+            echo "Consider using: feat/fix/docs/etc: description"
+          fi
+
+      - name: Check PR description
+        run: |
+          BODY="${{ github.event.pull_request.body }}"
+
+          if [ -z "$BODY" ] || [ "$BODY" = "null" ]; then
+            echo "::error::PR description is empty"
+            echo "Please provide a description of your changes"
+            exit 1
+          fi
+
+  dependency-check:
+    name: Dependency Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check pyproject.toml dependencies
+        run: |
+          # Verify that dependencies = [] (zero runtime deps)
+          if ! grep -q "dependencies = \[\]" pyproject.toml; then
+            echo "::error::Runtime dependencies detected!"
+            echo "ascii-guard must have ZERO runtime dependencies"
+            exit 1
+          fi
+          echo "✓ Zero runtime dependencies verified in pyproject.toml"
+
+      - name: Check for forbidden imports
+        run: |
+          # Check that we're not importing forbidden packages
+          FORBIDDEN="click|typer|colorama|rich|markdown|mistune|commonmark"
+
+          if grep -r -E "^import ($FORBIDDEN)|^from ($FORBIDDEN)" src/ --include="*.py"; then
+            echo "::error::Forbidden dependencies detected in imports!"
+            echo "ascii-guard must only use Python stdlib"
+            exit 1
+          fi
+          echo "✓ No forbidden imports detected"
+
+  code-quality:
+    name: Code Quality Checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .[dev]
+
+      - name: Check code formatting
+        run: |
+          ruff format --check src/ tests/
+
+      - name: Run linter
+        run: |
+          ruff check src/ tests/
+
+      - name: Type checking
+        run: |
+          mypy src/
+
+      - name: Check for TODO/FIXME comments
+        run: |
+          if grep -r "TODO\|FIXME" src/ --include="*.py"; then
+            echo "::warning::Found TODO/FIXME comments in code"
+          fi
+
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Bandit security scan
+        run: |
+          pip install bandit
+          bandit -r src/ -ll || true
+
+      - name: Check for secrets
+        run: |
+          if grep -r -E "(password|secret|api_key|token).*=" src/ --include="*.py" | grep -v "# pragma: allowlist secret"; then
+            echo "::warning::Potential secrets detected in code"
+          fi
+
+  test-coverage:
+    name: Test Coverage Report
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .[dev]
+
+      - name: Run tests with coverage
+        run: |
+          pytest --cov=ascii_guard --cov-report=term-missing --cov-fail-under=80
+
+      - name: Generate coverage comment
+        run: |
+          coverage report --format=markdown > coverage.md
+          cat coverage.md
+
+  docs-check:
+    name: Documentation Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check README exists
+        run: |
+          if [ ! -f README.md ]; then
+            echo "::error::README.md not found"
+            exit 1
+          fi
+
+      - name: Check for broken links in docs
+        run: |
+          # Simple check for common broken link patterns
+          if grep -r "\[.*\]()" docs/ README.md 2>/dev/null; then
+            echo "::warning::Found empty links in documentation"
+          fi
+
+      - name: Validate markdown files
+        run: |
+          # Check that markdown files are valid
+          for file in $(find . -name "*.md" -not -path "./.*"); do
+            if [ ! -s "$file" ]; then
+              echo "::warning::Empty markdown file: $file"
+            fi
+          done
