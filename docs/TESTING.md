@@ -316,7 +316,7 @@ Tests run automatically via **pre-commit hooks** and **GitHub Actions**.
 Will run:
 - Full test suite
 - Coverage report
-- Multiple Python versions (3.10, 3.11, 3.12, 3.13)
+- Python 3.12 (current stable)
 - Zero-dependency verification
 
 ## Debugging Tests

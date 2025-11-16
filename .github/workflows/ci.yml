@@ -9,42 +9,34 @@ on:
 
 jobs:
   lint-and-test:
-    name: Lint & Test (Python ${{ matrix.python-version }})
+    name: Lint & Test (Python 3.12)
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version: ["3.10", "3.11", "3.12"]
-        include:
-          - python-version: "3.13"
-            experimental: true
-    continue-on-error: ${{ matrix.experimental || false }}
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: Set up Python 3.12
         uses: actions/setup-python@v5
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: "3.12"
 
       - name: Cache pip packages
         uses: actions/cache@v4
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('pyproject.toml') }}
+          key: ${{ runner.os }}-pip-3.12-${{ hashFiles('pyproject.toml') }}
           restore-keys: |
-            ${{ runner.os }}-pip-${{ matrix.python-version }}-
+            ${{ runner.os }}-pip-3.12-
             ${{ runner.os }}-pip-
 
       - name: Cache pre-commit hooks
         uses: actions/cache@v4
         with:
           path: ~/.cache/pre-commit
-          key: ${{ runner.os }}-pre-commit-${{ matrix.python-version }}-${{ hashFiles('.pre-commit-config.yaml') }}
+          key: ${{ runner.os }}-pre-commit-3.12-${{ hashFiles('.pre-commit-config.yaml') }}
           restore-keys: |
-            ${{ runner.os }}-pre-commit-${{ matrix.python-version }}-
+            ${{ runner.os }}-pre-commit-3.12-
             ${{ runner.os }}-pre-commit-
 
       - name: Install dependencies
@@ -61,7 +53,7 @@ jobs:
           pytest --cov=ascii_guard --cov-report=xml --cov-report=term-missing
 
       - name: Upload coverage to Codecov
-        if: matrix.python-version == '3.10' && github.repository == 'fxstein/ascii-guard'
+        if: github.repository == 'fxstein/ascii-guard'
         uses: codecov/codecov-action@v4
         continue-on-error: true
         with:
@@ -81,7 +73,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.10"
+          python-version: "3.12"
 
       - name: Install build dependencies
         run: |
@@ -115,7 +107,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.10"
+          python-version: "3.12"
 
       - name: Install package (no dev dependencies)
         run: |
@@ -155,7 +147,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.10"
+          python-version: "3.12"
 
       - name: Test imports (no installation)
         run: |

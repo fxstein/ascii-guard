@@ -19,7 +19,7 @@ This document describes the continuous integration and deployment workflows for 
 **Jobs**:
 
 #### Lint & Test Matrix
-- **Python versions**: 3.10, 3.11, 3.12, 3.13
+- **Python version**: 3.12 (current stable)
 - **OS**: Ubuntu (Linux)
 - **Runs**: Pre-commit hooks (ruff, mypy), pytest with coverage
 - **Caches**: pip packages, pre-commit hooks
@@ -39,7 +39,7 @@ This document describes the continuous integration and deployment workflows for 
 - Verifies zero-dependency promise
 
 **Coverage**:
-- Uploads to Codecov (Python 3.10 only)
+- Uploads to Codecov
 - Requires 80% minimum coverage
 
 ### 2. Release Workflow (`release.yml`)
@@ -113,17 +113,10 @@ This document describes the continuous integration and deployment workflows for 
 
 #### Test All Python Versions & OS
 - **Matrix**:
-  - Python: 3.10, 3.11, 3.12, 3.13
+  - Python: 3.12 only (simplified for stdlib-only tool)
   - OS: Ubuntu, macOS, Windows
 - Full cross-platform validation
 
-#### Test Minimum Python Version
-- Tests exact minimum version (3.10.0)
-- Ensures compatibility with oldest supported version
-
-#### Test Development Python
-- Tests Python 3.14-dev (continues on error)
-- Early detection of future compatibility issues
 
 #### Dependency Audit
 - Runs `safety check` on dev dependencies
@@ -255,8 +248,8 @@ python -c "import ascii_guard; print(ascii_guard.__version__)"
 tox
 
 # Or use pyenv for version switching
-pyenv install 3.10.0 3.11.0 3.12.0 3.13.0
-pyenv local 3.10.0
+pyenv install 3.12.0
+pyenv local 3.12.0
 pytest
 ```
 
