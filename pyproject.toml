@@ -8,7 +8,7 @@ version = "0.1.0"
 description = "A zero-dependency Python linter for detecting and fixing misaligned ASCII art boxes in documentation"
 readme = "README.md"
 requires-python = ">=3.12"
-license = {text = "Apache-2.0"}
+license = "Apache-2.0"
 authors = [
     {name = "fxstein", email = "fxstein@users.noreply.github.com"}
 ]
@@ -16,7 +16,6 @@ keywords = ["ascii", "linter", "documentation", "ascii-art", "box-drawing"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: Apache Software License",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.12",
     "Topic :: Software Development :: Quality Assurance",
