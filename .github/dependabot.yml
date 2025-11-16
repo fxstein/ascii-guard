@@ -31,7 +31,3 @@ updates:
     commit-message:
       prefix: "build"
       include: "scope"
-    # Only update dev dependencies (pytest, ruff, mypy, etc.)
-    ignore:
-      - dependency-name: "*"
-        update-types: ["version-update:semver-major"]
