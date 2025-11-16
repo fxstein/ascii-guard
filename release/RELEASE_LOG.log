@@ -2,6 +2,8 @@
 # Format: TIMESTAMP | USER | STEP | MESSAGE
 # Generated: 2025-11-16
 #
+2025-11-16 22:39:58 | fxstein | PREPARE | Release preview prepared for v0.3.0
+2025-11-16 22:39:57 | fxstein | RELEASE START | Starting release process: 0.2.0 → 0.3.0 (minor)
 2025-11-16 22:34:28 | fxstein | RELEASE INITIATED | Release 0.2.0 initiated! GitHub Actions will complete publishing.
 2025-11-16 22:34:28 | fxstein | CLEANUP | Deleted working files and build artifacts
 2025-11-16 22:34:28 | fxstein | GITHUB ACTIONS | Tag pushed, GitHub Actions will handle PyPI publish and GitHub release
