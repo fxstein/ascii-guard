@@ -3,7 +3,8 @@
 > **⚠️ IMPORTANT: This file should ONLY be edited through the `todo.ai` script!**
 
 ## Tasks
-- [ ] **#25** Fix release script to validate generated files before commit
+- [x] **#25** Fix release script to validate generated files before commit
+  > Added validation in execute_release() at line 573-593. Pre-commit runs on all generated release files before git commit. Fixes EOF/whitespace automatically. Tested: pre-commit hooks passed on release.sh changes.
   > Issue: release.sh generates AI_RELEASE_SUMMARY.md and RELEASE_NOTES.md but doesn't run pre-commit validation on them. When git commit runs, pre-commit hooks fix EOF/whitespace, causing commit to fail. Fix: Add validation step after generating release files - run pre-commit hooks on generated files BEFORE attempting git commit. Location: release.sh execute_release() function, after generate_release_notes() and before git commit.
 - [x] **#24** Fix release process issues identified during v0.1.0 attempt
   - [x] **#24.5** Test complete release workflow with dry-run after fixes
@@ -112,7 +113,7 @@
 
 ---
 
-**Last Updated:** Sun Nov 16 23:55:12 CET 2025
+**Last Updated:** Sun Nov 16 23:57:09 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata
