@@ -16,6 +16,34 @@ This document outlines the design for implementing a fully automated, AI-friendl
 3. **Automated**: Single command to prepare, single command to execute
 4. **Safe**: No accidental publishes, clear rollback path
 5. **Traceable**: Full audit trail of what was released and why
+6. **CI/CD Gated**: No release proceeds if CI/CD is failing
+
+### Critical CI/CD Requirements
+
+**MANDATORY PRE-RELEASE CHECKS:**
+
+1. **Before Starting Release Preparation**:
+   - Check CI/CD status for latest commit: `gh run list --limit 1`
+   - If ANY workflow has failed: **STOP and decline to start release**
+   - Must fix CI/CD errors FIRST before attempting any release
+   - Communicate clearly: "CI/CD is failing, cannot proceed with release"
+
+2. **During Release Preparation**:
+   - Any commit made during preparation → Monitor CI/CD actions
+   - Wait for ALL GitHub Actions to complete
+   - Check status: `gh run list --limit 5`
+   - Only proceed to `--execute` if ALL actions show `completed success`
+
+3. **Never Bypass**:
+   - Never use `--no-verify` on release commits
+   - Never work around CI/CD failures
+   - Never proceed with manual fixes without re-validating CI/CD
+
+**Why This Matters:**
+- CI/CD failures indicate code quality issues
+- Releasing broken code to PyPI is irreversible
+- Users depend on package quality
+- Our automated tests are the last line of defense
 
 ---
 

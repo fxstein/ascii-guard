@@ -2,6 +2,43 @@
 
 This document describes how to test the release process without actually publishing to GitHub or PyPI.
 
+## Prerequisites: CI/CD Status Check
+
+**BEFORE TESTING OR EXECUTING ANY RELEASE:**
+
+### Check CI/CD Status
+
+```bash
+# Check latest workflow status
+gh run list --limit 1
+
+# View more details if needed
+gh run list --limit 5
+```
+
+### Required Status
+
+**Must show:**
+- Status: `completed`
+- Conclusion: `success`
+- No workflows `in_progress`
+
+**If CI/CD is failing:**
+1. STOP - Do not proceed with release testing
+2. Identify failing workflows: `gh run view <run-id>`
+3. Fix the issues causing failures
+4. Wait for CI/CD to pass
+5. Only then proceed with release testing
+
+### Why This Matters
+
+- Release process testing validates the automation
+- But if CI/CD is already failing, you're testing a broken state
+- Always start from a clean, passing CI/CD state
+- This ensures test results are meaningful
+
+---
+
 ## Dry-Run Mode
 
 The release script supports a `--dry-run` flag that simulates the entire release process without performing any actual git operations.
@@ -228,4 +265,3 @@ Potential enhancements for testing:
 
 **Last Updated**: 2025-11-16
 **Version**: 1.0
-

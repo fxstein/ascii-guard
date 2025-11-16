@@ -2,6 +2,139 @@
 
 When the user says "Release ascii-guard" or similar:
 
+## Step 0: MANDATORY CI/CD Check (ALWAYS DO THIS FIRST)
+
+**BEFORE STARTING ANY RELEASE - CHECK CI/CD STATUS:**
+
+```bash
+gh run list --limit 1
+```
+
+**If ANY workflow shows `failure` or `in_progress`:**
+- **STOP IMMEDIATELY** - Do NOT start release preparation
+- Politely inform user: "CI/CD is currently failing. Cannot proceed with release until all checks pass."
+- Show which workflows failed: `gh run list --limit 5`
+- Ask user to fix CI/CD errors first
+- Wait for user confirmation that CI/CD is fixed before proceeding
+
+**Only proceed if:**
+- Latest workflow shows: `completed` + `success`
+- No workflows are currently `in_progress`
+
+**During release preparation (after any commits):**
+- Monitor CI/CD: `gh run list --limit 3`
+- Wait for workflows to complete
+- Check status before proceeding to next step
+- If failures occur: STOP and report
+
+**NEVER:**
+- Bypass CI/CD failures with manual workarounds
+- Proceed with release if CI/CD is failing
+- Use `--no-verify` on release-related commits
+- Ignore or work around GitHub Actions errors
+
+**Why this matters:**
+- CI/CD failures indicate code quality issues
+- Releasing broken code to PyPI is irreversible
+- Users depend on package quality
+- Automated tests are the last line of defense
+
+---
+
+## CRITICAL: Error Handling During Releases
+
+**ZERO TOLERANCE FOR ERRORS DURING RELEASE PROCESS**
+
+### Rule: STOP on ANY Error
+
+Once a release process has started (from Step 1 onwards), **EVERY ERROR MUST STOP THE PROCESS IMMEDIATELY**.
+
+**When an error occurs:**
+
+1. **STOP** - Do NOT continue with workarounds
+2. **REPORT** - Clearly communicate:
+   - What command failed
+   - What the error message says
+   - What step of the release process you were in
+3. **DISCUSS** - Ask user: "An error occurred during release. How should we proceed?"
+4. **WAIT** - Do NOT make assumptions or try fixes without approval
+
+### What Counts as an Error
+
+**Examples of errors that MUST stop the process:**
+- `pyenv: version 'X.Y' is not installed`
+- `No module named 'build'`
+- `pre-commit hook failed`
+- `gh: command not found`
+- `git push` failed
+- Package build failed
+- Any Python exception or traceback
+- Any non-zero exit code from release commands
+- CI/CD workflow failures after commits
+
+### What NOT to Do
+
+**NEVER:**
+- Work around errors with manual commands
+- Skip steps to "fix it later"
+- Use alternative methods without discussion
+- Modify files manually to bypass issues
+- Continue hoping "it will work out"
+- Create manual GitHub releases
+- Upload to PyPI manually
+- Force push without approval
+
+### What TO Do
+
+**ALWAYS:**
+- Report the error immediately and clearly
+- Stop all release activities
+- Explain what the error means
+- Propose systematic fixes (not workarounds)
+- Wait for user approval before implementing fixes
+- Document the error and fix in task notes
+- Verify fix works before retrying release
+
+### Example Error Response
+
+**Bad Response:**
+```
+Error: pyenv version not found. Let me work around this...
+[proceeds to manually build package]
+```
+
+**Good Response:**
+```
+❌ ERROR: Release process stopped
+
+Command failed: python3 -m build
+Error: pyenv: version '3.12' is not installed
+
+This error occurred during Step 4 (Execute Release).
+
+Root cause: System doesn't have Python 3.12 installed.
+
+We need to fix this before continuing the release. Options:
+A) Install Python 3.12: pyenv install 3.12
+B) Cancel release and create task to fix environment
+
+How would you like to proceed?
+```
+
+### Recovery Process
+
+If release is stopped due to errors:
+
+1. **Document**: Create task for fixing the error properly
+2. **Rollback**: If needed, rollback any partial release state
+3. **Fix**: Address root cause systematically
+4. **Test**: Verify fix with dry-run
+5. **Retry**: Start fresh release attempt
+
+**Remember: A delayed release is better than a broken release.**
+
+---
+
 ## Step 1: Generate AI Release Summary
 
 - Review commit messages to understand changes since last release
