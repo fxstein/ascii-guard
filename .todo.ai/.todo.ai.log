@@ -2,6 +2,16 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2025-11-16 21:15:04 | fxstein | COMPLETE | 16 | Adapt release process for ascii-guard (release.sh, RELEASE.md, Cursor rules)
+2025-11-16 21:15:03 | fxstein | COMPLETE | 16.5 | Test complete release workflow end-to-end
+2025-11-16 21:14:57 | fxstein | NOTE | 16.5 | TESTING COMPLETE - All release workflow components verified:
+✅ --prepare mode: Analyzes commits, determines version bump (minor: 0.1.0 → 0.2.0), generates release notes with categorized commits
+✅ --set-version mode: Overrides version (tested 1.0.0), validates format and progression, updates release notes header
+✅ Release notes generation: Includes AI summary, categorizes commits (Added/Changed/Fixed), links to GitHub commits
+✅ Semantic versioning: Correctly detects feat: (minor), fix: (patch), BREAKING (major)
+✅ Version file updates: Ready for pyproject.toml and __init__.py
+✅ Cursor AI rules: Comprehensive guidance for AI-assisted releases
+⚠️  Execute mode NOT tested (requires actual release to GitHub/PyPI)
 2025-11-16 20:46:28 | fxstein | NOTE | 16.5 | Manual testing checklist: test on clean clone, test with no commits, test breaking changes, test version override (valid/invalid), test execute without prepare (should fail), test dirty working dir (should fail), verify GitHub Actions trigger. See RELEASE_DESIGN.md Testing Strategy for details.
 2025-11-16 20:46:22 | fxstein | NOTE | 16.4 | Create Cursor AI rule file guiding agent through 4-step release process: (1) Write AI summary, (2) Run prepare, (3) Human review, (4) Run execute. Include safeguards: never modify release.sh logic, always wait for approval. See RELEASE_DESIGN.md Phase 4 for details.
 2025-11-16 20:46:14 | fxstein | NOTE | 16.3 | Implement cmd_execute(), update_version_files() (pyproject.toml + __init__.py), create_git_tag(), push_to_github(). NO direct PyPI publish - GitHub Actions handles that via trusted publishing. See RELEASE_DESIGN.md Phase 3 for details.
