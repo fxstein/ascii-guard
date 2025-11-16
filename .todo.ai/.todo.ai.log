@@ -2,6 +2,11 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2025-11-16 23:39:15 | fxstein | COMPLETE | 24.4 | Update release.sh to NEVER use --no-verify flag
+2025-11-16 23:39:15 | fxstein | COMPLETE | 24.3 | Fix pre-commit issues: run hooks on all files and commit fixes
+2025-11-16 23:39:15 | fxstein | COMPLETE | 24.2 | Add environment validation to release.sh (check Python, build module, gh CLI)
+2025-11-16 23:37:25 | fxstein | NOTE | 24.1 | Python 3.12.7 installed and working. Venv rebuilt with Python 3.12. Fixed pre-commit to use .venv/bin/pytest for proper isolation.
+2025-11-16 23:37:25 | fxstein | COMPLETE | 24.1 | Resolve Python version mismatch: install 3.12 OR revert all configs to 3.10
 2025-11-16 23:19:28 | fxstein | NOTE | 24.5 | After completing tasks 24.1-24.4, run: ./release/release.sh --prepare then ./release/release.sh --execute --dry-run. Verify: 1) No Python errors, 2) No pre-commit failures, 3) All version files updated correctly, 4) Dry-run simulates complete workflow.
 2025-11-16 23:19:21 | fxstein | NOTE | 24.4 | Search release.sh for '--no-verify' and 'git commit.*--no-verify'. Remove all instances. Release commits MUST pass pre-commit hooks.
 2025-11-16 23:19:21 | fxstein | NOTE | 24.3 | Run: pre-commit run --all-files. If failures, stage fixed files and commit WITHOUT --no-verify. This ensures clean state before any release.
