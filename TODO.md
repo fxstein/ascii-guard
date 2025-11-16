@@ -10,6 +10,16 @@
   - [ ] **#17.2** Add path matcher with gitignore-style pattern support (fnmatch, pathlib) `#feature`
   - [ ] **#17.1** Create config parser module (read .ascii-guard, parse patterns) `#feature`
 - [ ] **#16** Adapt release process for ascii-guard (release.sh, RELEASE.md, Cursor rules) `#release` `#automation`
+  - [ ] **#16.5** Test complete release workflow end-to-end `#release`
+    > Manual testing checklist: test on clean clone, test with no commits, test breaking changes, test version override (valid/invalid), test execute without prepare (should fail), test dirty working dir (should fail), verify GitHub Actions trigger. See RELEASE_DESIGN.md Testing Strategy for details.
+  - [ ] **#16.4** Create .cursor/rules/ascii-guard-releases.mdc for AI release guidance `#release`
+    > Create Cursor AI rule file guiding agent through 4-step release process: (1) Write AI summary, (2) Run prepare, (3) Human review, (4) Run execute. Include safeguards: never modify release.sh logic, always wait for approval. See RELEASE_DESIGN.md Phase 4 for details.
+  - [ ] **#16.3** Implement release.sh execute mode with GitHub tag push `#release`
+    > Implement cmd_execute(), update_version_files() (pyproject.toml + __init__.py), create_git_tag(), push_to_github(). NO direct PyPI publish - GitHub Actions handles that via trusted publishing. See RELEASE_DESIGN.md Phase 3 for details.
+  - [ ] **#16.2** Implement release.sh set-version override mode `#release`
+    > Implement cmd_set_version(), validate_version_format() (X.Y.Z format), validate_version_gt() (new > current). Update release/RELEASE_NOTES.md header with new version. See RELEASE_DESIGN.md Step 3b for details.
+  - [ ] **#16.1** Implement release.sh core functions and prepare mode `#release`
+    > Implement core functions: get_current_version(), get_last_release_tag(), get_commits_since_tag(), categorize_commit(), determine_version_bump(). Implement cmd_prepare(), generate_release_notes(), save_prepare_state(). See RELEASE_DESIGN.md Phase 1 for details.
 - [ ] **#15** Review and update DESIGN.md based on PyPI release requirements `#documentation` `#design`
   > CRITICAL UPDATE NEEDED: DESIGN.md mentions dependencies (markdown, click, colorama) - these must be REMOVED. ascii-guard is ZERO dependency stdlib-only tool. Update dependencies section to reflect: Python 3.11+ stdlib only, NO external packages.
 - [ ] **#14** Add CONTRIBUTING.md and CODE_OF_CONDUCT.md files `#documentation` `#community`
@@ -47,9 +57,17 @@
 
 ## Recently Completed
 
+
+## Deleted Tasks
+- [D] **#22** 16.5 `Test` `complete` `release` `workflow` `end-to-end` (deleted 2025-11-16, expires 2025-12-16)
+- [D] **#21** 16.4 `Create` `.cursor/rules/ascii-guard-releases.mdc` `for` `AI` `release` `guidance` (deleted 2025-11-16, expires 2025-12-16)
+- [D] **#20** 16.3 `Implement` `release.sh` `execute` `mode` `with` `GitHub` `tag` `push` (deleted 2025-11-16, expires 2025-12-16)
+- [D] **#19** 16.2 `Implement` `release.sh` `set-version` `override` `mode` (deleted 2025-11-16, expires 2025-12-16)
+- [D] **#18** 16.1 `Implement` `release.sh` `core` `functions` `and` `prepare` `mode` (deleted 2025-11-16, expires 2025-12-16)
+
 ---
 
-**Last Updated:** Sun Nov 16 16:39:31 CET 2025
+**Last Updated:** Sun Nov 16 20:46:28 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata

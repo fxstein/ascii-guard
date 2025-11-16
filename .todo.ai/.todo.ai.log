@@ -2,6 +2,27 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2025-11-16 20:46:28 | fxstein | NOTE | 16.5 | Manual testing checklist: test on clean clone, test with no commits, test breaking changes, test version override (valid/invalid), test execute without prepare (should fail), test dirty working dir (should fail), verify GitHub Actions trigger. See RELEASE_DESIGN.md Testing Strategy for details.
+2025-11-16 20:46:22 | fxstein | NOTE | 16.4 | Create Cursor AI rule file guiding agent through 4-step release process: (1) Write AI summary, (2) Run prepare, (3) Human review, (4) Run execute. Include safeguards: never modify release.sh logic, always wait for approval. See RELEASE_DESIGN.md Phase 4 for details.
+2025-11-16 20:46:14 | fxstein | NOTE | 16.3 | Implement cmd_execute(), update_version_files() (pyproject.toml + __init__.py), create_git_tag(), push_to_github(). NO direct PyPI publish - GitHub Actions handles that via trusted publishing. See RELEASE_DESIGN.md Phase 3 for details.
+2025-11-16 20:46:08 | fxstein | NOTE | 16.2 | Implement cmd_set_version(), validate_version_format() (X.Y.Z format), validate_version_gt() (new > current). Update release/RELEASE_NOTES.md header with new version. See RELEASE_DESIGN.md Step 3b for details.
+2025-11-16 20:46:02 | fxstein | NOTE | 16.1 | Implement core functions: get_current_version(), get_last_release_tag(), get_commits_since_tag(), categorize_commit(), determine_version_bump(). Implement cmd_prepare(), generate_release_notes(), save_prepare_state(). See RELEASE_DESIGN.md Phase 1 for details.
+2025-11-16 20:45:55 | fxstein | ADD_SUBTASK | 16.5 | Test complete release workflow end-to-end (parent: #16)
+2025-11-16 20:45:50 | fxstein | ADD_SUBTASK | 16.4 | Create .cursor/rules/ascii-guard-releases.mdc for AI release guidance (parent: #16)
+2025-11-16 20:45:44 | fxstein | ADD_SUBTASK | 16.3 | Implement release.sh execute mode with GitHub tag push (parent: #16)
+2025-11-16 20:45:38 | fxstein | ADD_SUBTASK | 16.2 | Implement release.sh set-version override mode (parent: #16)
+2025-11-16 20:41:22 | fxstein | ADD_SUBTASK | 16.1 | Implement release.sh core functions and prepare mode (parent: #16)
+2025-11-16 20:41:17 | fxstein | DELETE | 22 | 16.5
+2025-11-16 20:41:17 | fxstein | DELETE | 21 | 16.4
+2025-11-16 20:41:17 | fxstein | DELETE | 20 | 16.3
+2025-11-16 20:41:17 | fxstein | DELETE | 19 | 16.2
+2025-11-16 20:41:17 | fxstein | DELETE | 18 | 16.1
+2025-11-16 20:38:16 | fxstein | NOTE | 18 | Implement core functions: get_current_version(), get_last_release_tag(), get_commits_since_tag(), categorize_commit(), determine_version_bump(). Implement cmd_prepare(), generate_release_notes(), save_prepare_state(). See RELEASE_DESIGN.md Phase 1 for details.
+2025-11-16 20:38:11 | fxstein | ADD | 22 | 16.5
+2025-11-16 20:38:06 | fxstein | ADD | 21 | 16.4
+2025-11-16 20:38:00 | fxstein | ADD | 20 | 16.3
+2025-11-16 20:37:56 | fxstein | ADD | 19 | 16.2
+2025-11-16 20:37:50 | fxstein | ADD | 18 | 16.1
 2025-11-16 16:39:31 | fxstein | COMPLETE | 7 | Set up GitHub Actions CI/CD workflow (lint, test, build)
 2025-11-16 15:59:50 | fxstein | COMPLETE | 6 | Add comprehensive test suite with pytest
 2025-11-16 15:48:25 | fxstein | MODIFY | 6 | Add comprehensive test suite with pytest
