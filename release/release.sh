@@ -488,10 +488,10 @@ execute_release() {
         git add release/RELEASE_SUMMARY.md
     fi
     if [[ -f "release/AI_RELEASE_SUMMARY.md" ]]; then
-        git add release/AI_RELEASE_SUMMARY.md
+        git add -f release/AI_RELEASE_SUMMARY.md
     fi
     if [[ -f "release/RELEASE_NOTES.md" ]]; then
-        git add release/RELEASE_NOTES.md
+        git add -f release/RELEASE_NOTES.md
     fi
 
     git commit -m "release: Version $NEW_VERSION
