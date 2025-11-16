@@ -67,8 +67,21 @@ EOF
     mv "$temp_log" "$RELEASE_LOG"
 }
 
-# Get current version from pyproject.toml
+# Get current version from GitHub releases (source of truth)
 get_current_version() {
+    # Check GitHub for latest release
+    local latest_release=$(gh release list --limit 1 2>/dev/null | awk '{print $1}' | sed 's/^v//')
+    
+    if [[ -z "$latest_release" ]]; then
+        # No releases found - this is the first release
+        echo "0.0.0"
+    else
+        echo "$latest_release"
+    fi
+}
+
+# Get version from local files (for reference/debugging only)
+get_local_version() {
     grep '^version = ' pyproject.toml | sed 's/version = "\([^"]*\)"/\1/'
 }
 
@@ -404,6 +417,10 @@ set_version_override() {
         fi
     fi
 
+    # Update all version files
+    update_version "$new_version"
+    log_release_step "VERSION FILES OVERRIDDEN" "Updated all version files to ${new_version}"
+
     # Update prepare state
     cat > "$PREPARE_STATE_FILE" << EOF
 NEW_VERSION=$new_version
@@ -476,11 +493,8 @@ execute_release() {
         log_release_step "COPY NOTES" "Copied RELEASE_NOTES.md to RELEASE_SUMMARY.md"
     fi
 
-    # Update version
-    echo -e "${BLUE}📝 Updating version in pyproject.toml and __init__.py...${NC}"
-    log_release_step "UPDATE VERSION" "Updating version from ${CURRENT_VERSION} to ${NEW_VERSION}"
-    update_version "$NEW_VERSION"
-    log_release_step "VERSION UPDATED" "Version updated successfully"
+    # Note: Version files were already updated during --prepare phase
+    # This allows review of actual changes before commit
 
     # Build Python package
     echo -e "${BLUE}📦 Building Python package...${NC}"
@@ -569,10 +583,30 @@ Release $BUMP_TYPE version."
 
     log_release_step "GITHUB ACTIONS" "Tag pushed, GitHub Actions will handle PyPI publish and GitHub release"
 
-    # Cleanup working files (AI_RELEASE_SUMMARY.md and RELEASE_NOTES.md are committed, now delete)
-    echo -e "${BLUE}🧹 Cleaning up working files...${NC}"
-    rm -f "release/AI_RELEASE_SUMMARY.md"
-    rm -f "release/RELEASE_NOTES.md"
+    # Cleanup working files (AI_RELEASE_SUMMARY.md was committed, now delete it)
+    echo -e "${BLUE}🧹 Cleaning up release artifacts...${NC}"
+    
+    if [[ "$DRY_RUN" == "true" ]]; then
+        echo -e "${YELLOW}[DRY-RUN] Would delete AI_RELEASE_SUMMARY.md${NC}"
+        echo -e "${YELLOW}[DRY-RUN] Would delete RELEASE_NOTES.md${NC}"
+        echo -e "${YELLOW}[DRY-RUN] Would commit cleanup${NC}"
+    else
+        # Delete AI summary and RELEASE_NOTES (they were committed with the release)
+        rm -f "release/AI_RELEASE_SUMMARY.md"
+        rm -f "release/RELEASE_NOTES.md"
+        
+        # Commit the deletion to keep dev environment clean
+        git add release/AI_RELEASE_SUMMARY.md release/RELEASE_NOTES.md 2>/dev/null || true
+        if git diff --cached --quiet; then
+            echo -e "${YELLOW}No release artifacts to clean up${NC}"
+        else
+            git commit -m "chore: Clean up release artifacts for v${NEW_VERSION}" > /dev/null 2>&1
+            git push origin main > /dev/null 2>&1 || true
+            log_release_step "CLEANUP COMMITTED" "Committed cleanup of release artifacts"
+        fi
+    fi
+    
+    # Delete local working files (not tracked)
     rm -f "$PREPARE_STATE_FILE"
     rm -rf dist/ build/ src/*.egg-info
     log_release_step "CLEANUP" "Deleted working files and build artifacts"
@@ -740,6 +774,13 @@ main() {
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     cat "$RELEASE_NOTES_FILE"
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo ""
+
+    # Update version files (allows review before execute)
+    echo -e "${BLUE}📝 Updating version files...${NC}"
+    update_version "$NEW_VERSION"
+    log_release_step "VERSION FILES UPDATED" "Updated all version files to ${NEW_VERSION} (not yet committed)"
+    echo -e "${GREEN}✅ Version files updated (review before execute)${NC}"
     echo ""
 
     # Save prepare state
