@@ -570,6 +570,28 @@ execute_release() {
     # Note: Version files were already updated during --prepare phase
     # This allows review of actual changes before commit
 
+    # Validate generated release files before commit
+    echo -e "${BLUE}🔍 Validating release files...${NC}"
+    if [[ "$DRY_RUN" != "true" ]]; then
+        # Collect release files that exist
+        local release_files=()
+        [[ -f "release/AI_RELEASE_SUMMARY.md" ]] && release_files+=("release/AI_RELEASE_SUMMARY.md")
+        [[ -f "release/RELEASE_NOTES.md" ]] && release_files+=("release/RELEASE_NOTES.md")
+        [[ -f "release/RELEASE_SUMMARY.md" ]] && release_files+=("release/RELEASE_SUMMARY.md")
+
+        if [[ ${#release_files[@]} -gt 0 ]]; then
+            # Run pre-commit hooks on release files to fix formatting
+            if command -v pre-commit &> /dev/null; then
+                echo -e "${BLUE}   Running pre-commit validation on release files...${NC}"
+                pre-commit run --files "${release_files[@]}" > /dev/null 2>&1 || true
+                echo -e "${GREEN}✓ Release files validated and formatted${NC}"
+            fi
+        fi
+    else
+        echo -e "${YELLOW}[DRY-RUN] Would validate release files${NC}"
+    fi
+    log_release_step "VALIDATE FILES" "Validated and formatted release files"
+
     # Build Python package
     echo -e "${BLUE}📦 Building Python package...${NC}"
 
