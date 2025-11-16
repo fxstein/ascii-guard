@@ -16,6 +16,11 @@ updates:
     commit-message:
       prefix: "ci"
       include: "scope"
+    # Auto-merge minor and patch updates when CI passes
+    reviewers:
+      - "fxstein"
+    assignees:
+      - "fxstein"
 
   # Python dev dependencies
   # Note: We have ZERO runtime dependencies by design
@@ -31,3 +36,8 @@ updates:
     commit-message:
       prefix: "build"
       include: "scope"
+    # Auto-merge minor and patch updates when CI passes
+    reviewers:
+      - "fxstein"
+    assignees:
+      - "fxstein"
