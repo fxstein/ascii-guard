@@ -72,11 +72,10 @@ dmypy.json
 .pre-commit-config.yaml.bak
 
 # ============================================================
-# Release Process - Ignore working files
+# Release Process - Track all release files for historical record
 # ============================================================
+# Only ignore temporary state file used during release preparation
 release/.prepare_state
-release/AI_RELEASE_SUMMARY.md
-release/RELEASE_NOTES.md
 
 # ============================================================
 # CRITICAL: ALWAYS TRACK AUDIT LOGS AND CONFIGS

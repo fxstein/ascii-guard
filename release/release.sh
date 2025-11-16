@@ -433,6 +433,7 @@ EOF
 
 # Execute prepared release
 execute_release() {
+    local DRY_RUN="${1:-false}"
     local PREPARE_STATE_FILE="release/.prepare_state"
 
     if [[ ! -f "$PREPARE_STATE_FILE" ]]; then
@@ -442,6 +443,27 @@ execute_release() {
     fi
 
     source "$PREPARE_STATE_FILE"
+
+    # Check if any commits were made since prepare
+    # This would invalidate the prepared release notes
+    local prepare_timestamp=$(stat -f %m "$PREPARE_STATE_FILE" 2>/dev/null || stat -c %Y "$PREPARE_STATE_FILE" 2>/dev/null)
+    local last_commit_timestamp=$(git log -1 --format=%ct 2>/dev/null || echo 0)
+
+    if [[ $last_commit_timestamp -gt $prepare_timestamp ]]; then
+        echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+        echo -e "${RED}❌ ERROR: Release process invalidated${NC}"
+        echo ""
+        echo -e "${YELLOW}Commits were made after running --prepare${NC}"
+        echo -e "${YELLOW}The prepared release notes are now outdated${NC}"
+        echo ""
+        echo -e "${RED}You must restart the release process:${NC}"
+        echo -e "${RED}1. Delete working files: rm -f release/.prepare_state release/AI_RELEASE_SUMMARY.md release/RELEASE_NOTES.md${NC}"
+        echo -e "${RED}2. Run: ./release/release.sh --prepare${NC}"
+        echo -e "${RED}3. Review: release/RELEASE_NOTES.md${NC}"
+        echo -e "${RED}4. Run: ./release/release.sh --execute${NC}"
+        echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+        exit 1
+    fi
 
     echo -e "${BLUE}🚀 Executing release ${NEW_VERSION}...${NC}"
     echo ""
@@ -488,32 +510,44 @@ execute_release() {
         git add release/RELEASE_SUMMARY.md
     fi
     if [[ -f "release/AI_RELEASE_SUMMARY.md" ]]; then
-        git add -f release/AI_RELEASE_SUMMARY.md
+        git add release/AI_RELEASE_SUMMARY.md
     fi
     if [[ -f "release/RELEASE_NOTES.md" ]]; then
-        git add -f release/RELEASE_NOTES.md
+        git add release/RELEASE_NOTES.md
     fi
 
-    git commit -m "release: Version $NEW_VERSION
+    if [[ "$DRY_RUN" == "true" ]]; then
+        echo -e "${YELLOW}[DRY-RUN] Would commit with message: 'release: Version $NEW_VERSION'${NC}"
+        local version_commit_hash="DRY_RUN_COMMIT_HASH"
+    else
+        git commit -m "release: Version $NEW_VERSION
 
 Release $BUMP_TYPE version."
 
-    local version_commit_hash=$(git rev-parse HEAD)
-    log_release_step "VERSION COMMITTED" "Version change committed: ${version_commit_hash}"
+        local version_commit_hash=$(git rev-parse HEAD)
+        log_release_step "VERSION COMMITTED" "Version change committed: ${version_commit_hash}"
+    fi
 
     # Create and push tag
     TAG="v${NEW_VERSION}"
     echo -e "${BLUE}🏷️  Creating tag ${TAG}...${NC}"
-    log_release_step "CREATE TAG" "Creating git tag: ${TAG}"
-    git tag -a "$TAG" -m "Release version $NEW_VERSION" "$version_commit_hash"
-    log_release_step "TAG CREATED" "Git tag ${TAG} created successfully"
 
-    echo -e "${BLUE}📤 Pushing to remote...${NC}"
-    log_release_step "PUSH MAIN" "Pushing main branch to origin"
-    git push origin main
+    if [[ "$DRY_RUN" == "true" ]]; then
+        echo -e "${YELLOW}[DRY-RUN] Would create tag: ${TAG}${NC}"
+        echo -e "${YELLOW}[DRY-RUN] Would push main branch to origin${NC}"
+        echo -e "${YELLOW}[DRY-RUN] Would push tag ${TAG} to origin${NC}"
+    else
+        log_release_step "CREATE TAG" "Creating git tag: ${TAG}"
+        git tag -a "$TAG" -m "Release version $NEW_VERSION" "$version_commit_hash"
+        log_release_step "TAG CREATED" "Git tag ${TAG} created successfully"
 
-    log_release_step "PUSH TAG" "Pushing tag ${TAG} to origin"
-    git push origin "$TAG"
+        echo -e "${BLUE}📤 Pushing to remote...${NC}"
+        log_release_step "PUSH MAIN" "Pushing main branch to origin"
+        git push origin main
+
+        log_release_step "PUSH TAG" "Pushing tag ${TAG} to origin"
+        git push origin "$TAG"
+    fi
 
     echo ""
     echo -e "${YELLOW}⏳ Waiting for GitHub Actions to build and publish...${NC}"
@@ -541,26 +575,46 @@ Release $BUMP_TYPE version."
 
     # Commit release log
     if [[ -f "$RELEASE_LOG" ]]; then
-        echo -e "${BLUE}📋 Committing release log...${NC}"
-        git add "$RELEASE_LOG"
-        git commit -m "chore: Update release log for ${NEW_VERSION}" > /dev/null 2>&1 || true
-        git push origin main > /dev/null 2>&1 || true
+        if [[ "$DRY_RUN" == "true" ]]; then
+            echo -e "${YELLOW}[DRY-RUN] Would commit and push release log${NC}"
+        else
+            echo -e "${BLUE}📋 Committing release log...${NC}"
+            git add "$RELEASE_LOG"
+            git commit -m "chore: Update release log for ${NEW_VERSION}" > /dev/null 2>&1 || true
+            git push origin main > /dev/null 2>&1 || true
+        fi
     fi
 
     echo ""
-    echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo -e "${GREEN}✅ Release ${NEW_VERSION} initiated successfully!${NC}"
-    echo ""
-    echo -e "${GREEN}📋 Tag ${TAG} pushed to GitHub${NC}"
-    echo -e "${GREEN}📋 GitHub Actions is now handling:${NC}"
-    echo -e "${GREEN}   • Building and testing${NC}"
-    echo -e "${GREEN}   • Publishing to PyPI${NC}"
-    echo -e "${GREEN}   • Creating GitHub release${NC}"
-    echo ""
-    echo -e "${GREEN}🔗 Monitor: ${repo_url}/actions${NC}"
-    echo -e "${GREEN}📦 PyPI (when complete): https://pypi.org/project/ascii-guard/${NC}"
-    echo -e "${GREEN}📋 Release log: ${RELEASE_LOG}${NC}"
-    echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    if [[ "$DRY_RUN" == "true" ]]; then
+        echo -e "${YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+        echo -e "${YELLOW}✅ DRY-RUN COMPLETE - No actual release was performed${NC}"
+        echo ""
+        echo -e "${YELLOW}📋 What would have happened:${NC}"
+        echo -e "${YELLOW}   • Version files updated to ${NEW_VERSION}${NC}"
+        echo -e "${YELLOW}   • Package built successfully${NC}"
+        echo -e "${YELLOW}   • Changes committed${NC}"
+        echo -e "${YELLOW}   • Tag ${TAG} created and pushed${NC}"
+        echo -e "${YELLOW}   • GitHub Actions triggered for PyPI publish${NC}"
+        echo ""
+        echo -e "${GREEN}To perform the actual release, run:${NC}"
+        echo -e "${GREEN}  ./release/release.sh --execute${NC}"
+        echo -e "${YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    else
+        echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+        echo -e "${GREEN}✅ Release ${NEW_VERSION} initiated successfully!${NC}"
+        echo ""
+        echo -e "${GREEN}📋 Tag ${TAG} pushed to GitHub${NC}"
+        echo -e "${GREEN}📋 GitHub Actions is now handling:${NC}"
+        echo -e "${GREEN}   • Building and testing${NC}"
+        echo -e "${GREEN}   • Publishing to PyPI${NC}"
+        echo -e "${GREEN}   • Creating GitHub release${NC}"
+        echo ""
+        echo -e "${GREEN}🔗 Monitor: ${repo_url}/actions${NC}"
+        echo -e "${GREEN}📦 PyPI (when complete): https://pypi.org/project/ascii-guard/${NC}"
+        echo -e "${GREEN}📋 Release log: ${RELEASE_LOG}${NC}"
+        echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    fi
 }
 
 # Main release process
@@ -568,6 +622,7 @@ main() {
     local MODE="prepare"
     local PREPARE_STATE_FILE="release/.prepare_state"
     local SET_VERSION=""
+    local DRY_RUN=false
 
     # Parse command-line arguments
     while [[ $# -gt 0 ]]; do
@@ -590,9 +645,13 @@ main() {
                 fi
                 shift 2
                 ;;
+            --dry-run)
+                DRY_RUN=true
+                shift
+                ;;
             *)
                 echo -e "${RED}Unknown option: $1${NC}"
-                echo "Usage: $0 [--prepare|--execute|--set-version X.Y.Z]"
+                echo "Usage: $0 [--prepare|--execute|--set-version X.Y.Z] [--dry-run]"
                 exit 1
                 ;;
         esac
@@ -606,7 +665,14 @@ main() {
 
     # Execute mode
     if [[ "$MODE" == "execute" ]]; then
-        execute_release
+        if [[ "$DRY_RUN" == true ]]; then
+            echo -e "${YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+            echo -e "${YELLOW}🧪 DRY-RUN MODE ENABLED${NC}"
+            echo -e "${YELLOW}No actual git operations will be performed${NC}"
+            echo -e "${YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+            echo ""
+        fi
+        execute_release "$DRY_RUN"
         return $?
     fi
 
