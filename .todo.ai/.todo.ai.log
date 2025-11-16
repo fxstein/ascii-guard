@@ -2,6 +2,10 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2025-11-16 22:00:12 | fxstein | COMPLETE | 16.4 | Create .cursor/rules/ascii-guard-releases.mdc for AI release guidance
+2025-11-16 22:00:12 | fxstein | COMPLETE | 16.3 | Implement release.sh execute mode with GitHub tag push
+2025-11-16 22:00:12 | fxstein | COMPLETE | 16.2 | Implement release.sh set-version override mode
+2025-11-16 22:00:11 | fxstein | COMPLETE | 16.1 | Implement release.sh core functions and prepare mode
 2025-11-16 21:15:04 | fxstein | COMPLETE | 16 | Adapt release process for ascii-guard (release.sh, RELEASE.md, Cursor rules)
 2025-11-16 21:15:03 | fxstein | COMPLETE | 16.5 | Test complete release workflow end-to-end
 2025-11-16 21:14:57 | fxstein | NOTE | 16.5 | TESTING COMPLETE - All release workflow components verified:
