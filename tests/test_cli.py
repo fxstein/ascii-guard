@@ -1,0 +1,296 @@
+# Copyright 2025 Oliver Ratzesberger
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+"""Tests for the CLI module.
+
+Tests command-line interface functionality.
+"""
+
+import sys
+from pathlib import Path
+from unittest.mock import patch
+
+import pytest
+
+from ascii_guard.cli import cmd_fix, cmd_lint, main
+
+
+class TestCLILintCommand:
+    """Test suite for the lint command."""
+
+    @pytest.fixture
+    def fixtures_dir(self) -> Path:
+        """Return the path to test fixtures directory."""
+        return Path(__file__).parent / "fixtures"
+
+    def test_lint_command_perfect_file(
+        self, fixtures_dir: Path, capsys: pytest.CaptureFixture[str]
+    ) -> None:
+        """Test lint command on a perfect file."""
+        test_file = str(fixtures_dir / "perfect_box.txt")
+
+        # Mock argparse.Namespace
+        class Args:
+            files = [test_file]
+            quiet = False
+
+        exit_code = cmd_lint(Args())
+
+        assert exit_code == 0
+        captured = capsys.readouterr()
+        assert "No issues found" in captured.out or "Errors: 0" in captured.out
+
+    def test_lint_command_broken_file(
+        self, fixtures_dir: Path, capsys: pytest.CaptureFixture[str]
+    ) -> None:
+        """Test lint command on a broken file."""
+        test_file = str(fixtures_dir / "broken_box.txt")
+
+        class Args:
+            files = [test_file]
+            quiet = False
+
+        exit_code = cmd_lint(Args())
+
+        assert exit_code == 1  # Should return error code
+        captured = capsys.readouterr()
+        # Error messages go to stderr
+        assert "Errors:" in captured.err or "✗" in captured.err or "Errors:" in captured.out
+
+    def test_lint_command_quiet_mode(
+        self, fixtures_dir: Path, capsys: pytest.CaptureFixture[str]
+    ) -> None:
+        """Test lint command in quiet mode."""
+        test_file = str(fixtures_dir / "perfect_box.txt")
+
+        class Args:
+            files = [test_file]
+            quiet = True
+
+        exit_code = cmd_lint(Args())
+
+        assert exit_code == 0
+        captured = capsys.readouterr()
+        # Quiet mode should still show summary but not detailed output
+        assert "Summary" in captured.out
+
+    def test_lint_command_multiple_files(self, fixtures_dir: Path) -> None:
+        """Test lint command with multiple files."""
+        test_files = [
+            str(fixtures_dir / "perfect_box.txt"),
+            str(fixtures_dir / "broken_box.txt"),
+        ]
+
+        class Args:
+            files = test_files
+            quiet = False
+
+        exit_code = cmd_lint(Args())
+
+        # Should fail because one file has errors
+        assert exit_code == 1
+
+    def test_lint_command_nonexistent_file(self, capsys: pytest.CaptureFixture[str]) -> None:
+        """Test lint command with non-existent file."""
+
+        class Args:
+            files = ["/nonexistent/file.txt"]
+            quiet = False
+
+        exit_code = cmd_lint(Args())
+
+        assert exit_code == 1
+        captured = capsys.readouterr()
+        # Error messages go to stderr
+        assert "not found" in captured.err.lower() or "✗" in captured.err
+
+
+class TestCLIFixCommand:
+    """Test suite for the fix command."""
+
+    def test_fix_command_broken_file(
+        self, tmp_path: Path, capsys: pytest.CaptureFixture[str]
+    ) -> None:
+        """Test fix command on a broken file."""
+        test_file = tmp_path / "broken.txt"
+        test_file.write_text("┌────────────┐\n" "│ Content    │\n" "└────────────\n")
+
+        class Args:
+            files = [str(test_file)]
+            dry_run = False
+
+        exit_code = cmd_fix(Args())
+
+        assert exit_code == 0
+        captured = capsys.readouterr()
+        assert "Fixed" in captured.out or "✓" in captured.out
+
+    def test_fix_command_dry_run(self, tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
+        """Test fix command with dry-run mode."""
+        test_file = tmp_path / "broken.txt"
+        original_content = "┌────────────┐\n" "│ Content    │\n" "└────────────\n"
+        test_file.write_text(original_content)
+
+        class Args:
+            files = [str(test_file)]
+            dry_run = True
+
+        exit_code = cmd_fix(Args())
+
+        assert exit_code == 0
+        captured = capsys.readouterr()
+        assert "Would fix" in captured.out or "ℹ" in captured.out
+
+        # File should be unchanged
+        assert test_file.read_text() == original_content
+
+    def test_fix_command_perfect_file(
+        self, tmp_path: Path, capsys: pytest.CaptureFixture[str]
+    ) -> None:
+        """Test fix command on a perfect file."""
+        test_file = tmp_path / "perfect.txt"
+        test_file.write_text("┌────────────┐\n" "│ Content    │\n" "└────────────┘\n")
+
+        class Args:
+            files = [str(test_file)]
+            dry_run = False
+
+        exit_code = cmd_fix(Args())
+
+        assert exit_code == 0
+        captured = capsys.readouterr()
+        assert "No fixes needed" in captured.out or "0" in captured.out
+
+    def test_fix_command_multiple_files(self, tmp_path: Path) -> None:
+        """Test fix command with multiple files."""
+        file1 = tmp_path / "file1.txt"
+        file1.write_text("┌────┐\n│ 1  │\n└────\n")
+
+        file2 = tmp_path / "file2.txt"
+        file2.write_text("┌────┐\n│ 2  │\n└────\n")
+
+        class Args:
+            files = [str(file1), str(file2)]
+            dry_run = False
+
+        exit_code = cmd_fix(Args())
+        assert exit_code == 0
+
+    def test_fix_command_nonexistent_file(self, capsys: pytest.CaptureFixture[str]) -> None:
+        """Test fix command with non-existent file."""
+
+        class Args:
+            files = ["/nonexistent/file.txt"]
+            dry_run = False
+
+        exit_code = cmd_fix(Args())
+
+        assert exit_code == 1
+        captured = capsys.readouterr()
+        # Error messages go to stderr
+        assert "not found" in captured.err.lower() or "✗" in captured.err
+
+
+class TestCLIMain:
+    """Test suite for main CLI entry point."""
+
+    def test_main_no_args(self, capsys: pytest.CaptureFixture[str]) -> None:
+        """Test main with no arguments shows help."""
+        with patch.object(sys, "argv", ["ascii-guard"]):
+            with pytest.raises(SystemExit) as exc_info:
+                main()
+
+            assert exc_info.value.code == 0
+            captured = capsys.readouterr()
+            # Should show help message
+            assert "usage:" in captured.out.lower() or "ascii-guard" in captured.out
+
+    def test_main_version(self, capsys: pytest.CaptureFixture[str]) -> None:
+        """Test --version flag."""
+        with patch.object(sys, "argv", ["ascii-guard", "--version"]):
+            with pytest.raises(SystemExit):
+                main()
+
+            captured = capsys.readouterr()
+            assert "ascii-guard" in captured.out or "0.1.0" in captured.out
+
+    def test_main_lint_command(self, tmp_path: Path) -> None:
+        """Test main with lint command."""
+        test_file = tmp_path / "test.txt"
+        test_file.write_text("┌────┐\n│ OK │\n└────┘\n")
+
+        with patch.object(sys, "argv", ["ascii-guard", "lint", str(test_file)]):
+            with pytest.raises(SystemExit) as exc_info:
+                main()
+
+            assert exc_info.value.code == 0
+
+    def test_main_fix_command(self, tmp_path: Path) -> None:
+        """Test main with fix command."""
+        test_file = tmp_path / "test.txt"
+        test_file.write_text("┌────┐\n│ OK │\n└────\n")
+
+        with patch.object(sys, "argv", ["ascii-guard", "fix", str(test_file)]):
+            with pytest.raises(SystemExit) as exc_info:
+                main()
+
+            # Should succeed
+            assert exc_info.value.code == 0
+
+    def test_main_unknown_command(self, capsys: pytest.CaptureFixture[str]) -> None:
+        """Test main with unknown command."""
+        with patch.object(sys, "argv", ["ascii-guard", "unknown"]):
+            with pytest.raises(SystemExit) as exc_info:
+                main()
+
+            # Should show error
+            assert exc_info.value.code != 0 or capsys.readouterr().err
+
+
+class TestCLIColors:
+    """Test colored output functionality."""
+
+    def test_colored_output_functions_exist(self) -> None:
+        """Test that color output functions are available."""
+        from ascii_guard.cli import (
+            print_error,
+            print_info,
+            print_success,
+            print_warning,
+        )
+
+        # Should not raise
+        assert callable(print_error)
+        assert callable(print_success)
+        assert callable(print_warning)
+        assert callable(print_info)
+
+    def test_color_constants_defined(self) -> None:
+        """Test that ANSI color constants are defined."""
+        from ascii_guard.cli import (
+            COLOR_BLUE,
+            COLOR_BOLD,
+            COLOR_GREEN,
+            COLOR_RED,
+            COLOR_RESET,
+            COLOR_YELLOW,
+        )
+
+        # Should be non-empty strings
+        assert isinstance(COLOR_RED, str) and len(COLOR_RED) > 0
+        assert isinstance(COLOR_GREEN, str) and len(COLOR_GREEN) > 0
+        assert isinstance(COLOR_YELLOW, str) and len(COLOR_YELLOW) > 0
+        assert isinstance(COLOR_BLUE, str) and len(COLOR_BLUE) > 0
+        assert isinstance(COLOR_BOLD, str) and len(COLOR_BOLD) > 0
+        assert isinstance(COLOR_RESET, str) and len(COLOR_RESET) > 0

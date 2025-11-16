@@ -1,0 +1,8 @@
+This file contains a broken ASCII box.
+
+┌─────────────────────────────────────────────┐
+│ This box has a misaligned bottom edge      │
+│ The bottom line is too short               │
+└─────────────────────────────────────────
+
+The bottom edge is missing characters.

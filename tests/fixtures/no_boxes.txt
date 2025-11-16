@@ -1,0 +1,6 @@
+This is a plain text file.
+
+There are no ASCII boxes here at all.
+Just regular text content.
+
+Nothing to lint or fix.

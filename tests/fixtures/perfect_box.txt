@@ -1,0 +1,8 @@
+This file contains a perfectly aligned ASCII box.
+
+┌─────────────────────────────────────────────┐
+│ This is a perfect box with proper alignment │
+│ All corners and edges are correctly placed  │
+└─────────────────────────────────────────────┘
+
+No issues should be detected here.

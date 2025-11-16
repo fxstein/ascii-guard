@@ -2,6 +2,7 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2025-11-16 15:48:25 | fxstein | MODIFY | 6 | Add comprehensive test suite with pytest
 2025-11-16 12:06:31 | fxstein | ADD_SUBTASK | 17.4 | Add tests for config parsing and pattern matching (parent: #17)
 2025-11-16 12:06:30 | fxstein | ADD_SUBTASK | 17.3 | Integrate config file loading into CLI (auto-detect or --config flag) (parent: #17)
 2025-11-16 12:06:30 | fxstein | ADD_SUBTASK | 17.2 | Add path matcher with gitignore-style pattern support (fnmatch, pathlib) (parent: #17)

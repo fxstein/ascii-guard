@@ -1,0 +1,21 @@
+Testing different box styles.
+
+## Single-line style
+┌─────────────────┐
+│ Single line box │
+└─────────────────┘
+
+## Double-line style
+╔═════════════════╗
+║ Double line box ║
+╚═════════════════╝
+
+## Heavy style
+┏━━━━━━━━━━━━━━━━━┓
+┃ Heavy line box  ┃
+┗━━━━━━━━━━━━━━━━━┛
+
+## ASCII style (simple +, -, |)
++-------------------+
+| ASCII simple box  |
++-------------------+
