@@ -3,8 +3,8 @@
 > **⚠️ IMPORTANT: This file should ONLY be edited through the `todo.ai` script!**
 
 ## Tasks
-- [ ] **#23** Redesign release process for proper version management `#release`
-  - [ ] **#23.6** Test redesigned workflow with dry-run mode
+- [x] **#23** Redesign release process for proper version management `#release`
+  - [x] **#23.6** Test redesigned workflow with dry-run mode
     > Use release/TESTING.md checklist with dry-run. Verify: (1) GitHub release check works, (2) All version files updated in prepare, (3) set-version updates all files, (4) AI summary lifecycle correct. Document any issues found.
   - [x] **#23.5** Commit AI summary with release, delete and commit cleanup after success
     > EXECUTE must: (1) Commit version files + release notes + AI summary together, (2) Create tag and push, (3) AFTER successful GitHub Actions, delete AI_RELEASE_SUMMARY.md in separate commit with message 'chore: Clean up release artifacts for vX.Y.Z'. Keeps dev environment clean.
@@ -97,7 +97,7 @@
 
 ---
 
-**Last Updated:** Sun Nov 16 23:02:24 CET 2025
+**Last Updated:** Sun Nov 16 23:05:18 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata

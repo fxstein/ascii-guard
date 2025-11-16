@@ -2,6 +2,8 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2025-11-16 23:05:18 | fxstein | COMPLETE | 23 | Redesign release process for proper version management
+2025-11-16 23:05:18 | fxstein | COMPLETE | 23.6 | Test redesigned workflow with dry-run mode
 2025-11-16 23:02:24 | fxstein | COMPLETE | 23.5 | Commit AI summary with release, delete and commit cleanup after success
 2025-11-16 23:01:59 | fxstein | COMPLETE | 23.4 | Update set-version to modify all version files and release notes
 2025-11-16 23:00:38 | fxstein | COMPLETE | 23.3 | Move version updates from execute to prepare phase
