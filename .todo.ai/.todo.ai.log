@@ -2,6 +2,7 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2025-11-17 00:53:44 | fxstein | ARCHIVE | 28 | Fix release notes: Script generates H1, AI summary has NO headers (with 5 subtasks)
 2025-11-17 00:53:20 | fxstein | COMPLETE | 28 | Fix release notes: Script generates H1, AI summary has NO headers
 2025-11-17 00:53:20 | fxstein | COMPLETE | 28.5 | Test: prepare + set-version with header-less AI summary
 2025-11-17 00:52:04 | fxstein | COMPLETE | 28.4 | Update docs/RELEASE_DESIGN.md and release/RELEASE.md examples
