@@ -3,6 +3,19 @@
 > **⚠️ IMPORTANT: This file should ONLY be edited through the `todo.ai` script!**
 
 ## Tasks
+- [ ] **#23** Redesign release process for proper version management `#release`
+  - [ ] **#23.6** Test redesigned workflow with dry-run mode
+    > Use release/TESTING.md checklist with dry-run. Verify: (1) GitHub release check works, (2) All version files updated in prepare, (3) set-version updates all files, (4) AI summary lifecycle correct. Document any issues found.
+  - [ ] **#23.5** Commit AI summary with release, delete and commit cleanup after success
+    > EXECUTE must: (1) Commit version files + release notes + AI summary together, (2) Create tag and push, (3) AFTER successful GitHub Actions, delete AI_RELEASE_SUMMARY.md in separate commit with message 'chore: Clean up release artifacts for vX.Y.Z'. Keeps dev environment clean.
+  - [ ] **#23.4** Update set-version to modify all version files and release notes
+    > set-version must: (1) Update ALL version files from VERSION_FILES list, (2) Update RELEASE_NOTES.md header, (3) Update .prepare_state with new version. Ensures consistency across all version references.
+  - [ ] **#23.3** Move version updates from execute to prepare phase
+    > PREPARE phase must update ALL version files immediately after determining new version. This allows review of actual version changes before execute. EXECUTE only commits the already-modified files.
+  - [ ] **#23.2** Add GitHub release check to determine current version
+    > Add get_github_latest_release() function using 'gh release list --limit 1' to determine actual latest release. If no releases exist, use 0.0.0 as base. Use GitHub as source of truth, not local files.
+  - [ ] **#23.1** Document all files containing version numbers for tracking
+    > Create VERSION_FILES.md documenting all files containing version numbers: pyproject.toml (version field), src/ascii_guard/__init__.py (__version__), any others. Update release.sh to use this list for all version operations.
 - [ ] **#17** Implement .ascii-guard config file with gitignore-style exclusion patterns `#feature`
   > ZERO dependencies: Use pathlib.Path.match() and fnmatch from stdlib. Config file format: .ascii-guard in project root or ~/.ascii-guard. Support gitignore syntax: *.log, build/, **/dist/**, !important.md (negation). CLI: auto-detect .ascii-guard, or --config flag to override. Example patterns: node_modules/, .git/, **/__pycache__/**, *.tmp
   - [ ] **#17.4** Add tests for config parsing and pattern matching `#feature`
@@ -84,7 +97,7 @@
 
 ---
 
-**Last Updated:** Sun Nov 16 22:35:39 CET 2025
+**Last Updated:** Sun Nov 16 22:56:29 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata
