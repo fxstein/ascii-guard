@@ -54,7 +54,7 @@ jobs:
 
       - name: Upload coverage to Codecov
         if: github.repository == 'fxstein/ascii-guard'
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         continue-on-error: true
         with:
           file: ./coverage.xml
