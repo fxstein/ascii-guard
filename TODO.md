@@ -3,6 +3,20 @@
 > **⚠️ IMPORTANT: This file should ONLY be edited through the `todo.ai` script!**
 
 ## Tasks
+- [ ] **#29** Harden pyenv+venv setup to prevent global Python pollution
+  > PROBLEM: Current setup is fragile - relies on remembering to activate venv. We polluted pyenv global with pytest/pytest-cov during task#24 fixes. Pre-commit uses 'language: system' which depends on whatever Python is in PATH. SOLUTION: 1) Clean pyenv global (keep it pristine). 2) Change pre-commit pytest hook to explicitly use '.venv/bin/python -m pytest' so it always uses venv Python. 3) Add venv checks to critical scripts (release.sh). 4) Document in Cursor rules: NEVER pip install in pyenv global, ALWAYS use venv. 5) Test that commits work from fresh shell without manual venv activation.
+  - [ ] **#29.5** Test: Verify pre-commit works from fresh shell (no venv activated)
+  - [ ] **#29.4** Update .cursor/rules: AI must NEVER install packages in pyenv global
+  - [ ] **#29.3** Add venv validation to release.sh and other scripts
+  - [ ] **#29.2** Fix pre-commit to use .venv/bin/python explicitly (not system)
+  - [ ] **#29.1** Clean up pyenv global: uninstall pytest, pytest-cov
+- [ ] **#28** Fix release notes: Script generates H1, AI summary has NO headers
+  > Correct design: 1) release.sh generates proper H1 header: '# ascii-guard vX.Y.Z - Release Title' 2) AI agent writes AI_RELEASE_SUMMARY.md WITHOUT any headers (just content paragraphs) 3) Script appends AI content under the H1. Changes needed: A) Update release.sh line 316 to generate H1 instead of H2. B) Update set_version_override() to update H1 instead of H2+H1. C) Update .cursor/rules/ascii-guard-releases.mdc to instruct AI to NOT include headers in AI_RELEASE_SUMMARY.md. D) Update docs/RELEASE_DESIGN.md and release/RELEASE.md examples.
+  - [ ] **#28.5** Test: prepare + set-version with header-less AI summary
+  - [ ] **#28.4** Update docs/RELEASE_DESIGN.md and release/RELEASE.md examples
+  - [ ] **#28.3** Update .cursor/rules to instruct AI: NO headers in AI_RELEASE_SUMMARY.md
+  - [ ] **#28.2** Update set_version_override() to update only H1 header
+  - [ ] **#28.1** Update release.sh to generate H1 header instead of H2
 - [ ] **#17** Implement .ascii-guard config file with gitignore-style exclusion patterns `#feature`
   > ZERO dependencies: Use pathlib.Path.match() and fnmatch from stdlib. Config file format: .ascii-guard in project root or ~/.ascii-guard. Support gitignore syntax: *.log, build/, **/dist/**, !important.md (negation). CLI: auto-detect .ascii-guard, or --config flag to override. Example patterns: node_modules/, .git/, **/__pycache__/**, *.tmp
   - [ ] **#17.4** Add tests for config parsing and pattern matching `#feature`
@@ -107,6 +121,7 @@
 
 
 ## Deleted Tasks
+- [D] **#27** Remove H2 header from release notes - fix markdown hierarchy (deleted 2025-11-17, expires 2025-12-17)
 - [D] **#22** 16.5 `Test` `complete` `release` `workflow` `end-to-end` (deleted 2025-11-16, expires 2025-12-16)
 - [D] **#21** 16.4 `Create` `.cursor/rules/ascii-guard-releases.mdc` `for` `AI` `release` `guidance` (deleted 2025-11-16, expires 2025-12-16)
 - [D] **#20** 16.3 `Implement` `release.sh` `execute` `mode` `with` `GitHub` `tag` `push` (deleted 2025-11-16, expires 2025-12-16)
@@ -115,7 +130,7 @@
 
 ---
 
-**Last Updated:** Mon Nov 17 00:15:18 CET 2025
+**Last Updated:** Mon Nov 17 00:32:00 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata

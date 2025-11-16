@@ -2,6 +2,23 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2025-11-17 00:32:00 | fxstein | NOTE | 29 | PROBLEM: Current setup is fragile - relies on remembering to activate venv. We polluted pyenv global with pytest/pytest-cov during task#24 fixes. Pre-commit uses 'language: system' which depends on whatever Python is in PATH. SOLUTION: 1) Clean pyenv global (keep it pristine). 2) Change pre-commit pytest hook to explicitly use '.venv/bin/python -m pytest' so it always uses venv Python. 3) Add venv checks to critical scripts (release.sh). 4) Document in Cursor rules: NEVER pip install in pyenv global, ALWAYS use venv. 5) Test that commits work from fresh shell without manual venv activation.
+2025-11-17 00:31:52 | fxstein | ADD_SUBTASK | 29.5 | Test: Verify pre-commit works from fresh shell (no venv activated) (parent: #29)
+2025-11-17 00:31:47 | fxstein | ADD_SUBTASK | 29.4 | Update .cursor/rules: AI must NEVER install packages in pyenv global (parent: #29)
+2025-11-17 00:31:42 | fxstein | ADD_SUBTASK | 29.3 | Add venv validation to release.sh and other scripts (parent: #29)
+2025-11-17 00:31:37 | fxstein | ADD_SUBTASK | 29.2 | Fix pre-commit to use .venv/bin/python explicitly (not system) (parent: #29)
+2025-11-17 00:31:32 | fxstein | ADD_SUBTASK | 29.1 | Clean up pyenv global: uninstall pytest, pytest-cov (parent: #29)
+2025-11-17 00:31:24 | fxstein | ADD | 29 | Harden pyenv+venv setup to prevent global Python pollution
+2025-11-17 00:19:24 | fxstein | ADD_SUBTASK | 28.5 | Test: prepare + set-version with header-less AI summary (parent: #28)
+2025-11-17 00:19:20 | fxstein | ADD_SUBTASK | 28.4 | Update docs/RELEASE_DESIGN.md and release/RELEASE.md examples (parent: #28)
+2025-11-17 00:19:16 | fxstein | ADD_SUBTASK | 28.3 | Update .cursor/rules to instruct AI: NO headers in AI_RELEASE_SUMMARY.md (parent: #28)
+2025-11-17 00:19:11 | fxstein | ADD_SUBTASK | 28.2 | Update set_version_override() to update only H1 header (parent: #28)
+2025-11-17 00:19:07 | fxstein | ADD_SUBTASK | 28.1 | Update release.sh to generate H1 header instead of H2 (parent: #28)
+2025-11-17 00:19:02 | fxstein | NOTE | 28 | Correct design: 1) release.sh generates proper H1 header: '# ascii-guard vX.Y.Z - Release Title' 2) AI agent writes AI_RELEASE_SUMMARY.md WITHOUT any headers (just content paragraphs) 3) Script appends AI content under the H1. Changes needed: A) Update release.sh line 316 to generate H1 instead of H2. B) Update set_version_override() to update H1 instead of H2+H1. C) Update .cursor/rules/ascii-guard-releases.mdc to instruct AI to NOT include headers in AI_RELEASE_SUMMARY.md. D) Update docs/RELEASE_DESIGN.md and release/RELEASE.md examples.
+2025-11-17 00:18:54 | fxstein | ADD | 28 | Fix release notes: Script generates H1, AI summary has NO headers
+2025-11-17 00:18:49 | fxstein | DELETE | 27 | Remove H2 header from release notes - fix markdown hierarchy
+2025-11-17 00:17:35 | fxstein | NOTE | 27 | Bug: release.sh line 316 generates '## Release X.Y.Z' H2 header, then appends AI summary that starts with H1. This violates markdown hierarchy (H2 before H1). Fix: Remove lines 316-317, remove H2 sed updates from set_version_override() lines 488-490, 493-495. Result: AI summary's H1 becomes the document title. Also update docs/RELEASE_DESIGN.md and release/RELEASE.md to reflect this change.
+2025-11-17 00:17:27 | fxstein | ADD | 27 | Remove H2 header from release notes - fix markdown hierarchy
 2025-11-17 00:15:18 | fxstein | ARCHIVE | 26 | Fix set-version to update all version references in AI summary (with 0 subtasks)
 2025-11-17 00:12:38 | fxstein | COMPLETE | 26 | Fix set-version to update all version references in AI summary
 2025-11-17 00:10:13 | fxstein | NOTE | 26 | Bug: set-version only updates '## Release X.Y.Z' header but does NOT update version numbers in the AI summary content. Example: Line 1 shows '## Release 1.0.0' but line 3 still shows '# ascii-guard v0.1.0'. Fix: set_version_override() in release.sh needs to update ALL version occurrences in RELEASE_NOTES.md, including the H1 header inside AI summary. Location: release.sh set_version_override() function around line 411-433.
