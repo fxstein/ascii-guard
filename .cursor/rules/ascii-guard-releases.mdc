@@ -43,6 +43,8 @@ When the user says "Release ascii-guard" or similar:
    - If you see "Could not find an activated virtualenv" - this is GOOD
    - It means you're trying to pollute global Python (don't do it!)
 
+7. **NEVER use `PIP_REQUIRE_VIRTUALENV=false` bypass without explicit user approval**
+
 **Why this matters:**
 - During task #24 we polluted pyenv global with pytest/pytest-cov
 - This broke pre-commit hooks (ascii_guard not in global)
