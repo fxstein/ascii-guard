@@ -3,35 +3,6 @@
 > **⚠️ IMPORTANT: This file should ONLY be edited through the `todo.ai` script!**
 
 ## Tasks
-- [x] **#25** Fix release script to validate generated files before commit
-  > Added validation in execute_release() at line 573-593. Pre-commit runs on all generated release files before git commit. Fixes EOF/whitespace automatically. Tested: pre-commit hooks passed on release.sh changes.
-  > Issue: release.sh generates AI_RELEASE_SUMMARY.md and RELEASE_NOTES.md but doesn't run pre-commit validation on them. When git commit runs, pre-commit hooks fix EOF/whitespace, causing commit to fail. Fix: Add validation step after generating release files - run pre-commit hooks on generated files BEFORE attempting git commit. Location: release.sh execute_release() function, after generate_release_notes() and before git commit.
-- [x] **#24** Fix release process issues identified during v0.1.0 attempt
-  - [x] **#24.5** Test complete release workflow with dry-run after fixes
-    > Dry-run test passed: environment validation ✓, prepare phase ✓, execute --dry-run ✓. All components working correctly. CI/CD was green before testing.
-    > After completing tasks 24.1-24.4, run: ./release/release.sh --prepare then ./release/release.sh --execute --dry-run. Verify: 1) No Python errors, 2) No pre-commit failures, 3) All version files updated correctly, 4) Dry-run simulates complete workflow.
-  - [x] **#24.4** Update release.sh to NEVER use --no-verify flag
-    > Search release.sh for '--no-verify' and 'git commit.*--no-verify'. Remove all instances. Release commits MUST pass pre-commit hooks.
-  - [x] **#24.3** Fix pre-commit issues: run hooks on all files and commit fixes
-    > Run: pre-commit run --all-files. If failures, stage fixed files and commit WITHOUT --no-verify. This ensures clean state before any release.
-  - [x] **#24.2** Add environment validation to release.sh (check Python, build module, gh CLI)
-    > Add validate_environment() function at start of release.sh --prepare. Check: 1) Python version matches .python-version, 2) python3 -m build available, 3) gh CLI installed. Exit with clear error if validation fails.
-  - [x] **#24.1** Resolve Python version mismatch: install 3.12 OR revert all configs to 3.10
-    > Python 3.12.7 installed and working. Venv rebuilt with Python 3.12. Fixed pre-commit to use .venv/bin/pytest for proper isolation.
-    > Check: pyenv versions | grep 3.12. If not found, either install Python 3.12 OR revert .python-version, pyproject.toml, setup-venv.sh, and all GitHub Actions workflows back to 3.10.1
-- [x] **#23** Redesign release process for proper version management `#release`
-  - [x] **#23.6** Test redesigned workflow with dry-run mode
-    > Use release/TESTING.md checklist with dry-run. Verify: (1) GitHub release check works, (2) All version files updated in prepare, (3) set-version updates all files, (4) AI summary lifecycle correct. Document any issues found.
-  - [x] **#23.5** Commit AI summary with release, delete and commit cleanup after success
-    > EXECUTE must: (1) Commit version files + release notes + AI summary together, (2) Create tag and push, (3) AFTER successful GitHub Actions, delete AI_RELEASE_SUMMARY.md in separate commit with message 'chore: Clean up release artifacts for vX.Y.Z'. Keeps dev environment clean.
-  - [x] **#23.4** Update set-version to modify all version files and release notes
-    > set-version must: (1) Update ALL version files from VERSION_FILES list, (2) Update RELEASE_NOTES.md header, (3) Update .prepare_state with new version. Ensures consistency across all version references.
-  - [x] **#23.3** Move version updates from execute to prepare phase
-    > PREPARE phase must update ALL version files immediately after determining new version. This allows review of actual version changes before execute. EXECUTE only commits the already-modified files.
-  - [x] **#23.2** Add GitHub release check to determine current version
-    > Add get_github_latest_release() function using 'gh release list --limit 1' to determine actual latest release. If no releases exist, use 0.0.0 as base. Use GitHub as source of truth, not local files.
-  - [x] **#23.1** Document all files containing version numbers for tracking
-    > Create VERSION_FILES.md documenting all files containing version numbers: pyproject.toml (version field), src/ascii_guard/__init__.py (__version__), any others. Update release.sh to use this list for all version operations.
 - [ ] **#17** Implement .ascii-guard config file with gitignore-style exclusion patterns `#feature`
   > ZERO dependencies: Use pathlib.Path.match() and fnmatch from stdlib. Config file format: .ascii-guard in project root or ~/.ascii-guard. Support gitignore syntax: *.log, build/, **/dist/**, !important.md (negation). CLI: auto-detect .ascii-guard, or --config flag to override. Example patterns: node_modules/, .git/, **/__pycache__/**, *.tmp
   - [ ] **#17.4** Add tests for config parsing and pattern matching `#feature`
@@ -102,6 +73,35 @@
 ------------------
 
 ## Recently Completed
+- [x] **#25** Fix release script to validate generated files before commit (2025-11-17)
+  > Added validation in execute_release() at line 573-593. Pre-commit runs on all generated release files before git commit. Fixes EOF/whitespace automatically. Tested: pre-commit hooks passed on release.sh changes.
+  > Issue: release.sh generates AI_RELEASE_SUMMARY.md and RELEASE_NOTES.md but doesn't run pre-commit validation on them. When git commit runs, pre-commit hooks fix EOF/whitespace, causing commit to fail. Fix: Add validation step after generating release files - run pre-commit hooks on generated files BEFORE attempting git commit. Location: release.sh execute_release() function, after generate_release_notes() and before git commit.
+- [x] **#24** Fix release process issues identified during v0.1.0 attempt (2025-11-17)
+  - [x] **#24.5** Test complete release workflow with dry-run after fixes (2025-11-17)
+    > Dry-run test passed: environment validation ✓, prepare phase ✓, execute --dry-run ✓. All components working correctly. CI/CD was green before testing.
+    > After completing tasks 24.1-24.4, run: ./release/release.sh --prepare then ./release/release.sh --execute --dry-run. Verify: 1) No Python errors, 2) No pre-commit failures, 3) All version files updated correctly, 4) Dry-run simulates complete workflow.
+  - [x] **#24.4** Update release.sh to NEVER use --no-verify flag (2025-11-17)
+    > Search release.sh for '--no-verify' and 'git commit.*--no-verify'. Remove all instances. Release commits MUST pass pre-commit hooks.
+  - [x] **#24.3** Fix pre-commit issues: run hooks on all files and commit fixes (2025-11-17)
+    > Run: pre-commit run --all-files. If failures, stage fixed files and commit WITHOUT --no-verify. This ensures clean state before any release.
+  - [x] **#24.2** Add environment validation to release.sh (check Python, build module, gh CLI) (2025-11-17)
+    > Add validate_environment() function at start of release.sh --prepare. Check: 1) Python version matches .python-version, 2) python3 -m build available, 3) gh CLI installed. Exit with clear error if validation fails.
+  - [x] **#24.1** Resolve Python version mismatch: install 3.12 OR revert all configs to 3.10 (2025-11-17)
+    > Python 3.12.7 installed and working. Venv rebuilt with Python 3.12. Fixed pre-commit to use .venv/bin/pytest for proper isolation.
+    > Check: pyenv versions | grep 3.12. If not found, either install Python 3.12 OR revert .python-version, pyproject.toml, setup-venv.sh, and all GitHub Actions workflows back to 3.10.1
+- [x] **#23** Redesign release process for proper version management `#release` (2025-11-17)
+  - [x] **#23.6** Test redesigned workflow with dry-run mode (2025-11-17)
+    > Use release/TESTING.md checklist with dry-run. Verify: (1) GitHub release check works, (2) All version files updated in prepare, (3) set-version updates all files, (4) AI summary lifecycle correct. Document any issues found.
+  - [x] **#23.5** Commit AI summary with release, delete and commit cleanup after success (2025-11-17)
+    > EXECUTE must: (1) Commit version files + release notes + AI summary together, (2) Create tag and push, (3) AFTER successful GitHub Actions, delete AI_RELEASE_SUMMARY.md in separate commit with message 'chore: Clean up release artifacts for vX.Y.Z'. Keeps dev environment clean.
+  - [x] **#23.4** Update set-version to modify all version files and release notes (2025-11-17)
+    > set-version must: (1) Update ALL version files from VERSION_FILES list, (2) Update RELEASE_NOTES.md header, (3) Update .prepare_state with new version. Ensures consistency across all version references.
+  - [x] **#23.3** Move version updates from execute to prepare phase (2025-11-17)
+    > PREPARE phase must update ALL version files immediately after determining new version. This allows review of actual version changes before execute. EXECUTE only commits the already-modified files.
+  - [x] **#23.2** Add GitHub release check to determine current version (2025-11-17)
+    > Add get_github_latest_release() function using 'gh release list --limit 1' to determine actual latest release. If no releases exist, use 0.0.0 as base. Use GitHub as source of truth, not local files.
+  - [x] **#23.1** Document all files containing version numbers for tracking (2025-11-17)
+    > Create VERSION_FILES.md documenting all files containing version numbers: pyproject.toml (version field), src/ascii_guard/__init__.py (__version__), any others. Update release.sh to use this list for all version operations.
 
 
 ## Deleted Tasks
@@ -113,7 +113,7 @@
 
 ---
 
-**Last Updated:** Sun Nov 16 23:57:09 CET 2025
+**Last Updated:** Mon Nov 17 00:04:13 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata

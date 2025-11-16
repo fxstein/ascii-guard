@@ -2,6 +2,9 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2025-11-17 00:04:13 | fxstein | ARCHIVE | 25 | Fix release script to validate generated files before commit (with 0 subtasks)
+2025-11-17 00:04:13 | fxstein | ARCHIVE | 24 | Fix release process issues identified during v0.1.0 attempt (with 5 subtasks)
+2025-11-17 00:04:12 | fxstein | ARCHIVE | 23 | Redesign release process for proper version management (with 6 subtasks)
 2025-11-16 23:57:09 | fxstein | NOTE | 25 | Added validation in execute_release() at line 573-593. Pre-commit runs on all generated release files before git commit. Fixes EOF/whitespace automatically. Tested: pre-commit hooks passed on release.sh changes.
 2025-11-16 23:57:09 | fxstein | COMPLETE | 25 | Fix release script to validate generated files before commit
 2025-11-16 23:55:12 | fxstein | NOTE | 25 | Issue: release.sh generates AI_RELEASE_SUMMARY.md and RELEASE_NOTES.md but doesn't run pre-commit validation on them. When git commit runs, pre-commit hooks fix EOF/whitespace, causing commit to fail. Fix: Add validation step after generating release files - run pre-commit hooks on generated files BEFORE attempting git commit. Location: release.sh execute_release() function, after generate_release_notes() and before git commit.
