@@ -3,8 +3,9 @@
 > **⚠️ IMPORTANT: This file should ONLY be edited through the `todo.ai` script!**
 
 ## Tasks
-- [ ] **#24** Fix release process issues identified during v0.1.0 attempt
-  - [ ] **#24.5** Test complete release workflow with dry-run after fixes
+- [x] **#24** Fix release process issues identified during v0.1.0 attempt
+  - [x] **#24.5** Test complete release workflow with dry-run after fixes
+    > Dry-run test passed: environment validation ✓, prepare phase ✓, execute --dry-run ✓. All components working correctly. CI/CD was green before testing.
     > After completing tasks 24.1-24.4, run: ./release/release.sh --prepare then ./release/release.sh --execute --dry-run. Verify: 1) No Python errors, 2) No pre-commit failures, 3) All version files updated correctly, 4) Dry-run simulates complete workflow.
   - [x] **#24.4** Update release.sh to NEVER use --no-verify flag
     > Search release.sh for '--no-verify' and 'git commit.*--no-verify'. Remove all instances. Release commits MUST pass pre-commit hooks.
@@ -109,7 +110,7 @@
 
 ---
 
-**Last Updated:** Sun Nov 16 23:39:15 CET 2025
+**Last Updated:** Sun Nov 16 23:45:20 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata
