@@ -482,12 +482,18 @@ set_version_override() {
         new_bump_type="minor"
     fi
 
-    # Update RELEASE_NOTES.md header
+    # Update RELEASE_NOTES.md - both header AND content version references
     if [[ -f "release/RELEASE_NOTES.md" ]]; then
         if [[ "$OSTYPE" == "darwin"* ]]; then
+            # Update the "## Release X.Y.Z" header
             sed -i '' "s/^## Release ${NEW_VERSION}/## Release ${new_version}/" release/RELEASE_NOTES.md
+            # Update the "# ascii-guard vX.Y.Z" header in AI summary content
+            sed -i '' "s/^# ascii-guard v${NEW_VERSION}/# ascii-guard v${new_version}/" release/RELEASE_NOTES.md
         else
+            # Update the "## Release X.Y.Z" header
             sed -i "s/^## Release ${NEW_VERSION}/## Release ${new_version}/" release/RELEASE_NOTES.md
+            # Update the "# ascii-guard vX.Y.Z" header in AI summary content
+            sed -i "s/^# ascii-guard v${NEW_VERSION}/# ascii-guard v${new_version}/" release/RELEASE_NOTES.md
         fi
     fi
 
