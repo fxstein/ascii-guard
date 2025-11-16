@@ -11,6 +11,15 @@
   - [ ] **#17.1** Create config parser module (read .ascii-guard, parse patterns) `#feature`
 - [x] **#16** Adapt release process for ascii-guard (release.sh, RELEASE.md, Cursor rules) `#release` `#automation`
   - [x] **#16.5** Test complete release workflow end-to-end `#release`
+    > TESTING UPDATED with dry-run mode:
+    > ✅ --prepare mode: Tested with multiple commit types
+    > ✅ --set-version mode: Tested with valid/invalid inputs
+    > ✅ --execute --dry-run: Full end-to-end simulation without git operations
+    > ✅ Process invalidation: Detects commits after prepare
+    > ✅ Comprehensive testing guide: release/TESTING.md documents full test suite
+    > ⚠️  Real execute mode NOT tested (requires actual release to GitHub/PyPI)
+    > 
+    > Use './release/release.sh --execute --dry-run' to test releases safely
     > TESTING COMPLETE - All release workflow components verified:
     > ✅ --prepare mode: Analyzes commits, determines version bump (minor: 0.1.0 → 0.2.0), generates release notes with categorized commits
     > ✅ --set-version mode: Overrides version (tested 1.0.0), validates format and progression, updates release notes header
@@ -75,7 +84,7 @@
 
 ---
 
-**Last Updated:** Sun Nov 16 22:00:12 CET 2025
+**Last Updated:** Sun Nov 16 22:35:39 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata

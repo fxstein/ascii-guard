@@ -2,6 +2,15 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2025-11-16 22:35:39 | fxstein | NOTE | 16.5 | TESTING UPDATED with dry-run mode:
+✅ --prepare mode: Tested with multiple commit types
+✅ --set-version mode: Tested with valid/invalid inputs
+✅ --execute --dry-run: Full end-to-end simulation without git operations
+✅ Process invalidation: Detects commits after prepare
+✅ Comprehensive testing guide: release/TESTING.md documents full test suite
+⚠️  Real execute mode NOT tested (requires actual release to GitHub/PyPI)
+
+Use './release/release.sh --execute --dry-run' to test releases safely
 2025-11-16 22:00:12 | fxstein | COMPLETE | 16.4 | Create .cursor/rules/ascii-guard-releases.mdc for AI release guidance
 2025-11-16 22:00:12 | fxstein | COMPLETE | 16.3 | Implement release.sh execute mode with GitHub tag push
 2025-11-16 22:00:12 | fxstein | COMPLETE | 16.2 | Implement release.sh set-version override mode
