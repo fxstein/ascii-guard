@@ -39,11 +39,12 @@ repos:
       - id: debug-statements
 
   # Pytest - Run tests (fast subset only)
+  # Uses .venv explicitly to ensure isolation and avoid system pollution
   - repo: local
     hooks:
       - id: pytest-fast
         name: pytest (fast tests only)
-        entry: python -m pytest
+        entry: .venv/bin/python -m pytest
         args: [-m, "not slow", --tb=short, -q]
         language: system
         types: [python]

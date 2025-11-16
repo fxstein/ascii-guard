@@ -5,11 +5,11 @@
 ## Tasks
 - [ ] **#29** Harden pyenv+venv setup to prevent global Python pollution
   > PROBLEM: Current setup is fragile - relies on remembering to activate venv. We polluted pyenv global with pytest/pytest-cov during task#24 fixes. Pre-commit uses 'language: system' which depends on whatever Python is in PATH. SOLUTION: 1) Clean pyenv global (keep it pristine). 2) Change pre-commit pytest hook to explicitly use '.venv/bin/python -m pytest' so it always uses venv Python. 3) Add venv checks to critical scripts (release.sh). 4) Document in Cursor rules: NEVER pip install in pyenv global, ALWAYS use venv. 5) Test that commits work from fresh shell without manual venv activation.
-  - [ ] **#29.5** Test: Verify pre-commit works from fresh shell (no venv activated)
-  - [ ] **#29.4** Update .cursor/rules: AI must NEVER install packages in pyenv global
-  - [ ] **#29.3** Add venv validation to release.sh and other scripts
-  - [ ] **#29.2** Fix pre-commit to use .venv/bin/python explicitly (not system)
-  - [ ] **#29.1** Clean up pyenv global: uninstall pytest, pytest-cov
+  - [x] **#29.5** Test: Verify pre-commit works from fresh shell (no venv activated)
+  - [x] **#29.4** Update .cursor/rules: AI must NEVER install packages in pyenv global
+  - [x] **#29.3** Add venv validation to release.sh and other scripts
+  - [x] **#29.2** Fix pre-commit to use .venv/bin/python explicitly (not system)
+  - [x] **#29.1** Clean up pyenv global: uninstall pytest, pytest-cov
 - [ ] **#28** Fix release notes: Script generates H1, AI summary has NO headers
   > Correct design: 1) release.sh generates proper H1 header: '# ascii-guard vX.Y.Z - Release Title' 2) AI agent writes AI_RELEASE_SUMMARY.md WITHOUT any headers (just content paragraphs) 3) Script appends AI content under the H1. Changes needed: A) Update release.sh line 316 to generate H1 instead of H2. B) Update set_version_override() to update H1 instead of H2+H1. C) Update .cursor/rules/ascii-guard-releases.mdc to instruct AI to NOT include headers in AI_RELEASE_SUMMARY.md. D) Update docs/RELEASE_DESIGN.md and release/RELEASE.md examples.
   - [ ] **#28.5** Test: prepare + set-version with header-less AI summary
@@ -130,7 +130,7 @@
 
 ---
 
-**Last Updated:** Mon Nov 17 00:32:00 CET 2025
+**Last Updated:** Mon Nov 17 00:34:28 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata

@@ -2,6 +2,17 @@
 # Format: TIMESTAMP | USER | STEP | MESSAGE
 # Generated: 2025-11-16
 #
+2025-11-17 00:14:58 | fxstein | VERSION OVERRIDE | Version override: 0.1.0 → 1.0.0 (major)
+2025-11-17 00:14:58 | fxstein | VERSION FILES OVERRIDDEN | Updated all version files to 1.0.0
+2025-11-17 00:14:45 | fxstein | PREPARE | Release preview prepared for v0.1.0
+2025-11-17 00:14:44 | fxstein | VERSION FILES UPDATED | Updated all version files to 0.1.0 (not yet committed)
+2025-11-17 00:14:43 | fxstein | RELEASE START | Starting release process: 0.0.0 → 0.1.0 (minor)
+2025-11-17 00:14:21 | fxstein | PREPARE | Release preview prepared for v0.1.0
+2025-11-17 00:14:20 | fxstein | VERSION FILES UPDATED | Updated all version files to 0.1.0 (not yet committed)
+2025-11-17 00:14:19 | fxstein | RELEASE START | Starting release process: 0.0.0 → 0.1.0 (minor)
+2025-11-17 00:14:11 | fxstein | PREPARE | Release preview prepared for v0.1.0
+2025-11-17 00:14:11 | fxstein | VERSION FILES UPDATED | Updated all version files to 0.1.0 (not yet committed)
+2025-11-17 00:14:09 | fxstein | RELEASE START | Starting release process: 0.0.0 → 0.1.0 (minor)
 2025-11-17 00:08:08 | fxstein | VERSION OVERRIDE | Version override: 0.1.0 → 1.0.0 (major)
 2025-11-17 00:08:08 | fxstein | VERSION FILES OVERRIDDEN | Updated all version files to 1.0.0
 2025-11-17 00:07:36 | fxstein | PREPARE | Release preview prepared for v0.1.0

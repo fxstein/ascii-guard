@@ -2,6 +2,11 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2025-11-17 00:34:28 | fxstein | COMPLETE | 29.5 | Test: Verify pre-commit works from fresh shell (no venv activated)
+2025-11-17 00:34:28 | fxstein | COMPLETE | 29.4 | Update .cursor/rules: AI must NEVER install packages in pyenv global
+2025-11-17 00:34:27 | fxstein | COMPLETE | 29.3 | Add venv validation to release.sh and other scripts
+2025-11-17 00:34:27 | fxstein | COMPLETE | 29.2 | Fix pre-commit to use .venv/bin/python explicitly (not system)
+2025-11-17 00:34:27 | fxstein | COMPLETE | 29.1 | Clean up pyenv global: uninstall pytest, pytest-cov
 2025-11-17 00:32:00 | fxstein | NOTE | 29 | PROBLEM: Current setup is fragile - relies on remembering to activate venv. We polluted pyenv global with pytest/pytest-cov during task#24 fixes. Pre-commit uses 'language: system' which depends on whatever Python is in PATH. SOLUTION: 1) Clean pyenv global (keep it pristine). 2) Change pre-commit pytest hook to explicitly use '.venv/bin/python -m pytest' so it always uses venv Python. 3) Add venv checks to critical scripts (release.sh). 4) Document in Cursor rules: NEVER pip install in pyenv global, ALWAYS use venv. 5) Test that commits work from fresh shell without manual venv activation.
 2025-11-17 00:31:52 | fxstein | ADD_SUBTASK | 29.5 | Test: Verify pre-commit works from fresh shell (no venv activated) (parent: #29)
 2025-11-17 00:31:47 | fxstein | ADD_SUBTASK | 29.4 | Update .cursor/rules: AI must NEVER install packages in pyenv global (parent: #29)

@@ -2,6 +2,55 @@
 
 When the user says "Release ascii-guard" or similar:
 
+## CRITICAL: Python Environment Management
+
+**THIS PROJECT USES pyenv + venv FOR ISOLATION:**
+
+### Rules for AI Agents:
+
+1. **NEVER install packages in pyenv global Python**
+   - The pyenv global environment MUST remain pristine (only `pip`)
+   - All development packages MUST be in `.venv` only
+
+2. **ALWAYS use `.venv` for package operations**
+   - ❌ NEVER run: `pip install <package>`
+   - ✅ ALWAYS run: `.venv/bin/pip install <package>` OR activate venv first
+   - ❌ NEVER run: `python -m pytest` (uses system Python)
+   - ✅ ALWAYS run: `.venv/bin/python -m pytest` (uses venv Python)
+
+3. **Check venv exists before operations**
+   ```bash
+   if [[ ! -d .venv ]]; then
+       echo "ERROR: Virtual environment not found!"
+       echo "Run: ./setup-venv.sh"
+       exit 1
+   fi
+   ```
+
+4. **Pre-commit hooks are configured to use .venv explicitly**
+   - `.pre-commit-config.yaml` uses `.venv/bin/python` paths
+   - No manual venv activation needed for commits
+   - If pre-commit fails with import errors, venv is broken - rebuild it
+
+5. **If you need to install a package for testing:**
+   ```bash
+   .venv/bin/pip install <package>  # Correct
+   # NOT: pip install <package>     # Wrong!
+   ```
+
+6. **User has `PIP_REQUIRE_VIRTUALENV=true` set**
+   - This prevents accidental global installs
+   - If you see "Could not find an activated virtualenv" - this is GOOD
+   - It means you're trying to pollute global Python (don't do it!)
+
+**Why this matters:**
+- During task #24 we polluted pyenv global with pytest/pytest-cov
+- This broke pre-commit hooks (ascii_guard not in global)
+- Task #29 cleaned this up and hardened the setup
+- We must never repeat this mistake
+
+---
+
 ## Step 0: MANDATORY CI/CD Check (ALWAYS DO THIS FIRST)
 
 **BEFORE STARTING ANY RELEASE - CHECK CI/CD STATUS:**
