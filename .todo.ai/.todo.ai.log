@@ -2,6 +2,8 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2025-11-16 11:57:15 | fxstein | MODIFY | 10 | Write README with project overview and AI agent installation prompt
+2025-11-16 11:54:56 | fxstein | COMPLETE | 12 | Create GitHub repository and push initial setup
 2025-11-16 11:15:41 | fxstein | COMPLETE | 3.3 | Add git hooks installation to setup process
 2025-11-16 11:15:41 | fxstein | COMPLETE | 11 | Initialize git repository and create .gitignore for Python
 2025-11-16 11:12:40 | fxstein | COMPLETE | 3 | Set up development tooling (ruff, black, mypy, pytest)

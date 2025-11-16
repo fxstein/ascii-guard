@@ -11,10 +11,10 @@
   > Draft design copied from /Users/oratzes/cursor/ocroot/docs/ASCII_ART_LINTER_PLAN.md to docs/DESIGN.md. Original focuses on pre-commit hooks; may need updates for standalone PyPI package distribution.
 - [ ] **#14** Add CONTRIBUTING.md and CODE_OF_CONDUCT.md files `#documentation` `#community`
 - [ ] **#13** Set up semantic versioning and release tagging workflow `#release` `#versioning`
-- [ ] **#12** Create GitHub repository and push initial setup `#setup` `#github`
+- [x] **#12** Create GitHub repository and push initial setup `#setup` `#github`
 - [x] **#11** Initialize git repository and create .gitignore for Python `#setup` `#git`
   > Python .gitignore must include: .venv/, venv/, __pycache__/, *.pyc, *.pyo, *.egg-info/, dist/, build/, .pytest_cache/, .mypy_cache/, .ruff_cache/, .coverage, htmlcov/. Use GitHub's Python template as base.
-- [ ] **#10** Write README with project overview and AI agent installation prompt `#documentation` `#readme`
+- [ ] **#10** Write README with project overview and AI agent installation prompt `#documentation`
   > Emphasize in README: 'ZERO dependencies - pure Python stdlib only'. This is a KEY FEATURE. AI agent prompt should be: 'pip install ascii-guard' (no other deps needed). Highlight: lightweight, fast, no dependency hell.
   > README must include: (1) AI agent prompt for pip install, (2) Developer setup with venv isolation, (3) pre-commit installation instructions. Example: 'Install: python -m venv .venv && source .venv/bin/activate && pip install ascii-guard' for users, 'git clone && ./setup-venv.sh && pre-commit install' for contributors.
 - [ ] **#9** Create comprehensive documentation (usage, examples, API) `#documentation`
@@ -46,7 +46,7 @@
 
 ---
 
-**Last Updated:** Sun Nov 16 11:15:41 CET 2025
+**Last Updated:** Sun Nov 16 11:57:15 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata
