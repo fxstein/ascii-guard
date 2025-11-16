@@ -111,9 +111,9 @@ command-line interface, ensuring consistent visual formatting.
 
 **Example content:**
 ```markdown
-## Release 0.1.0
+# ascii-guard v0.1.0
 
-[AI summary from above]
+[AI summary from above - NO headers, just content paragraphs]
 
 ---
 
@@ -179,8 +179,8 @@ command-line interface, ensuring consistent visual formatting.
 3. **Read AI summary** from `AI_RELEASE_SUMMARY.md`
 
 4. **Generate complete notes** to `RELEASE_NOTES.md`
-   - Header: `## Release X.Y.Z`
-   - AI summary (human-readable)
+   - Header: `# ascii-guard vX.Y.Z` (H1 - script-generated)
+   - AI summary (human-readable content, NO headers)
    - Separator: `---`
    - Categorized commit list
    - Footer: Total commit count

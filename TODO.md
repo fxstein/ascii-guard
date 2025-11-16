@@ -13,10 +13,10 @@
 - [ ] **#28** Fix release notes: Script generates H1, AI summary has NO headers
   > Correct design: 1) release.sh generates proper H1 header: '# ascii-guard vX.Y.Z - Release Title' 2) AI agent writes AI_RELEASE_SUMMARY.md WITHOUT any headers (just content paragraphs) 3) Script appends AI content under the H1. Changes needed: A) Update release.sh line 316 to generate H1 instead of H2. B) Update set_version_override() to update H1 instead of H2+H1. C) Update .cursor/rules/ascii-guard-releases.mdc to instruct AI to NOT include headers in AI_RELEASE_SUMMARY.md. D) Update docs/RELEASE_DESIGN.md and release/RELEASE.md examples.
   - [ ] **#28.5** Test: prepare + set-version with header-less AI summary
-  - [ ] **#28.4** Update docs/RELEASE_DESIGN.md and release/RELEASE.md examples
-  - [ ] **#28.3** Update .cursor/rules to instruct AI: NO headers in AI_RELEASE_SUMMARY.md
-  - [ ] **#28.2** Update set_version_override() to update only H1 header
-  - [ ] **#28.1** Update release.sh to generate H1 header instead of H2
+  - [x] **#28.4** Update docs/RELEASE_DESIGN.md and release/RELEASE.md examples
+  - [x] **#28.3** Update .cursor/rules to instruct AI: NO headers in AI_RELEASE_SUMMARY.md
+  - [x] **#28.2** Update set_version_override() to update only H1 header
+  - [x] **#28.1** Update release.sh to generate H1 header instead of H2
 - [ ] **#17** Implement .ascii-guard config file with gitignore-style exclusion patterns `#feature`
   > ZERO dependencies: Use pathlib.Path.match() and fnmatch from stdlib. Config file format: .ascii-guard in project root or ~/.ascii-guard. Support gitignore syntax: *.log, build/, **/dist/**, !important.md (negation). CLI: auto-detect .ascii-guard, or --config flag to override. Example patterns: node_modules/, .git/, **/__pycache__/**, *.tmp
   - [ ] **#17.4** Add tests for config parsing and pattern matching `#feature`
@@ -130,7 +130,7 @@
 
 ---
 
-**Last Updated:** Mon Nov 17 00:34:52 CET 2025
+**Last Updated:** Mon Nov 17 00:52:04 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata

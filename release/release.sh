@@ -112,15 +112,14 @@ validate_environment() {
         fi
     fi
 
-    # Check if python3 -m build is available
-    if python3 -c "import build" 2>/dev/null; then
+    # Check if python3 -m build is available in venv
+    if .venv/bin/python -c "import build" 2>/dev/null; then
         echo -e "${GREEN}✓ python3 -m build: available${NC}"
     else
-        echo -e "${RED}❌ python3 -m build: not available${NC}"
+        echo -e "${RED}❌ python3 -m build: not available in .venv${NC}"
         echo ""
         echo -e "${YELLOW}Fix: Install build module in venv:${NC}"
-        echo -e "${YELLOW}  source .venv/bin/activate${NC}"
-        echo -e "${YELLOW}  pip install build${NC}"
+        echo -e "${YELLOW}  .venv/bin/pip install build${NC}"
         errors=$((errors + 1))
     fi
 
@@ -329,11 +328,11 @@ generate_release_notes() {
         summary_content=$(cat "$ai_summary")
     fi
 
-    # Start building release notes
-    echo "## Release ${new_version}" > "$release_notes"
+    # Start building release notes with H1 header
+    echo "# ascii-guard v${new_version}" > "$release_notes"
     echo "" >> "$release_notes"
 
-    # Add AI summary if it existed
+    # Add AI summary if it existed (should be header-less content)
     if [[ -n "$summary_content" ]]; then
         echo "$summary_content" >> "$release_notes"
         echo "" >> "$release_notes"
@@ -499,17 +498,13 @@ set_version_override() {
         new_bump_type="minor"
     fi
 
-    # Update RELEASE_NOTES.md - both header AND content version references
+    # Update RELEASE_NOTES.md - update H1 header version
     if [[ -f "release/RELEASE_NOTES.md" ]]; then
         if [[ "$OSTYPE" == "darwin"* ]]; then
-            # Update the "## Release X.Y.Z" header
-            sed -i '' "s/^## Release ${NEW_VERSION}/## Release ${new_version}/" release/RELEASE_NOTES.md
-            # Update the "# ascii-guard vX.Y.Z" header in AI summary content
+            # Update the "# ascii-guard vX.Y.Z" header
             sed -i '' "s/^# ascii-guard v${NEW_VERSION}/# ascii-guard v${new_version}/" release/RELEASE_NOTES.md
         else
-            # Update the "## Release X.Y.Z" header
-            sed -i "s/^## Release ${NEW_VERSION}/## Release ${new_version}/" release/RELEASE_NOTES.md
-            # Update the "# ascii-guard vX.Y.Z" header in AI summary content
+            # Update the "# ascii-guard vX.Y.Z" header
             sed -i "s/^# ascii-guard v${NEW_VERSION}/# ascii-guard v${new_version}/" release/RELEASE_NOTES.md
         fi
     fi

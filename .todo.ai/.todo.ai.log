@@ -2,6 +2,10 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2025-11-17 00:52:04 | fxstein | COMPLETE | 28.4 | Update docs/RELEASE_DESIGN.md and release/RELEASE.md examples
+2025-11-17 00:52:04 | fxstein | COMPLETE | 28.3 | Update .cursor/rules to instruct AI: NO headers in AI_RELEASE_SUMMARY.md
+2025-11-17 00:52:04 | fxstein | COMPLETE | 28.2 | Update set_version_override() to update only H1 header
+2025-11-17 00:52:04 | fxstein | COMPLETE | 28.1 | Update release.sh to generate H1 header instead of H2
 2025-11-17 00:34:52 | fxstein | COMPLETE | 29 | Harden pyenv+venv setup to prevent global Python pollution
 2025-11-17 00:34:28 | fxstein | COMPLETE | 29.5 | Test: Verify pre-commit works from fresh shell (no venv activated)
 2025-11-17 00:34:28 | fxstein | COMPLETE | 29.4 | Update .cursor/rules: AI must NEVER install packages in pyenv global

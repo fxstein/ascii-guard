@@ -192,9 +192,11 @@ If release is stopped due to errors:
 - Write 2-3 paragraph summary highlighting key improvements
 - Focus on user-facing benefits and why this release matters
 - Keep it human-readable (no commit lists, no technical jargon)
+- **CRITICAL: DO NOT include any headers (no `#` markdown headers)**
+- The release script will automatically generate the title header
 - Save to `release/AI_RELEASE_SUMMARY.md`
 
-### Example AI Summary
+### Example AI Summary (NO HEADERS)
 
 ```markdown
 This release introduces comprehensive ASCII art box detection and auto-fixing
@@ -211,6 +213,8 @@ Users can now maintain clean, professional documentation with automatically
 aligned ASCII art boxes, eliminating manual character-by-character adjustments
 and improving overall documentation quality.
 ```
+
+**Note:** The script will prepend `# ascii-guard vX.Y.Z` as the H1 header automatically.
 
 ## Step 2: Prepare Release
 
