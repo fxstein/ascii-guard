@@ -2,6 +2,17 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2025-11-16 23:19:28 | fxstein | NOTE | 24.5 | After completing tasks 24.1-24.4, run: ./release/release.sh --prepare then ./release/release.sh --execute --dry-run. Verify: 1) No Python errors, 2) No pre-commit failures, 3) All version files updated correctly, 4) Dry-run simulates complete workflow.
+2025-11-16 23:19:21 | fxstein | NOTE | 24.4 | Search release.sh for '--no-verify' and 'git commit.*--no-verify'. Remove all instances. Release commits MUST pass pre-commit hooks.
+2025-11-16 23:19:21 | fxstein | NOTE | 24.3 | Run: pre-commit run --all-files. If failures, stage fixed files and commit WITHOUT --no-verify. This ensures clean state before any release.
+2025-11-16 23:19:14 | fxstein | NOTE | 24.2 | Add validate_environment() function at start of release.sh --prepare. Check: 1) Python version matches .python-version, 2) python3 -m build available, 3) gh CLI installed. Exit with clear error if validation fails.
+2025-11-16 23:19:09 | fxstein | NOTE | 24.1 | Check: pyenv versions | grep 3.12. If not found, either install Python 3.12 OR revert .python-version, pyproject.toml, setup-venv.sh, and all GitHub Actions workflows back to 3.10.1
+2025-11-16 23:19:00 | fxstein | ADD_SUBTASK | 24.5 | Test complete release workflow with dry-run after fixes (parent: #24)
+2025-11-16 23:19:00 | fxstein | ADD_SUBTASK | 24.4 | Update release.sh to NEVER use --no-verify flag (parent: #24)
+2025-11-16 23:19:00 | fxstein | ADD_SUBTASK | 24.3 | Fix pre-commit issues: run hooks on all files and commit fixes (parent: #24)
+2025-11-16 23:19:00 | fxstein | ADD_SUBTASK | 24.2 | Add environment validation to release.sh (check Python, build module, gh CLI) (parent: #24)
+2025-11-16 23:18:53 | fxstein | ADD_SUBTASK | 24.1 | Resolve Python version mismatch: install 3.12 OR revert all configs to 3.10 (parent: #24)
+2025-11-16 23:18:48 | fxstein | ADD | 24 | Fix release process issues identified during v0.1.0 attempt
 2025-11-16 23:05:18 | fxstein | COMPLETE | 23 | Redesign release process for proper version management
 2025-11-16 23:05:18 | fxstein | COMPLETE | 23.6 | Test redesigned workflow with dry-run mode
 2025-11-16 23:02:24 | fxstein | COMPLETE | 23.5 | Commit AI summary with release, delete and commit cleanup after success
