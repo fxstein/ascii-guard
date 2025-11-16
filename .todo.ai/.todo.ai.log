@@ -2,6 +2,12 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2025-11-16 12:06:31 | fxstein | ADD_SUBTASK | 17.4 | Add tests for config parsing and pattern matching (parent: #17)
+2025-11-16 12:06:30 | fxstein | ADD_SUBTASK | 17.3 | Integrate config file loading into CLI (auto-detect or --config flag) (parent: #17)
+2025-11-16 12:06:30 | fxstein | ADD_SUBTASK | 17.2 | Add path matcher with gitignore-style pattern support (fnmatch, pathlib) (parent: #17)
+2025-11-16 12:06:22 | fxstein | ADD_SUBTASK | 17.1 | Create config parser module (read .ascii-guard, parse patterns) (parent: #17)
+2025-11-16 12:06:16 | fxstein | NOTE | 17 | ZERO dependencies: Use pathlib.Path.match() and fnmatch from stdlib. Config file format: .ascii-guard in project root or ~/.ascii-guard. Support gitignore syntax: *.log, build/, **/dist/**, !important.md (negation). CLI: auto-detect .ascii-guard, or --config flag to override. Example patterns: node_modules/, .git/, **/__pycache__/**, *.tmp
+2025-11-16 12:06:04 | fxstein | ADD | 17 | Implement .ascii-guard config file with gitignore-style exclusion patterns
 2025-11-16 12:03:30 | fxstein | COMPLETE | 5 | Implement CLI interface with lint and fix commands
 2025-11-16 12:03:30 | fxstein | COMPLETE | 4 | Create core linter module structure (detection, validation, fixing)
 2025-11-16 11:59:51 | fxstein | MODIFY | 4 | Create core linter module structure (detection, validation, fixing)

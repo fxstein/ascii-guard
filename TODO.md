@@ -3,6 +3,12 @@
 > **⚠️ IMPORTANT: This file should ONLY be edited through the `todo.ai` script!**
 
 ## Tasks
+- [ ] **#17** Implement .ascii-guard config file with gitignore-style exclusion patterns `#feature`
+  > ZERO dependencies: Use pathlib.Path.match() and fnmatch from stdlib. Config file format: .ascii-guard in project root or ~/.ascii-guard. Support gitignore syntax: *.log, build/, **/dist/**, !important.md (negation). CLI: auto-detect .ascii-guard, or --config flag to override. Example patterns: node_modules/, .git/, **/__pycache__/**, *.tmp
+  - [ ] **#17.4** Add tests for config parsing and pattern matching `#feature`
+  - [ ] **#17.3** Integrate config file loading into CLI (auto-detect or --config flag) `#feature`
+  - [ ] **#17.2** Add path matcher with gitignore-style pattern support (fnmatch, pathlib) `#feature`
+  - [ ] **#17.1** Create config parser module (read .ascii-guard, parse patterns) `#feature`
 - [ ] **#16** Adapt release process from ocroot (release.sh, RELEASE.md, Cursor rules) `#release` `#automation`
   > Release documentation COMPLETE (release/RELEASE.md adapted from ocroot with PyPI publishing). Release script (release.sh) still TODO - create after task#1 completes.
   > Copy from /Users/oratzes/cursor/ocroot/release but adapt for Python: update pyproject.toml version, build with python -m build, publish to PyPI with twine, include wheel/sdist in GitHub release
@@ -46,7 +52,7 @@
 
 ---
 
-**Last Updated:** Sun Nov 16 12:03:30 CET 2025
+**Last Updated:** Sun Nov 16 12:06:31 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata
