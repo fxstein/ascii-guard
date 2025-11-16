@@ -27,7 +27,7 @@
 - [ ] **#8** Configure PyPI publishing workflow with GitHub Actions `#cicd` `#pypi`
 - [ ] **#7** Set up GitHub Actions CI/CD workflow (lint, test, build) `#cicd` `#automation`
   > GitHub Actions workflow must use 'pre-commit run --all-files' for consistency. Same hooks locally and in CI. Add matrix testing for Python 3.11, 3.12, 3.13. Cache pip and pre-commit environments.
-- [ ] **#6** Add comprehensive test suite with pytest `#testing`
+- [x] **#6** Add comprehensive test suite with pytest `#testing`
   > Test suite uses pytest (dev dependency only). The linter itself must work standalone with ZERO deps. Tests verify: stdlib-only usage, no import of external packages, works with python -m ascii_guard.
 - [x] **#5** Implement CLI interface with lint and fix commands `#feature` `#cli`
   > CRITICAL: Use argparse (stdlib) only, NO click/typer. Simple CLI: 'ascii-guard lint <file>', 'ascii-guard fix <file>'. ANSI escape codes for colored output (no colorama). Keep it minimal and standalone.
@@ -52,7 +52,7 @@
 
 ---
 
-**Last Updated:** Sun Nov 16 15:48:25 CET 2025
+**Last Updated:** Sun Nov 16 15:59:50 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata
