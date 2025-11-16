@@ -18,5 +18,5 @@ This package provides tools for detecting and fixing misaligned ASCII art
 boxes in documentation and markdown files.
 """
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 __all__ = ["__version__"]

@@ -484,21 +484,28 @@ execute_release() {
 
     # Build Python package
     echo -e "${BLUE}📦 Building Python package...${NC}"
-    log_release_step "BUILD PACKAGE" "Building wheel and sdist"
+    
+    if [[ "$DRY_RUN" == "true" ]]; then
+        echo -e "${YELLOW}[DRY-RUN] Would clean previous builds${NC}"
+        echo -e "${YELLOW}[DRY-RUN] Would run: python3 -m build${NC}"
+        echo -e "${YELLOW}[DRY-RUN] Package build simulated successfully${NC}"
+    else
+        log_release_step "BUILD PACKAGE" "Building wheel and sdist"
 
-    # Clean previous builds
-    rm -rf dist/ build/ src/*.egg-info
+        # Clean previous builds
+        rm -rf dist/ build/ src/*.egg-info
 
-    # Build using python -m build
-    python3 -m build
+        # Build using python -m build
+        python3 -m build
 
-    if [[ $? -ne 0 ]]; then
-        echo -e "${RED}❌ Error: Package build failed${NC}"
-        log_release_step "BUILD FAILED" "Package build failed"
-        exit 1
+        if [[ $? -ne 0 ]]; then
+            echo -e "${RED}❌ Error: Package build failed${NC}"
+            log_release_step "BUILD FAILED" "Package build failed"
+            exit 1
+        fi
+
+        log_release_step "BUILD SUCCESS" "Package built successfully"
     fi
-
-    log_release_step "BUILD SUCCESS" "Package built successfully"
 
     # Commit version change and release files
     echo -e "${BLUE}💾 Committing version change and release notes...${NC}"
