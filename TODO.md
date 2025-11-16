@@ -9,12 +9,9 @@
   - [ ] **#17.3** Integrate config file loading into CLI (auto-detect or --config flag) `#feature`
   - [ ] **#17.2** Add path matcher with gitignore-style pattern support (fnmatch, pathlib) `#feature`
   - [ ] **#17.1** Create config parser module (read .ascii-guard, parse patterns) `#feature`
-- [ ] **#16** Adapt release process from ocroot (release.sh, RELEASE.md, Cursor rules) `#release` `#automation`
-  > Release documentation COMPLETE (release/RELEASE.md adapted from ocroot with PyPI publishing). Release script (release.sh) still TODO - create after task#1 completes.
-  > Copy from /Users/oratzes/cursor/ocroot/release but adapt for Python: update pyproject.toml version, build with python -m build, publish to PyPI with twine, include wheel/sdist in GitHub release
+- [ ] **#16** Adapt release process for ascii-guard (release.sh, RELEASE.md, Cursor rules) `#release` `#automation`
 - [ ] **#15** Review and update DESIGN.md based on PyPI release requirements `#documentation` `#design`
   > CRITICAL UPDATE NEEDED: DESIGN.md mentions dependencies (markdown, click, colorama) - these must be REMOVED. ascii-guard is ZERO dependency stdlib-only tool. Update dependencies section to reflect: Python 3.11+ stdlib only, NO external packages.
-  > Draft design copied from /Users/oratzes/cursor/ocroot/docs/ASCII_ART_LINTER_PLAN.md to docs/DESIGN.md. Original focuses on pre-commit hooks; may need updates for standalone PyPI package distribution.
 - [ ] **#14** Add CONTRIBUTING.md and CODE_OF_CONDUCT.md files `#documentation` `#community`
 - [ ] **#13** Set up semantic versioning and release tagging workflow `#release` `#versioning`
 - [x] **#12** Create GitHub repository and push initial setup `#setup` `#github`
