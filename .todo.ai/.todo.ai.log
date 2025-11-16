@@ -2,6 +2,7 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2025-11-17 00:15:18 | fxstein | ARCHIVE | 26 | Fix set-version to update all version references in AI summary (with 0 subtasks)
 2025-11-17 00:12:38 | fxstein | COMPLETE | 26 | Fix set-version to update all version references in AI summary
 2025-11-17 00:10:13 | fxstein | NOTE | 26 | Bug: set-version only updates '## Release X.Y.Z' header but does NOT update version numbers in the AI summary content. Example: Line 1 shows '## Release 1.0.0' but line 3 still shows '# ascii-guard v0.1.0'. Fix: set_version_override() in release.sh needs to update ALL version occurrences in RELEASE_NOTES.md, including the H1 header inside AI summary. Location: release.sh set_version_override() function around line 411-433.
 2025-11-17 00:10:03 | fxstein | ADD | 26 | Fix set-version to update all version references in AI summary

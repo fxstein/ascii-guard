@@ -3,8 +3,6 @@
 > **⚠️ IMPORTANT: This file should ONLY be edited through the `todo.ai` script!**
 
 ## Tasks
-- [x] **#26** Fix set-version to update all version references in AI summary
-  > Bug: set-version only updates '## Release X.Y.Z' header but does NOT update version numbers in the AI summary content. Example: Line 1 shows '## Release 1.0.0' but line 3 still shows '# ascii-guard v0.1.0'. Fix: set_version_override() in release.sh needs to update ALL version occurrences in RELEASE_NOTES.md, including the H1 header inside AI summary. Location: release.sh set_version_override() function around line 411-433.
 - [ ] **#17** Implement .ascii-guard config file with gitignore-style exclusion patterns `#feature`
   > ZERO dependencies: Use pathlib.Path.match() and fnmatch from stdlib. Config file format: .ascii-guard in project root or ~/.ascii-guard. Support gitignore syntax: *.log, build/, **/dist/**, !important.md (negation). CLI: auto-detect .ascii-guard, or --config flag to override. Example patterns: node_modules/, .git/, **/__pycache__/**, *.tmp
   - [ ] **#17.4** Add tests for config parsing and pattern matching `#feature`
@@ -75,6 +73,8 @@
 ------------------
 
 ## Recently Completed
+- [x] **#26** Fix set-version to update all version references in AI summary (2025-11-17)
+  > Bug: set-version only updates '## Release X.Y.Z' header but does NOT update version numbers in the AI summary content. Example: Line 1 shows '## Release 1.0.0' but line 3 still shows '# ascii-guard v0.1.0'. Fix: set_version_override() in release.sh needs to update ALL version occurrences in RELEASE_NOTES.md, including the H1 header inside AI summary. Location: release.sh set_version_override() function around line 411-433.
 - [x] **#25** Fix release script to validate generated files before commit (2025-11-17)
   > Added validation in execute_release() at line 573-593. Pre-commit runs on all generated release files before git commit. Fixes EOF/whitespace automatically. Tested: pre-commit hooks passed on release.sh changes.
   > Issue: release.sh generates AI_RELEASE_SUMMARY.md and RELEASE_NOTES.md but doesn't run pre-commit validation on them. When git commit runs, pre-commit hooks fix EOF/whitespace, causing commit to fail. Fix: Add validation step after generating release files - run pre-commit hooks on generated files BEFORE attempting git commit. Location: release.sh execute_release() function, after generate_release_notes() and before git commit.
@@ -115,7 +115,7 @@
 
 ---
 
-**Last Updated:** Mon Nov 17 00:12:38 CET 2025
+**Last Updated:** Mon Nov 17 00:15:18 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata
