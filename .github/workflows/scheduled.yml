@@ -135,20 +135,18 @@ jobs:
           # Large Test File
 
           This file contains many ASCII boxes for performance testing.
-
           EOF
 
           # Create 100 boxes
-          for i in {1..100}; do
-            cat >> large_test.md << 'EOF'
+          for i in $(seq 1 100); do
+            cat >> large_test.md << EOF
 
-          ## Box $i
+          ## Box ${i}
 
           ┌────────────────────┐
           │ Performance test   │
-          │ Box number: $i     │
+          │ Box number: ${i}   │
           └────────────────────┘
-
           EOF
           done
 

@@ -118,26 +118,29 @@ jobs:
       - name: Generate release notes
         id: release_notes
         run: |
-          cat > release_notes.md << 'EOF'
-          ## ascii-guard ${{ steps.get_version.outputs.version }}
+          VERSION="${{ steps.get_version.outputs.version }}"
+          VERSION_NUMBER="${{ steps.get_version.outputs.version_number }}"
+
+          cat > release_notes.md << EOF
+          ## ascii-guard ${VERSION}
 
           A zero-dependency Python linter for detecting and fixing misaligned ASCII art boxes in documentation.
 
           ### Installation
 
-          ```bash
+          \`\`\`bash
           pip install ascii-guard
-          ```
+          \`\`\`
 
           ### Usage
 
-          ```bash
+          \`\`\`bash
           # Lint files
           ascii-guard lint README.md
 
           # Auto-fix issues
           ascii-guard fix README.md
-          ```
+          \`\`\`
 
           ### Features
 
@@ -153,8 +156,8 @@ jobs:
 
           ### Package Files
 
-          - `ascii_guard-${{ steps.get_version.outputs.version_number }}-py3-none-any.whl` - Wheel distribution
-          - `ascii_guard-${{ steps.get_version.outputs.version_number }}.tar.gz` - Source distribution
+          - \`ascii_guard-${VERSION_NUMBER}-py3-none-any.whl\` - Wheel distribution
+          - \`ascii_guard-${VERSION_NUMBER}.tar.gz\` - Source distribution
           EOF
 
       - name: Create GitHub Release
