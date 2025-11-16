@@ -37,10 +37,10 @@ The `release.sh` script contains an `update_version()` function that updates all
 ```bash
 update_version() {
     local new_version="$1"
-    
+
     # Update pyproject.toml
     sed -i[.bak] 's/^version = ".*"/version = "'"$new_version"'"/' pyproject.toml
-    
+
     # Update __init__.py
     sed -i[.bak] 's/^__version__ = ".*"/__version__ = "'"$new_version"'"/' src/ascii_guard/__init__.py
 }
@@ -80,4 +80,3 @@ If additional files need to track versions (e.g., documentation, CI/CD configs):
 
 **Last Updated**: 2025-11-16
 **Maintained by**: Release automation process
-

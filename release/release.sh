@@ -67,11 +67,85 @@ EOF
     mv "$temp_log" "$RELEASE_LOG"
 }
 
+# Validate environment before release
+validate_environment() {
+    local errors=0
+
+    echo -e "${BLUE}🔍 Validating environment...${NC}"
+
+    # Check Python version
+    if [[ -f .python-version ]]; then
+        local required_version=$(cat .python-version)
+        local current_version=$(python3 --version 2>&1 | awk '{print $2}')
+
+        # Extract major.minor from both versions
+        local required_major_minor=$(echo "$required_version" | cut -d. -f1-2)
+        local current_major_minor=$(echo "$current_version" | cut -d. -f1-2)
+
+        if [[ "$required_major_minor" != "$current_major_minor" ]]; then
+            echo -e "${RED}❌ Python version mismatch${NC}"
+            echo -e "${RED}   Required: $required_version (.python-version)${NC}"
+            echo -e "${RED}   Current:  $current_version${NC}"
+            echo ""
+            echo -e "${YELLOW}Fix: Install correct Python version:${NC}"
+            echo -e "${YELLOW}  pyenv install $required_version${NC}"
+            errors=$((errors + 1))
+        else
+            echo -e "${GREEN}✓ Python version: $current_version${NC}"
+        fi
+    fi
+
+    # Check if python3 -m build is available
+    if python3 -c "import build" 2>/dev/null; then
+        echo -e "${GREEN}✓ python3 -m build: available${NC}"
+    else
+        echo -e "${RED}❌ python3 -m build: not available${NC}"
+        echo ""
+        echo -e "${YELLOW}Fix: Install build module in venv:${NC}"
+        echo -e "${YELLOW}  source .venv/bin/activate${NC}"
+        echo -e "${YELLOW}  pip install build${NC}"
+        errors=$((errors + 1))
+    fi
+
+    # Check if gh CLI is installed and authenticated
+    if command -v gh &> /dev/null; then
+        if gh auth status &> /dev/null; then
+            echo -e "${GREEN}✓ gh CLI: installed and authenticated${NC}"
+        else
+            echo -e "${RED}❌ gh CLI: not authenticated${NC}"
+            echo ""
+            echo -e "${YELLOW}Fix: Authenticate GitHub CLI:${NC}"
+            echo -e "${YELLOW}  gh auth login${NC}"
+            errors=$((errors + 1))
+        fi
+    else
+        echo -e "${RED}❌ gh CLI: not installed${NC}"
+        echo ""
+        echo -e "${YELLOW}Fix: Install GitHub CLI:${NC}"
+        echo -e "${YELLOW}  brew install gh${NC}"
+        errors=$((errors + 1))
+    fi
+
+    echo ""
+
+    if [[ $errors -gt 0 ]]; then
+        echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+        echo -e "${RED}❌ Environment validation failed with $errors error(s)${NC}"
+        echo -e "${RED}Please fix the issues above before running release${NC}"
+        echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+        return 1
+    fi
+
+    echo -e "${GREEN}✅ Environment validation passed${NC}"
+    echo ""
+    return 0
+}
+
 # Get current version from GitHub releases (source of truth)
 get_current_version() {
     # Check GitHub for latest release
     local latest_release=$(gh release list --limit 1 2>/dev/null | awk '{print $1}' | sed 's/^v//')
-    
+
     if [[ -z "$latest_release" ]]; then
         # No releases found - this is the first release
         echo "0.0.0"
@@ -498,7 +572,7 @@ execute_release() {
 
     # Build Python package
     echo -e "${BLUE}📦 Building Python package...${NC}"
-    
+
     if [[ "$DRY_RUN" == "true" ]]; then
         echo -e "${YELLOW}[DRY-RUN] Would clean previous builds${NC}"
         echo -e "${YELLOW}[DRY-RUN] Would run: python3 -m build${NC}"
@@ -585,7 +659,7 @@ Release $BUMP_TYPE version."
 
     # Cleanup working files (AI_RELEASE_SUMMARY.md was committed, now delete it)
     echo -e "${BLUE}🧹 Cleaning up release artifacts...${NC}"
-    
+
     if [[ "$DRY_RUN" == "true" ]]; then
         echo -e "${YELLOW}[DRY-RUN] Would delete AI_RELEASE_SUMMARY.md${NC}"
         echo -e "${YELLOW}[DRY-RUN] Would delete RELEASE_NOTES.md${NC}"
@@ -594,7 +668,7 @@ Release $BUMP_TYPE version."
         # Delete AI summary and RELEASE_NOTES (they were committed with the release)
         rm -f "release/AI_RELEASE_SUMMARY.md"
         rm -f "release/RELEASE_NOTES.md"
-        
+
         # Commit the deletion to keep dev environment clean
         git add release/AI_RELEASE_SUMMARY.md release/RELEASE_NOTES.md 2>/dev/null || true
         if git diff --cached --quiet; then
@@ -605,7 +679,7 @@ Release $BUMP_TYPE version."
             log_release_step "CLEANUP COMMITTED" "Committed cleanup of release artifacts"
         fi
     fi
-    
+
     # Delete local working files (not tracked)
     rm -f "$PREPARE_STATE_FILE"
     rm -rf dist/ build/ src/*.egg-info
@@ -720,6 +794,11 @@ main() {
     # Prepare mode
     echo -e "${BLUE}🚀 Preparing release preview...${NC}"
     echo ""
+
+    # Validate environment first
+    if ! validate_environment; then
+        exit 1
+    fi
 
     # Check for uncommitted changes (exclude audit logs and release working files)
     local status_output=$(git status -s | grep -vE "release/RELEASE_LOG\.log|release/RELEASE_SUMMARY\.md|release/AI_RELEASE_SUMMARY\.md|release/RELEASE_NOTES\.md|release/\.prepare_state")
