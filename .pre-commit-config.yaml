@@ -1,0 +1,54 @@
+# Pre-commit hooks for ascii-guard
+# Install: pre-commit install
+# Run manually: pre-commit run --all-files
+
+default_language_version:
+  python: python3.10
+
+repos:
+  # Ruff - Fast Python linter and formatter (replaces black, isort, flake8)
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.1.9
+    hooks:
+      # Run linter
+      - id: ruff
+        args: [--fix, --exit-non-zero-on-fix]
+      # Run formatter
+      - id: ruff-format
+
+  # MyPy - Static type checking
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.7.1
+    hooks:
+      - id: mypy
+        additional_dependencies: []
+        args: [--strict, --python-version=3.10]
+        files: ^src/
+
+  # Standard pre-commit hooks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-toml
+      - id: check-added-large-files
+        args: [--maxkb=1000]
+      - id: check-merge-conflict
+      - id: check-case-conflict
+      - id: mixed-line-ending
+        args: [--fix=lf]
+      - id: debug-statements
+
+  # Pytest - Run tests (fast subset only)
+  - repo: local
+    hooks:
+      - id: pytest-fast
+        name: pytest (fast tests only)
+        entry: pytest
+        args: [-m, "not slow", --tb=short, -q]
+        language: system
+        types: [python]
+        pass_filenames: false
+        always_run: true

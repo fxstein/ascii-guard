@@ -1,0 +1,106 @@
+# Python .gitignore for ascii-guard
+# Ensures audit logs are tracked while ignoring development artifacts
+
+# ============================================================
+# Virtual Environments - NEVER commit
+# ============================================================
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# ============================================================
+# Python Compiled Files
+# ============================================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# ============================================================
+# Distribution / Packaging
+# ============================================================
+dist/
+build/
+*.egg-info/
+*.egg
+wheels/
+*.whl
+
+# ============================================================
+# Testing and Coverage
+# ============================================================
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+.hypothesis/
+
+# ============================================================
+# Type Checking
+# ============================================================
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
+
+# ============================================================
+# Linting
+# ============================================================
+.ruff_cache/
+
+# ============================================================
+# IDEs and Editors
+# ============================================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# ============================================================
+# Pre-commit
+# ============================================================
+.pre-commit-config.yaml.bak
+
+# ============================================================
+# Release Process - Ignore working files
+# ============================================================
+release/.prepare_state
+release/AI_RELEASE_SUMMARY.md
+release/RELEASE_NOTES.md
+
+# ============================================================
+# CRITICAL: ALWAYS TRACK AUDIT LOGS AND CONFIGS
+# ============================================================
+# .cursor/ - Cursor IDE rules (always track)
+# .todo.ai/ - Task tracking metadata and logs (always track)
+# release/RELEASE_LOG.log - Release audit log (always track)
+#
+# These directories contain important operational history and MUST be tracked in git
+
+# ============================================================
+# Temporary Files
+# ============================================================
+*.tmp
+*.bak
+*.log
+*.pid
+
+# BUT ensure our audit logs are NOT ignored (override *.log)
+!.todo.ai/.todo.ai.log
+!release/RELEASE_LOG.log
+
+# ============================================================
+# OS Files
+# ============================================================
+.DS_Store
+Thumbs.db

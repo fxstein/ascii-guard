@@ -1,0 +1,50 @@
+# TODO Tool Log File
+# Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
+# Generated: Sun Nov 16 10:34:30 CET 2025
+
+2025-11-16 11:15:41 | fxstein | COMPLETE | 3.3 | Add git hooks installation to setup process
+2025-11-16 11:15:41 | fxstein | COMPLETE | 11 | Initialize git repository and create .gitignore for Python
+2025-11-16 11:12:40 | fxstein | COMPLETE | 3 | Set up development tooling (ruff, black, mypy, pytest)
+2025-11-16 11:12:35 | fxstein | NOTE | 3.3 | Requires git repository (task#11) to be initialized first. Run 'pre-commit install' after git init. Pre-commit config is ready in .pre-commit-config.yaml.
+2025-11-16 11:12:28 | fxstein | COMPLETE | 3.2 | Create .pre-commit-config.yaml with ruff, mypy, pytest hooks
+2025-11-16 11:12:28 | fxstein | COMPLETE | 3.1 | Install and configure pre-commit framework
+2025-11-16 11:12:28 | fxstein | COMPLETE | 1 | Initialize Python project structure with pyproject.toml and standard layout
+2025-11-16 11:10:49 | fxstein | COMPLETE | 2 | Add Apache 2.0 license file and copyright headers
+2025-11-16 11:10:14 | fxstein | COMPLETE | 1.2 | Create virtual environment setup script (setup-venv.sh)
+2025-11-16 11:10:14 | fxstein | COMPLETE | 1.1 | Create .python-version file for Python version pinning
+2025-11-16 11:09:17 | fxstein | MODIFY | 1 | Initialize Python project structure with pyproject.toml and standard layout
+2025-11-16 11:02:06 | fxstein | NOTE | 6 | Test suite uses pytest (dev dependency only). The linter itself must work standalone with ZERO deps. Tests verify: stdlib-only usage, no import of external packages, works with python -m ascii_guard.
+2025-11-16 11:01:59 | fxstein | NOTE | 10 | Emphasize in README: 'ZERO dependencies - pure Python stdlib only'. This is a KEY FEATURE. AI agent prompt should be: 'pip install ascii-guard' (no other deps needed). Highlight: lightweight, fast, no dependency hell.
+2025-11-16 11:01:53 | fxstein | NOTE | 15 | CRITICAL UPDATE NEEDED: DESIGN.md mentions dependencies (markdown, click, colorama) - these must be REMOVED. ascii-guard is ZERO dependency stdlib-only tool. Update dependencies section to reflect: Python 3.11+ stdlib only, NO external packages.
+2025-11-16 11:01:46 | fxstein | NOTE | 1 | pyproject.toml: ZERO runtime dependencies (dependencies = []). Dev dependencies only: pytest, ruff, mypy, pre-commit. Package must be installable with 'pip install ascii-guard' with no external deps. Pure stdlib tool.
+2025-11-16 11:01:40 | fxstein | NOTE | 5 | CRITICAL: Use argparse (stdlib) only, NO click/typer. Simple CLI: 'ascii-guard lint <file>', 'ascii-guard fix <file>'. ANSI escape codes for colored output (no colorama). Keep it minimal and standalone.
+2025-11-16 11:01:32 | fxstein | NOTE | 4 | CRITICAL: ZERO runtime dependencies. Use only Python stdlib. No external libs (no markdown, no click, no colorama). Pure Python 3.11+ stdlib only. Parse files with open(), use argparse for CLI, ANSI codes for colors.
+2025-11-16 10:59:13 | fxstein | NOTE | 10 | README must include: (1) AI agent prompt for pip install, (2) Developer setup with venv isolation, (3) pre-commit installation instructions. Example: 'Install: python -m venv .venv && source .venv/bin/activate && pip install ascii-guard' for users, 'git clone && ./setup-venv.sh && pre-commit install' for contributors.
+2025-11-16 10:59:06 | fxstein | NOTE | 11 | Python .gitignore must include: .venv/, venv/, __pycache__/, *.pyc, *.pyo, *.egg-info/, dist/, build/, .pytest_cache/, .mypy_cache/, .ruff_cache/, .coverage, htmlcov/. Use GitHub's Python template as base.
+2025-11-16 10:59:00 | fxstein | NOTE | 7 | GitHub Actions workflow must use 'pre-commit run --all-files' for consistency. Same hooks locally and in CI. Add matrix testing for Python 3.11, 3.12, 3.13. Cache pip and pre-commit environments.
+2025-11-16 10:58:54 | fxstein | NOTE | 3 | CRITICAL: Use pre-commit framework for ALL linting. Install: 'pip install pre-commit'. Config .pre-commit-config.yaml with: ruff (lint+format), mypy (types), pytest (tests), trailing-whitespace, end-of-file-fixer, check-yaml. Run 'pre-commit install' to enable hooks. NO system-level tool pollution.
+2025-11-16 10:58:47 | fxstein | NOTE | 1 | CRITICAL: Use venv isolation. Create .python-version (3.11+), setup-venv.sh script. Document in README: 'python -m venv .venv && source .venv/bin/activate && pip install -e .[dev]'. Add .venv/ to .gitignore.
+2025-11-16 10:58:40 | fxstein | ADD_SUBTASK | 3.3 | Add git hooks installation to setup process (parent: #3)
+2025-11-16 10:58:35 | fxstein | ADD_SUBTASK | 3.2 | Create .pre-commit-config.yaml with ruff, mypy, pytest hooks (parent: #3)
+2025-11-16 10:58:30 | fxstein | ADD_SUBTASK | 3.1 | Install and configure pre-commit framework (parent: #3)
+2025-11-16 10:58:26 | fxstein | ADD_SUBTASK | 1.2 | Create virtual environment setup script (setup-venv.sh) (parent: #1)
+2025-11-16 10:58:21 | fxstein | ADD_SUBTASK | 1.1 | Create .python-version file for Python version pinning (parent: #1)
+2025-11-16 10:55:45 | fxstein | NOTE | 16 | Release documentation COMPLETE (release/RELEASE.md adapted from ocroot with PyPI publishing). Release script (release.sh) still TODO - create after task#1 completes.
+2025-11-16 10:53:37 | fxstein | NOTE | 16 | Copy from /Users/oratzes/cursor/ocroot/release but adapt for Python: update pyproject.toml version, build with python -m build, publish to PyPI with twine, include wheel/sdist in GitHub release
+2025-11-16 10:53:29 | fxstein | ADD | 16 | Adapt release process from ocroot (release.sh, RELEASE.md, Cursor rules)
+2025-11-16 10:51:59 | fxstein | NOTE | 15 | Draft design copied from /Users/oratzes/cursor/ocroot/docs/ASCII_ART_LINTER_PLAN.md to docs/DESIGN.md. Original focuses on pre-commit hooks; may need updates for standalone PyPI package distribution.
+2025-11-16 10:51:52 | fxstein | ADD | 15 | Review and update DESIGN.md based on PyPI release requirements
+2025-11-16 10:42:26 | fxstein | ADD | 14 | Add CONTRIBUTING.md and CODE_OF_CONDUCT.md files
+2025-11-16 10:42:22 | fxstein | ADD | 13 | Set up semantic versioning and release tagging workflow
+2025-11-16 10:42:17 | fxstein | ADD | 12 | Create GitHub repository and push initial setup
+2025-11-16 10:42:13 | fxstein | ADD | 11 | Initialize git repository and create .gitignore for Python
+2025-11-16 10:42:09 | fxstein | ADD | 10 | Write README with project overview and AI agent installation prompt
+2025-11-16 10:42:05 | fxstein | ADD | 9 | Create comprehensive documentation (usage, examples, API)
+2025-11-16 10:42:01 | fxstein | ADD | 8 | Configure PyPI publishing workflow with GitHub Actions
+2025-11-16 10:41:57 | fxstein | ADD | 7 | Set up GitHub Actions CI/CD workflow (lint, test, build)
+2025-11-16 10:41:53 | fxstein | ADD | 6 | Add comprehensive test suite with pytest
+2025-11-16 10:41:49 | fxstein | ADD | 5 | Implement CLI interface with lint and fix commands
+2025-11-16 10:41:45 | fxstein | ADD | 4 | Create core linter module structure (detection, validation, fixing)
+2025-11-16 10:41:40 | fxstein | ADD | 3 | Set up development tooling (ruff, black, mypy, pytest)
+2025-11-16 10:41:36 | fxstein | ADD | 2 | Add Apache 2.0 license file and copyright headers
+2025-11-16 10:41:31 | fxstein | ADD | 1 | Initialize Python project structure with pyproject.toml and standard layout
