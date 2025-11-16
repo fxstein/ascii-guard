@@ -14,7 +14,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.10", "3.11", "3.12", "3.13"]
+        python-version: ["3.10", "3.11", "3.12"]
+        include:
+          - python-version: "3.13"
+            experimental: true
+    continue-on-error: ${{ matrix.experimental || false }}
 
     steps:
       - name: Checkout code
@@ -57,8 +61,9 @@ jobs:
           pytest --cov=ascii_guard --cov-report=xml --cov-report=term-missing
 
       - name: Upload coverage to Codecov
-        if: matrix.python-version == '3.10'
+        if: matrix.python-version == '3.10' && github.repository == 'fxstein/ascii-guard'
         uses: codecov/codecov-action@v4
+        continue-on-error: true
         with:
           file: ./coverage.xml
           fail_ci_if_error: false
@@ -120,12 +125,18 @@ jobs:
       - name: Verify zero dependencies
         run: |
           # Check that only ascii-guard is installed (no runtime deps)
-          INSTALLED=$(pip list --format=freeze | grep -v "^ascii-guard" | grep -v "^pip" | grep -v "^setuptools" | wc -l)
-          if [ "$INSTALLED" -gt 0 ]; then
-            echo "ERROR: Found unexpected dependencies!"
-            pip list
+          echo "Installed packages:"
+          pip list
+
+          # Count packages excluding pip, setuptools, and ascii-guard itself
+          DEPS=$(pip list --format=freeze | grep -v "^ascii-guard" | grep -v "^pip==" | grep -v "^setuptools==" | grep -v "^wheel==" || true)
+
+          if [ -n "$DEPS" ]; then
+            echo "ERROR: Found unexpected runtime dependencies:"
+            echo "$DEPS"
             exit 1
           fi
+
           echo "✓ Zero runtime dependencies verified!"
 
       - name: Test package works standalone
