@@ -2,6 +2,7 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2025-11-17 20:54:10 | fxstein | COMPLETE | 17.9 | Update CLI for directory scanning and config override
 2025-11-17 20:51:31 | fxstein | COMPLETE | 17.8 | Create directory scanner (recursive with filters)
 2025-11-17 20:39:55 | fxstein | COMPLETE | 17.7 | Create path matcher with pattern support (fnmatch + pathlib)
 2025-11-17 20:35:08 | fxstein | COMPLETE | 17.6 | Create config parser module (TOML discovery and parsing)
