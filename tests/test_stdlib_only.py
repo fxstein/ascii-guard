@@ -157,6 +157,7 @@ class TestStdlibOnly:
             "typing",
             "argparse",
             "sys",
+            "os",  # For directory walking
             "fnmatch",  # For pattern matching
         }
 

@@ -12,7 +12,7 @@
     > Update src/ascii_guard/cli.py. Detect directory vs file arguments. Directory: trigger scan_directory() with config filters. Files: process directly (bypass filters). Add --config <path> flag to override discovery. Add --show-config debug flag to print effective configuration.
   - [ ] **#17.8** Create directory scanner (recursive with filters) `#feature`
     > Create src/ascii_guard/scanner.py. Implement scan_directory() for recursive file discovery. Apply exclude/include patterns. Auto-detect text files (encoding check) vs binary. Respect max_file_size and follow_symlinks from config. Use DEFAULT_EXCLUDES when no config exists.
-  - [ ] **#17.7** Create path matcher with pattern support (fnmatch + pathlib) `#feature`
+  - [x] **#17.7** Create path matcher with pattern support (fnmatch + pathlib) `#feature`
     > Create src/ascii_guard/patterns.py. Implement match_path() using fnmatch + pathlib.Path.match(). Support patterns: *.ext, dir/, **/pattern/**, !negation (include override), # comments. Test edge cases: negation precedence, ** matching, directory vs file patterns.
   - [x] **#17.6** Create config parser module (TOML discovery and parsing) `#feature`
     > Create src/ascii_guard/config.py. Implement load_config() with discovery: .ascii-guard.toml → .ascii-guard → defaults. Parse [files] section with defaults. Return Config dataclass. Validate: warn on unknown keys, error on bad values. Default excludes: .git/, node_modules/, __pycache__/, .venv/, venv/, .tox/, build/, dist/, .mypy_cache/, .pytest_cache/, .ruff_cache/, *.egg-info/.
@@ -146,7 +146,7 @@
 
 ---
 
-**Last Updated:** Mon Nov 17 20:35:08 CET 2025
+**Last Updated:** Mon Nov 17 20:39:55 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata
