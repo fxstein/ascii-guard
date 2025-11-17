@@ -82,34 +82,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install -e .
 
-      - name: Create large test file
-        run: |
-          cat > large_test.md << 'EOF'
-          # Large Test File
-
-          This file contains many ASCII boxes for performance testing.
-          EOF
-
-          # Create 100 boxes
-          for i in $(seq 1 100); do
-            cat >> large_test.md << EOF
-
-          ## Box ${i}
-
-          ┌────────────────────┐
-          │ Performance test   │
-          │ Box number: ${i}   │
-          └────────────────────┘
-          EOF
-          done
-
       - name: Benchmark detection
         run: |
-          time python -m ascii_guard.cli lint large_test.md
+          time python -m ascii_guard.cli lint tests/fixtures/benchmark_test.md
 
       - name: Benchmark fixing
         run: |
-          time python -m ascii_guard.cli fix large_test.md --dry-run
+          time python -m ascii_guard.cli fix tests/fixtures/benchmark_test.md --dry-run
 
   notify-failures:
     name: Notify on Failure
