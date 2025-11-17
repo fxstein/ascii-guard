@@ -2,6 +2,9 @@
 # Format: TIMESTAMP | USER | STEP | MESSAGE
 # Generated: 2025-11-16
 #
+2025-11-17 21:04:45 | fxstein | PREPARE | Release preview prepared for v1.2.0
+2025-11-17 21:04:44 | fxstein | VERSION FILES UPDATED | Updated all version files to 1.2.0 (not yet committed)
+2025-11-17 21:04:44 | fxstein | RELEASE START | Starting release process: 1.1.0 → 1.2.0 (minor)
 2025-11-17 02:32:14 | fxstein | PUSH MAIN | Pushing main branch to origin
 2025-11-17 02:32:14 | fxstein | TAG CREATED | Git tag v1.1.0 created successfully
 2025-11-17 02:31:44 | fxstein | CREATE TAG | Creating git tag: v1.1.0
