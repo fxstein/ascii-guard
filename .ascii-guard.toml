@@ -1,0 +1,56 @@
+# .ascii-guard.toml
+# Configuration for ascii-guard linter
+# See docs/CONFIG_DESIGN.md for full documentation
+
+[files]
+# File extensions to scan (empty = all text files)
+# Uncomment and modify to restrict to specific extensions:
+# extensions = [".md", ".txt", ".rst"]
+extensions = []
+
+# Exclude patterns (gitignore-style)
+# Default excludes: .git/, node_modules/, __pycache__/, .venv/, venv/,
+#                   .tox/, build/, dist/, .mypy_cache/, .pytest_cache/,
+#                   .ruff_cache/, *.egg-info/
+# Add your own patterns here:
+exclude = [
+    ".git/",
+    "node_modules/",
+    "__pycache__/",
+    ".venv/",
+    "venv/",
+    ".tox/",
+    "build/",
+    "dist/",
+    ".mypy_cache/",
+    ".pytest_cache/",
+    ".ruff_cache/",
+    "*.egg-info/",
+    # Project-specific excludes:
+    "htmlcov/",
+    ".coverage",
+]
+
+# Include patterns (negation - override excludes)
+# Use ! prefix to include files that would otherwise be excluded
+include = [
+    # Example: Include important.md even though docs/ is excluded
+    # "!docs/important.md"
+]
+
+# Follow symbolic links when scanning directories
+follow_symlinks = false
+
+# Maximum file size to scan in MB (0 = unlimited)
+max_file_size = 10
+
+[rules]
+# Phase 2: Enable/disable specific validation rules (not yet implemented)
+# check_alignment = true
+# check_corners = true
+# check_width = true
+
+[output]
+# Phase 2: Output customization (not yet implemented)
+# color = "auto"  # auto, always, never
+# verbose = false
