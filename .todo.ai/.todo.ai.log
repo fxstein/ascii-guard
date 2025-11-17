@@ -2,6 +2,10 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2025-11-17 02:14:29 | fxstein | COMPLETE | 14 | Add CONTRIBUTING.md and CODE_OF_CONDUCT.md files
+2025-11-17 02:14:29 | fxstein | COMPLETE | 13 | Set up semantic versioning and release tagging workflow
+2025-11-17 02:14:29 | fxstein | COMPLETE | 9 | Create comprehensive documentation (usage, examples, API)
+2025-11-17 02:14:29 | fxstein | COMPLETE | 8 | Configure PyPI publishing workflow with GitHub Actions
 2025-11-17 02:13:43 | fxstein | ARCHIVE | 12 | Create GitHub repository and push initial setup (with 0 subtasks)
 2025-11-17 02:13:42 | fxstein | ARCHIVE | 11 | Initialize git repository and create .gitignore for Python (with 0 subtasks)
 2025-11-17 02:13:41 | fxstein | ARCHIVE | 10 | Write README with project overview and AI agent installation prompt (with 0 subtasks)

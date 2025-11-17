@@ -11,10 +11,10 @@
   - [ ] **#17.1** Create config parser module (read .ascii-guard, parse patterns) `#feature`
 - [ ] **#15** Review and update DESIGN.md based on PyPI release requirements `#documentation` `#design`
   > CRITICAL UPDATE NEEDED: DESIGN.md mentions dependencies (markdown, click, colorama) - these must be REMOVED. ascii-guard is ZERO dependency stdlib-only tool. Update dependencies section to reflect: Python 3.11+ stdlib only, NO external packages.
-- [ ] **#14** Add CONTRIBUTING.md and CODE_OF_CONDUCT.md files `#documentation` `#community`
-- [ ] **#13** Set up semantic versioning and release tagging workflow `#release` `#versioning`
-- [ ] **#9** Create comprehensive documentation (usage, examples, API) `#documentation`
-- [ ] **#8** Configure PyPI publishing workflow with GitHub Actions `#cicd` `#pypi`
+- [x] **#14** Add CONTRIBUTING.md and CODE_OF_CONDUCT.md files `#documentation` `#community`
+- [x] **#13** Set up semantic versioning and release tagging workflow `#release` `#versioning`
+- [x] **#9** Create comprehensive documentation (usage, examples, API) `#documentation`
+- [x] **#8** Configure PyPI publishing workflow with GitHub Actions `#cicd` `#pypi`
 - [x] **#7** Set up GitHub Actions CI/CD workflow (lint, test, build) `#cicd` `#automation`
   > GitHub Actions workflow must use 'pre-commit run --all-files' for consistency. Same hooks locally and in CI. Add matrix testing for Python 3.11, 3.12, 3.13. Cache pip and pre-commit environments.
 - [x] **#6** Add comprehensive test suite with pytest `#testing`
@@ -133,7 +133,7 @@
 
 ---
 
-**Last Updated:** Mon Nov 17 02:13:43 CET 2025
+**Last Updated:** Mon Nov 17 02:14:29 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata
