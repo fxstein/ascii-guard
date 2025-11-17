@@ -2,6 +2,7 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2025-11-17 01:04:54 | fxstein | ARCHIVE | 30 | Fix CI: Create and use venv in GitHub Actions (with 0 subtasks)
 2025-11-17 01:02:47 | fxstein | COMPLETE | 30 | Fix CI: Create and use venv in GitHub Actions
 2025-11-17 01:02:04 | fxstein | ADD | 30 | Fix CI: Create and use venv in GitHub Actions
 2025-11-17 00:53:44 | fxstein | ARCHIVE | 28 | Fix release notes: Script generates H1, AI summary has NO headers (with 5 subtasks)
