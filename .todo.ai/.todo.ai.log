@@ -2,6 +2,26 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2025-11-17 20:22:12 | fxstein | MODIFY | 17 | Implement .ascii-guard.toml config file with directory scanning
+2025-11-17 20:22:06 | fxstein | NOTE | 17.10 | Create tests/test_config.py, tests/test_patterns.py, tests/test_scanner.py. Test config: valid TOML, invalid values, missing keys, unknown keys (warnings). Test patterns: all supported patterns, negation, edge cases. Test scanner: with/without config, binary detection, size limits. Test CLI: file vs directory args, --config flag. Test Python 3.10 and 3.11+ compatibility.
+2025-11-17 20:21:59 | fxstein | NOTE | 17.9 | Update src/ascii_guard/cli.py. Detect directory vs file arguments. Directory: trigger scan_directory() with config filters. Files: process directly (bypass filters). Add --config <path> flag to override discovery. Add --show-config debug flag to print effective configuration.
+2025-11-17 20:21:52 | fxstein | NOTE | 17.8 | Create src/ascii_guard/scanner.py. Implement scan_directory() for recursive file discovery. Apply exclude/include patterns. Auto-detect text files (encoding check) vs binary. Respect max_file_size and follow_symlinks from config. Use DEFAULT_EXCLUDES when no config exists.
+2025-11-17 20:21:45 | fxstein | NOTE | 17.7 | Create src/ascii_guard/patterns.py. Implement match_path() using fnmatch + pathlib.Path.match(). Support patterns: *.ext, dir/, **/pattern/**, !negation (include override), # comments. Test edge cases: negation precedence, ** matching, directory vs file patterns.
+2025-11-17 20:21:38 | fxstein | NOTE | 17.6 | Create src/ascii_guard/config.py. Implement load_config() with discovery: .ascii-guard.toml → .ascii-guard → defaults. Parse [files] section with defaults. Return Config dataclass. Validate: warn on unknown keys, error on bad values. Default excludes: .git/, node_modules/, __pycache__/, .venv/, venv/, .tox/, build/, dist/, .mypy_cache/, .pytest_cache/, .ruff_cache/, *.egg-info/.
+2025-11-17 20:21:30 | fxstein | NOTE | 17.5 | Update pyproject.toml: dependencies = ['tomli>=2.0.0; python_version < "3.11"']. Create import wrapper: if sys.version_info >= (3,11): import tomllib else: import tomli as tomllib. Update README and DESIGN.md about conditional dependency. Test on both Python 3.10 and 3.11+.
+2025-11-17 20:21:22 | fxstein | ADD_SUBTASK | 17.10 | Add comprehensive tests (config, patterns, scanning, CLI) (parent: #17)
+2025-11-17 20:21:22 | fxstein | ADD_SUBTASK | 17.9 | Update CLI for directory scanning and config override (parent: #17)
+2025-11-17 20:21:22 | fxstein | ADD_SUBTASK | 17.8 | Create directory scanner (recursive with filters) (parent: #17)
+2025-11-17 20:21:22 | fxstein | ADD_SUBTASK | 17.7 | Create path matcher with pattern support (fnmatch + pathlib) (parent: #17)
+2025-11-17 20:21:22 | fxstein | ADD_SUBTASK | 17.6 | Create config parser module (TOML discovery and parsing) (parent: #17)
+2025-11-17 20:21:13 | fxstein | ADD_SUBTASK | 17.5 | Add tomli dependency and version-aware import (parent: #17)
+2025-11-17 20:21:00 | fxstein | DELETE | 17.4 | Add tests for config parsing and pattern matching
+2025-11-17 20:21:00 | fxstein | DELETE | 17.3 | Integrate config file loading into CLI (auto-detect or --config flag)
+2025-11-17 20:21:00 | fxstein | DELETE | 17.2 | Add path matcher with gitignore-style pattern support (fnmatch, pathlib)
+2025-11-17 20:20:59 | fxstein | DELETE | 17.1 | Create config parser module (read .ascii-guard, parse patterns)
+2025-11-17 20:20:54 | fxstein | NOTE | 17 | Design finalized in docs/CONFIG_DESIGN.md. TOML format (tomli for py3.10, tomllib for py3.11+). Support both .ascii-guard.toml and .ascii-guard. Includes directory scanning with smart defaults. Pattern matching: *.ext, dir/, **/pattern/**, !negation. Config validation: warn on unknown, error on bad values.
+2025-11-17 10:04:14 | fxstein | ARCHIVE | 15 | Review and update DESIGN.md based on PyPI release requirements (with 0 subtasks)
+2025-11-17 09:50:53 | fxstein | COMPLETE | 15 | Review and update DESIGN.md based on PyPI release requirements
 2025-11-17 02:15:17 | fxstein | ARCHIVE | 14 | Add CONTRIBUTING.md and CODE_OF_CONDUCT.md files (with 0 subtasks)
 2025-11-17 02:15:16 | fxstein | ARCHIVE | 13 | Set up semantic versioning and release tagging workflow (with 0 subtasks)
 2025-11-17 02:15:15 | fxstein | ARCHIVE | 9 | Create comprehensive documentation (with 0 subtasks)

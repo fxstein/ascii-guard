@@ -1,21 +1,21 @@
 # ascii-guard Design Documentation
 
-**Version**: 1.0
+**Version**: 1.1
 **Status**: Implemented
 **Python**: 3.10+
-**Dependencies**: Zero (Python stdlib only)
+**Dependencies**: Minimal (tomli for Python 3.10, zero for 3.11+)
 
 ---
 
 ## Overview
 
-`ascii-guard` is a zero-dependency Python linter for detecting and fixing misaligned ASCII art boxes in text and markdown documentation. It's designed as a standalone tool that can be installed via PyPI and used in development workflows, CI/CD pipelines, and pre-commit hooks.
+`ascii-guard` is a minimal-dependency Python linter for detecting and fixing misaligned ASCII art boxes in text and markdown documentation. It's designed as a standalone tool that can be installed via PyPI and used in development workflows, CI/CD pipelines, and pre-commit hooks.
 
 ### Key Design Principles
 
-1. **Zero Runtime Dependencies**: Uses only Python standard library
+1. **Minimal Runtime Dependencies**: Pure stdlib on Python 3.11+, one tiny dependency (tomli) for Python 3.10
 2. **Fast**: Pure Python, no external process calls
-3. **Standalone**: Works without any external tools or libraries
+3. **Standalone**: Works without complex external tools or libraries
 4. **Safe**: Non-destructive, preserves content
 5. **Simple**: Easy to install and use (`pip install ascii-guard`)
 
@@ -242,9 +242,9 @@ def main():
 
 ## Implementation Details
 
-### Zero Dependencies Strategy
+### Minimal Dependencies Strategy
 
-To achieve zero runtime dependencies, we use:
+To achieve minimal runtime dependencies, we use:
 
 | Need | Solution |
 |------|----------|
@@ -254,6 +254,7 @@ To achieve zero runtime dependencies, we use:
 | **Unicode handling** | Native Python 3.10+ Unicode support |
 | **Colored output** | Raw ANSI escape codes |
 | **Pattern matching** | `str.find()`, `str.index()` (stdlib) |
+| **Config parsing** | `tomllib` (stdlib 3.11+) or `tomli` (3.10 only) |
 | **Testing** | `pytest` (dev dependency only) |
 
 ### Character Detection
@@ -397,26 +398,37 @@ Each release includes:
 
 ## Future Enhancements
 
-**Not in v0.1.0, but planned:**
+### Planned for v1.2.0 (In Progress)
 
-1. **Config File Support** (v0.2.0)
-   - `.ascii-guard` file for exclusion patterns
-   - gitignore-style syntax
+1. **Config File Support** (Task #17)
+   - `.ascii-guard.toml` file for configuration
+   - File inclusion/exclusion patterns (gitignore-style)
+   - Directory scanning with smart defaults
+   - Configurable file extensions
+   - Max file size limits
+   - See `docs/CONFIG_DESIGN.md` for details
 
-2. **Additional Box Styles**
+### Future Releases
+
+2. **Rule Configuration** (v1.3.0+)
+   - Enable/disable specific validation rules
+   - Custom validation profiles
+   - Output format customization
+
+3. **Additional Box Styles** (v1.4.0+)
    - ASCII-style boxes (`+--+`)
    - Custom character sets
 
-3. **Advanced Validation**
+4. **Advanced Validation** (v2.0.0+)
    - Nested boxes
    - Complex flowcharts
    - Arrow alignment
 
-4. **Performance**
+5. **Performance** (v2.0.0+)
    - Parallel file processing
    - Incremental validation
 
-5. **Editor Integration**
+6. **Editor Integration** (v2.0.0+)
    - VS Code extension
    - Language server protocol
 
@@ -424,13 +436,14 @@ Each release includes:
 
 ## Design Decisions
 
-### Why Zero Dependencies?
+### Why Minimal Dependencies?
 
-1. **Reliability**: No external package breakage
-2. **Security**: Smaller attack surface
-3. **Speed**: No dependency resolution overhead
+1. **Reliability**: Few external packages means less breakage
+2. **Security**: Smaller attack surface (tomli is reference TOML implementation)
+3. **Speed**: Minimal dependency resolution overhead
 4. **Simplicity**: Easy to audit and maintain
 5. **Portability**: Works anywhere Python 3.10+ works
+6. **Strategic**: tomli became stdlib tomllib in 3.11, ensuring zero deps for modern Python
 
 ### Why Python 3.10+?
 
@@ -462,6 +475,6 @@ No existing tool validates ASCII art alignment:
 
 ---
 
-**Document Version**: 2.1 (Updated for Python 3.10+ support)
+**Document Version**: 2.2 (Updated for TOML config and minimal dependencies)
 **Last Updated**: 2025-11-17
-**Status**: Implementation Complete
+**Status**: Implementation Complete + Config Enhancement Planned

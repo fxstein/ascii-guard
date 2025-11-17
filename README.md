@@ -20,11 +20,11 @@ AI-generated ASCII flowcharts and diagrams often have subtle formatting errors w
 
 ### ✨ Key Features
 
-- 🚀 **ZERO runtime dependencies** - Pure Python stdlib only
+- 🚀 **Minimal dependencies** - Zero for Python 3.11+, one tiny dep for Python 3.10 (`tomli`)
 - 💾 **Tiny footprint** - Lightweight and fast
-- 🔒 **No supply chain risk** - No third-party code
+- 🔒 **Minimal supply chain risk** - Pure stdlib on 3.11+
 - ⚡ **Quick startup** - No import overhead
-- 📦 **Simple installation** - One command, no dependency hell
+- 📦 **Simple installation** - One command, automatic dependency handling
 - 🛡️ **Type-safe** - Full mypy strict mode
 - ✅ **Well tested** - Comprehensive test coverage
 
@@ -158,14 +158,16 @@ mypy src/
 
 ### Virtual Environment Isolation
 
-ascii-guard uses **strict virtual environment isolation** to ensure zero system pollution:
+ascii-guard uses **strict virtual environment isolation** to ensure minimal system pollution:
 
 ```bash
 # Development dependencies are isolated in .venv/
-# Runtime has ZERO dependencies (pure stdlib)
+# Runtime has minimal dependencies:
+#   - Python 3.11+: Zero dependencies (uses stdlib tomllib)
+#   - Python 3.10: One dependency (tomli for TOML config)
 # All tools (ruff, mypy, pytest) are dev-only
 
-# Verify zero runtime dependencies
+# Verify minimal runtime dependencies
 python -c "import ascii_guard; print('Success - no imports failed')"
 ```
 
@@ -197,7 +199,7 @@ We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guid
 
 ### Code Style
 
-- **Zero dependencies** - No external runtime dependencies allowed
+- **Minimal dependencies** - Only essential runtime dependencies (tomli for Python 3.10)
 - **Type-safe** - All code must pass `mypy --strict`
 - **Tested** - Maintain high test coverage
 - **Formatted** - Code is auto-formatted with ruff

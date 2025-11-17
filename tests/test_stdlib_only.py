@@ -169,17 +169,21 @@ class TestStdlibOnly:
 
         assert len(unexpected) == 0, f"Unexpected stdlib imports: {unexpected}"
 
-    def test_pyproject_zero_dependencies(self) -> None:
-        """Test that pyproject.toml declares zero runtime dependencies."""
+    def test_pyproject_minimal_dependencies(self) -> None:
+        """Test that pyproject.toml declares only minimal runtime dependencies.
+
+        Allowed dependencies:
+        - tomli>=2.0.0; python_version < '3.11' (for TOML config on Python 3.10)
+        """
         pyproject_file = Path(__file__).parent.parent / "pyproject.toml"
         assert pyproject_file.exists(), "pyproject.toml not found"
 
         content = pyproject_file.read_text()
 
-        # Find the [project] section
+        # Find the dependencies array in [project] section
         in_project = False
-        found_dependencies = False
-        is_empty = False
+        in_dependencies = False
+        dependencies: list[str] = []
 
         for line in content.split("\n"):
             if line.strip() == "[project]":
@@ -188,15 +192,36 @@ class TestStdlibOnly:
                 # Exited project section
                 break
             elif in_project and line.strip().startswith("dependencies"):
-                found_dependencies = True
-                # Check if it's empty array
-                if "[]" in line or line.strip().endswith("= []"):
-                    is_empty = True
+                in_dependencies = True
+                # Check if it's a single-line empty array
+                if "= []" in line:
+                    dependencies = []
+                    break
+            elif in_dependencies:
+                # Collect dependency lines until we hit a closing bracket or new section
+                stripped = line.strip()
+                if stripped.startswith("]"):
+                    break
+                elif stripped and not stripped.startswith("#"):
+                    # Remove quotes and whitespace
+                    dep = stripped.strip('",')
+                    if dep:
+                        dependencies.append(dep)
 
-        assert found_dependencies, "No dependencies field found in [project]"
-        assert is_empty, (
-            "CRITICAL: pyproject.toml must have 'dependencies = []' for ZERO runtime dependencies!"
+        # Verify only tomli for Python 3.10 is allowed
+        assert len(dependencies) <= 1, (
+            f"Too many runtime dependencies! Expected only tomli (conditional), got: {dependencies}"
         )
+
+        if dependencies:
+            dep = dependencies[0]
+            assert dep.startswith("tomli>="), (
+                f"Unexpected dependency: {dep}. "
+                f"Only 'tomli' is allowed for Python 3.10 TOML support."
+            )
+            assert "python_version < '3.11'" in dep or 'python_version < "3.11"' in dep, (
+                f"tomli must be conditional on python_version < '3.11', got: {dep}"
+            )
 
 
 class TestPackageCanRunStandalone:
