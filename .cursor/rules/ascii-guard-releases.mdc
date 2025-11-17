@@ -58,25 +58,29 @@ When the user says "Release ascii-guard" or similar:
 **BEFORE STARTING ANY RELEASE - CHECK CI/CD STATUS:**
 
 ```bash
-gh run list --limit 1
+./scripts/wait-for-ci.sh
 ```
 
-**If ANY workflow shows `failure` or `in_progress`:**
+**This script will:**
+- Check all active workflows
+- Wait for completion (up to 10 minutes)
+- Report success or failure with clean output
+- Exit with appropriate status code
+
+**If the script fails (exit code 1):**
 - **STOP IMMEDIATELY** - Do NOT start release preparation
 - Politely inform user: "CI/CD is currently failing. Cannot proceed with release until all checks pass."
-- Show which workflows failed: `gh run list --limit 5`
+- Ask user to check: `gh run list --limit 5`
 - Ask user to fix CI/CD errors first
 - Wait for user confirmation that CI/CD is fixed before proceeding
 
 **Only proceed if:**
-- Latest workflow shows: `completed` + `success`
-- No workflows are currently `in_progress`
+- `./scripts/wait-for-ci.sh` exits with code 0 (success)
 
 **During release preparation (after any commits):**
-- Monitor CI/CD: `gh run list --limit 3`
-- Wait for workflows to complete
-- Check status before proceeding to next step
-- If failures occur: STOP and report
+- Run `./scripts/wait-for-ci.sh` to wait for workflows
+- If it fails: STOP and report
+- Never proceed while CI/CD is failing
 
 **NEVER:**
 - Bypass CI/CD failures with manual workarounds
