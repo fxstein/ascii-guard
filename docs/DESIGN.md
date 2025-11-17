@@ -2,7 +2,7 @@
 
 **Version**: 1.0
 **Status**: Implemented
-**Python**: 3.12+
+**Python**: 3.10+
 **Dependencies**: Zero (Python stdlib only)
 
 ---
@@ -251,7 +251,7 @@ To achieve zero runtime dependencies, we use:
 | **CLI parsing** | `argparse` (stdlib) |
 | **File I/O** | `open()`, `pathlib` (stdlib) |
 | **Text processing** | `str` methods (stdlib) |
-| **Unicode handling** | Native Python 3.12 Unicode support |
+| **Unicode handling** | Native Python 3.10+ Unicode support |
 | **Colored output** | Raw ANSI escape codes |
 | **Pattern matching** | `str.find()`, `str.index()` (stdlib) |
 | **Testing** | `pytest` (dev dependency only) |
@@ -325,7 +325,7 @@ ascii-guard lint *.md --json
 `.pre-commit-config.yaml`:
 ```yaml
   - repo: https://github.com/fxstein/ascii-guard
-    rev: v0.1.0
+    rev: v1.1.0
     hooks:
       - id: ascii-guard
 ```
@@ -377,8 +377,8 @@ Comprehensive test suite with 91 tests covering:
 ```toml
 [project]
 name = "ascii-guard"
-version = "0.1.0"
-requires-python = ">=3.12"
+version = "1.1.0"
+requires-python = ">=3.10"
 dependencies = []  # ZERO runtime dependencies
 
 [project.optional-dependencies]
@@ -430,15 +430,16 @@ Each release includes:
 2. **Security**: Smaller attack surface
 3. **Speed**: No dependency resolution overhead
 4. **Simplicity**: Easy to audit and maintain
-5. **Portability**: Works anywhere Python 3.12+ works
+5. **Portability**: Works anywhere Python 3.10+ works
 
-### Why Python 3.12+?
+### Why Python 3.10+?
 
-- Modern type hints (`str | None`)
-- Performance improvements
-- Better Unicode handling
-- Match/case statements
-- Current stable version (EOL 2028)
+- Modern type hints (`str | None`) - available since 3.10
+- Stable and widely adopted versions
+- Good Unicode handling
+- Performance improvements over 3.9
+- Long support window (3.10 EOL Oct 2026, 3.11 EOL Oct 2027, 3.12 EOL Oct 2028)
+- Enables integration into existing projects still on 3.10/3.11
 
 ### Why Not Use Existing Tools?
 
@@ -461,6 +462,6 @@ No existing tool validates ASCII art alignment:
 
 ---
 
-**Document Version**: 2.0 (Reflects actual implementation)
-**Last Updated**: 2025-11-16
+**Document Version**: 2.1 (Updated for Python 3.10+ support)
+**Last Updated**: 2025-11-17
 **Status**: Implementation Complete
