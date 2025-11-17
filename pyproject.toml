@@ -7,7 +7,7 @@ name = "ascii-guard"
 version = "1.0.0"
 description = "A zero-dependency Python linter for detecting and fixing misaligned ASCII art boxes in documentation"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.10"
 license = "Apache-2.0"
 authors = [
     {name = "fxstein", email = "fxstein@users.noreply.github.com"}
@@ -17,6 +17,8 @@ classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Topic :: Software Development :: Quality Assurance",
     "Topic :: Text Processing",
@@ -76,7 +78,7 @@ ignore = []
 
 # MyPy configuration
 [tool.mypy]
-python_version = "3.12"
+python_version = "3.10"
 warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = true

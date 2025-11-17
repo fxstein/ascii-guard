@@ -15,7 +15,7 @@ echo ""
 
 # Check Python version
 PYTHON_VERSION=$(python3 --version 2>&1 | awk '{print $2}')
-REQUIRED_VERSION="3.12"
+REQUIRED_VERSION="3.10"
 
 echo "${BLUE}📌 Detected Python: ${PYTHON_VERSION}${NC}"
 

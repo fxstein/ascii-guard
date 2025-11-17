@@ -9,43 +9,47 @@ on:
 
 jobs:
   lint-and-test:
-    name: Lint & Test (Python 3.12)
+    name: Lint & Test (Python ${{ matrix.python-version }})
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
 
-      - name: Set up Python 3.12
+      - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: ${{ matrix.python-version }}
 
       - name: Cache pip packages
         uses: actions/cache@v4
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-3.12-${{ hashFiles('pyproject.toml') }}
+          key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('pyproject.toml') }}
           restore-keys: |
-            ${{ runner.os }}-pip-3.12-
+            ${{ runner.os }}-pip-${{ matrix.python-version }}-
             ${{ runner.os }}-pip-
 
       - name: Cache pre-commit hooks
         uses: actions/cache@v4
         with:
           path: ~/.cache/pre-commit
-          key: ${{ runner.os }}-pre-commit-3.12-${{ hashFiles('.pre-commit-config.yaml') }}
+          key: ${{ runner.os }}-pre-commit-${{ matrix.python-version }}-${{ hashFiles('.pre-commit-config.yaml') }}
           restore-keys: |
-            ${{ runner.os }}-pre-commit-3.12-
+            ${{ runner.os }}-pre-commit-${{ matrix.python-version }}-
             ${{ runner.os }}-pre-commit-
 
       - name: Cache venv
         uses: actions/cache@v4
         with:
           path: .venv
-          key: ${{ runner.os }}-venv-3.12-${{ hashFiles('pyproject.toml') }}
+          key: ${{ runner.os }}-venv-${{ matrix.python-version }}-${{ hashFiles('pyproject.toml') }}
           restore-keys: |
-            ${{ runner.os }}-venv-3.12-
+            ${{ runner.os }}-venv-${{ matrix.python-version }}-
             ${{ runner.os }}-venv-
 
       - name: Create and activate venv
@@ -66,7 +70,7 @@ jobs:
           pytest --cov=ascii_guard --cov-report=xml --cov-report=term-missing
 
       - name: Upload coverage to Codecov
-        if: github.repository == 'fxstein/ascii-guard'
+        if: github.repository == 'fxstein/ascii-guard' && matrix.python-version == '3.12'
         uses: codecov/codecov-action@v5
         continue-on-error: true
         with:
