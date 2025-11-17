@@ -3,10 +3,10 @@
 > **⚠️ IMPORTANT: This file should ONLY be edited through the `todo.ai` script!**
 
 ## Tasks
-- [ ] **#17** Implement .ascii-guard.toml config file with directory scanning `#feature`
+- [x] **#17** Implement .ascii-guard.toml config file with directory scanning `#feature`
   > Design finalized in docs/CONFIG_DESIGN.md. TOML format (tomli for py3.10, tomllib for py3.11+). Support both .ascii-guard.toml and .ascii-guard. Includes directory scanning with smart defaults. Pattern matching: *.ext, dir/, **/pattern/**, !negation. Config validation: warn on unknown, error on bad values.
   > ZERO dependencies: Use pathlib.Path.match() and fnmatch from stdlib. Config file format: .ascii-guard in project root or ~/.ascii-guard. Support gitignore syntax: *.log, build/, **/dist/**, !important.md (negation). CLI: auto-detect .ascii-guard, or --config flag to override. Example patterns: node_modules/, .git/, **/__pycache__/**, *.tmp
-  - [ ] **#17.10** Add comprehensive tests (config, patterns, scanning, CLI) `#feature`
+  - [x] **#17.10** Add comprehensive tests (config, patterns, scanning, CLI) `#feature`
     > Create tests/test_config.py, tests/test_patterns.py, tests/test_scanner.py. Test config: valid TOML, invalid values, missing keys, unknown keys (warnings). Test patterns: all supported patterns, negation, edge cases. Test scanner: with/without config, binary detection, size limits. Test CLI: file vs directory args, --config flag. Test Python 3.10 and 3.11+ compatibility.
   - [x] **#17.9** Update CLI for directory scanning and config override `#feature`
     > Update src/ascii_guard/cli.py. Detect directory vs file arguments. Directory: trigger scan_directory() with config filters. Files: process directly (bypass filters). Add --config <path> flag to override discovery. Add --show-config debug flag to print effective configuration.
@@ -146,7 +146,7 @@
 
 ---
 
-**Last Updated:** Mon Nov 17 20:54:10 CET 2025
+**Last Updated:** Mon Nov 17 20:56:24 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata
