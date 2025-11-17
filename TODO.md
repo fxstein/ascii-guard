@@ -13,12 +13,6 @@
   > CRITICAL UPDATE NEEDED: DESIGN.md mentions dependencies (markdown, click, colorama) - these must be REMOVED. ascii-guard is ZERO dependency stdlib-only tool. Update dependencies section to reflect: Python 3.11+ stdlib only, NO external packages.
 - [ ] **#14** Add CONTRIBUTING.md and CODE_OF_CONDUCT.md files `#documentation` `#community`
 - [ ] **#13** Set up semantic versioning and release tagging workflow `#release` `#versioning`
-- [x] **#12** Create GitHub repository and push initial setup `#setup` `#github`
-- [x] **#11** Initialize git repository and create .gitignore for Python `#setup` `#git`
-  > Python .gitignore must include: .venv/, venv/, __pycache__/, *.pyc, *.pyo, *.egg-info/, dist/, build/, .pytest_cache/, .mypy_cache/, .ruff_cache/, .coverage, htmlcov/. Use GitHub's Python template as base.
-- [x] **#10** Write README with project overview and AI agent installation prompt `#documentation`
-  > Emphasize in README: 'ZERO dependencies - pure Python stdlib only'. This is a KEY FEATURE. AI agent prompt should be: 'pip install ascii-guard' (no other deps needed). Highlight: lightweight, fast, no dependency hell.
-  > README must include: (1) AI agent prompt for pip install, (2) Developer setup with venv isolation, (3) pre-commit installation instructions. Example: 'Install: python -m venv .venv && source .venv/bin/activate && pip install ascii-guard' for users, 'git clone && ./setup-venv.sh && pre-commit install' for contributors.
 - [ ] **#9** Create comprehensive documentation (usage, examples, API) `#documentation`
 - [ ] **#8** Configure PyPI publishing workflow with GitHub Actions `#cicd` `#pypi`
 - [x] **#7** Set up GitHub Actions CI/CD workflow (lint, test, build) `#cicd` `#automation`
@@ -45,6 +39,12 @@
 ------------------
 
 ## Recently Completed
+- [x] **#12** Create GitHub repository and push initial setup `#setup` `#github` (2025-11-17)
+- [x] **#11** Initialize git repository and create .gitignore for Python `#setup` `#git` (2025-11-17)
+  > Python .gitignore must include: .venv/, venv/, __pycache__/, *.pyc, *.pyo, *.egg-info/, dist/, build/, .pytest_cache/, .mypy_cache/, .ruff_cache/, .coverage, htmlcov/. Use GitHub's Python template as base.
+- [x] **#10** Write README with project overview and AI agent installation prompt `#documentation` (2025-11-17)
+  > Emphasize in README: 'ZERO dependencies - pure Python stdlib only'. This is a KEY FEATURE. AI agent prompt should be: 'pip install ascii-guard' (no other deps needed). Highlight: lightweight, fast, no dependency hell.
+  > README must include: (1) AI agent prompt for pip install, (2) Developer setup with venv isolation, (3) pre-commit installation instructions. Example: 'Install: python -m venv .venv && source .venv/bin/activate && pip install ascii-guard' for users, 'git clone && ./setup-venv.sh && pre-commit install' for contributors.
 - [x] **#16** Adapt release process for ascii-guard (release.sh, RELEASE.md, Cursor rules) `#release` `#automation` (2025-11-17)
   - [x] **#16.5** Test complete release workflow end-to-end `#release` (2025-11-17)
     > TESTING UPDATED with dry-run mode:
@@ -133,7 +133,7 @@
 
 ---
 
-**Last Updated:** Mon Nov 17 02:12:43 CET 2025
+**Last Updated:** Mon Nov 17 02:13:43 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata
