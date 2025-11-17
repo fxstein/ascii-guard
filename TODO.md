@@ -9,7 +9,7 @@
   - [ ] **#17.3** Integrate config file loading into CLI (auto-detect or --config flag) `#feature`
   - [ ] **#17.2** Add path matcher with gitignore-style pattern support (fnmatch, pathlib) `#feature`
   - [ ] **#17.1** Create config parser module (read .ascii-guard, parse patterns) `#feature`
-- [ ] **#15** Review and update DESIGN.md based on PyPI release requirements `#documentation` `#design`
+- [x] **#15** Review and update DESIGN.md based on PyPI release requirements `#documentation` `#design`
   > CRITICAL UPDATE NEEDED: DESIGN.md mentions dependencies (markdown, click, colorama) - these must be REMOVED. ascii-guard is ZERO dependency stdlib-only tool. Update dependencies section to reflect: Python 3.11+ stdlib only, NO external packages.
 
 ------------------
@@ -133,7 +133,7 @@
 
 ---
 
-**Last Updated:** Mon Nov 17 02:15:16 CET 2025
+**Last Updated:** Mon Nov 17 09:50:54 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata
