@@ -3,7 +3,6 @@
 > **⚠️ IMPORTANT: This file should ONLY be edited through the `todo.ai` script!**
 
 ## Tasks
-- [x] **#32** Create clean CI/CD monitoring helper script
 - [x] **#29** Harden pyenv+venv setup to prevent global Python pollution
   > PROBLEM: Current setup is fragile - relies on remembering to activate venv. We polluted pyenv global with pytest/pytest-cov during task#24 fixes. Pre-commit uses 'language: system' which depends on whatever Python is in PATH. SOLUTION: 1) Clean pyenv global (keep it pristine). 2) Change pre-commit pytest hook to explicitly use '.venv/bin/python -m pytest' so it always uses venv Python. 3) Add venv checks to critical scripts (release.sh). 4) Document in Cursor rules: NEVER pip install in pyenv global, ALWAYS use venv. 5) Test that commits work from fresh shell without manual venv activation.
   - [x] **#29.5** Test: Verify pre-commit works from fresh shell (no venv activated)
@@ -81,6 +80,7 @@
 ------------------
 
 ## Recently Completed
+- [x] **#32** Create clean CI/CD monitoring helper script (2025-11-17)
 - [x] **#31** Fix release.sh to use .venv/bin/python for package build (2025-11-17)
 - [x] **#30** Fix CI: Create and use venv in GitHub Actions (2025-11-17)
 - [x] **#28** Fix release notes: Script generates H1, AI summary has NO headers (2025-11-17)
@@ -133,7 +133,7 @@
 
 ---
 
-**Last Updated:** Mon Nov 17 01:58:21 CET 2025
+**Last Updated:** Mon Nov 17 01:59:08 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata
