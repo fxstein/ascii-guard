@@ -14,9 +14,9 @@
     > Create src/ascii_guard/scanner.py. Implement scan_directory() for recursive file discovery. Apply exclude/include patterns. Auto-detect text files (encoding check) vs binary. Respect max_file_size and follow_symlinks from config. Use DEFAULT_EXCLUDES when no config exists.
   - [ ] **#17.7** Create path matcher with pattern support (fnmatch + pathlib) `#feature`
     > Create src/ascii_guard/patterns.py. Implement match_path() using fnmatch + pathlib.Path.match(). Support patterns: *.ext, dir/, **/pattern/**, !negation (include override), # comments. Test edge cases: negation precedence, ** matching, directory vs file patterns.
-  - [ ] **#17.6** Create config parser module (TOML discovery and parsing) `#feature`
+  - [x] **#17.6** Create config parser module (TOML discovery and parsing) `#feature`
     > Create src/ascii_guard/config.py. Implement load_config() with discovery: .ascii-guard.toml → .ascii-guard → defaults. Parse [files] section with defaults. Return Config dataclass. Validate: warn on unknown keys, error on bad values. Default excludes: .git/, node_modules/, __pycache__/, .venv/, venv/, .tox/, build/, dist/, .mypy_cache/, .pytest_cache/, .ruff_cache/, *.egg-info/.
-  - [ ] **#17.5** Add tomli dependency and version-aware import `#feature`
+  - [x] **#17.5** Add tomli dependency and version-aware import `#feature`
     > Update pyproject.toml: dependencies = ['tomli>=2.0.0; python_version < "3.11"']. Create import wrapper: if sys.version_info >= (3,11): import tomllib else: import tomli as tomllib. Update README and DESIGN.md about conditional dependency. Test on both Python 3.10 and 3.11+.
 
 ------------------
@@ -146,7 +146,7 @@
 
 ---
 
-**Last Updated:** Mon Nov 17 20:31:22 CET 2025
+**Last Updated:** Mon Nov 17 20:35:08 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata
