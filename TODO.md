@@ -9,34 +9,6 @@
   - [ ] **#17.3** Integrate config file loading into CLI (auto-detect or --config flag) `#feature`
   - [ ] **#17.2** Add path matcher with gitignore-style pattern support (fnmatch, pathlib) `#feature`
   - [ ] **#17.1** Create config parser module (read .ascii-guard, parse patterns) `#feature`
-- [x] **#16** Adapt release process for ascii-guard (release.sh, RELEASE.md, Cursor rules) `#release` `#automation`
-  - [x] **#16.5** Test complete release workflow end-to-end `#release`
-    > TESTING UPDATED with dry-run mode:
-    > ✅ --prepare mode: Tested with multiple commit types
-    > ✅ --set-version mode: Tested with valid/invalid inputs
-    > ✅ --execute --dry-run: Full end-to-end simulation without git operations
-    > ✅ Process invalidation: Detects commits after prepare
-    > ✅ Comprehensive testing guide: release/TESTING.md documents full test suite
-    > ⚠️  Real execute mode NOT tested (requires actual release to GitHub/PyPI)
-    >
-    > Use './release/release.sh --execute --dry-run' to test releases safely
-    > TESTING COMPLETE - All release workflow components verified:
-    > ✅ --prepare mode: Analyzes commits, determines version bump (minor: 0.1.0 → 0.2.0), generates release notes with categorized commits
-    > ✅ --set-version mode: Overrides version (tested 1.0.0), validates format and progression, updates release notes header
-    > ✅ Release notes generation: Includes AI summary, categorizes commits (Added/Changed/Fixed), links to GitHub commits
-    > ✅ Semantic versioning: Correctly detects feat: (minor), fix: (patch), BREAKING (major)
-    > ✅ Version file updates: Ready for pyproject.toml and __init__.py
-    > ✅ Cursor AI rules: Comprehensive guidance for AI-assisted releases
-    > ⚠️  Execute mode NOT tested (requires actual release to GitHub/PyPI)
-    > Manual testing checklist: test on clean clone, test with no commits, test breaking changes, test version override (valid/invalid), test execute without prepare (should fail), test dirty working dir (should fail), verify GitHub Actions trigger. See RELEASE_DESIGN.md Testing Strategy for details.
-  - [x] **#16.4** Create .cursor/rules/ascii-guard-releases.mdc for AI release guidance `#release`
-    > Create Cursor AI rule file guiding agent through 4-step release process: (1) Write AI summary, (2) Run prepare, (3) Human review, (4) Run execute. Include safeguards: never modify release.sh logic, always wait for approval. See RELEASE_DESIGN.md Phase 4 for details.
-  - [x] **#16.3** Implement release.sh execute mode with GitHub tag push `#release`
-    > Implement cmd_execute(), update_version_files() (pyproject.toml + __init__.py), create_git_tag(), push_to_github(). NO direct PyPI publish - GitHub Actions handles that via trusted publishing. See RELEASE_DESIGN.md Phase 3 for details.
-  - [x] **#16.2** Implement release.sh set-version override mode `#release`
-    > Implement cmd_set_version(), validate_version_format() (X.Y.Z format), validate_version_gt() (new > current). Update release/RELEASE_NOTES.md header with new version. See RELEASE_DESIGN.md Step 3b for details.
-  - [x] **#16.1** Implement release.sh core functions and prepare mode `#release`
-    > Implement core functions: get_current_version(), get_last_release_tag(), get_commits_since_tag(), categorize_commit(), determine_version_bump(). Implement cmd_prepare(), generate_release_notes(), save_prepare_state(). See RELEASE_DESIGN.md Phase 1 for details.
 - [ ] **#15** Review and update DESIGN.md based on PyPI release requirements `#documentation` `#design`
   > CRITICAL UPDATE NEEDED: DESIGN.md mentions dependencies (markdown, click, colorama) - these must be REMOVED. ascii-guard is ZERO dependency stdlib-only tool. Update dependencies section to reflect: Python 3.11+ stdlib only, NO external packages.
 - [ ] **#14** Add CONTRIBUTING.md and CODE_OF_CONDUCT.md files `#documentation` `#community`
@@ -73,6 +45,34 @@
 ------------------
 
 ## Recently Completed
+- [x] **#16** Adapt release process for ascii-guard (release.sh, RELEASE.md, Cursor rules) `#release` `#automation` (2025-11-17)
+  - [x] **#16.5** Test complete release workflow end-to-end `#release` (2025-11-17)
+    > TESTING UPDATED with dry-run mode:
+    > ✅ --prepare mode: Tested with multiple commit types
+    > ✅ --set-version mode: Tested with valid/invalid inputs
+    > ✅ --execute --dry-run: Full end-to-end simulation without git operations
+    > ✅ Process invalidation: Detects commits after prepare
+    > ✅ Comprehensive testing guide: release/TESTING.md documents full test suite
+    > ⚠️  Real execute mode NOT tested (requires actual release to GitHub/PyPI)
+    >
+    > Use './release/release.sh --execute --dry-run' to test releases safely
+    > TESTING COMPLETE - All release workflow components verified:
+    > ✅ --prepare mode: Analyzes commits, determines version bump (minor: 0.1.0 → 0.2.0), generates release notes with categorized commits
+    > ✅ --set-version mode: Overrides version (tested 1.0.0), validates format and progression, updates release notes header
+    > ✅ Release notes generation: Includes AI summary, categorizes commits (Added/Changed/Fixed), links to GitHub commits
+    > ✅ Semantic versioning: Correctly detects feat: (minor), fix: (patch), BREAKING (major)
+    > ✅ Version file updates: Ready for pyproject.toml and __init__.py
+    > ✅ Cursor AI rules: Comprehensive guidance for AI-assisted releases
+    > ⚠️  Execute mode NOT tested (requires actual release to GitHub/PyPI)
+    > Manual testing checklist: test on clean clone, test with no commits, test breaking changes, test version override (valid/invalid), test execute without prepare (should fail), test dirty working dir (should fail), verify GitHub Actions trigger. See RELEASE_DESIGN.md Testing Strategy for details.
+  - [x] **#16.4** Create .cursor/rules/ascii-guard-releases.mdc for AI release guidance `#release` (2025-11-17)
+    > Create Cursor AI rule file guiding agent through 4-step release process: (1) Write AI summary, (2) Run prepare, (3) Human review, (4) Run execute. Include safeguards: never modify release.sh logic, always wait for approval. See RELEASE_DESIGN.md Phase 4 for details.
+  - [x] **#16.3** Implement release.sh execute mode with GitHub tag push `#release` (2025-11-17)
+    > Implement cmd_execute(), update_version_files() (pyproject.toml + __init__.py), create_git_tag(), push_to_github(). NO direct PyPI publish - GitHub Actions handles that via trusted publishing. See RELEASE_DESIGN.md Phase 3 for details.
+  - [x] **#16.2** Implement release.sh set-version override mode `#release` (2025-11-17)
+    > Implement cmd_set_version(), validate_version_format() (X.Y.Z format), validate_version_gt() (new > current). Update release/RELEASE_NOTES.md header with new version. See RELEASE_DESIGN.md Step 3b for details.
+  - [x] **#16.1** Implement release.sh core functions and prepare mode `#release` (2025-11-17)
+    > Implement core functions: get_current_version(), get_last_release_tag(), get_commits_since_tag(), categorize_commit(), determine_version_bump(). Implement cmd_prepare(), generate_release_notes(), save_prepare_state(). See RELEASE_DESIGN.md Phase 1 for details.
 - [x] **#29** Harden pyenv+venv setup to prevent global Python pollution (2025-11-17)
   > PROBLEM: Current setup is fragile - relies on remembering to activate venv. We polluted pyenv global with pytest/pytest-cov during task#24 fixes. Pre-commit uses 'language: system' which depends on whatever Python is in PATH. SOLUTION: 1) Clean pyenv global (keep it pristine). 2) Change pre-commit pytest hook to explicitly use '.venv/bin/python -m pytest' so it always uses venv Python. 3) Add venv checks to critical scripts (release.sh). 4) Document in Cursor rules: NEVER pip install in pyenv global, ALWAYS use venv. 5) Test that commits work from fresh shell without manual venv activation.
   - [x] **#29.5** Test: Verify pre-commit works from fresh shell (no venv activated) (2025-11-17)
@@ -133,7 +133,7 @@
 
 ---
 
-**Last Updated:** Mon Nov 17 02:10:22 CET 2025
+**Last Updated:** Mon Nov 17 02:12:43 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata

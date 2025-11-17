@@ -2,6 +2,7 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2025-11-17 02:12:44 | fxstein | ARCHIVE | 16 | Adapt release process for ascii-guard (with 5 subtasks)
 2025-11-17 02:10:22 | fxstein | ARCHIVE | 29 | Harden pyenv+venv setup to prevent global Python pollution (with 5 subtasks)
 2025-11-17 01:59:08 | fxstein | ARCHIVE | 32 | Create clean CI/CD monitoring helper script (with 0 subtasks)
 2025-11-17 01:58:21 | fxstein | COMPLETE | 32 | Create clean CI/CD monitoring helper script
