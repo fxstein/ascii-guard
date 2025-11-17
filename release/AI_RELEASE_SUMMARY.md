@@ -1,5 +1,3 @@
-# ascii-guard v1.1.0
-
 This release expands Python version compatibility and fixes CI testing infrastructure.
 
 **Python Version Support Expansion**
@@ -51,22 +49,3 @@ Or integrate into pre-commit hooks for Python 3.10+ projects:
 - 100% backward compatible with existing Python 3.12 users
 - No breaking changes to API or CLI interface
 - Zero runtime dependencies maintained
-
----
-
-### ✨ Added
-
-- feat: Add support for Python 3.10 and 3.11 ([f14e862](https://github.com/fxstein/ascii-guard/commit/f14e8628ecf70358287af21e281cebbdb507bd04))
-- feat(task#32): Add clean CI/CD monitoring helper scripts ✅ ([7aa3203](https://github.com/fxstein/ascii-guard/commit/7aa32036d3ba3d32c4b45edd1cc031d7fd526d92))
-
-### 🔄 Changed
-
-- chore: Update release log for 1.0.0 ([b009a4c](https://github.com/fxstein/ascii-guard/commit/b009a4c6fb5c70f47d758320869b3d5fd1608ce6))
-
-### 🐛 Fixed
-
-- fix: Use static benchmark test file to prevent scheduled test failures ([926cf1a](https://github.com/fxstein/ascii-guard/commit/926cf1a1c84a5bb3a131e0fb522193e1a2e2b55e))
-
-*Documentation, maintenance, and other commits: 6*
-
-*Total commits: 10*
