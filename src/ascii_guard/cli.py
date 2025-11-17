@@ -23,7 +23,9 @@ from pathlib import Path
 from typing import NoReturn
 
 from ascii_guard import __version__
+from ascii_guard.config import load_config
 from ascii_guard.linter import fix_file, lint_file
+from ascii_guard.scanner import scan_paths
 
 # ANSI color codes (no colorama needed - stdlib only)
 COLOR_RED = "\033[91m"
@@ -61,16 +63,42 @@ def cmd_lint(args: argparse.Namespace) -> int:
     total_warnings = 0
     total_boxes = 0
 
-    for file_path in args.files:
-        path = Path(file_path)
+    # Load config
+    config = load_config(args.config) if hasattr(args, "config") and args.config else None
 
+    # Show config if requested
+    if hasattr(args, "show_config") and args.show_config:
+        if config:
+            print(f"{COLOR_BLUE}Config loaded from: {args.config}{COLOR_RESET}")
+            print(f"  Extensions: {config.extensions or 'all text files'}")
+            print(f"  Exclude: {config.exclude}")
+            print(f"  Include: {config.include}")
+            print(f"  Follow symlinks: {config.follow_symlinks}")
+            print(f"  Max file size: {config.max_file_size}MB")
+        else:
+            print(f"{COLOR_BLUE}Using default config (no .ascii-guard.toml found){COLOR_RESET}")
+        print()
+
+    # Check that input paths exist
+    for input_path in args.files:
+        path = Path(input_path)
         if not path.exists():
-            print_error(f"File not found: {file_path}")
+            print_error(f"Path not found: {input_path}")
             exit_code = 1
-            continue
 
+    if exit_code != 0:
+        return exit_code
+
+    # Scan paths (handles both files and directories)
+    file_paths = scan_paths(args.files, config)
+
+    if not file_paths:
+        print_warning("No files found to lint")
+        return 0
+
+    for file_path in file_paths:
         try:
-            result = lint_file(str(path))
+            result = lint_file(str(file_path))
             total_boxes += result.boxes_found
 
             if not args.quiet:
@@ -101,7 +129,7 @@ def cmd_lint(args: argparse.Namespace) -> int:
 
     # Summary
     print(f"\n{COLOR_BOLD}Summary:{COLOR_RESET}")
-    print(f"  Files checked: {len(args.files)}")
+    print(f"  Files checked: {len(file_paths)}")
     print(f"  Boxes found: {total_boxes}")
 
     if total_errors > 0:
@@ -120,16 +148,29 @@ def cmd_fix(args: argparse.Namespace) -> int:
     exit_code = 0
     total_fixed = 0
 
-    for file_path in args.files:
-        path = Path(file_path)
+    # Load config
+    config = load_config(args.config) if hasattr(args, "config") and args.config else None
 
+    # Check that input paths exist
+    for input_path in args.files:
+        path = Path(input_path)
         if not path.exists():
-            print_error(f"File not found: {file_path}")
+            print_error(f"Path not found: {input_path}")
             exit_code = 1
-            continue
 
+    if exit_code != 0:
+        return exit_code
+
+    # Scan paths (handles both files and directories)
+    file_paths = scan_paths(args.files, config)
+
+    if not file_paths:
+        print_warning("No files found to fix")
+        return 0
+
+    for file_path in file_paths:
         try:
-            boxes_fixed, _ = fix_file(str(path), dry_run=args.dry_run)
+            boxes_fixed, _ = fix_file(str(file_path), dry_run=args.dry_run)
             total_fixed += boxes_fixed
 
             if boxes_fixed > 0:
@@ -146,7 +187,7 @@ def cmd_fix(args: argparse.Namespace) -> int:
 
     # Summary
     print(f"\n{COLOR_BOLD}Summary:{COLOR_RESET}")
-    print(f"  Files processed: {len(args.files)}")
+    print(f"  Files processed: {len(file_paths)}")
 
     if args.dry_run:
         print_info(f"  Boxes that would be fixed: {total_fixed}")
@@ -174,21 +215,36 @@ def main() -> NoReturn:
 
     # Lint command
     lint_parser = subparsers.add_parser("lint", help="Check files for ASCII art issues")
-    lint_parser.add_argument("files", nargs="+", help="Files to lint")
+    lint_parser.add_argument("files", nargs="+", help="Files or directories to lint")
     lint_parser.add_argument(
         "-q",
         "--quiet",
         action="store_true",
         help="Only show errors, no detailed output",
     )
+    lint_parser.add_argument(
+        "--config",
+        type=str,
+        help="Path to config file (default: auto-detect .ascii-guard.toml)",
+    )
+    lint_parser.add_argument(
+        "--show-config",
+        action="store_true",
+        help="Show effective configuration and exit",
+    )
 
     # Fix command
     fix_parser = subparsers.add_parser("fix", help="Auto-fix ASCII art issues")
-    fix_parser.add_argument("files", nargs="+", help="Files to fix")
+    fix_parser.add_argument("files", nargs="+", help="Files or directories to fix")
     fix_parser.add_argument(
         "--dry-run",
         action="store_true",
         help="Show what would be fixed without making changes",
+    )
+    fix_parser.add_argument(
+        "--config",
+        type=str,
+        help="Path to config file (default: auto-detect .ascii-guard.toml)",
     )
 
     args = parser.parse_args()

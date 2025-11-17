@@ -10,7 +10,7 @@
     > Create tests/test_config.py, tests/test_patterns.py, tests/test_scanner.py. Test config: valid TOML, invalid values, missing keys, unknown keys (warnings). Test patterns: all supported patterns, negation, edge cases. Test scanner: with/without config, binary detection, size limits. Test CLI: file vs directory args, --config flag. Test Python 3.10 and 3.11+ compatibility.
   - [ ] **#17.9** Update CLI for directory scanning and config override `#feature`
     > Update src/ascii_guard/cli.py. Detect directory vs file arguments. Directory: trigger scan_directory() with config filters. Files: process directly (bypass filters). Add --config <path> flag to override discovery. Add --show-config debug flag to print effective configuration.
-  - [ ] **#17.8** Create directory scanner (recursive with filters) `#feature`
+  - [x] **#17.8** Create directory scanner (recursive with filters) `#feature`
     > Create src/ascii_guard/scanner.py. Implement scan_directory() for recursive file discovery. Apply exclude/include patterns. Auto-detect text files (encoding check) vs binary. Respect max_file_size and follow_symlinks from config. Use DEFAULT_EXCLUDES when no config exists.
   - [x] **#17.7** Create path matcher with pattern support (fnmatch + pathlib) `#feature`
     > Create src/ascii_guard/patterns.py. Implement match_path() using fnmatch + pathlib.Path.match(). Support patterns: *.ext, dir/, **/pattern/**, !negation (include override), # comments. Test edge cases: negation precedence, ** matching, directory vs file patterns.
@@ -146,7 +146,7 @@
 
 ---
 
-**Last Updated:** Mon Nov 17 20:39:55 CET 2025
+**Last Updated:** Mon Nov 17 20:51:31 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata
