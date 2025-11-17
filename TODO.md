@@ -3,13 +3,6 @@
 > **⚠️ IMPORTANT: This file should ONLY be edited through the `todo.ai` script!**
 
 ## Tasks
-- [x] **#29** Harden pyenv+venv setup to prevent global Python pollution
-  > PROBLEM: Current setup is fragile - relies on remembering to activate venv. We polluted pyenv global with pytest/pytest-cov during task#24 fixes. Pre-commit uses 'language: system' which depends on whatever Python is in PATH. SOLUTION: 1) Clean pyenv global (keep it pristine). 2) Change pre-commit pytest hook to explicitly use '.venv/bin/python -m pytest' so it always uses venv Python. 3) Add venv checks to critical scripts (release.sh). 4) Document in Cursor rules: NEVER pip install in pyenv global, ALWAYS use venv. 5) Test that commits work from fresh shell without manual venv activation.
-  - [x] **#29.5** Test: Verify pre-commit works from fresh shell (no venv activated)
-  - [x] **#29.4** Update .cursor/rules: AI must NEVER install packages in pyenv global
-  - [x] **#29.3** Add venv validation to release.sh and other scripts
-  - [x] **#29.2** Fix pre-commit to use .venv/bin/python explicitly (not system)
-  - [x] **#29.1** Clean up pyenv global: uninstall pytest, pytest-cov
 - [ ] **#17** Implement .ascii-guard config file with gitignore-style exclusion patterns `#feature`
   > ZERO dependencies: Use pathlib.Path.match() and fnmatch from stdlib. Config file format: .ascii-guard in project root or ~/.ascii-guard. Support gitignore syntax: *.log, build/, **/dist/**, !important.md (negation). CLI: auto-detect .ascii-guard, or --config flag to override. Example patterns: node_modules/, .git/, **/__pycache__/**, *.tmp
   - [ ] **#17.4** Add tests for config parsing and pattern matching `#feature`
@@ -80,6 +73,13 @@
 ------------------
 
 ## Recently Completed
+- [x] **#29** Harden pyenv+venv setup to prevent global Python pollution (2025-11-17)
+  > PROBLEM: Current setup is fragile - relies on remembering to activate venv. We polluted pyenv global with pytest/pytest-cov during task#24 fixes. Pre-commit uses 'language: system' which depends on whatever Python is in PATH. SOLUTION: 1) Clean pyenv global (keep it pristine). 2) Change pre-commit pytest hook to explicitly use '.venv/bin/python -m pytest' so it always uses venv Python. 3) Add venv checks to critical scripts (release.sh). 4) Document in Cursor rules: NEVER pip install in pyenv global, ALWAYS use venv. 5) Test that commits work from fresh shell without manual venv activation.
+  - [x] **#29.5** Test: Verify pre-commit works from fresh shell (no venv activated) (2025-11-17)
+  - [x] **#29.4** Update .cursor/rules: AI must NEVER install packages in pyenv global (2025-11-17)
+  - [x] **#29.3** Add venv validation to release.sh and other scripts (2025-11-17)
+  - [x] **#29.2** Fix pre-commit to use .venv/bin/python explicitly (not system) (2025-11-17)
+  - [x] **#29.1** Clean up pyenv global: uninstall pytest, pytest-cov (2025-11-17)
 - [x] **#32** Create clean CI/CD monitoring helper script (2025-11-17)
 - [x] **#31** Fix release.sh to use .venv/bin/python for package build (2025-11-17)
 - [x] **#30** Fix CI: Create and use venv in GitHub Actions (2025-11-17)
@@ -133,7 +133,7 @@
 
 ---
 
-**Last Updated:** Mon Nov 17 01:59:08 CET 2025
+**Last Updated:** Mon Nov 17 02:10:22 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata
