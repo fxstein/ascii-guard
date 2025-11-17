@@ -2,6 +2,17 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2025-11-17 02:15:17 | fxstein | ARCHIVE | 14 | Add CONTRIBUTING.md and CODE_OF_CONDUCT.md files (with 0 subtasks)
+2025-11-17 02:15:16 | fxstein | ARCHIVE | 13 | Set up semantic versioning and release tagging workflow (with 0 subtasks)
+2025-11-17 02:15:15 | fxstein | ARCHIVE | 9 | Create comprehensive documentation (with 0 subtasks)
+2025-11-17 02:15:14 | fxstein | ARCHIVE | 8 | Configure PyPI publishing workflow with GitHub Actions (with 0 subtasks)
+2025-11-17 02:15:13 | fxstein | ARCHIVE | 7 | Set up GitHub Actions CI/CD workflow (with 0 subtasks)
+2025-11-17 02:15:12 | fxstein | ARCHIVE | 6 | Add comprehensive test suite with pytest (with 0 subtasks)
+2025-11-17 02:15:11 | fxstein | ARCHIVE | 5 | Implement CLI interface with lint and fix commands (with 0 subtasks)
+2025-11-17 02:15:11 | fxstein | ARCHIVE | 4 | Create core linter module structure (with 0 subtasks)
+2025-11-17 02:15:10 | fxstein | ARCHIVE | 3 | Set up development tooling (with 3 subtasks)
+2025-11-17 02:15:09 | fxstein | ARCHIVE | 2 | Add Apache 2.0 license file and copyright headers (with 0 subtasks)
+2025-11-17 02:15:08 | fxstein | ARCHIVE | 1 | Initialize Python project structure with pyproject.toml and standard layout (with 2 subtasks)
 2025-11-17 02:14:29 | fxstein | COMPLETE | 14 | Add CONTRIBUTING.md and CODE_OF_CONDUCT.md files
 2025-11-17 02:14:29 | fxstein | COMPLETE | 13 | Set up semantic versioning and release tagging workflow
 2025-11-17 02:14:29 | fxstein | COMPLETE | 9 | Create comprehensive documentation (usage, examples, API)
