@@ -2,6 +2,7 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2025-11-17 21:46:22 | fxstein | ARCHIVE | 17 | Implement .ascii-guard.toml config file with directory scanning (with 10 subtasks)
 2025-11-17 20:56:24 | fxstein | COMPLETE | 17 | Implement .ascii-guard.toml config file with directory scanning
 2025-11-17 20:56:24 | fxstein | COMPLETE | 17.10 | Add comprehensive tests (config, patterns, scanning, CLI)
 2025-11-17 20:54:10 | fxstein | COMPLETE | 17.9 | Update CLI for directory scanning and config override

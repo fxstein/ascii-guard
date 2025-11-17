@@ -3,25 +3,29 @@
 > **⚠️ IMPORTANT: This file should ONLY be edited through the `todo.ai` script!**
 
 ## Tasks
-- [x] **#17** Implement .ascii-guard.toml config file with directory scanning `#feature`
-  > Design finalized in docs/CONFIG_DESIGN.md. TOML format (tomli for py3.10, tomllib for py3.11+). Support both .ascii-guard.toml and .ascii-guard. Includes directory scanning with smart defaults. Pattern matching: *.ext, dir/, **/pattern/**, !negation. Config validation: warn on unknown, error on bad values.
-  > ZERO dependencies: Use pathlib.Path.match() and fnmatch from stdlib. Config file format: .ascii-guard in project root or ~/.ascii-guard. Support gitignore syntax: *.log, build/, **/dist/**, !important.md (negation). CLI: auto-detect .ascii-guard, or --config flag to override. Example patterns: node_modules/, .git/, **/__pycache__/**, *.tmp
-  - [x] **#17.10** Add comprehensive tests (config, patterns, scanning, CLI) `#feature`
-    > Create tests/test_config.py, tests/test_patterns.py, tests/test_scanner.py. Test config: valid TOML, invalid values, missing keys, unknown keys (warnings). Test patterns: all supported patterns, negation, edge cases. Test scanner: with/without config, binary detection, size limits. Test CLI: file vs directory args, --config flag. Test Python 3.10 and 3.11+ compatibility.
-  - [x] **#17.9** Update CLI for directory scanning and config override `#feature`
-    > Update src/ascii_guard/cli.py. Detect directory vs file arguments. Directory: trigger scan_directory() with config filters. Files: process directly (bypass filters). Add --config <path> flag to override discovery. Add --show-config debug flag to print effective configuration.
-  - [x] **#17.8** Create directory scanner (recursive with filters) `#feature`
-    > Create src/ascii_guard/scanner.py. Implement scan_directory() for recursive file discovery. Apply exclude/include patterns. Auto-detect text files (encoding check) vs binary. Respect max_file_size and follow_symlinks from config. Use DEFAULT_EXCLUDES when no config exists.
-  - [x] **#17.7** Create path matcher with pattern support (fnmatch + pathlib) `#feature`
-    > Create src/ascii_guard/patterns.py. Implement match_path() using fnmatch + pathlib.Path.match(). Support patterns: *.ext, dir/, **/pattern/**, !negation (include override), # comments. Test edge cases: negation precedence, ** matching, directory vs file patterns.
-  - [x] **#17.6** Create config parser module (TOML discovery and parsing) `#feature`
-    > Create src/ascii_guard/config.py. Implement load_config() with discovery: .ascii-guard.toml → .ascii-guard → defaults. Parse [files] section with defaults. Return Config dataclass. Validate: warn on unknown keys, error on bad values. Default excludes: .git/, node_modules/, __pycache__/, .venv/, venv/, .tox/, build/, dist/, .mypy_cache/, .pytest_cache/, .ruff_cache/, *.egg-info/.
-  - [x] **#17.5** Add tomli dependency and version-aware import `#feature`
-    > Update pyproject.toml: dependencies = ['tomli>=2.0.0; python_version < "3.11"']. Create import wrapper: if sys.version_info >= (3,11): import tomllib else: import tomli as tomllib. Update README and DESIGN.md about conditional dependency. Test on both Python 3.10 and 3.11+.
 
 ------------------
 
 ## Recently Completed
+- [x] **#17** Implement .ascii-guard.toml config file with directory scanning `#feature` (2025-11-17)
+  > Design finalized in docs/CONFIG_DESIGN.md. TOML format (tomli for py3.10, tomllib for py3.11+). Support both .ascii-guard.toml and .ascii-guard. Includes directory scanning with smart defaults. Pattern matching: *.ext, dir/, **/pattern/**, !negation. Config validation: warn on unknown, error on bad values.
+  > ZERO dependencies: Use pathlib.Path.match() and fnmatch from stdlib. Config file format: .ascii-guard in project root or ~/.ascii-guard. Support gitignore syntax: *.log, build/, **/dist/**, !important.md (negation). CLI: auto-detect .ascii-guard, or --config flag to override. Example patterns: node_modules/, .git/, **/__pycache__/**, *.tmp
+  - [x] **#17.10** Add comprehensive tests (config, patterns, scanning, CLI) `#feature` (2025-11-17)
+    > Create tests/test_config.py, tests/test_patterns.py, tests/test_scanner.py. Test config: valid TOML, invalid values, missing keys, unknown keys (warnings). Test patterns: all supported patterns, negation, edge cases. Test scanner: with/without config, binary detection, size limits. Test CLI: file vs directory args, --config flag. Test Python 3.10 and 3.11+ compatibility.
+  - [x] **#17.9** Update CLI for directory scanning and config override `#feature` (2025-11-17)
+    > Update src/ascii_guard/cli.py. Detect directory vs file arguments. Directory: trigger scan_directory() with config filters. Files: process directly (bypass filters). Add --config <path> flag to override discovery. Add --show-config debug flag to print effective configuration.
+  - [x] **#17.8** Create directory scanner (recursive with filters) `#feature` (2025-11-17)
+    > Create src/ascii_guard/scanner.py. Implement scan_directory() for recursive file discovery. Apply exclude/include patterns. Auto-detect text files (encoding check) vs binary. Respect max_file_size and follow_symlinks from config. Use DEFAULT_EXCLUDES when no config exists.
+  - [x] **#17.7** Create path matcher with pattern support (fnmatch + pathlib) `#feature` (2025-11-17)
+    > Create src/ascii_guard/patterns.py. Implement match_path() using fnmatch + pathlib.Path.match(). Support patterns: *.ext, dir/, **/pattern/**, !negation (include override), # comments. Test edge cases: negation precedence, ** matching, directory vs file patterns.
+  - [x] **#17.6** Create config parser module (TOML discovery and parsing) `#feature` (2025-11-17)
+    > Create src/ascii_guard/config.py. Implement load_config() with discovery: .ascii-guard.toml → .ascii-guard → defaults. Parse [files] section with defaults. Return Config dataclass. Validate: warn on unknown keys, error on bad values. Default excludes: .git/, node_modules/, __pycache__/, .venv/, venv/, .tox/, build/, dist/, .mypy_cache/, .pytest_cache/, .ruff_cache/, *.egg-info/.
+  - [x] **#17.5** Add tomli dependency and version-aware import `#feature` (2025-11-17)
+    > Update pyproject.toml: dependencies = ['tomli>=2.0.0; python_version < "3.11"']. Create import wrapper: if sys.version_info >= (3,11): import tomllib else: import tomli as tomllib. Update README and DESIGN.md about conditional dependency. Test on both Python 3.10 and 3.11+.
+  - [D] **#17.4** Add tests for config parsing and pattern matching `#feature` (deleted 2025-11-17, expires 2025-12-17) (2025-11-17)
+  - [D] **#17.3** Integrate config file loading into CLI (auto-detect or --config flag) `#feature` (deleted 2025-11-17, expires 2025-12-17) (2025-11-17)
+  - [D] **#17.2** Add path matcher with gitignore-style pattern support (fnmatch, pathlib) `#feature` (deleted 2025-11-17, expires 2025-12-17) (2025-11-17)
+  - [D] **#17.1** Create config parser module (read .ascii-guard, parse patterns) `#feature` (deleted 2025-11-17, expires 2025-12-17) (2025-11-17)
 - [x] **#15** Review and update DESIGN.md based on PyPI release requirements `#documentation` `#design` (2025-11-17)
   > CRITICAL UPDATE NEEDED: DESIGN.md mentions dependencies (markdown, click, colorama) - these must be REMOVED. ascii-guard is ZERO dependency stdlib-only tool. Update dependencies section to reflect: Python 3.11+ stdlib only, NO external packages.
 - [x] **#14** Add CONTRIBUTING.md and CODE_OF_CONDUCT.md files `#documentation` `#community` (2025-11-17)
@@ -133,10 +137,6 @@
 
 
 ## Deleted Tasks
-  - [D] **#17.4** Add tests for config parsing and pattern matching `#feature` (deleted 2025-11-17, expires 2025-12-17)
-  - [D] **#17.3** Integrate config file loading into CLI (auto-detect or --config flag) `#feature` (deleted 2025-11-17, expires 2025-12-17)
-  - [D] **#17.2** Add path matcher with gitignore-style pattern support (fnmatch, pathlib) `#feature` (deleted 2025-11-17, expires 2025-12-17)
-  - [D] **#17.1** Create config parser module (read .ascii-guard, parse patterns) `#feature` (deleted 2025-11-17, expires 2025-12-17)
 - [D] **#27** Remove H2 header from release notes - fix markdown hierarchy (deleted 2025-11-17, expires 2025-12-17)
 - [D] **#22** 16.5 `Test` `complete` `release` `workflow` `end-to-end` (deleted 2025-11-16, expires 2025-12-16)
 - [D] **#21** 16.4 `Create` `.cursor/rules/ascii-guard-releases.mdc` `for` `AI` `release` `guidance` (deleted 2025-11-16, expires 2025-12-16)
@@ -146,7 +146,7 @@
 
 ---
 
-**Last Updated:** Mon Nov 17 20:56:24 CET 2025
+**Last Updated:** Mon Nov 17 21:46:22 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata
