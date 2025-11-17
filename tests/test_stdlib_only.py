@@ -157,6 +157,7 @@ class TestStdlibOnly:
             "typing",
             "argparse",
             "sys",
+            "fnmatch",  # For pattern matching
         }
 
         found_imports = set()
