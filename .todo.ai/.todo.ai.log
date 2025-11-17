@@ -2,6 +2,8 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2025-11-17 20:31:22 | fxstein | UNDO | 17.5 | Add tomli dependency and version-aware import
+2025-11-17 20:31:15 | fxstein | COMPLETE | 17.5 | Add tomli dependency and version-aware import
 2025-11-17 20:22:12 | fxstein | MODIFY | 17 | Implement .ascii-guard.toml config file with directory scanning
 2025-11-17 20:22:06 | fxstein | NOTE | 17.10 | Create tests/test_config.py, tests/test_patterns.py, tests/test_scanner.py. Test config: valid TOML, invalid values, missing keys, unknown keys (warnings). Test patterns: all supported patterns, negation, edge cases. Test scanner: with/without config, binary detection, size limits. Test CLI: file vs directory args, --config flag. Test Python 3.10 and 3.11+ compatibility.
 2025-11-17 20:21:59 | fxstein | NOTE | 17.9 | Update src/ascii_guard/cli.py. Detect directory vs file arguments. Directory: trigger scan_directory() with config filters. Files: process directly (bypass filters). Add --config <path> flag to override discovery. Add --show-config debug flag to print effective configuration.

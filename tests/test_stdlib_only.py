@@ -27,7 +27,11 @@ class TestStdlibOnly:
     """Verify that ascii-guard only uses Python standard library."""
 
     def test_no_external_imports_in_package(self) -> None:
-        """Test that no external packages are imported in runtime code."""
+        """Test that no external packages are imported in runtime code.
+
+        Allowed minimal dependencies:
+        - tomli: For TOML config support on Python 3.10 (stdlib tomllib in 3.11+)
+        """
         # List of allowed stdlib modules
         stdlib_modules = set(sys.stdlib_module_names)
 
@@ -46,7 +50,14 @@ class TestStdlibOnly:
             "collections",
         }
 
+        # Allowed minimal external dependencies
+        # tomli is only needed for Python 3.10 (3.11+ uses stdlib tomllib)
+        allowed_external = {
+            "tomli",  # TOML config support for Python 3.10
+        }
+
         stdlib_modules.update(always_available)
+        stdlib_modules.update(allowed_external)
 
         # Get all Python files in src/ascii_guard
         src_dir = Path(__file__).parent.parent / "src" / "ascii_guard"
@@ -84,8 +95,9 @@ class TestStdlibOnly:
         if violations:
             violation_msg = "\n".join(violations)
             raise AssertionError(
-                f"CRITICAL: External dependencies detected!\n"
-                f"ascii-guard MUST be ZERO dependency (stdlib only).\n"
+                f"CRITICAL: Unexpected external dependencies detected!\n"
+                f"ascii-guard must use only stdlib + minimal essential dependencies.\n"
+                f"Allowed: tomli (for Python 3.10 TOML support).\n"
                 f"Violations:\n{violation_msg}"
             )
 
