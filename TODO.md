@@ -9,12 +9,12 @@
   - [ ] **#17.3** Integrate config file loading into CLI (auto-detect or --config flag) `#feature`
   - [ ] **#17.2** Add path matcher with gitignore-style pattern support (fnmatch, pathlib) `#feature`
   - [ ] **#17.1** Create config parser module (read .ascii-guard, parse patterns) `#feature`
-- [x] **#15** Review and update DESIGN.md based on PyPI release requirements `#documentation` `#design`
-  > CRITICAL UPDATE NEEDED: DESIGN.md mentions dependencies (markdown, click, colorama) - these must be REMOVED. ascii-guard is ZERO dependency stdlib-only tool. Update dependencies section to reflect: Python 3.11+ stdlib only, NO external packages.
 
 ------------------
 
 ## Recently Completed
+- [x] **#15** Review and update DESIGN.md based on PyPI release requirements `#documentation` `#design` (2025-11-17)
+  > CRITICAL UPDATE NEEDED: DESIGN.md mentions dependencies (markdown, click, colorama) - these must be REMOVED. ascii-guard is ZERO dependency stdlib-only tool. Update dependencies section to reflect: Python 3.11+ stdlib only, NO external packages.
 - [x] **#14** Add CONTRIBUTING.md and CODE_OF_CONDUCT.md files `#documentation` `#community` (2025-11-17)
 - [x] **#13** Set up semantic versioning and release tagging workflow `#release` `#versioning` (2025-11-17)
 - [x] **#9** Create comprehensive documentation (usage, examples, API) `#documentation` (2025-11-17)
@@ -133,7 +133,7 @@
 
 ---
 
-**Last Updated:** Mon Nov 17 09:50:54 CET 2025
+**Last Updated:** Mon Nov 17 10:04:14 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata
