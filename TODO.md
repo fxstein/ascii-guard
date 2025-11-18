@@ -8,10 +8,15 @@
   - [ ] **#35.7** Test: Add test cases for tables, junction points, and multi-box lines
   - [ ] **#35.6** Implement: Add support for multiple boxes on same line (flowcharts)
   - [ ] **#35.5** Implement: Fix fixer logic to properly handle malformed lines (extra chars, missing borders)
-  - [ ] **#35.4** Implement: Add junction point detection in box borders (┴┬ in width calculations)
-  - [ ] **#35.3** Implement: Add table column separator detection and validation
-  - [ ] **#35.2** Design: Define support for table column separators (├─┬─┼─┤) and junction points (┴┬)
-  - [ ] **#35.1** Investigate: Reproduce issue #10 bugs with EXAMPLE-GCP_DEVOPS_STRATEGY.md test file
+  - [x] **#35.4** Implement: Add junction point detection in box borders (┴┬ in width calculations)
+    > IMPLEMENTED: Updated border width calculation in validate_box() to count ALL JUNCTION_CHARS (├┤┬┴┼╠╣╦╩╬) as part of border width. Now ┌─────┴─────┐ correctly counts as 11 chars wide, matching └───────────┘.
+  - [x] **#35.3** Implement: Add table column separator detection and validation
+    > IMPLEMENTED: Added TABLE_COLUMN_JUNCTION_CHARS, TOP_JUNCTION_CHARS, BOTTOM_JUNCTION_CHARS to models.py. Created is_table_separator_line() function in validator.py that checks for ├─┬/┼─┤ patterns. Updated validate_box() to skip validation for table separator lines.
+  - [x] **#35.2** Design: Define support for table column separators (├─┬─┼─┤) and junction points (┴┬)
+    > DESIGN: Extend models.py with TABLE_JUNCTION_CHARS = {├, ┤, ┬, ┼, ┴, ┴, ╠, ╣, ╦, ╩, ╬}. Add is_table_separator_line() in validator.py similar to is_divider_line() - checks for ├ ... ┬/┼ ... ┤ pattern. For junction points in borders: update border width calculation to COUNT junction chars (┬┴) as part of border. Multi-box lines: detector needs line splitting logic.
+  - [x] **#35.1** Investigate: Reproduce issue #10 bugs with EXAMPLE-GCP_DEVOPS_STRATEGY.md test file
+    > PLATEAU CONFIRMED: Fix reports '1 box fixed' but lint still shows same 4 errors. Fix doesn't recognize table separators so it can't fix them. Root cause: validator.py only checks VERTICAL_CHARS for left/right borders, not divider chars (├┤) or table junction chars (┬┼).
+    > REPRODUCED ALL 3 BUG PATTERNS: (1) Table separators: ├ ┤ flagged as misaligned borders (4 errors) (2) Junction points: ┴ in top border causes width mismatch (counts as 10 instead of 11) (3) Multi-box lines: Second box treated as 'extra characters' (2 errors)
 - [ ] **#34** Fix detector false positives: code blocks, multi-box lines, and examples
   - [ ] **#34.6** Verify: Re-lint docs/ - all 3 false positives should be resolved
   - [ ] **#34.5** Test: Add test cases for flowcharts, code examples, and string literals
@@ -192,7 +197,7 @@
 
 ---
 
-**Last Updated:** Tue Nov 18 21:28:19 CET 2025
+**Last Updated:** Tue Nov 18 21:32:19 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata

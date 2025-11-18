@@ -19,8 +19,10 @@ ZERO dependencies - uses only Python stdlib.
 
 from ascii_guard.models import (
     HORIZONTAL_CHARS,
+    JUNCTION_CHARS,
     LEFT_DIVIDER_CHARS,
     RIGHT_DIVIDER_CHARS,
+    TABLE_COLUMN_JUNCTION_CHARS,
     VERTICAL_CHARS,
     Box,
     ValidationError,
@@ -60,6 +62,44 @@ def is_divider_line(line: str, left_col: int, right_col: int) -> bool:
     return True
 
 
+def is_table_separator_line(line: str, left_col: int, right_col: int) -> bool:
+    """Check if a line is a table column separator within a box.
+
+    A table separator line has left divider char (├, ╠), horizontal chars with
+    column junction chars (┬, ┼, ╦, ╬), and right divider char (┤, ╣).
+
+    Args:
+        line: The line to check
+        left_col: Column index of the left border
+        right_col: Column index of the right border
+
+    Returns:
+        True if the line is a table separator line
+    """
+    if left_col >= len(line) or right_col >= len(line):
+        return False
+
+    left_char = line[left_col]
+    right_char = line[right_col]
+
+    # Check if both ends have divider characters
+    if left_char not in LEFT_DIVIDER_CHARS or right_char not in RIGHT_DIVIDER_CHARS:
+        return False
+
+    # Check that the middle portion contains horizontal chars and/or table junction chars
+    has_junction = False
+    for i in range(left_col + 1, right_col):
+        if i < len(line):
+            char = line[i]
+            if char in TABLE_COLUMN_JUNCTION_CHARS:
+                has_junction = True
+            elif char not in HORIZONTAL_CHARS and char != " ":
+                return False
+
+    # Table separator must have at least one junction character
+    return has_junction
+
+
 def validate_box(box: Box) -> list[ValidationError]:
     """Validate a box for alignment issues.
 
@@ -75,17 +115,21 @@ def validate_box(box: Box) -> list[ValidationError]:
     top_line = box.lines[0] if box.lines else ""
     bottom_line = box.lines[-1] if len(box.lines) > 1 else ""
 
-    # Count horizontal characters in top border
+    # Count horizontal characters in top border (including junction points)
     top_width = 0
     for i in range(box.left_col, min(len(top_line), box.right_col + 1)):
-        if i < len(top_line) and top_line[i] in HORIZONTAL_CHARS:
-            top_width += 1
+        if i < len(top_line):
+            char = top_line[i]
+            if char in HORIZONTAL_CHARS or char in JUNCTION_CHARS:
+                top_width += 1
 
-    # Count horizontal characters in bottom border
+    # Count horizontal characters in bottom border (including junction points)
     bottom_width = 0
     for i in range(box.left_col, min(len(bottom_line), box.right_col + 1)):
-        if i < len(bottom_line) and bottom_line[i] in HORIZONTAL_CHARS:
-            bottom_width += 1
+        if i < len(bottom_line):
+            char = bottom_line[i]
+            if char in HORIZONTAL_CHARS or char in JUNCTION_CHARS:
+                bottom_width += 1
 
     # Check if widths match
     if top_width != bottom_width and top_width > 0 and bottom_width > 0:
@@ -106,8 +150,10 @@ def validate_box(box: Box) -> list[ValidationError]:
     for i, line in enumerate(box.lines[1:-1], start=1):  # Skip top and bottom
         actual_line_num = box.top_line + i
 
-        # Skip validation for divider lines (├───┤)
+        # Skip validation for divider lines (├───┤) and table separator lines (├─┬─┤)
         if is_divider_line(line, box.left_col, box.right_col):
+            continue
+        if is_table_separator_line(line, box.left_col, box.right_col):
             continue
 
         # Check left border

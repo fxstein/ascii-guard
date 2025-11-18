@@ -2,6 +2,15 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2025-11-18 21:32:19 | fxstein | COMPLETE | 35.4 | Implement: Add junction point detection in box borders (┴┬ in width calculations)
+2025-11-18 21:32:19 | fxstein | COMPLETE | 35.3 | Implement: Add table column separator detection and validation
+2025-11-18 21:32:18 | fxstein | NOTE | 35.4 | IMPLEMENTED: Updated border width calculation in validate_box() to count ALL JUNCTION_CHARS (├┤┬┴┼╠╣╦╩╬) as part of border width. Now ┌─────┴─────┐ correctly counts as 11 chars wide, matching └───────────┘.
+2025-11-18 21:32:15 | fxstein | NOTE | 35.3 | IMPLEMENTED: Added TABLE_COLUMN_JUNCTION_CHARS, TOP_JUNCTION_CHARS, BOTTOM_JUNCTION_CHARS to models.py. Created is_table_separator_line() function in validator.py that checks for ├─┬/┼─┤ patterns. Updated validate_box() to skip validation for table separator lines.
+2025-11-18 21:30:18 | fxstein | COMPLETE | 35.2 | Design: Define support for table column separators (├─┬─┼─┤) and junction points (┴┬)
+2025-11-18 21:30:18 | fxstein | NOTE | 35.2 | DESIGN: Extend models.py with TABLE_JUNCTION_CHARS = {├, ┤, ┬, ┼, ┴, ┴, ╠, ╣, ╦, ╩, ╬}. Add is_table_separator_line() in validator.py similar to is_divider_line() - checks for ├ ... ┬/┼ ... ┤ pattern. For junction points in borders: update border width calculation to COUNT junction chars (┬┴) as part of border. Multi-box lines: detector needs line splitting logic.
+2025-11-18 21:30:09 | fxstein | COMPLETE | 35.1 | Investigate: Reproduce issue #10 bugs with EXAMPLE-GCP_DEVOPS_STRATEGY.md test file
+2025-11-18 21:30:07 | fxstein | NOTE | 35.1 | PLATEAU CONFIRMED: Fix reports '1 box fixed' but lint still shows same 4 errors. Fix doesn't recognize table separators so it can't fix them. Root cause: validator.py only checks VERTICAL_CHARS for left/right borders, not divider chars (├┤) or table junction chars (┬┼).
+2025-11-18 21:29:51 | fxstein | NOTE | 35.1 | REPRODUCED ALL 3 BUG PATTERNS: (1) Table separators: ├ ┤ flagged as misaligned borders (4 errors) (2) Junction points: ┴ in top border causes width mismatch (counts as 10 instead of 11) (3) Multi-box lines: Second box treated as 'extra characters' (2 errors)
 2025-11-18 21:28:19 | fxstein | ADD_SUBTASK | 35.8 | Verify: Re-test EXAMPLE-GCP_DEVOPS_STRATEGY.md - fix should reach 0 errors (parent: #35)
 2025-11-18 21:28:18 | fxstein | ADD_SUBTASK | 35.7 | Test: Add test cases for tables, junction points, and multi-box lines (parent: #35)
 2025-11-18 21:28:17 | fxstein | ADD_SUBTASK | 35.6 | Implement: Add support for multiple boxes on same line (flowcharts) (parent: #35)

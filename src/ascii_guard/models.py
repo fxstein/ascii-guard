@@ -29,6 +29,11 @@ JUNCTION_CHARS = {"├", "┤", "┬", "┴", "╠", "╣", "╦", "╩", "┼",
 LEFT_DIVIDER_CHARS = {"├", "╠"}
 RIGHT_DIVIDER_CHARS = {"┤", "╣"}
 
+# Table junction characters (for table column/row separators)
+TABLE_COLUMN_JUNCTION_CHARS = {"┬", "┼", "╦", "╬"}  # Used in horizontal separator lines
+TOP_JUNCTION_CHARS = {"┬", "╦"}  # Junction pointing down from top border
+BOTTOM_JUNCTION_CHARS = {"┴", "╩"}  # Junction pointing up from bottom border
+
 # All box-drawing characters
 ALL_BOX_CHARS = HORIZONTAL_CHARS | VERTICAL_CHARS | CORNER_CHARS | JUNCTION_CHARS
 
