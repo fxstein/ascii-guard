@@ -549,3 +549,102 @@ class TestFixerWithColumnContinuity:
         bottom_line = fixed_lines[5]
         junction_count = bottom_line.count("┴")
         assert junction_count == 3
+
+
+class TestFixerCoverageEdgeCases:
+    """Test suite for edge cases in fixer to achieve 100% coverage."""
+
+    def test_fix_empty_box_lines(self) -> None:
+        """Test fixing a box with no lines (edge case)."""
+        box = Box(
+            top_line=0,
+            bottom_line=0,
+            left_col=0,
+            right_col=10,
+            lines=[],  # Empty lines list
+            file_path="test.txt",
+        )
+
+        fixed_lines = fix_box(box)
+        assert fixed_lines == []
+
+    def test_fix_double_border_at_exact_position(self) -> None:
+        """Test that double borders at right_col and right_col+1 are truncated."""
+        box = Box(
+            top_line=0,
+            bottom_line=2,
+            left_col=0,
+            right_col=10,
+            lines=[
+                "┌──────────┐",
+                "│ Content ││",  # Double border at positions 10 and 11 (right_col and right_col+1)
+                "└──────────┘",
+            ],
+            file_path="test.txt",
+        )
+
+        fixed_lines = fix_box(box)
+        # Double border at right_col (10) and right_col+1 (11) should be truncated to right_col+1
+        assert len(fixed_lines[1]) == 11
+        assert fixed_lines[1] == "│ Content │"
+
+    def test_fix_junction_map_with_no_columns(self) -> None:
+        """Test junction character mapping when no column positions detected."""
+        box = Box(
+            top_line=0,
+            bottom_line=2,
+            left_col=0,
+            right_col=19,
+            lines=[
+                "┌─────────┬─────────┐",  # Top junction ┬
+                "│ Content  Content │",  # No column separator in middle
+                "└─────────────────",  # Short bottom, no junction
+            ],
+            file_path="test.txt",
+        )
+
+        fixed_lines = fix_box(box)
+        # Bottom should convert ┬ to ┴ via junction_map
+        assert "┴" in fixed_lines[2]
+        assert len(fixed_lines[2]) == 20  # Should add right corner
+
+    def test_fix_table_separator_with_offset_divider(self) -> None:
+        """Test table separator where right divider is at offset position."""
+        box = Box(
+            top_line=0,
+            bottom_line=3,
+            left_col=0,
+            right_col=21,
+            lines=[
+                "┌─────────┬──────────┐",
+                "│ Content │ Content  │",
+                "├─────────┼──────────┤X",  # Extra char, divider at right_col
+                "└─────────┴──────────┘",
+            ],
+            file_path="test.txt",
+        )
+
+        fixed_lines = fix_box(box)
+        # Extra 'X' should be removed from table separator
+        assert fixed_lines[2] == "├─────────┼──────────┤"
+        assert len(fixed_lines[2]) == 22
+
+    def test_fix_junction_not_in_map(self) -> None:
+        """Test junction character that's not in the conversion map (fallback to horizontal)."""
+        box = Box(
+            top_line=0,
+            bottom_line=2,
+            left_col=0,
+            right_col=19,
+            lines=[
+                "┌─────────┼─────────┐",  # ┼ is a junction but not in top->bottom map
+                "│ Content │ Content │",
+                "└─────────────────",  # Short bottom
+            ],
+            file_path="test.txt",
+        )
+
+        fixed_lines = fix_box(box)
+        # ┼ should fall back to horizontal_char (─) in bottom border
+        assert fixed_lines[2][9] == "─"  # Position where ┼ was in top
+        assert len(fixed_lines[2]) == 20

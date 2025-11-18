@@ -65,6 +65,34 @@ class TestBox:
         assert isinstance(box.lines, list)
         assert isinstance(box.file_path, str)
 
+    def test_box_width_property(self) -> None:
+        """Test Box.width property calculation."""
+        box = Box(
+            top_line=0,
+            bottom_line=2,
+            left_col=5,
+            right_col=15,
+            lines=["test"],
+            file_path="test.txt",
+        )
+
+        # Width is right_col - left_col + 1
+        assert box.width == 11
+
+    def test_box_height_property(self) -> None:
+        """Test Box.height property calculation."""
+        box = Box(
+            top_line=10,
+            bottom_line=15,
+            left_col=0,
+            right_col=10,
+            lines=["test"],
+            file_path="test.txt",
+        )
+
+        # Height is bottom_line - top_line + 1
+        assert box.height == 6
+
 
 class TestValidationError:
     """Test suite for ValidationError model."""
