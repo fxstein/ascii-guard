@@ -100,13 +100,15 @@ def find_all_top_left_corners(line: str) -> list[int]:
     return corners
 
 
-def detect_boxes(file_path: str) -> list[Box]:
+def detect_boxes(file_path: str, exclude_code_blocks: bool = False) -> list[Box]:
     """Detect ASCII art boxes in a file.
 
-    Skips markdown code fences and handles multiple boxes per line.
+    By default, detects boxes everywhere including markdown code fences.
+    Optionally skips code blocks if exclude_code_blocks=True.
 
     Args:
         file_path: Path to file to analyze
+        exclude_code_blocks: If True, skip ASCII boxes inside markdown code blocks (```)
 
     Returns:
         List of detected Box objects
@@ -134,8 +136,8 @@ def detect_boxes(file_path: str) -> list[Box]:
     while i < len(stripped_lines):
         line = stripped_lines[i]
 
-        # Skip lines in markdown code fences
-        if is_in_code_fence(i, stripped_lines):
+        # Skip lines in markdown code fences (if requested)
+        if exclude_code_blocks and is_in_code_fence(i, stripped_lines):
             i += 1
             continue
 
@@ -153,8 +155,8 @@ def detect_boxes(file_path: str) -> list[Box]:
             # Find the bottom of the box
             bottom_line = -1
             for j in range(i + 1, len(stripped_lines)):
-                # Skip if bottom line would be in code fence
-                if is_in_code_fence(j, stripped_lines):
+                # Skip if bottom line would be in code fence (if requested)
+                if exclude_code_blocks and is_in_code_fence(j, stripped_lines):
                     continue
 
                 bottom_left = find_bottom_left_corner(stripped_lines[j], left_col)

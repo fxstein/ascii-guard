@@ -76,7 +76,10 @@ ascii-guard lint [OPTIONS] FILES...
 ```
 
 **Options:**
-- `--json` - Output results in JSON format
+- `-q, --quiet` - Only show errors, no detailed output
+- `--exclude-code-blocks` - Skip ASCII boxes inside markdown code blocks (` ``` `)
+- `--config PATH` - Path to config file (default: auto-detect `.ascii-guard.toml`)
+- `--show-config` - Show effective configuration and exit
 - `--help` - Show help message
 
 **Exit codes:**
@@ -98,6 +101,9 @@ ascii-guard lint *.md --json
 
 # Lint all markdown files recursively (bash)
 ascii-guard lint **/*.md
+
+# Skip boxes in code blocks (for tutorial/example files)
+ascii-guard lint tutorial.md --exclude-code-blocks
 ```
 
 **Sample output:**
@@ -119,7 +125,8 @@ ascii-guard fix [OPTIONS] FILES...
 
 **Options:**
 - `--dry-run` - Preview changes without modifying files
-- `--json` - Output results in JSON format
+- `--exclude-code-blocks` - Skip ASCII boxes inside markdown code blocks (` ``` `)
+- `--config PATH` - Path to config file (default: auto-detect `.ascii-guard.toml`)
 - `--help` - Show help message
 
 **Exit codes:**

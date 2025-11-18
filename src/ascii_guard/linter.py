@@ -25,11 +25,12 @@ from ascii_guard.models import LintResult, ValidationError
 from ascii_guard.validator import validate_box
 
 
-def lint_file(file_path: str) -> LintResult:
+def lint_file(file_path: str, exclude_code_blocks: bool = False) -> LintResult:
     """Lint a file for ASCII art alignment issues.
 
     Args:
         file_path: Path to file to lint
+        exclude_code_blocks: If True, skip ASCII boxes inside markdown code blocks
 
     Returns:
         LintResult with errors and warnings
@@ -38,7 +39,7 @@ def lint_file(file_path: str) -> LintResult:
         FileNotFoundError: If file doesn't exist
         IOError: If file cannot be read
     """
-    boxes = detect_boxes(file_path)
+    boxes = detect_boxes(file_path, exclude_code_blocks=exclude_code_blocks)
 
     all_errors: list[ValidationError] = []
     all_warnings: list[ValidationError] = []
@@ -60,12 +61,15 @@ def lint_file(file_path: str) -> LintResult:
     )
 
 
-def fix_file(file_path: str, dry_run: bool = False) -> tuple[int, list[str]]:
+def fix_file(
+    file_path: str, dry_run: bool = False, exclude_code_blocks: bool = False
+) -> tuple[int, list[str]]:
     """Fix ASCII art alignment issues in a file.
 
     Args:
         file_path: Path to file to fix
         dry_run: If True, don't write changes to file
+        exclude_code_blocks: If True, skip ASCII boxes inside markdown code blocks
 
     Returns:
         Tuple of (number of boxes fixed, fixed file lines)
@@ -86,7 +90,7 @@ def fix_file(file_path: str, dry_run: bool = False) -> tuple[int, list[str]]:
         raise OSError(f"Cannot read file {file_path}: {e}") from e
 
     # Detect boxes
-    boxes = detect_boxes(file_path)
+    boxes = detect_boxes(file_path, exclude_code_blocks=exclude_code_blocks)
 
     if not boxes:
         # No boxes to fix

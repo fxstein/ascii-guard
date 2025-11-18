@@ -156,7 +156,7 @@ class TestCodeFenceDetection:
     """Test that boxes in markdown code fences are skipped."""
 
     def test_skip_boxes_in_code_fence(self, tmp_path: Path) -> None:
-        """Test that boxes inside markdown code fences are not detected."""
+        """Test that boxes inside markdown code fences can be skipped with flag."""
         test_file = tmp_path / "code_fence.md"
         test_file.write_text(
             """Some text before
@@ -174,13 +174,17 @@ This box should be detected:
 """
         )
 
+        # Without flag: should detect both boxes
         boxes = detect_boxes(str(test_file))
-        # Should only find the box outside the code fence
+        assert len(boxes) == 2
+
+        # With exclude flag: should only find the box outside the code fence
+        boxes = detect_boxes(str(test_file), exclude_code_blocks=True)
         assert len(boxes) == 1
         assert "Outside" in boxes[0].lines[1]
 
     def test_nested_code_fences(self, tmp_path: Path) -> None:
-        """Test handling of multiple code fences."""
+        """Test handling of multiple code fences with exclude flag."""
         test_file = tmp_path / "multi_fence.md"
         test_file.write_text(
             """First box (should be detected):
@@ -209,7 +213,12 @@ Skip this too:
 """
         )
 
+        # Without flag: should detect all 4 boxes
         boxes = detect_boxes(str(test_file))
+        assert len(boxes) == 4
+
+        # With exclude flag: should only find boxes outside code fences
+        boxes = detect_boxes(str(test_file), exclude_code_blocks=True)
         assert len(boxes) == 2
         assert "Box1" in boxes[0].lines[1]
         assert "Box2" in boxes[1].lines[1]

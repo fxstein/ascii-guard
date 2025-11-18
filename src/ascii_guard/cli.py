@@ -98,7 +98,8 @@ def cmd_lint(args: argparse.Namespace) -> int:
 
     for file_path in file_paths:
         try:
-            result = lint_file(str(file_path))
+            exclude_code_blocks = getattr(args, "exclude_code_blocks", False)
+            result = lint_file(str(file_path), exclude_code_blocks=exclude_code_blocks)
             total_boxes += result.boxes_found
 
             if not args.quiet:
@@ -170,7 +171,10 @@ def cmd_fix(args: argparse.Namespace) -> int:
 
     for file_path in file_paths:
         try:
-            boxes_fixed, _ = fix_file(str(file_path), dry_run=args.dry_run)
+            exclude_code_blocks = getattr(args, "exclude_code_blocks", False)
+            boxes_fixed, _ = fix_file(
+                str(file_path), dry_run=args.dry_run, exclude_code_blocks=exclude_code_blocks
+            )
             total_fixed += boxes_fixed
 
             if boxes_fixed > 0:
@@ -232,6 +236,11 @@ def main() -> NoReturn:
         action="store_true",
         help="Show effective configuration and exit",
     )
+    lint_parser.add_argument(
+        "--exclude-code-blocks",
+        action="store_true",
+        help="Skip ASCII boxes inside markdown code blocks (```)",
+    )
 
     # Fix command
     fix_parser = subparsers.add_parser("fix", help="Auto-fix ASCII art issues")
@@ -245,6 +254,11 @@ def main() -> NoReturn:
         "--config",
         type=str,
         help="Path to config file (default: auto-detect .ascii-guard.toml)",
+    )
+    fix_parser.add_argument(
+        "--exclude-code-blocks",
+        action="store_true",
+        help="Skip ASCII boxes inside markdown code blocks (```)",
     )
 
     args = parser.parse_args()
