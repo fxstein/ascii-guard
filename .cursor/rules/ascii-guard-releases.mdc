@@ -1,5 +1,26 @@
 # ascii-guard Release Process
 
+## CRITICAL: Two-Phase Process with Human Gate
+
+**The release process has TWO separate phases with a mandatory human review between them:**
+
+### Phase 1: PREPARE (AI does this)
+When user says "prepare release":
+1. Check CI/CD status
+2. Write AI summary
+3. Run `./release/release.sh --prepare`
+4. **STOP and wait for human**
+
+### Phase 2: EXECUTE (AI does this ONLY when told)
+When user says "execute release":
+1. Run `./release/release.sh --execute`
+2. Report success
+
+**⚠️ NEVER skip the human review gate between prepare and execute.**
+**⚠️ NEVER automatically execute after prepare - ALWAYS wait for explicit "execute" command.**
+
+---
+
 When the user says "Release ascii-guard" or similar:
 
 ## CRITICAL: Python Environment Management
@@ -237,10 +258,18 @@ and improving overall documentation quality.
 - `release/RELEASE_NOTES.md` (complete release notes - **THIS IS WHAT GETS REVIEWED**)
 - `release/.prepare_state` (metadata for execute step)
 
+**⚠️ CRITICAL: STOP HERE AND WAIT FOR HUMAN**
+
 **After this step:**
-- Prompt user to review `release/RELEASE_NOTES.md`
-- Tell them they can edit it if needed
-- Inform them about version override option if they want to change it
+- **STOP IMMEDIATELY** - Do NOT proceed to execute
+- Show the user what version was detected
+- Show the user the release notes location
+- **WAIT** for explicit human instruction to:
+  - Execute the release (`--execute`)
+  - Change the version (`--set-version X.Y.Z`)
+  - Cancel/edit manually
+
+**NEVER automatically execute after prepare.**
 
 ## Step 3: Review & Edit Release Notes (IMPORTANT)
 
@@ -498,43 +527,61 @@ If automatic detection doesn't match your intent:
 
 ## AI Agent Workflow
 
-### When User Says "Release ascii-guard"
+### When User Says "prepare release" or "prepare ascii-guard release"
 
-1. **Generate AI Summary:**
+1. **Check CI/CD Status FIRST:**
+   ```bash
+   ./scripts/wait-for-ci.sh
+   ```
+   - If this fails, **STOP** and tell user to fix CI/CD first
+   - Only proceed if exit code is 0
+
+2. **Generate AI Summary:**
    ```markdown
-   I'll help you release ascii-guard. First, let me create a release summary.
+   I'll help you prepare the release. First, let me create a release summary.
 
    [Write 2-3 paragraph summary about what changed and why it matters]
+   [NO HEADERS - just plain paragraphs]
 
    Saved to: release/AI_RELEASE_SUMMARY.md
    ```
 
-2. **Run Prepare:**
+3. **Run Prepare:**
    ```bash
    ./release/release.sh --prepare
    ```
 
-3. **Show Preview and Wait:**
+4. **STOP AND SHOW PREVIEW:**
    ```markdown
-   Release preview prepared:
-   - Version: 0.1.0 → 0.2.0
-   - Type: minor release
+   ✅ Release prepared successfully!
+
+   - Current version: 1.2.0
+   - Proposed version: 1.2.1 (patch)
    - Release notes: release/RELEASE_NOTES.md
 
-   Please review release/RELEASE_NOTES.md and let me know:
-   - Should I proceed with execute?
-   - Do you want to edit the release notes?
-   - Do you want to change the version number?
+   What would you like to do?
+   - Review the release notes in release/RELEASE_NOTES.md
+   - Tell me "execute release" when ready
+   - Tell me "set version to X.Y.Z" if you want to change it
    ```
 
-4. **Handle User Response:**
-   - If "execute" → Run `./release/release.sh --execute`
-   - If "change version to X.Y.Z" → Run `./release/release.sh --set-version X.Y.Z`
-   - If "edit notes" → Open `release/RELEASE_NOTES.md` in editor
+5. **⚠️ STOP HERE - WAIT FOR USER TO SAY:**
+   - "execute release" → Then run `./release/release.sh --execute`
+   - "set version to X.Y.Z" → Then run `./release/release.sh --set-version X.Y.Z`
+   - Any other instruction
 
-5. **After Execute:**
+**NEVER proceed to execute automatically - ALWAYS wait for explicit instruction.**
+
+### When User Says "execute release" (ONLY after prepare)
+
+1. **Run Execute:**
+   ```bash
+   ./release/release.sh --execute
+   ```
+
+2. **Report Success:**
    ```markdown
-   ✅ Release v0.2.0 initiated successfully!
+   ✅ Release v1.2.1 initiated successfully!
 
    GitHub Actions is now:
    - Building and testing the package
@@ -542,9 +589,9 @@ If automatic detection doesn't match your intent:
    - Creating GitHub release
 
    Monitor progress:
-   - GitHub Actions: [link]
-   - PyPI (when complete): [link]
-   - GitHub Release: [link]
+   - GitHub Actions: https://github.com/fxstein/ascii-guard/actions
+   - PyPI (when complete): https://pypi.org/project/ascii-guard/
+   - GitHub Release: https://github.com/fxstein/ascii-guard/releases
    ```
 
 ---
