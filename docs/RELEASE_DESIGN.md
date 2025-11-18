@@ -81,16 +81,16 @@ The script will have **3 modes**:
 ┌─────────────────────────────────────────────────────────┐
 │ INPUTS                                                  │
 ├─────────────────────────────────────────────────────────┤
-│ • release/AI_RELEASE_SUMMARY.md (AI-written)           │
+│ • release/AI_RELEASE_SUMMARY.md (AI-written)            │
 │ • Git commits since last tag                            │
 │ • pyproject.toml (current version)                      │
 └─────────────────────────────────────────────────────────┘
                         ↓
 ┌─────────────────────────────────────────────────────────┐
-│ PREPARE PHASE (./release/release.sh --prepare)         │
+│ PREPARE PHASE (./release/release.sh --prepare)          │
 ├─────────────────────────────────────────────────────────┤
 │ • Parse commits (conventional commits format)           │
-│ • Determine version bump (MAJOR/MINOR/PATCH)           │
+│ • Determine version bump (MAJOR/MINOR/PATCH)            │
 │ • Read AI_RELEASE_SUMMARY.md                            │
 │ • Generate release/RELEASE_NOTES.md                     │
 │ • Save state to release/.prepare_state                  │
@@ -100,30 +100,30 @@ The script will have **3 modes**:
 │ REVIEW PHASE (HUMAN)                                    │
 ├─────────────────────────────────────────────────────────┤
 │ • Edit release/RELEASE_NOTES.md                         │
-│ • Optional: ./release/release.sh --set-version X.Y.Z   │
+│ • Optional: ./release/release.sh --set-version X.Y.Z    │
 └─────────────────────────────────────────────────────────┘
                         ↓
 ┌─────────────────────────────────────────────────────────┐
-│ EXECUTE PHASE (./release/release.sh --execute)         │
+│ EXECUTE PHASE (./release/release.sh --execute)          │
 ├─────────────────────────────────────────────────────────┤
 │ • Update pyproject.toml version                         │
 │ • Update src/ascii_guard/__init__.py version            │
 │ • Build package (python -m build)                       │
 │ • Commit version bump                                   │
 │ • Create git tag                                        │
-│ • Push to GitHub (triggers GitHub Actions)             │
+│ • Push to GitHub (triggers GitHub Actions)              │
 │ • GitHub Actions: publish to PyPI                       │
 │ • GitHub Actions: create GitHub release                 │
 │ • Cleanup working files                                 │
 └─────────────────────────────────────────────────────────┘
                         ↓
 ┌─────────────────────────────────────────────────────────┐
-│ OUTPUTS                                                  │
+│ OUTPUTS                                                 ││
 ├─────────────────────────────────────────────────────────┤
 │ • PyPI: ascii-guard X.Y.Z published                     │
 │ • GitHub: Release created with wheel/sdist              │
 │ • Git: vX.Y.Z tag                                       │
-│ • release/RELEASE_LOG.log (audit trail)                │
+│ • release/RELEASE_LOG.log (audit trail)                 │
 └─────────────────────────────────────────────────────────┘
 ```
 

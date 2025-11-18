@@ -33,7 +33,7 @@ AI-generated ASCII art boxes in documentation often have formatting errors:
 ```
 ┌─────────────────────┐
 │ Box Content         │
-└────────────────────┘   ← Missing character, doesn't align
+└─────────────────────   ← Missing character, doesn't align
 ```
 
 **After fixing:**

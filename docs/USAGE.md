@@ -169,7 +169,7 @@ ascii-guard --version
 ```
 ┌─────────────────────┐
 │ Box Content         │
-└────────────────────┘   ← Missing character
+└─────────────────────   ← Missing character
 ```
 
 **Command**:
@@ -254,12 +254,12 @@ All styles are automatically detected and validated.
 ```markdown
 ┌──────────────┐
 │    Start     │
-└──────┬───────┘
+└──────────────┘
        │
        ▼
 ┌──────────────┐      ┌──────────────┐
 │  Process A   │─────▶│  Process B   │
-└──────┬───────┘      └──────┬───────┘
+└──────────────┘      └──────┬───────┘
        │                     │
        │   ┌─────────────────┘
        │   │
