@@ -3,6 +3,18 @@
 > **⚠️ IMPORTANT: This file should ONLY be edited through the `todo.ai` script!**
 
 ## Tasks
+- [ ] **#52** Fix code block detection regression: validate ASCII boxes inside code blocks by default (Issue #11)
+  - [ ] **#52.7** Document: Update CLI help and docs to explain code block behavior
+  - [ ] **#52.6** Verify: Test with EXAMPLE-GCP_DEVOPS_STRATEGY.md - should detect 6 errors by default
+    > VERIFICATION: EXAMPLE-GCP_DEVOPS_STRATEGY.md has 3 boxes with 2 errors each (6 total): (1) Extra │ after row separator (lines 62,71,80) (2) Missing ┘ closing corner (lines 67,76,85). After fix, default should detect all 6 errors.
+  - [ ] **#52.5** Test: Add test cases for code block validation (default) and exclusion (flag)
+  - [ ] **#52.4** Implement: Update detector to validate code blocks by default, skip only when flag set
+    > IMPLEMENTATION: In detector.py detect_boxes(), change is_in_code_fence() check to be conditional: if skip_code_fences and is_in_code_fence(i, stripped_lines): continue. Pass skip_code_fences from CLI flag through linter.py lint_file() and fix_file().
+  - [ ] **#52.3** Implement: Add --exclude-code-blocks CLI flag and logic to conditionally skip code fences
+  - [ ] **#52.2** Design: Define configuration option and default behavior for code block detection
+    > DESIGN: Default behavior should VALIDATE code blocks (common case). Add --exclude-code-blocks flag for users who want to skip. Rationale: Better to catch real errors by default than silently ignore them. Location: cli.py add flag, detector.py add parameter to detect_boxes(skip_code_fences=False).
+  - [ ] **#52.1** Investigate: Analyze regression - understand when code blocks should/shouldn't be checked
+    > REGRESSION: task#34.3 added is_in_code_fence() to skip false positives, but now skips ALL boxes in code blocks. Problem: Many docs put valid diagrams in code blocks for monospace rendering. These need validation. Use case 1: Tutorial showing broken ASCII (skip). Use case 2: Documentation diagram in code block (validate).
 - [x] **#35** Fix fixer plateau bug: fix command stops making progress with persistent errors (Issue #10)
   > FULLY RESOLVED: All 4 bug patterns from Issue #10 fixed and validated: (1) Table separators ├─┬─┼─┤ recognized as valid (task#35.3) (2) Malformed lines fixed - extra chars removed, missing corners added (task#35.5) (3) Junction points ┴┬ counted correctly in width (task#35.4) (4) Multi-box lines supported in detector and validator (task#34.4 + validator enhancement). Comprehensive validation in ISSUE_10_VALIDATION.md. All 182 tests passing. Ready to close Issue #10.
   - [x] **#35.8** Verify: Re-test EXAMPLE-GCP_DEVOPS_STRATEGY.md - fix should reach 0 errors
@@ -207,7 +219,7 @@
 
 ---
 
-**Last Updated:** Tue Nov 18 21:58:40 CET 2025
+**Last Updated:** Tue Nov 18 22:59:58 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata

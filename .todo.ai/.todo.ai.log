@@ -2,6 +2,18 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2025-11-18 22:59:58 | fxstein | NOTE | 52.6 | VERIFICATION: EXAMPLE-GCP_DEVOPS_STRATEGY.md has 3 boxes with 2 errors each (6 total): (1) Extra │ after row separator (lines 62,71,80) (2) Missing ┘ closing corner (lines 67,76,85). After fix, default should detect all 6 errors.
+2025-11-18 22:59:58 | fxstein | NOTE | 52.4 | IMPLEMENTATION: In detector.py detect_boxes(), change is_in_code_fence() check to be conditional: if skip_code_fences and is_in_code_fence(i, stripped_lines): continue. Pass skip_code_fences from CLI flag through linter.py lint_file() and fix_file().
+2025-11-18 22:59:58 | fxstein | NOTE | 52.2 | DESIGN: Default behavior should VALIDATE code blocks (common case). Add --exclude-code-blocks flag for users who want to skip. Rationale: Better to catch real errors by default than silently ignore them. Location: cli.py add flag, detector.py add parameter to detect_boxes(skip_code_fences=False).
+2025-11-18 22:59:57 | fxstein | NOTE | 52.1 | REGRESSION: task#34.3 added is_in_code_fence() to skip false positives, but now skips ALL boxes in code blocks. Problem: Many docs put valid diagrams in code blocks for monospace rendering. These need validation. Use case 1: Tutorial showing broken ASCII (skip). Use case 2: Documentation diagram in code block (validate).
+2025-11-18 22:59:42 | fxstein | ADD_SUBTASK | 52.7 | Document: Update CLI help and docs to explain code block behavior (parent: #52)
+2025-11-18 22:59:42 | fxstein | ADD_SUBTASK | 52.6 | Verify: Test with EXAMPLE-GCP_DEVOPS_STRATEGY.md - should detect 6 errors by default (parent: #52)
+2025-11-18 22:59:42 | fxstein | ADD_SUBTASK | 52.5 | Test: Add test cases for code block validation (default) and exclusion (flag) (parent: #52)
+2025-11-18 22:59:42 | fxstein | ADD_SUBTASK | 52.4 | Implement: Update detector to validate code blocks by default, skip only when flag set (parent: #52)
+2025-11-18 22:59:42 | fxstein | ADD_SUBTASK | 52.3 | Implement: Add --exclude-code-blocks CLI flag and logic to conditionally skip code fences (parent: #52)
+2025-11-18 22:59:42 | fxstein | ADD_SUBTASK | 52.2 | Design: Define configuration option and default behavior for code block detection (parent: #52)
+2025-11-18 22:59:42 | fxstein | ADD_SUBTASK | 52.1 | Investigate: Analyze regression - understand when code blocks should/shouldn't be checked (parent: #52)
+2025-11-18 22:59:31 | fxstein | ADD | 52 | Fix code block detection regression: validate ASCII boxes inside code blocks by default (Issue #11)
 2025-11-18 21:58:40 | fxstein | NOTE | 35 | FULLY RESOLVED: All 4 bug patterns from Issue #10 fixed and validated: (1) Table separators ├─┬─┼─┤ recognized as valid (task#35.3) (2) Malformed lines fixed - extra chars removed, missing corners added (task#35.5) (3) Junction points ┴┬ counted correctly in width (task#35.4) (4) Multi-box lines supported in detector and validator (task#34.4 + validator enhancement). Comprehensive validation in ISSUE_10_VALIDATION.md. All 182 tests passing. Ready to close Issue #10.
 2025-11-18 21:58:33 | fxstein | COMPLETE | 35 | Fix fixer plateau bug: fix command stops making progress with persistent errors (Issue #10)
 2025-11-18 21:52:25 | fxstein | NOTE | 35.6 | COMPLETED via task#34: Multi-box detection implemented in detector.py with find_all_top_left_corners() and refactored detect_boxes(). Test cases added for flowcharts with side-by-side boxes. All 182 tests passing.
