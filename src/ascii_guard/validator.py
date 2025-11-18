@@ -19,10 +19,45 @@ ZERO dependencies - uses only Python stdlib.
 
 from ascii_guard.models import (
     HORIZONTAL_CHARS,
+    LEFT_DIVIDER_CHARS,
+    RIGHT_DIVIDER_CHARS,
     VERTICAL_CHARS,
     Box,
     ValidationError,
 )
+
+
+def is_divider_line(line: str, left_col: int, right_col: int) -> bool:
+    """Check if a line is a horizontal divider within a box.
+
+    A divider line has left divider char (├, ╠), horizontal chars, and right divider char (┤, ╣).
+
+    Args:
+        line: The line to check
+        left_col: Column index of the left border
+        right_col: Column index of the right border
+
+    Returns:
+        True if the line is a divider line
+    """
+    if left_col >= len(line) or right_col >= len(line):
+        return False
+
+    left_char = line[left_col]
+    right_char = line[right_col]
+
+    # Check if both ends have divider characters
+    if left_char not in LEFT_DIVIDER_CHARS or right_char not in RIGHT_DIVIDER_CHARS:
+        return False
+
+    # Check that the middle portion contains only horizontal chars (and optional spaces)
+    for i in range(left_col + 1, right_col):
+        if i < len(line):
+            char = line[i]
+            if char not in HORIZONTAL_CHARS and char != " ":
+                return False
+
+    return True
 
 
 def validate_box(box: Box) -> list[ValidationError]:
@@ -70,6 +105,10 @@ def validate_box(box: Box) -> list[ValidationError]:
     # Validate vertical alignment of left and right borders
     for i, line in enumerate(box.lines[1:-1], start=1):  # Skip top and bottom
         actual_line_num = box.top_line + i
+
+        # Skip validation for divider lines (├───┤)
+        if is_divider_line(line, box.left_col, box.right_col):
+            continue
 
         # Check left border
         if box.left_col < len(line):

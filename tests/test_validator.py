@@ -242,3 +242,68 @@ class TestDifferentBoxStyles:
         # Note: Validator may flag ASCII-style boxes (|) as needing Unicode conversion
         # This is expected behavior - validator prefers Unicode box drawing
         assert len(errors) >= 0
+
+    def test_validate_box_with_single_divider(self) -> None:
+        """Test that boxes with horizontal dividers are valid."""
+        box = Box(
+            top_line=0,
+            bottom_line=5,
+            left_col=0,
+            right_col=31,
+            lines=[
+                "┌──────────────────────────────┐",
+                "│ Header Section               │",
+                "├──────────────────────────────┤",
+                "│ Body Section                 │",
+                "│ More content                 │",
+                "└──────────────────────────────┘",
+            ],
+            file_path="test.txt",
+        )
+
+        errors = validate_box(box)
+        assert len(errors) == 0
+
+    def test_validate_box_with_multiple_dividers(self) -> None:
+        """Test that boxes with multiple horizontal dividers are valid."""
+        box = Box(
+            top_line=0,
+            bottom_line=7,
+            left_col=0,
+            right_col=26,
+            lines=[
+                "┌─────────────────────────┐",
+                "│ Section 1               │",
+                "├─────────────────────────┤",
+                "│ Section 2               │",
+                "├─────────────────────────┤",
+                "│ Section 3               │",
+                "│ More content            │",
+                "└─────────────────────────┘",
+            ],
+            file_path="test.txt",
+        )
+
+        errors = validate_box(box)
+        assert len(errors) == 0
+
+    def test_validate_box_with_double_line_divider(self) -> None:
+        """Test that boxes with double-line dividers are valid."""
+        box = Box(
+            top_line=0,
+            bottom_line=5,
+            left_col=0,
+            right_col=21,
+            lines=[
+                "╔════════════════════╗",
+                "║ Header             ║",
+                "╠════════════════════╣",
+                "║ Body               ║",
+                "║ Content            ║",
+                "╚════════════════════╝",
+            ],
+            file_path="test.txt",
+        )
+
+        errors = validate_box(box)
+        assert len(errors) == 0

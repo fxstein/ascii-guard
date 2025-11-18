@@ -25,6 +25,10 @@ VERTICAL_CHARS = {"│", "║", "┃"}
 CORNER_CHARS = {"┌", "┐", "└", "┘", "╔", "╗", "╚", "╝", "┏", "┓", "┗", "┛"}
 JUNCTION_CHARS = {"├", "┤", "┬", "┴", "╠", "╣", "╦", "╩", "┼", "╬"}
 
+# Divider characters (for horizontal divider lines within boxes)
+LEFT_DIVIDER_CHARS = {"├", "╠"}
+RIGHT_DIVIDER_CHARS = {"┤", "╣"}
+
 # All box-drawing characters
 ALL_BOX_CHARS = HORIZONTAL_CHARS | VERTICAL_CHARS | CORNER_CHARS | JUNCTION_CHARS
 

@@ -5,11 +5,16 @@
 ## Tasks
 - [ ] **#33** Fix linter bug: divider characters (├ ┤) incorrectly flagged as border misalignment
   - [ ] **#33.6** Release: Update version, commit changes, and prepare for release
-  - [ ] **#33.5** Verify: Re-lint docs/ to confirm all false positives resolved
-  - [ ] **#33.4** Test: Add test cases for boxes with dividers (single/multiple)
-  - [ ] **#33.3** Implement: Update validator.py to recognize dividers as valid structure
-  - [ ] **#33.2** Design: Define valid divider patterns (├──┤) and update box model
-  - [ ] **#33.1** Investigate: Reproduce bug and understand current validation logic for borders
+  - [x] **#33.5** Verify: Re-lint docs/ to confirm all false positives resolved
+    > VERIFIED: All 7 docs files lint cleanly (20 boxes, 0 errors). Divider lines no longer flagged. Fixer correctly handles short lines without creating double borders.
+  - [x] **#33.4** Test: Add test cases for boxes with dividers (single/multiple)
+    > Added 6 test cases: 3 validator tests (single/multiple/double-line dividers) + 3 fixer tests (short lines, preserves dividers, multiple dividers). All 29 tests pass.
+  - [x] **#33.3** Implement: Update validator.py to recognize dividers as valid structure
+    > FIXED: (1) Validator: Added is_divider_line() check in validator.py, imports LEFT/RIGHT_DIVIDER_CHARS from models.py (2) Fixer: Fixed line extension logic in fixer.py to move misplaced border instead of duplicating
+  - [x] **#33.2** Design: Define valid divider patterns (├──┤) and update box model
+    > DESIGN: Add divider detection logic. Divider = line starting with ├, filled with horizontal chars, ending with ┤. Add LEFT_DIVIDER_CHARS={├,╠} and RIGHT_DIVIDER_CHARS={┤,╣}. Validator should skip divider lines.
+  - [x] **#33.1** Investigate: Reproduce bug and understand current validation logic for borders
+    > BUGS FOUND: (1) Validator: Divider lines ├──┤ flagged as misaligned borders - validator.py lines 77,103 only check VERTICAL_CHARS (2) Fixer: Adds ││ instead of padding content - duplicates right border
 
 ------------------
 
@@ -153,7 +158,7 @@
 
 ---
 
-**Last Updated:** Tue Nov 18 20:08:37 CET 2025
+**Last Updated:** Tue Nov 18 20:17:54 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata

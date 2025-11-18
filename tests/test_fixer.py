@@ -274,3 +274,86 @@ class TestDifferentBoxStyleFixing:
         assert "│" in fixed_lines[1] or "|" in fixed_lines[1]
         # Should have some bottom border character
         assert len(fixed_lines[2]) > 0
+
+
+class TestFixerWithDividers:
+    """Test suite for fixing boxes with horizontal dividers."""
+
+    def test_fix_short_line_after_divider(self) -> None:
+        """Test fixing a box where content lines are one char too short."""
+        box = Box(
+            top_line=0,
+            bottom_line=4,
+            left_col=0,
+            right_col=30,
+            lines=[
+                "┌──────────────────────────────┐",
+                "│ Header                       │",
+                "├──────────────────────────────┤",
+                "│ Short content line          │",  # Missing one space before border
+                "└──────────────────────────────┘",
+            ],
+            file_path="test.txt",
+        )
+
+        fixed_lines = fix_box(box)
+        # Should extend the line and place border at correct position
+        assert len(fixed_lines[3]) == 31  # Should match top border length
+        assert fixed_lines[3][30] == "│"  # Right border at correct position
+        assert "││" not in fixed_lines[3]  # Should NOT create double borders
+
+    def test_fix_preserves_divider_lines(self) -> None:
+        """Test that divider lines remain intact during fixing."""
+        box = Box(
+            top_line=0,
+            bottom_line=5,
+            left_col=0,
+            right_col=26,
+            lines=[
+                "┌─────────────────────────┐",
+                "│ Section 1               │",
+                "├─────────────────────────┤",
+                "│ Section 2              │",  # One char short
+                "│ Content                 │",
+                "└─────────────────────────┘",
+            ],
+            file_path="test.txt",
+        )
+
+        fixed_lines = fix_box(box)
+        # Divider line should be unchanged
+        assert fixed_lines[2] == "├─────────────────────────┤"
+        # Short line should be fixed
+        assert len(fixed_lines[3]) == 27
+        assert "││" not in fixed_lines[3]
+
+    def test_fix_multiple_short_lines_with_dividers(self) -> None:
+        """Test fixing multiple short lines in a box with dividers."""
+        box = Box(
+            top_line=0,
+            bottom_line=6,
+            left_col=0,
+            right_col=21,
+            lines=[
+                "┌────────────────────┐",
+                "│ Header            │",  # One char short
+                "├────────────────────┤",
+                "│ Body              │",  # One char short
+                "├────────────────────┤",
+                "│ Footer            │",  # One char short
+                "└────────────────────┘",
+            ],
+            file_path="test.txt",
+        )
+
+        fixed_lines = fix_box(box)
+        # All content lines should be fixed to proper length
+        assert len(fixed_lines[1]) == 22
+        assert len(fixed_lines[3]) == 22
+        assert len(fixed_lines[5]) == 22
+        # Divider lines should be unchanged
+        assert fixed_lines[2] == "├────────────────────┤"
+        assert fixed_lines[4] == "├────────────────────┤"
+        # No double borders
+        for line in fixed_lines:
+            assert "││" not in line

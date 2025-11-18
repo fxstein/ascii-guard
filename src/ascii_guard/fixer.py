@@ -18,6 +18,7 @@ ZERO dependencies - uses only Python stdlib.
 """
 
 from ascii_guard.models import HORIZONTAL_CHARS, Box
+from ascii_guard.validator import is_divider_line
 
 
 def fix_box(box: Box) -> list[str]:
@@ -72,13 +73,24 @@ def fix_box(box: Box) -> list[str]:
 
     # Fix middle lines (ensure they have proper vertical borders)
     for i in range(1, len(fixed_lines) - 1):
-        line = fixed_lines[i]
+        line = fixed_lines[i].rstrip()
 
-        # Ensure line is long enough
-        if len(line) < box.right_col + 1:
-            line = line.ljust(box.right_col + 1)
+        # Skip divider lines - they're valid structural elements
+        if is_divider_line(line, box.left_col, box.right_col):
+            continue
 
         line_chars = list(line)
+
+        # Check if this line is too short and needs the right border moved/added
+        if len(line_chars) <= box.right_col:
+            # If line has a border character at the end that should be at right_col
+            if line_chars and line_chars[-1] in {"│", "║", "┃"}:
+                # Remove the misplaced border and extend the line
+                line_chars = line_chars[:-1]
+
+            # Extend line to proper length with spaces
+            while len(line_chars) < box.right_col + 1:
+                line_chars.append(" ")
 
         # Fix left border if needed
         if box.left_col < len(line_chars) and line_chars[box.left_col] not in {
