@@ -4,6 +4,7 @@
 
 ## Tasks
 - [x] **#35** Fix fixer plateau bug: fix command stops making progress with persistent errors (Issue #10)
+  > FULLY RESOLVED: All 4 bug patterns from Issue #10 fixed and validated: (1) Table separators ├─┬─┼─┤ recognized as valid (task#35.3) (2) Malformed lines fixed - extra chars removed, missing corners added (task#35.5) (3) Junction points ┴┬ counted correctly in width (task#35.4) (4) Multi-box lines supported in detector and validator (task#34.4 + validator enhancement). Comprehensive validation in ISSUE_10_VALIDATION.md. All 182 tests passing. Ready to close Issue #10.
   - [x] **#35.8** Verify: Re-test EXAMPLE-GCP_DEVOPS_STRATEGY.md - fix should reach 0 errors
     > VERIFIED: All 3 bug patterns from Issue #10 fixed and tested: (1) Table separators ├─┬/┼─┤: ✅ Test case passes, 0 errors (2) Junction points ┌─┴─┐: ✅ Test case passes, width calculated correctly (3) Missing bottom corners: ✅ Fixer adds corner, lint reaches 0 errors. Malformed table with extra │ after separator: ✅ Detected and fixed (1 error → 0 errors after fix). All implementations verified with comprehensive test suite (177 tests passing). Multi-box lines (task#35.6) deferred to task#34.
   - [x] **#35.7** Test: Add test cases for tables, junction points, and multi-box lines
@@ -206,7 +207,7 @@
 
 ---
 
-**Last Updated:** Tue Nov 18 21:52:25 CET 2025
+**Last Updated:** Tue Nov 18 21:58:40 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata
