@@ -28,6 +28,7 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           wait-interval: 10
           allowed-conclusions: success,skipped,neutral
+          running-workflow-name: 'Dependabot Auto-merge'
 
       - name: Auto-merge minor and patch updates
         if: |
