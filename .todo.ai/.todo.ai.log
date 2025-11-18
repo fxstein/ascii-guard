@@ -2,6 +2,13 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2025-11-18 20:08:37 | fxstein | ADD_SUBTASK | 33.6 | Release: Update version, commit changes, and prepare for release (parent: #33)
+2025-11-18 20:08:36 | fxstein | ADD_SUBTASK | 33.5 | Verify: Re-lint docs/ to confirm all false positives resolved (parent: #33)
+2025-11-18 20:08:35 | fxstein | ADD_SUBTASK | 33.4 | Test: Add test cases for boxes with dividers (single/multiple) (parent: #33)
+2025-11-18 20:08:34 | fxstein | ADD_SUBTASK | 33.3 | Implement: Update validator.py to recognize dividers as valid structure (parent: #33)
+2025-11-18 20:08:33 | fxstein | ADD_SUBTASK | 33.2 | Design: Define valid divider patterns (├──┤) and update box model (parent: #33)
+2025-11-18 20:08:31 | fxstein | ADD_SUBTASK | 33.1 | Investigate: Reproduce bug and understand current validation logic for borders (parent: #33)
+2025-11-18 20:08:13 | fxstein | ADD | 33 | Fix linter bug: divider characters (├ ┤) incorrectly flagged as border misalignment
 2025-11-17 21:46:22 | fxstein | ARCHIVE | 17 | Implement .ascii-guard.toml config file with directory scanning (with 10 subtasks)
 2025-11-17 20:56:24 | fxstein | COMPLETE | 17 | Implement .ascii-guard.toml config file with directory scanning
 2025-11-17 20:56:24 | fxstein | COMPLETE | 17.10 | Add comprehensive tests (config, patterns, scanning, CLI)
