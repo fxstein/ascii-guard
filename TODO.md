@@ -9,6 +9,7 @@
   - [ ] **#34.4** Implement: Update detector to handle multiple boxes per line (split on non-box chars)
   - [ ] **#34.3** Implement: Add markdown code block detection to skip fenced code
   - [ ] **#34.2** Design: Define context-aware detection strategy (markdown, code fences, line boundaries)
+    > DESIGN: Detect markdown code fences (```) to skip code blocks. Split lines on arrows/spaces for multiple boxes. Consider file type (.md vs .txt vs .py) for context-aware detection.
   - [ ] **#34.1** Investigate: Analyze 3 false positive patterns (multi-box lines, code blocks, string literals)
     > 3 FALSE POSITIVES FOUND: (1) USAGE.md:261 - flowchart with 2 boxes + arrow on same line (2) FAQ.md:127 - comparison text showing Unicode vs ASCII (3) TESTING.md:259 - Python string literal in test code
 - [ ] **#33** Fix linter bug: divider characters (├ ┤) incorrectly flagged as border misalignment
@@ -166,7 +167,7 @@
 
 ---
 
-**Last Updated:** Tue Nov 18 20:27:55 CET 2025
+**Last Updated:** Tue Nov 18 20:28:08 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata
