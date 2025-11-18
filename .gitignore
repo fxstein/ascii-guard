@@ -103,3 +103,5 @@ release/.prepare_state
 # ============================================================
 .DS_Store
 Thumbs.db
+retry-push.zsh
+retry-push.log
