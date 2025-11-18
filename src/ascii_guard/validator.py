@@ -236,20 +236,29 @@ def validate_box(box: Box) -> list[ValidationError]:
                 )
 
             # Check if line has extra content/borders after right_col
+            # Only validate the slice of the line that belongs to this box
+            # (handles multiple boxes on same line)
             line_stripped = line.rstrip()
             if len(line_stripped) > box.right_col + 1:
-                errors.append(
-                    ValidationError(
-                        line=actual_line_num,
-                        column=box.right_col + 1,
-                        message=(
-                            f"Line has extra characters after right border "
-                            f"(length {len(line_stripped)}, expected {box.right_col + 1})"
-                        ),
-                        severity="error",
-                        fix="Remove extra characters after right border",
+                # Check if extra characters are outside this box's range
+                # (could be another box on the same line)
+                extra_content = line_stripped[box.right_col + 1 :].lstrip()
+                # If extra content starts with a box character (corner or vertical),
+                # it's likely another box on the same line
+                box_chars = {"┌", "└", "╔", "╚", "┏", "┗"} | VERTICAL_CHARS
+                if not any(extra_content.startswith(c) for c in box_chars):
+                    errors.append(
+                        ValidationError(
+                            line=actual_line_num,
+                            column=box.right_col + 1,
+                            message=(
+                                f"Line has extra characters after right border "
+                                f"(length {len(line_stripped)}, expected {box.right_col + 1})"
+                            ),
+                            severity="error",
+                            fix="Remove extra characters after right border",
+                        )
                     )
-                )
         else:
             errors.append(
                 ValidationError(
