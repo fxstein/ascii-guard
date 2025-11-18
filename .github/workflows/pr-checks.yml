@@ -49,8 +49,8 @@ jobs:
 
           echo "Checking runtime dependencies..."
 
-          # Extract dependencies array from pyproject.toml
-          DEPS=$(grep -A5 "^dependencies = \[" pyproject.toml | grep -v "^dependencies = \[" | grep -v "^\]" | grep -v "^#" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | grep -v "^$")
+          # Extract dependencies array from pyproject.toml (stop at closing bracket)
+          DEPS=$(sed -n '/^dependencies = \[/,/^\]/p' pyproject.toml | grep -v "^dependencies = \[" | grep -v "^\]" | grep -v "^#" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | grep -v "^$")
 
           if [ -z "$DEPS" ]; then
             echo "✓ Zero runtime dependencies (empty array)"
