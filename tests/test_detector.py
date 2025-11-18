@@ -271,3 +271,81 @@ class TestMultipleBoxesPerLine:
 
         boxes = detect_boxes(str(test_file))
         assert len(boxes) == 3
+
+
+class TestDetectorEdgeCases:
+    """Test edge cases to achieve 100% coverage."""
+
+    def test_has_box_drawing_chars_false(self) -> None:
+        """Test has_box_drawing_chars with no box characters."""
+        from ascii_guard.detector import has_box_drawing_chars
+
+        line = "This is just plain text"
+        assert not has_box_drawing_chars(line)
+
+    def test_detect_boxes_file_not_found(self, tmp_path: Path) -> None:
+        """Test detecting boxes when file doesn't exist."""
+        non_existent = tmp_path / "does_not_exist.txt"
+
+        with pytest.raises(FileNotFoundError, match="File not found"):
+            detect_boxes(str(non_existent))
+
+    def test_detect_boxes_file_read_error(self, tmp_path: Path) -> None:
+        """Test detecting boxes when file cannot be read (OSError)."""
+        test_file = tmp_path / "test.txt"
+        test_file.write_text("┌────┐\n│Test│\n└────┘")
+        # Make file unreadable
+        import os
+
+        os.chmod(test_file, 0o000)
+
+        try:
+            with pytest.raises(OSError, match="Cannot read file"):
+                detect_boxes(str(test_file))
+        finally:
+            # Restore permissions for cleanup
+            os.chmod(test_file, 0o644)
+
+    def test_detect_boxes_with_incomplete_box(self, tmp_path: Path) -> None:
+        """Test box detection with incomplete box (no bottom corner)."""
+        test_file = tmp_path / "incomplete.txt"
+        test_file.write_text(
+            """┌──────────────┐
+│ Has top      │
+│ But no bottom
+"""
+        )
+
+        boxes = detect_boxes(str(test_file))
+        # Should not detect incomplete box
+        assert len(boxes) == 0
+
+    def test_detect_boxes_with_no_right_corner(self, tmp_path: Path) -> None:
+        """Test box detection when top line has no right corner."""
+        test_file = tmp_path / "no_right.txt"
+        test_file.write_text(
+            """┌──────────────
+│ Content here │
+└──────────────┘
+"""
+        )
+
+        boxes = detect_boxes(str(test_file))
+        # Should not detect box without right corner
+        assert len(boxes) == 0
+
+    def test_detect_boxes_exclude_code_blocks_with_bottom_in_fence(self, tmp_path: Path) -> None:
+        """Test that bottom detection skips lines in code fence when exclude_code_blocks=True."""
+        test_file = tmp_path / "fence_bottom.txt"
+        test_file.write_text(
+            """┌──────────────┐
+│ Top part     │
+```
+└──────────────┘
+```
+"""
+        )
+
+        boxes = detect_boxes(str(test_file), exclude_code_blocks=True)
+        # Bottom corner is in code fence, so box should not be detected
+        assert len(boxes) == 0

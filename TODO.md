@@ -8,7 +8,8 @@
   - [x] **#54.9** Improve validator.py coverage (92% -> 100%): Test all validation branches
     > Improved from 88% to 94% coverage. Remaining 6% involves complex branch conditions that are hard to reach
     > Missing lines 57-56, 82, 105-110, 133-140, 181-188, 220-241, 259, 273. Test: all validation branch conditions
-  - [ ] **#54.8** Improve scanner.py coverage (93% -> 100%): Test error handling for file operations
+  - [x] **#54.8** Improve scanner.py coverage (93% -> 100%): Test error handling for file operations
+    > Improved from 93% to 97% coverage. Remaining 3% (lines 70-71) is unreachable code (Latin-1 decode cannot fail)
     > Missing lines 65-71, 176-167. Test: binary file detection edge cases, large files, permission errors
   - [ ] **#54.7** Improve patterns.py coverage (85% -> 100%): Test edge cases in pattern matching
     > Missing lines 54-56, 119, 144-148, 156-158, 172-178, 175. Test: invalid patterns, edge cases in matching, path normalization
@@ -19,7 +20,7 @@
   - [x] **#54.4** Improve fixer.py coverage (91% -> 100%): Test edge cases for box fixing
     > Improved from 91% to 95% coverage. Remaining 5% is hard-to-reach edge cases (junction map fallback, specific branch conditions)
     > Missing lines 34, 42-95, 87-88, 105-111, 137. Test: empty box lines, edge cases in line fixing, right border edge cases
-  - [ ] **#54.3** Improve detector.py coverage (91% -> 100%): Test edge cases for box detection
+  - [x] **#54.3** Improve detector.py coverage (91% -> 100%): Test edge cases for box detection
     > Missing lines 27, 127-128, 157-167, 160, 169, 179-186. Test: file read errors, incomplete boxes, edge cases in bottom detection
   - [ ] **#54.2** Improve config.py coverage (84% -> 100%): Test error handling for invalid config files
     > Missing lines 31-34, 104, 141, 174, 181, 183, 191, 193, 200, 209. Test: TOML parse errors, invalid types, unknown keys/sections warnings, file not found
@@ -254,7 +255,7 @@
 
 ---
 
-**Last Updated:** Tue Nov 18 23:38:23 CET 2025
+**Last Updated:** Tue Nov 18 23:42:08 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata
