@@ -307,3 +307,81 @@ class TestDifferentBoxStyles:
 
         errors = validate_box(box)
         assert len(errors) == 0
+
+    def test_validate_table_with_column_separators(self) -> None:
+        """Test that tables with column separators (├─┬─┤) are valid."""
+        box = Box(
+            top_line=0,
+            bottom_line=5,
+            left_col=0,
+            right_col=38,
+            lines=[
+                "┌───────────┬──────────┬──────────────┐",
+                "│ Column 1  │ Column 2 │ Column 3     │",
+                "├───────────┼──────────┼──────────────┤",
+                "│ Data 1    │ Data 2   │ Data 3       │",
+                "│ More data │ Values   │ Information  │",
+                "└───────────┴──────────┴──────────────┘",
+            ],
+            file_path="test.txt",
+        )
+
+        errors = validate_box(box)
+        assert len(errors) == 0
+
+    def test_validate_box_with_top_junction(self) -> None:
+        """Test that boxes with junction points in top border (┌─┬─┐) are valid."""
+        box = Box(
+            top_line=0,
+            bottom_line=2,
+            left_col=0,
+            right_col=21,
+            lines=[
+                "┌─────────┬──────────┐",
+                "│ Section │ Section  │",
+                "└─────────┴──────────┘",
+            ],
+            file_path="test.txt",
+        )
+
+        errors = validate_box(box)
+        assert len(errors) == 0
+
+    def test_validate_flowchart_with_junction_point(self) -> None:
+        """Test that flowchart boxes with junction points (┌──┴──┐) are valid."""
+        box = Box(
+            top_line=0,
+            bottom_line=2,
+            left_col=8,
+            right_col=20,
+            lines=[
+                "        ┌─────┴─────┐",
+                "        │ All Valid?│",
+                "        └───────────┘",
+            ],
+            file_path="test.txt",
+        )
+
+        errors = validate_box(box)
+        assert len(errors) == 0
+
+    def test_validate_table_separator_with_extra_chars(self) -> None:
+        """Test that table separators with extra characters are detected."""
+        box = Box(
+            top_line=0,
+            bottom_line=3,
+            left_col=0,
+            right_col=21,
+            lines=[
+                "┌─────────┬──────────┐",
+                "│ Col 1   │ Col 2    │",
+                "├─────────┼──────────┤│",  # Extra │ at end
+                "└─────────┴──────────┘",
+            ],
+            file_path="test.txt",
+        )
+
+        errors = validate_box(box)
+        assert len(errors) == 1
+        assert "extra characters" in errors[0].message.lower()
+        assert errors[0].line == 2  # Line 3 (0-indexed)

@@ -357,3 +357,96 @@ class TestFixerWithDividers:
         # No double borders
         for line in fixed_lines:
             assert "││" not in line
+
+
+class TestFixerWithTableSeparators:
+    """Test suite for fixing boxes with table column separators."""
+
+    def test_fix_table_separator_with_extra_char(self) -> None:
+        """Test fixing table separator with extra character at end."""
+        box = Box(
+            top_line=0,
+            bottom_line=3,
+            left_col=0,
+            right_col=21,
+            lines=[
+                "┌─────────┬──────────┐",
+                "│ Col 1   │ Col 2    │",
+                "├─────────┼──────────┤│",  # Extra │ at end
+                "└─────────┴──────────┘",
+            ],
+            file_path="test.txt",
+        )
+
+        fixed_lines = fix_box(box)
+        # Extra character should be removed
+        assert fixed_lines[2] == "├─────────┼──────────┤"
+        assert len(fixed_lines[2]) == 22  # Should match top border length
+
+    def test_fix_missing_bottom_corner(self) -> None:
+        """Test fixing box with missing bottom right corner."""
+        box = Box(
+            top_line=0,
+            bottom_line=2,
+            left_col=0,
+            right_col=21,
+            lines=[
+                "┌────────────────────┐",
+                "│ Content            │",
+                "└───────────────────",  # Missing ┘
+            ],
+            file_path="test.txt",
+        )
+
+        fixed_lines = fix_box(box)
+        # Bottom line should be extended and corner added
+        assert len(fixed_lines[2]) == 22
+        assert fixed_lines[2][21] == "┘"
+        assert fixed_lines[2] == "└────────────────────┘"
+
+    def test_fix_table_with_extra_chars_and_missing_corner(self) -> None:
+        """Test fixing table with both extra chars and missing corner."""
+        box = Box(
+            top_line=0,
+            bottom_line=4,
+            left_col=0,
+            right_col=30,
+            lines=[
+                "┌──────────┬──────────────────┐",
+                "│ Header 1 │ Header 2         │",
+                "├──────────┼──────────────────┤│",  # Extra │
+                "│ Data     │ Values           │",
+                "└──────────┴─────────────────",  # Missing ┘
+            ],
+            file_path="test.txt",
+        )
+
+        fixed_lines = fix_box(box)
+        # Table separator should have extra char removed
+        assert fixed_lines[2] == "├──────────┼──────────────────┤"
+        assert len(fixed_lines[2]) == 31
+        # Bottom corner should be added
+        assert fixed_lines[4][30] == "┘"
+        assert len(fixed_lines[4]) == 31
+
+    def test_fix_preserves_junction_points_in_borders(self) -> None:
+        """Test that junction points in borders are preserved during fixing."""
+        box = Box(
+            top_line=0,
+            bottom_line=2,
+            left_col=0,
+            right_col=21,
+            lines=[
+                "┌─────────┬──────────┐",  # Junction in top border
+                "│ Content │ Content  │",
+                "└─────────┴─────────",  # Missing ┘, junction should map ┬→┴
+            ],
+            file_path="test.txt",
+        )
+
+        fixed_lines = fix_box(box)
+        # Top border should be unchanged
+        assert fixed_lines[0] == "┌─────────┬──────────┐"
+        # Bottom should have junction converted and corner added
+        assert fixed_lines[2] == "└─────────┴──────────┘"
+        assert len(fixed_lines[2]) == 22
