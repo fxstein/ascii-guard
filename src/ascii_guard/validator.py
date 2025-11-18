@@ -151,6 +151,22 @@ def validate_box(box: Box) -> list[ValidationError]:
                         fix="Replace with vertical border character │",
                     )
                 )
+
+            # Check if line has extra content/borders after right_col
+            line_stripped = line.rstrip()
+            if len(line_stripped) > box.right_col + 1:
+                errors.append(
+                    ValidationError(
+                        line=actual_line_num,
+                        column=box.right_col + 1,
+                        message=(
+                            f"Line has extra characters after right border "
+                            f"(length {len(line_stripped)}, expected {box.right_col + 1})"
+                        ),
+                        severity="error",
+                        fix="Remove extra characters after right border",
+                    )
+                )
         else:
             errors.append(
                 ValidationError(

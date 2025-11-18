@@ -91,6 +91,15 @@ def fix_box(box: Box) -> list[str]:
             # Extend line to proper length with spaces
             while len(line_chars) < box.right_col + 1:
                 line_chars.append(" ")
+        elif len(line_chars) > box.right_col + 1:
+            # Line is too long - check for double borders or trailing content
+            if (
+                box.right_col + 1 < len(line_chars)
+                and line_chars[box.right_col] in {"│", "║", "┃"}
+                and line_chars[box.right_col + 1] in {"│", "║", "┃"}
+            ):
+                # Double border detected - truncate after the correct position
+                line_chars = line_chars[: box.right_col + 1]
 
         # Fix left border if needed
         if box.left_col < len(line_chars) and line_chars[box.left_col] not in {

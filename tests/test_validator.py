@@ -30,7 +30,7 @@ class TestBoxValidation:
             top_line=0,
             bottom_line=3,
             left_col=0,
-            right_col=20,
+            right_col=21,
             lines=[
                 "┌────────────────────┐",
                 "│ Perfect box        │",
@@ -193,7 +193,7 @@ class TestDifferentBoxStyles:
             top_line=0,
             bottom_line=2,
             left_col=0,
-            right_col=20,
+            right_col=21,
             lines=[
                 "╔════════════════════╗",
                 "║ Double line box    ║",
@@ -211,7 +211,7 @@ class TestDifferentBoxStyles:
             top_line=0,
             bottom_line=2,
             left_col=0,
-            right_col=20,
+            right_col=21,
             lines=[
                 "┏━━━━━━━━━━━━━━━━━━━━┓",
                 "┃ Heavy line box     ┃",

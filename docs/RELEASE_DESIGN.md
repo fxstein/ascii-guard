@@ -118,7 +118,7 @@ The script will have **3 modes**:
 └─────────────────────────────────────────────────────────┘
                         ↓
 ┌─────────────────────────────────────────────────────────┐
-│ OUTPUTS                                                 ││
+│ OUTPUTS                                                 │
 ├─────────────────────────────────────────────────────────┤
 │ • PyPI: ascii-guard X.Y.Z published                     │
 │ • GitHub: Release created with wheel/sdist              │
