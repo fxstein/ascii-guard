@@ -2,6 +2,8 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2025-11-18 21:39:29 | fxstein | COMPLETE | 35.5 | Implement: Fix fixer logic to properly handle malformed lines (extra chars, missing borders)
+2025-11-18 21:39:28 | fxstein | NOTE | 35.5 | IMPLEMENTED: Updated validator to detect extra characters after table separator lines. Updated fixer to remove extra characters from table separators and properly add missing bottom corner when line is too short. Fixer now correctly handles malformed tables.
 2025-11-18 21:32:19 | fxstein | COMPLETE | 35.4 | Implement: Add junction point detection in box borders (┴┬ in width calculations)
 2025-11-18 21:32:19 | fxstein | COMPLETE | 35.3 | Implement: Add table column separator detection and validation
 2025-11-18 21:32:18 | fxstein | NOTE | 35.4 | IMPLEMENTED: Updated border width calculation in validate_box() to count ALL JUNCTION_CHARS (├┤┬┴┼╠╣╦╩╬) as part of border width. Now ┌─────┴─────┐ correctly counts as 11 chars wide, matching └───────────┘.

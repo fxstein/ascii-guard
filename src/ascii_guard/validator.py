@@ -68,6 +68,8 @@ def is_table_separator_line(line: str, left_col: int, right_col: int) -> bool:
     A table separator line has left divider char (├, ╠), horizontal chars with
     column junction chars (┬, ┼, ╦, ╬), and right divider char (┤, ╣).
 
+    This function is tolerant of extra characters after the right border.
+
     Args:
         line: The line to check
         left_col: Column index of the left border
@@ -76,19 +78,30 @@ def is_table_separator_line(line: str, left_col: int, right_col: int) -> bool:
     Returns:
         True if the line is a table separator line
     """
-    if left_col >= len(line) or right_col >= len(line):
+    if left_col >= len(line):
         return False
 
     left_char = line[left_col]
-    right_char = line[right_col]
 
-    # Check if both ends have divider characters
-    if left_char not in LEFT_DIVIDER_CHARS or right_char not in RIGHT_DIVIDER_CHARS:
+    # Check if left end has divider character
+    if left_char not in LEFT_DIVIDER_CHARS:
+        return False
+
+    # Find the right divider character (might be at right_col or right_col-1)
+    # This handles cases where there's an extra character after the divider
+    actual_right_col = -1
+    for offset in [0, -1]:  # Check right_col, then right_col-1
+        check_col = right_col + offset
+        if 0 <= check_col < len(line) and line[check_col] in RIGHT_DIVIDER_CHARS:
+            actual_right_col = check_col
+            break
+
+    if actual_right_col == -1:
         return False
 
     # Check that the middle portion contains horizontal chars and/or table junction chars
     has_junction = False
-    for i in range(left_col + 1, right_col):
+    for i in range(left_col + 1, actual_right_col):
         if i < len(line):
             char = line[i]
             if char in TABLE_COLUMN_JUNCTION_CHARS:
@@ -154,6 +167,30 @@ def validate_box(box: Box) -> list[ValidationError]:
         if is_divider_line(line, box.left_col, box.right_col):
             continue
         if is_table_separator_line(line, box.left_col, box.right_col):
+            # Check for extra characters after table separator
+            # Find where the actual right divider is
+            actual_right_col = -1
+            for offset in [0, -1]:
+                check_col = box.right_col + offset
+                if 0 <= check_col < len(line) and line[check_col] in RIGHT_DIVIDER_CHARS:
+                    actual_right_col = check_col
+                    break
+
+            if actual_right_col != -1:
+                line_stripped = line.rstrip()
+                if len(line_stripped) > actual_right_col + 1:
+                    errors.append(
+                        ValidationError(
+                            line=actual_line_num,
+                            column=actual_right_col + 1,
+                            message=(
+                                f"Table separator has extra characters after right border "
+                                f"(length {len(line_stripped)}, expected {actual_right_col + 1})"
+                            ),
+                            severity="error",
+                            fix="Remove extra characters after right border",
+                        )
+                    )
             continue
 
         # Check left border

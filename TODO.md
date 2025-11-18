@@ -7,7 +7,8 @@
   - [ ] **#35.8** Verify: Re-test EXAMPLE-GCP_DEVOPS_STRATEGY.md - fix should reach 0 errors
   - [ ] **#35.7** Test: Add test cases for tables, junction points, and multi-box lines
   - [ ] **#35.6** Implement: Add support for multiple boxes on same line (flowcharts)
-  - [ ] **#35.5** Implement: Fix fixer logic to properly handle malformed lines (extra chars, missing borders)
+  - [x] **#35.5** Implement: Fix fixer logic to properly handle malformed lines (extra chars, missing borders)
+    > IMPLEMENTED: Updated validator to detect extra characters after table separator lines. Updated fixer to remove extra characters from table separators and properly add missing bottom corner when line is too short. Fixer now correctly handles malformed tables.
   - [x] **#35.4** Implement: Add junction point detection in box borders (┴┬ in width calculations)
     > IMPLEMENTED: Updated border width calculation in validate_box() to count ALL JUNCTION_CHARS (├┤┬┴┼╠╣╦╩╬) as part of border width. Now ┌─────┴─────┐ correctly counts as 11 chars wide, matching └───────────┘.
   - [x] **#35.3** Implement: Add table column separator detection and validation
@@ -197,7 +198,7 @@
 
 ---
 
-**Last Updated:** Tue Nov 18 21:32:19 CET 2025
+**Last Updated:** Tue Nov 18 21:39:29 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata

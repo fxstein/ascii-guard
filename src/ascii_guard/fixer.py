@@ -17,8 +17,8 @@
 ZERO dependencies - uses only Python stdlib.
 """
 
-from ascii_guard.models import HORIZONTAL_CHARS, Box
-from ascii_guard.validator import is_divider_line
+from ascii_guard.models import HORIZONTAL_CHARS, JUNCTION_CHARS, RIGHT_DIVIDER_CHARS, Box
+from ascii_guard.validator import is_divider_line, is_table_separator_line
 
 
 def fix_box(box: Box) -> list[str]:
@@ -42,30 +42,43 @@ def fix_box(box: Box) -> list[str]:
     if len(fixed_lines) > 1:
         bottom_line = fixed_lines[-1]
 
+        # Remember if we need to extend the line
+        was_too_short = len(bottom_line) < box.right_col + 1
+
         # Ensure bottom line is at least as long as needed
-        if len(bottom_line) < box.right_col + 1:
+        if was_too_short:
             bottom_line = bottom_line.ljust(box.right_col + 1)
 
         # Rebuild bottom border
         bottom_chars = list(bottom_line)
 
-        # Keep the corner characters
+        # Determine corner characters (use defaults if line was extended)
         left_corner = bottom_chars[box.left_col] if box.left_col < len(bottom_chars) else "└"
-        right_corner = bottom_chars[box.right_col] if box.right_col < len(bottom_chars) else "┘"
+        if was_too_short:
+            # Line was extended with spaces, so use default right corner
+            right_corner = "┘"
+        else:
+            # Keep the existing right corner character
+            right_corner = bottom_chars[box.right_col] if box.right_col < len(bottom_chars) else "┘"
 
-        # Determine which horizontal character to use
+        # Determine which horizontal character to use (preserve junction chars)
         horizontal_char = "─"
         for char in top_line[box.left_col : box.right_col + 1]:
             if char in HORIZONTAL_CHARS:
                 horizontal_char = char
                 break
 
-        # Build the bottom border
+        # Build the bottom border (preserve junction characters from top)
         for i in range(box.left_col, box.right_col + 1):
             if i == box.left_col:
                 bottom_chars[i] = left_corner
             elif i == box.right_col:
                 bottom_chars[i] = right_corner
+            elif i < len(top_line) and top_line[i] in JUNCTION_CHARS:
+                # Preserve junction characters from top border in bottom border
+                # Convert top junction to bottom junction
+                junction_map = {"┬": "┴", "╦": "╩"}
+                bottom_chars[i] = junction_map.get(top_line[i], horizontal_char)
             else:
                 bottom_chars[i] = horizontal_char
 
@@ -75,8 +88,23 @@ def fix_box(box: Box) -> list[str]:
     for i in range(1, len(fixed_lines) - 1):
         line = fixed_lines[i].rstrip()
 
-        # Skip divider lines - they're valid structural elements
+        # Skip divider lines and table separator lines - they're valid structural elements
         if is_divider_line(line, box.left_col, box.right_col):
+            continue
+        if is_table_separator_line(line, box.left_col, box.right_col):
+            # Fix malformed table separator lines (extra chars at end)
+            # Find where the actual right divider character is
+            actual_right_col = -1
+            for offset in [0, -1]:  # Check right_col, then right_col-1
+                check_col = box.right_col + offset
+                if 0 <= check_col < len(line) and line[check_col] in RIGHT_DIVIDER_CHARS:
+                    actual_right_col = check_col
+                    break
+
+            if actual_right_col != -1 and len(line) > actual_right_col + 1:
+                # Remove extra characters after the right divider
+                line = line[: actual_right_col + 1]
+                fixed_lines[i] = line.rstrip()
             continue
 
         line_chars = list(line)
@@ -100,6 +128,9 @@ def fix_box(box: Box) -> list[str]:
             ):
                 # Double border detected - truncate after the correct position
                 line_chars = line_chars[: box.right_col + 1]
+            # Note: We don't truncate lines with extra content after the border
+            # as they might be part of flowcharts with multiple boxes per line
+            # This is addressed in task#35.6
 
         # Fix left border if needed
         if box.left_col < len(line_chars) and line_chars[box.left_col] not in {
