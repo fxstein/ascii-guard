@@ -30,9 +30,9 @@
     > IMPLEMENTED: Refactored detector to find multiple boxes per line. Added find_all_top_left_corners() to find all box starts on a line. Updated find_bottom_left_corner() to check specific column. Changed detect_boxes() main loop to iterate through all corners on each line. Now correctly detects flowcharts with side-by-side boxes.
   - [x] **#34.3** Implement: Add markdown code block detection to skip fenced code
     > IMPLEMENTED: Added is_in_code_fence() function to detect markdown code fences and skip boxes within them. Updated detect_boxes() to call is_in_code_fence() and skip lines inside code blocks. Prevents false positives from code examples in documentation.
-  - [ ] **#34.2** Design: Define context-aware detection strategy (markdown, code fences, line boundaries)
+  - [x] **#34.2** Design: Define context-aware detection strategy (markdown, code fences, line boundaries)
     > DESIGN: Detect markdown code fences (```) to skip code blocks. Split lines on arrows/spaces for multiple boxes. Consider file type (.md vs .txt vs .py) for context-aware detection.
-  - [ ] **#34.1** Investigate: Analyze 3 false positive patterns (multi-box lines, code blocks, string literals)
+  - [x] **#34.1** Investigate: Analyze 3 false positive patterns (multi-box lines, code blocks, string literals)
     > 3 FALSE POSITIVES FOUND: (1) USAGE.md:261 - flowchart with 2 boxes + arrow on same line (2) FAQ.md:127 - comparison text showing Unicode vs ASCII (3) TESTING.md:259 - Python string literal in test code
 - [x] **#33** Fix linter bug: divider characters (├ ┤) incorrectly flagged as border misalignment
   - [x] **#33.6** Release: Update version, commit changes, and prepare for release
@@ -205,7 +205,7 @@
 
 ---
 
-**Last Updated:** Tue Nov 18 21:50:44 CET 2025
+**Last Updated:** Tue Nov 18 21:51:18 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata
