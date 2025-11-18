@@ -3,6 +3,15 @@
 > **⚠️ IMPORTANT: This file should ONLY be edited through the `todo.ai` script!**
 
 ## Tasks
+- [ ] **#35** Fix fixer plateau bug: fix command stops making progress with persistent errors (Issue #10)
+  - [ ] **#35.8** Verify: Re-test EXAMPLE-GCP_DEVOPS_STRATEGY.md - fix should reach 0 errors
+  - [ ] **#35.7** Test: Add test cases for tables, junction points, and multi-box lines
+  - [ ] **#35.6** Implement: Add support for multiple boxes on same line (flowcharts)
+  - [ ] **#35.5** Implement: Fix fixer logic to properly handle malformed lines (extra chars, missing borders)
+  - [ ] **#35.4** Implement: Add junction point detection in box borders (┴┬ in width calculations)
+  - [ ] **#35.3** Implement: Add table column separator detection and validation
+  - [ ] **#35.2** Design: Define support for table column separators (├─┬─┼─┤) and junction points (┴┬)
+  - [ ] **#35.1** Investigate: Reproduce issue #10 bugs with EXAMPLE-GCP_DEVOPS_STRATEGY.md test file
 - [ ] **#34** Fix detector false positives: code blocks, multi-box lines, and examples
   - [ ] **#34.6** Verify: Re-lint docs/ - all 3 false positives should be resolved
   - [ ] **#34.5** Test: Add test cases for flowcharts, code examples, and string literals
@@ -158,6 +167,22 @@
 
 
 ## Deleted Tasks
+- [D] **#51** 35:Verify: Re-test EXAMPLE-GCP_DEVOPS_STRATEGY.md - fix should reach 0 errors (deleted 2025-11-18, expires 2025-12-18)
+- [D] **#50** 35:Test: Add test cases for tables, junction points, and multi-box lines (deleted 2025-11-18, expires 2025-12-18)
+- [D] **#49** 35:Implement: Add support for multiple boxes on same line (deleted 2025-11-18, expires 2025-12-18)
+- [D] **#48** 35:Implement: Fix fixer logic to properly handle malformed lines (deleted 2025-11-18, expires 2025-12-18)
+- [D] **#47** 35:Implement: Add junction point detection in box borders (deleted 2025-11-18, expires 2025-12-18)
+- [D] **#46** 35:Implement: Add table column separator detection and validation (deleted 2025-11-18, expires 2025-12-18)
+- [D] **#45** 35:Design: Define support for table column separators (├─┬─┼─┤) and junction points (deleted 2025-11-18, expires 2025-12-18)
+- [D] **#44** 35:Investigate: Reproduce issue #10 bugs with EXAMPLE-GCP_DEVOPS_STRATEGY.md test file (deleted 2025-11-18, expires 2025-12-18)
+- [D] **#43** 35.8 `Verify:` `Re-test` `EXAMPLE-GCP_DEVOPS_STRATEGY.md` `-` `fix` `should` `reach` `0` `errors` (deleted 2025-11-18, expires 2025-12-18)
+- [D] **#42** 35.7 `Test:` `Add` `test` `cases` `for` `tables,` `junction` `points,` `and` `multi-box` `lines` (deleted 2025-11-18, expires 2025-12-18)
+- [D] **#41** 35.6 `Implement:` `Add` `support` `for` `multiple` `boxes` `on` `same` `line` `(flowcharts)` (deleted 2025-11-18, expires 2025-12-18)
+- [D] **#40** 35.5 `Implement:` `Fix` `fixer` `logic` `to` `properly` `handle` `malformed` `lines` `(extra` `chars,` `missing` `borders)` (deleted 2025-11-18, expires 2025-12-18)
+- [D] **#39** 35.4 `Implement:` `Add` `junction` `point` `detection` `in` `box` `borders` `(┴┬` `in` `width` `calculations)` (deleted 2025-11-18, expires 2025-12-18)
+- [D] **#38** 35.3 `Implement:` `Add` `table` `column` `separator` `detection` `and` `validation` (deleted 2025-11-18, expires 2025-12-18)
+- [D] **#37** 35.2 `Design:` `Define` `support` `for` `table` `column` `separators` `(├─┬─┼─┤)` `and` `junction` `points` `(┴┬)` (deleted 2025-11-18, expires 2025-12-18)
+- [D] **#36** 35.1 `Investigate:` `Reproduce` `issue` `#10` `bugs` `with` `EXAMPLE-GCP_DEVOPS_STRATEGY.md` `test` `file` (deleted 2025-11-18, expires 2025-12-18)
 - [D] **#27** Remove H2 header from release notes - fix markdown hierarchy (deleted 2025-11-17, expires 2025-12-17)
 - [D] **#22** 16.5 `Test` `complete` `release` `workflow` `end-to-end` (deleted 2025-11-16, expires 2025-12-16)
 - [D] **#21** 16.4 `Create` `.cursor/rules/ascii-guard-releases.mdc` `for` `AI` `release` `guidance` (deleted 2025-11-16, expires 2025-12-16)
@@ -167,7 +192,7 @@
 
 ---
 
-**Last Updated:** Tue Nov 18 20:30:05 CET 2025
+**Last Updated:** Tue Nov 18 21:28:19 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata
