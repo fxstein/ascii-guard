@@ -294,3 +294,59 @@ class TestCLIColors:
         assert isinstance(COLOR_BLUE, str) and len(COLOR_BLUE) > 0
         assert isinstance(COLOR_BOLD, str) and len(COLOR_BOLD) > 0
         assert isinstance(COLOR_RESET, str) and len(COLOR_RESET) > 0
+
+
+class TestCLIEdgeCases:
+    """Test CLI edge cases to achieve better coverage."""
+
+    def test_lint_no_files_found(self, tmp_path: Path, capsys) -> None:  # type: ignore[no-untyped-def]
+        """Test linting when no files match."""
+        empty_dir = tmp_path / "empty"
+        empty_dir.mkdir()
+
+        class Args:
+            files = [str(empty_dir)]
+            quiet = False
+
+        result = cmd_lint(Args())
+        # Should return 0 (warning, not error)
+        assert result == 0
+
+        # Should show warning about no files
+        captured = capsys.readouterr()
+        assert "No files found" in captured.out
+
+    def test_fix_no_files_found(self, tmp_path: Path, capsys) -> None:  # type: ignore[no-untyped-def]
+        """Test fix when no files match."""
+        empty_dir = tmp_path / "empty"
+        empty_dir.mkdir()
+
+        class Args:
+            files = [str(empty_dir)]
+            dry_run = False
+
+        result = cmd_fix(Args())
+        # Should return 0 (warning, not error)
+        assert result == 0
+
+        # Should show warning
+        captured = capsys.readouterr()
+        assert "No files found" in captured.out
+
+    def test_fix_dry_run_mode(self, tmp_path: Path, capsys) -> None:  # type: ignore[no-untyped-def]
+        """Test fix in dry-run mode."""
+        test_file = tmp_path / "test.txt"
+        test_file.write_text("┌────┐\n│Test│\n└───")  # Short bottom
+
+        class Args:
+            files = [str(test_file)]
+            dry_run = True
+
+        result = cmd_fix(Args())
+
+        # Should succeed
+        assert result == 0
+
+        # Output should mention "Would fix"
+        captured = capsys.readouterr()
+        assert "Would fix" in captured.out
