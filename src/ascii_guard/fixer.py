@@ -18,7 +18,7 @@ ZERO dependencies - uses only Python stdlib.
 """
 
 from ascii_guard.models import HORIZONTAL_CHARS, JUNCTION_CHARS, RIGHT_DIVIDER_CHARS, Box
-from ascii_guard.validator import is_divider_line, is_table_separator_line
+from ascii_guard.validator import get_column_positions, is_divider_line, is_table_separator_line
 
 
 def fix_box(box: Box) -> list[str]:
@@ -68,14 +68,21 @@ def fix_box(box: Box) -> list[str]:
                 horizontal_char = char
                 break
 
-        # Build the bottom border (preserve junction characters from top)
+        # Get column positions from the entire box (not just top border)
+        column_positions = get_column_positions(box)
+        column_positions_abs = {box.left_col + pos for pos in column_positions}
+
+        # Build the bottom border with junction points at column positions
         for i in range(box.left_col, box.right_col + 1):
             if i == box.left_col:
                 bottom_chars[i] = left_corner
             elif i == box.right_col:
                 bottom_chars[i] = right_corner
+            elif i in column_positions_abs:
+                # Add bottom junction at column position
+                bottom_chars[i] = "┴"  # Use standard bottom junction
             elif i < len(top_line) and top_line[i] in JUNCTION_CHARS:
-                # Preserve junction characters from top border in bottom border
+                # Preserve other junction characters from top border
                 # Convert top junction to bottom junction
                 junction_map = {"┬": "┴", "╦": "╩"}
                 bottom_chars[i] = junction_map.get(top_line[i], horizontal_char)

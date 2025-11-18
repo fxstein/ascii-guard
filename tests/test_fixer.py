@@ -450,3 +450,102 @@ class TestFixerWithTableSeparators:
         # Bottom should have junction converted and corner added
         assert fixed_lines[2] == "└─────────┴──────────┘"
         assert len(fixed_lines[2]) == 22
+
+
+class TestFixerWithColumnContinuity:
+    """Test suite for fixer with column continuity (bottom junction points)."""
+
+    def test_fix_adds_bottom_junctions_for_table(self) -> None:
+        """Test that fixer adds bottom junction points for table columns."""
+        box = Box(
+            top_line=0,
+            bottom_line=4,
+            left_col=0,
+            right_col=62,  # Corrected to match actual box width
+            lines=[
+                "┌──────────────┬─────────────┬─────────────┬──────────────────┐",
+                "│ API Version  │ Firestore   │ Algolia     │ Vertex AI        │",
+                "├──────────────┼─────────────┼─────────────┼──────────────────┤",
+                "│ 2.5.0        │ >= 2.0.0    │ >= 1.5.0    │ N/A              │",
+                "└─────────────────────────────────────────────────────────────┘",  # Missing ┴
+            ],
+            file_path="test.txt",
+        )
+
+        fixed_lines = fix_box(box)
+        # Bottom should have junction points at column positions
+        bottom_line = fixed_lines[4]
+        assert bottom_line == "└──────────────┴─────────────┴─────────────┴──────────────────┘"
+        # Verify junction points at correct positions
+        assert bottom_line[15] == "┴"  # After first column
+        assert bottom_line[29] == "┴"  # After second column
+        assert bottom_line[43] == "┴"  # After third column
+
+    def test_fix_simple_box_no_columns(self) -> None:
+        """Test that simple boxes without columns remain unchanged."""
+        box = Box(
+            top_line=0,
+            bottom_line=2,
+            left_col=0,
+            right_col=15,
+            lines=[
+                "┌──────────────┐",
+                "│ Simple Box   │",
+                "└──────────────┘",
+            ],
+            file_path="test.txt",
+        )
+
+        fixed_lines = fix_box(box)
+        # Should remain unchanged
+        assert fixed_lines[0] == "┌──────────────┐"
+        assert fixed_lines[1] == "│ Simple Box   │"
+        assert fixed_lines[2] == "└──────────────┘"
+
+    def test_fix_detects_columns_from_content_rows(self) -> None:
+        """Test that fixer detects columns from │ in content, not just top border."""
+        box = Box(
+            top_line=0,
+            bottom_line=3,
+            left_col=0,
+            right_col=27,
+            lines=[
+                "┌─────────────────────────────┐",  # No top junction
+                "│ Column 1    │ Column 2    │",  # Has │ separator
+                "│ Value 1     │ Value 2     │",
+                "└─────────────────────────────┘",  # Should add ┴
+            ],
+            file_path="test.txt",
+        )
+
+        fixed_lines = fix_box(box)
+        # Bottom should have junction at column separator position
+        bottom_line = fixed_lines[3]
+        assert "┴" in bottom_line
+        # The junction should be at the same position as the │ in content rows
+        content_sep_pos = fixed_lines[1].index("│", 1)  # Find second │ (not left border)
+        assert bottom_line[content_sep_pos] == "┴"
+
+    def test_fix_multiple_columns_complex_table(self) -> None:
+        """Test fixer with complex table having multiple columns and separators."""
+        box = Box(
+            top_line=0,
+            bottom_line=5,
+            left_col=0,
+            right_col=39,
+            lines=[
+                "┌─────────┬─────────┬─────────┬─────────┐",
+                "│ Col 1   │ Col 2   │ Col 3   │ Col 4   │",
+                "├─────────┼─────────┼─────────┼─────────┤",
+                "│ A       │ B       │ C       │ D       │",
+                "│ E       │ F       │ G       │ H       │",
+                "└─────────────────────────────────────────┘",  # Missing all ┴
+            ],
+            file_path="test.txt",
+        )
+
+        fixed_lines = fix_box(box)
+        # Bottom should have 3 junction points (4 columns = 3 separators)
+        bottom_line = fixed_lines[5]
+        junction_count = bottom_line.count("┴")
+        assert junction_count == 3

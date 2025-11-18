@@ -3,18 +3,18 @@
 > **⚠️ IMPORTANT: This file should ONLY be edited through the `todo.ai` script!**
 
 ## Tasks
-- [ ] **#53** Add table column continuity validation: detect missing bottom junction points (┴)
-  - [ ] **#53.8** Verify: Test with real table examples to ensure correct detection
-  - [ ] **#53.7** Test: Add test cases for tables with/without bottom junctions
-  - [ ] **#53.6** Implement: Add fixer logic to insert missing bottom junction points
+- [x] **#53** Add table column continuity validation: detect missing bottom junction points (┴)
+  - [x] **#53.8** Verify: Test with real table examples to ensure correct detection
+  - [x] **#53.7** Test: Add test cases for tables with/without bottom junctions
+  - [x] **#53.6** Implement: Add fixer logic to insert missing bottom junction points
     > FIXER: Replace ─ with ┴ at detected column positions in bottom border. Pattern: └──────┴──────┴──────┘. Challenge: must preserve correct width while inserting junctions. Algorithm: 1) Find column positions, 2) Build new bottom border with ┴ at those cols, 3) Fill gaps with ─.
-  - [ ] **#53.5** Implement: Validate bottom border has junction points (┴) where columns exist
-  - [ ] **#53.4** Implement: Add column position tracking in validator
-  - [ ] **#53.3** Design: Determine validation rules for bottom border junction points
+  - [x] **#53.5** Implement: Validate bottom border has junction points (┴) where columns exist
+  - [x] **#53.4** Implement: Add column position tracking in validator
+  - [x] **#53.3** Design: Determine validation rules for bottom border junction points
     > VALIDATION RULES: If top border has ┬ OR content has │ column separators → bottom border MUST have ┴ at same positions. Error: 'Bottom border missing junction point at column X (expected ┴, got ─)'. Severity: warning (stylistic) not error (structural). Skip validation if: no columns detected OR simple box (no separators).
-  - [ ] **#53.2** Design: Define algorithm to track column positions across table rows
+  - [x] **#53.2** Design: Define algorithm to track column positions across table rows
     > ALGORITHM: 1) Parse top border, find all ┬ positions (column starts). 2) Scan content rows, collect all │ positions (confirms columns). 3) Check middle separators for ┼ positions (should match). 4) Validate bottom border has ┴ at same positions. Store column_positions: list[int] for each box.
-  - [ ] **#53.1** Investigate: Analyze table column patterns and identify where junction points should appear
+  - [x] **#53.1** Investigate: Analyze table column patterns and identify where junction points should appear
     > PATTERN: Tables have vertical column separators (│) at consistent positions. Example: Top ┬ at cols 14,28,42 → Content │ at 14,28,42 → Middle ┼ at 14,28,42 → Bottom should have ┴ at 14,28,42. Current behavior: validates width but not junction continuity. Issue: └───────────┘ with no ┴ is structurally valid but stylistically inconsistent.
 - [x] **#52** Fix code block detection regression: validate ASCII boxes inside code blocks by default (Issue #11)
   - [x] **#52.7** Document: Update CLI help and docs to explain code block behavior
@@ -232,7 +232,7 @@
 
 ---
 
-**Last Updated:** Tue Nov 18 23:11:41 CET 2025
+**Last Updated:** Tue Nov 18 23:18:29 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata

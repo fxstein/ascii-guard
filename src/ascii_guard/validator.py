@@ -113,6 +113,53 @@ def is_table_separator_line(line: str, left_col: int, right_col: int) -> bool:
     return has_junction
 
 
+def get_column_positions(box: Box) -> list[int]:
+    """Detect column separator positions in a table box.
+
+    Scans the box to find consistent vertical column separator positions by
+    looking for ┬ in top border, │ in content rows, and ┼ in middle separators.
+
+    Args:
+        box: Box to analyze
+
+    Returns:
+        List of column positions (relative to box left_col) where separators exist
+    """
+    from ascii_guard.models import TOP_JUNCTION_CHARS
+
+    column_positions = set()
+
+    # Check top border for ┬ junction points
+    if box.lines:
+        top_line = box.lines[0]
+        for i, char in enumerate(top_line):
+            if char in TOP_JUNCTION_CHARS:
+                column_positions.add(i)
+
+    # Check content lines for consistent │ positions
+    for line in box.lines[1:-1]:  # Skip top and bottom borders
+        for i, char in enumerate(line):
+            if (char == "│" or char == "┃" or char == "║") and (
+                i != box.left_col and i != box.right_col
+            ):
+                column_positions.add(i)
+
+    # Check for ┼ in middle separator lines
+    for line in box.lines[1:-1]:
+        for i, char in enumerate(line):
+            if char in TABLE_COLUMN_JUNCTION_CHARS:
+                column_positions.add(i)
+
+    # Return sorted list of column positions (relative to left edge)
+    return sorted(
+        [
+            pos - box.left_col
+            for pos in column_positions
+            if pos > box.left_col and pos < box.right_col
+        ]
+    )
+
+
 def validate_box(box: Box) -> list[ValidationError]:
     """Validate a box for alignment issues.
 
@@ -269,5 +316,32 @@ def validate_box(box: Box) -> list[ValidationError]:
                     fix="Extend line to include right border",
                 )
             )
+
+    # Check for missing bottom junction points in tables
+    column_positions = get_column_positions(box)
+    if column_positions and len(box.lines) >= 2:
+        from ascii_guard.models import BOTTOM_JUNCTION_CHARS
+
+        bottom_line = box.lines[-1]
+        for col_pos in column_positions:
+            # col_pos is relative to box, convert to absolute position
+            abs_col = box.left_col + col_pos
+            if abs_col < len(bottom_line):
+                char_at_pos = bottom_line[abs_col]
+                # Check if bottom junction is missing
+                if char_at_pos not in BOTTOM_JUNCTION_CHARS and char_at_pos in HORIZONTAL_CHARS:
+                    msg = (
+                        f"Bottom border missing junction point at column {abs_col + 1} "
+                        f"(expected ┴, got '{char_at_pos}')"
+                    )
+                    errors.append(
+                        ValidationError(
+                            line=box.bottom_line + 1,  # 1-indexed
+                            column=abs_col + 1,  # 1-indexed
+                            message=msg,
+                            severity="warning",
+                            fix="Replace horizontal line with bottom junction (┴)",
+                        )
+                    )
 
     return errors

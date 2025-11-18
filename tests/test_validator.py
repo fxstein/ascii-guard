@@ -385,3 +385,90 @@ class TestDifferentBoxStyles:
         assert len(errors) == 1
         assert "extra characters" in errors[0].message.lower()
         assert errors[0].line == 2  # Line 3 (0-indexed)
+
+
+class TestColumnContinuityValidation:
+    """Test suite for column continuity validation (bottom junction points)."""
+
+    def test_validate_table_with_missing_bottom_junctions(self) -> None:
+        """Test that missing bottom junction points are detected as warnings."""
+        box = Box(
+            top_line=0,
+            bottom_line=4,
+            left_col=0,
+            right_col=62,  # Corrected to match actual box width
+            lines=[
+                "┌──────────────┬─────────────┬─────────────┬──────────────────┐",
+                "│ API Version  │ Firestore   │ Algolia     │ Vertex AI        │",
+                "├──────────────┼─────────────┼─────────────┼──────────────────┤",
+                "│ 2.5.0        │ >= 2.0.0    │ >= 1.5.0    │ N/A              │",
+                "└─────────────────────────────────────────────────────────────┘",  # Missing ┴
+            ],
+            file_path="test.txt",
+        )
+
+        errors = validate_box(box)
+        # Should have 3 warnings for missing bottom junctions
+        warnings = [e for e in errors if e.severity == "warning"]
+        assert len(warnings) == 3
+        assert all("bottom border missing junction point" in w.message.lower() for w in warnings)
+
+    def test_validate_table_with_correct_bottom_junctions(self) -> None:
+        """Test that tables with correct bottom junction points pass validation."""
+        box = Box(
+            top_line=0,
+            bottom_line=4,
+            left_col=0,
+            right_col=62,  # Corrected to match actual box width
+            lines=[
+                "┌──────────────┬─────────────┬─────────────┬──────────────────┐",
+                "│ API Version  │ Firestore   │ Algolia     │ Vertex AI        │",
+                "├──────────────┼─────────────┼─────────────┼──────────────────┤",
+                "│ 2.5.0        │ >= 2.0.0    │ >= 1.5.0    │ N/A              │",
+                "└──────────────┴─────────────┴─────────────┴──────────────────┘",  # Correct ┴
+            ],
+            file_path="test.txt",
+        )
+
+        errors = validate_box(box)
+        warnings = [e for e in errors if e.severity == "warning"]
+        assert len(warnings) == 0
+
+    def test_validate_simple_box_no_columns(self) -> None:
+        """Test that simple boxes without columns don't get warnings."""
+        box = Box(
+            top_line=0,
+            bottom_line=2,
+            left_col=0,
+            right_col=15,
+            lines=[
+                "┌──────────────┐",
+                "│ Simple Box   │",
+                "└──────────────┘",
+            ],
+            file_path="test.txt",
+        )
+
+        errors = validate_box(box)
+        warnings = [e for e in errors if e.severity == "warning"]
+        assert len(warnings) == 0
+
+    def test_validate_table_with_vertical_separators_only(self) -> None:
+        """Test tables with │ separators but no top/middle junctions."""
+        box = Box(
+            top_line=0,
+            bottom_line=2,
+            left_col=0,
+            right_col=27,
+            lines=[
+                "┌─────────────┬─────────────┐",  # Top has ┬
+                "│ Column 1    │ Column 2    │",  # Content has │
+                "└─────────────────────────────┘",  # Bottom missing ┴
+            ],
+            file_path="test.txt",
+        )
+
+        errors = validate_box(box)
+        warnings = [e for e in errors if e.severity == "warning"]
+        assert len(warnings) == 1
+        assert "bottom border missing junction point" in warnings[0].message.lower()
