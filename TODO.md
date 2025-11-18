@@ -21,8 +21,9 @@
   - [x] **#35.1** Investigate: Reproduce issue #10 bugs with EXAMPLE-GCP_DEVOPS_STRATEGY.md test file
     > PLATEAU CONFIRMED: Fix reports '1 box fixed' but lint still shows same 4 errors. Fix doesn't recognize table separators so it can't fix them. Root cause: validator.py only checks VERTICAL_CHARS for left/right borders, not divider chars (├┤) or table junction chars (┬┼).
     > REPRODUCED ALL 3 BUG PATTERNS: (1) Table separators: ├ ┤ flagged as misaligned borders (4 errors) (2) Junction points: ┴ in top border causes width mismatch (counts as 10 instead of 11) (3) Multi-box lines: Second box treated as 'extra characters' (2 errors)
-- [ ] **#34** Fix detector false positives: code blocks, multi-box lines, and examples
-  - [ ] **#34.6** Verify: Re-lint docs/ - all 3 false positives should be resolved
+- [x] **#34** Fix detector false positives: code blocks, multi-box lines, and examples
+  - [x] **#34.6** Verify: Re-lint docs/ - all 3 false positives should be resolved
+    > VERIFIED: All 3 false positive patterns from task#34.1 resolved: (1) Flowcharts with 2 boxes + arrow: ✅ Now detects 2 boxes correctly (2) Code examples in markdown: ✅ Skipped via code fence detection (3) String literals in code: ✅ Also skipped via code fence detection. Tested on docs/ directory: 8 files, 0 errors, all boxes in code fences correctly skipped. Multi-box detection confirmed with flowchart test: 2 boxes found (was 1). Code fence test: 2 boxes outside fence detected, 1 inside fence skipped.
   - [x] **#34.5** Test: Add test cases for flowcharts, code examples, and string literals
     > IMPLEMENTED: Added 5 comprehensive test cases for code fence detection and multiple boxes per line: (1) Skip boxes in markdown code fences (2) Handle multiple code fences correctly (3) Detect two boxes side by side (4) Detect flowchart with arrows (5) Detect three boxes on same line. All 182 tests passing (5 new tests added).
   - [x] **#34.4** Implement: Update detector to handle multiple boxes per line (split on non-box chars)
@@ -204,7 +205,7 @@
 
 ---
 
-**Last Updated:** Tue Nov 18 21:49:08 CET 2025
+**Last Updated:** Tue Nov 18 21:50:44 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata

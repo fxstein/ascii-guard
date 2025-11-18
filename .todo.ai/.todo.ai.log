@@ -2,6 +2,9 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2025-11-18 21:50:44 | fxstein | COMPLETE | 34 | Fix detector false positives: code blocks, multi-box lines, and examples
+2025-11-18 21:50:44 | fxstein | COMPLETE | 34.6 | Verify: Re-lint docs/ - all 3 false positives should be resolved
+2025-11-18 21:50:43 | fxstein | NOTE | 34.6 | VERIFIED: All 3 false positive patterns from task#34.1 resolved: (1) Flowcharts with 2 boxes + arrow: ✅ Now detects 2 boxes correctly (2) Code examples in markdown: ✅ Skipped via code fence detection (3) String literals in code: ✅ Also skipped via code fence detection. Tested on docs/ directory: 8 files, 0 errors, all boxes in code fences correctly skipped. Multi-box detection confirmed with flowchart test: 2 boxes found (was 1). Code fence test: 2 boxes outside fence detected, 1 inside fence skipped.
 2025-11-18 21:49:08 | fxstein | NOTE | 34.3 | IMPLEMENTED: Added is_in_code_fence() function to detect markdown code fences and skip boxes within them. Updated detect_boxes() to call is_in_code_fence() and skip lines inside code blocks. Prevents false positives from code examples in documentation.
 2025-11-18 21:49:01 | fxstein | COMPLETE | 34.5 | Test: Add test cases for flowcharts, code examples, and string literals
 2025-11-18 21:49:01 | fxstein | COMPLETE | 34.4 | Implement: Update detector to handle multiple boxes per line (split on non-box chars)
