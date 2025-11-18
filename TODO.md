@@ -3,6 +3,14 @@
 > **⚠️ IMPORTANT: This file should ONLY be edited through the `todo.ai` script!**
 
 ## Tasks
+- [ ] **#34** Fix detector false positives: code blocks, multi-box lines, and examples
+  - [ ] **#34.6** Verify: Re-lint docs/ - all 3 false positives should be resolved
+  - [ ] **#34.5** Test: Add test cases for flowcharts, code examples, and string literals
+  - [ ] **#34.4** Implement: Update detector to handle multiple boxes per line (split on non-box chars)
+  - [ ] **#34.3** Implement: Add markdown code block detection to skip fenced code
+  - [ ] **#34.2** Design: Define context-aware detection strategy (markdown, code fences, line boundaries)
+  - [ ] **#34.1** Investigate: Analyze 3 false positive patterns (multi-box lines, code blocks, string literals)
+    > 3 FALSE POSITIVES FOUND: (1) USAGE.md:261 - flowchart with 2 boxes + arrow on same line (2) FAQ.md:127 - comparison text showing Unicode vs ASCII (3) TESTING.md:259 - Python string literal in test code
 - [ ] **#33** Fix linter bug: divider characters (├ ┤) incorrectly flagged as border misalignment
   - [ ] **#33.6** Release: Update version, commit changes, and prepare for release
   - [x] **#33.5** Verify: Re-lint docs/ to confirm all false positives resolved
@@ -158,7 +166,7 @@
 
 ---
 
-**Last Updated:** Tue Nov 18 20:17:54 CET 2025
+**Last Updated:** Tue Nov 18 20:27:55 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata

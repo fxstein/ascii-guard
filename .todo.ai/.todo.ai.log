@@ -2,6 +2,14 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2025-11-18 20:27:55 | fxstein | NOTE | 34.1 | 3 FALSE POSITIVES FOUND: (1) USAGE.md:261 - flowchart with 2 boxes + arrow on same line (2) FAQ.md:127 - comparison text showing Unicode vs ASCII (3) TESTING.md:259 - Python string literal in test code
+2025-11-18 20:27:47 | fxstein | ADD_SUBTASK | 34.6 | Verify: Re-lint docs/ - all 3 false positives should be resolved (parent: #34)
+2025-11-18 20:27:46 | fxstein | ADD_SUBTASK | 34.5 | Test: Add test cases for flowcharts, code examples, and string literals (parent: #34)
+2025-11-18 20:27:45 | fxstein | ADD_SUBTASK | 34.4 | Implement: Update detector to handle multiple boxes per line (split on non-box chars) (parent: #34)
+2025-11-18 20:27:43 | fxstein | ADD_SUBTASK | 34.3 | Implement: Add markdown code block detection to skip fenced code (parent: #34)
+2025-11-18 20:27:42 | fxstein | ADD_SUBTASK | 34.2 | Design: Define context-aware detection strategy (markdown, code fences, line boundaries) (parent: #34)
+2025-11-18 20:27:41 | fxstein | ADD_SUBTASK | 34.1 | Investigate: Analyze 3 false positive patterns (multi-box lines, code blocks, string literals) (parent: #34)
+2025-11-18 20:27:39 | fxstein | ADD | 34 | Fix detector false positives: code blocks, multi-box lines, and examples
 2025-11-18 20:17:54 | fxstein | NOTE | 33.5 | VERIFIED: All 7 docs files lint cleanly (20 boxes, 0 errors). Divider lines no longer flagged. Fixer correctly handles short lines without creating double borders.
 2025-11-18 20:17:53 | fxstein | COMPLETE | 33.5 | Verify: Re-lint docs/ to confirm all false positives resolved
 2025-11-18 20:17:32 | fxstein | NOTE | 33.4 | Added 6 test cases: 3 validator tests (single/multiple/double-line dividers) + 3 fixer tests (short lines, preserves dividers, multiple dividers). All 29 tests pass.
