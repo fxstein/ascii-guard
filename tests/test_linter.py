@@ -274,3 +274,96 @@ class TestIntegrationScenarios:
 
         result = lint_file(str(test_file))
         assert result.boxes_found == 50
+
+
+class TestLinterEdgeCases:
+    """Test edge cases to achieve 100% coverage."""
+
+    def test_lint_file_with_warnings(self, tmp_path: Path) -> None:
+        """Test linting a file that generates warnings (not just errors)."""
+        test_file = tmp_path / "warnings.txt"
+        # Create a table with missing bottom junctions (generates warnings)
+        test_file.write_text(
+            """┌──────────────┬─────────────┐
+│ Column 1     │ Column 2    │
+├──────────────┼─────────────┤
+│ Data         │ More data   │
+└─────────────────────────────┘
+"""
+        )
+
+        result = lint_file(str(test_file))
+        # Should have warnings for missing bottom junction points
+        assert len(result.warnings) > 0
+
+    def test_fix_file_read_error(self, tmp_path: Path) -> None:
+        """Test fix_file when file cannot be read."""
+        test_file = tmp_path / "unreadable.txt"
+        test_file.write_text("┌────┐\n│Test│\n└────┘")
+
+        # Make file unreadable
+        import os
+
+        os.chmod(test_file, 0o000)
+
+        try:
+            with pytest.raises(OSError, match="Cannot read file"):
+                fix_file(str(test_file))
+        finally:
+            # Restore permissions for cleanup
+            os.chmod(test_file, 0o644)
+
+    def test_fix_file_write_error(self, tmp_path: Path) -> None:
+        """Test fix_file when file cannot be written."""
+        test_file = tmp_path / "readonly.txt"
+        # Create file with a broken box
+        test_file.write_text(
+            """┌──────────┐
+│ Content  │
+└─────────
+"""
+        )
+
+        # Make file read-only
+        import os
+
+        os.chmod(test_file, 0o444)
+
+        try:
+            # Should raise OSError when trying to write
+            with pytest.raises(OSError, match="Cannot write file"):
+                fix_file(str(test_file), dry_run=False)
+        finally:
+            # Restore permissions for cleanup
+            os.chmod(test_file, 0o644)
+
+    def test_fix_file_no_boxes(self, tmp_path: Path) -> None:
+        """Test fix_file when file contains no boxes."""
+        test_file = tmp_path / "no_boxes.txt"
+        test_file.write_text("Just some regular text\nNo boxes here\n")
+
+        boxes_fixed, lines = fix_file(str(test_file))
+        # Should return 0 boxes fixed
+        assert boxes_fixed == 0
+        assert len(lines) == 2
+
+    def test_fix_file_with_actual_fixes(self, tmp_path: Path) -> None:
+        """Test fix_file actually fixes and replaces lines."""
+        test_file = tmp_path / "needs_fix.txt"
+        # Create a box with a short line that needs fixing
+        test_file.write_text(
+            """┌──────────┐
+│ Content
+└──────────┘
+"""
+        )
+
+        boxes_fixed, result_lines = fix_file(str(test_file), dry_run=False)
+
+        # Should fix 1 box
+        assert boxes_fixed == 1
+        # Line should be fixed to proper length
+        assert result_lines[1].endswith("│")
+        # Verify file was actually written
+        content = test_file.read_text()
+        assert "│ Content  │" in content or "│ Content │" in content
