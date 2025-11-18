@@ -23,9 +23,12 @@
     > REPRODUCED ALL 3 BUG PATTERNS: (1) Table separators: ├ ┤ flagged as misaligned borders (4 errors) (2) Junction points: ┴ in top border causes width mismatch (counts as 10 instead of 11) (3) Multi-box lines: Second box treated as 'extra characters' (2 errors)
 - [ ] **#34** Fix detector false positives: code blocks, multi-box lines, and examples
   - [ ] **#34.6** Verify: Re-lint docs/ - all 3 false positives should be resolved
-  - [ ] **#34.5** Test: Add test cases for flowcharts, code examples, and string literals
-  - [ ] **#34.4** Implement: Update detector to handle multiple boxes per line (split on non-box chars)
-  - [ ] **#34.3** Implement: Add markdown code block detection to skip fenced code
+  - [x] **#34.5** Test: Add test cases for flowcharts, code examples, and string literals
+    > IMPLEMENTED: Added 5 comprehensive test cases for code fence detection and multiple boxes per line: (1) Skip boxes in markdown code fences (2) Handle multiple code fences correctly (3) Detect two boxes side by side (4) Detect flowchart with arrows (5) Detect three boxes on same line. All 182 tests passing (5 new tests added).
+  - [x] **#34.4** Implement: Update detector to handle multiple boxes per line (split on non-box chars)
+    > IMPLEMENTED: Refactored detector to find multiple boxes per line. Added find_all_top_left_corners() to find all box starts on a line. Updated find_bottom_left_corner() to check specific column. Changed detect_boxes() main loop to iterate through all corners on each line. Now correctly detects flowcharts with side-by-side boxes.
+  - [x] **#34.3** Implement: Add markdown code block detection to skip fenced code
+    > IMPLEMENTED: Added is_in_code_fence() function to detect markdown code fences and skip boxes within them. Updated detect_boxes() to call is_in_code_fence() and skip lines inside code blocks. Prevents false positives from code examples in documentation.
   - [ ] **#34.2** Design: Define context-aware detection strategy (markdown, code fences, line boundaries)
     > DESIGN: Detect markdown code fences (```) to skip code blocks. Split lines on arrows/spaces for multiple boxes. Consider file type (.md vs .txt vs .py) for context-aware detection.
   - [ ] **#34.1** Investigate: Analyze 3 false positive patterns (multi-box lines, code blocks, string literals)
@@ -201,7 +204,7 @@
 
 ---
 
-**Last Updated:** Tue Nov 18 21:45:14 CET 2025
+**Last Updated:** Tue Nov 18 21:49:08 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata

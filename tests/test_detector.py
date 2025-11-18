@@ -150,3 +150,115 @@ class TestEdgeCases:
         boxes = detect_boxes(str(test_file))
         # Should detect both boxes
         assert len(boxes) >= 1
+
+
+class TestCodeFenceDetection:
+    """Test that boxes in markdown code fences are skipped."""
+
+    def test_skip_boxes_in_code_fence(self, tmp_path: Path) -> None:
+        """Test that boxes inside markdown code fences are not detected."""
+        test_file = tmp_path / "code_fence.md"
+        test_file.write_text(
+            """Some text before
+```python
+# This box should be skipped
+┌──────────┐
+│ In code  │
+└──────────┘
+```
+
+This box should be detected:
+┌──────────┐
+│ Outside  │
+└──────────┘
+"""
+        )
+
+        boxes = detect_boxes(str(test_file))
+        # Should only find the box outside the code fence
+        assert len(boxes) == 1
+        assert "Outside" in boxes[0].lines[1]
+
+    def test_nested_code_fences(self, tmp_path: Path) -> None:
+        """Test handling of multiple code fences."""
+        test_file = tmp_path / "multi_fence.md"
+        test_file.write_text(
+            """First box (should be detected):
+┌──────┐
+│ Box1 │
+└──────┘
+
+```
+Skip this:
+┌──────┐
+│ Skip │
+└──────┘
+```
+
+Second box (should be detected):
+┌──────┐
+│ Box2 │
+└──────┘
+
+```
+Skip this too:
+┌──────┐
+│ Skip │
+└──────┘
+```
+"""
+        )
+
+        boxes = detect_boxes(str(test_file))
+        assert len(boxes) == 2
+        assert "Box1" in boxes[0].lines[1]
+        assert "Box2" in boxes[1].lines[1]
+
+
+class TestMultipleBoxesPerLine:
+    """Test detection of multiple boxes on the same line (flowcharts)."""
+
+    def test_detect_two_boxes_side_by_side(self, tmp_path: Path) -> None:
+        """Test detecting two boxes on the same line."""
+        test_file = tmp_path / "side_by_side.txt"
+        test_file.write_text(
+            """┌──────────┐     ┌──────────┐
+│ Box Left │     │ Box Right│
+└──────────┘     └──────────┘
+"""
+        )
+
+        boxes = detect_boxes(str(test_file))
+        assert len(boxes) == 2
+        assert boxes[0].left_col == 0
+        assert boxes[1].left_col == 17  # Second box starts at column 17
+
+    def test_flowchart_with_arrows(self, tmp_path: Path) -> None:
+        """Test flowchart with boxes and arrows on same line."""
+        test_file = tmp_path / "flowchart.txt"
+        test_file.write_text(
+            """        │ YES                   │ NO → Fail
+        v                       │
+┌──────────────────┐            v
+│ Deploy to Target │     ┌──────────────┐
+│   Environment    │     │ Report Error │
+└──────────────────┘     └──────────────┘
+"""
+        )
+
+        boxes = detect_boxes(str(test_file))
+        # Should find both boxes despite flow indicators
+        assert len(boxes) == 2
+
+    def test_three_boxes_on_same_line(self, tmp_path: Path) -> None:
+        """Test detecting three boxes on the same line."""
+        test_file = tmp_path / "three_boxes.txt"
+        test_file.write_text(
+            """┌────┐   ┌────┐   ┌────┐
+│ A  │   │ B  │   │ C  │
+└────┘   └────┘   └────┘
+"""
+        )
+
+        boxes = detect_boxes(str(test_file))
+        assert len(boxes) == 3

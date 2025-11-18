@@ -27,26 +27,83 @@ def has_box_drawing_chars(line: str) -> bool:
     return any(char in ALL_BOX_CHARS for char in line)
 
 
-def find_top_left_corner(line: str) -> int:
-    """Find the first top-left corner character in a line."""
+def is_in_code_fence(line_idx: int, lines: list[str]) -> bool:
+    """Check if a line is within a markdown code fence (```).
+
+    Args:
+        line_idx: The line index to check
+        lines: All lines in the file
+
+    Returns:
+        True if the line is within a code fence
+    """
+    fence_count = 0
+    for i in range(line_idx):
+        line = lines[i].strip()
+        if line.startswith("```"):
+            fence_count += 1
+
+    # Odd fence_count means we're inside a code fence
+    return fence_count % 2 == 1
+
+
+def find_top_left_corner(line: str, start_col: int = 0) -> int:
+    """Find the first top-left corner character in a line after start_col.
+
+    Args:
+        line: The line to search
+        start_col: Column to start searching from (default: 0)
+
+    Returns:
+        Column index of the top-left corner, or -1 if not found
+    """
     top_left_corners = {"┌", "╔", "┏"}
-    for i, char in enumerate(line):
-        if char in top_left_corners:
+    for i in range(start_col, len(line)):
+        if line[i] in top_left_corners:
             return i
     return -1
 
 
-def find_bottom_left_corner(line: str) -> int:
-    """Find the first bottom-left corner character in a line."""
+def find_bottom_left_corner(line: str, column: int) -> int:
+    """Find a bottom-left corner character at a specific column.
+
+    Args:
+        line: The line to search
+        column: The column to check
+
+    Returns:
+        Column index if bottom-left corner found at that column, otherwise -1
+    """
     bottom_left_corners = {"└", "╚", "┗"}
-    for i, char in enumerate(line):
-        if char in bottom_left_corners:
-            return i
+    if column < len(line) and line[column] in bottom_left_corners:
+        return column
     return -1
+
+
+def find_all_top_left_corners(line: str) -> list[int]:
+    """Find all top-left corner characters in a line.
+
+    Args:
+        line: The line to search
+
+    Returns:
+        List of column indices where top-left corners are found
+    """
+    corners = []
+    col = 0
+    while col < len(line):
+        corner_col = find_top_left_corner(line, col)
+        if corner_col == -1:
+            break
+        corners.append(corner_col)
+        col = corner_col + 1
+    return corners
 
 
 def detect_boxes(file_path: str) -> list[Box]:
     """Detect ASCII art boxes in a file.
+
+    Skips markdown code fences and handles multiple boxes per line.
 
     Args:
         file_path: Path to file to analyze
@@ -68,64 +125,76 @@ def detect_boxes(file_path: str) -> list[Box]:
     except OSError as e:
         raise OSError(f"Cannot read file {file_path}: {e}") from e
 
+    # Strip newlines from all lines
+    stripped_lines = [line.rstrip("\n") for line in lines]
+
     boxes: list[Box] = []
     i = 0
 
-    while i < len(lines):
-        line = lines[i].rstrip("\n")
+    while i < len(stripped_lines):
+        line = stripped_lines[i]
 
-        # Look for top-left corner
-        left_col = find_top_left_corner(line)
-        if left_col == -1:
+        # Skip lines in markdown code fences
+        if is_in_code_fence(i, stripped_lines):
             i += 1
             continue
 
-        # Found a potential box start
-        top_line = i
-
-        # Find the bottom of the box
-        bottom_line = -1
-        for j in range(i + 1, len(lines)):
-            bottom_left = find_bottom_left_corner(lines[j])
-            if bottom_left == left_col:  # Same column as top-left
-                bottom_line = j
-                break
-
-        if bottom_line == -1:
-            # No matching bottom found, skip this potential box
+        # Find all potential box starts on this line
+        left_cols = find_all_top_left_corners(line)
+        if not left_cols:
             i += 1
             continue
 
-        # Extract box lines
-        box_lines = []
-        for j in range(top_line, bottom_line + 1):
-            box_lines.append(lines[j].rstrip("\n"))
+        # Try to detect a box for each top-left corner found
+        for left_col in left_cols:
+            # Found a potential box start
+            top_line = i
 
-        # Calculate right column (from top line)
-        top_right_corners = {"┐", "╗", "┓"}
-        right_col = -1
-        for col_idx, char in enumerate(line):
-            if char in top_right_corners and col_idx > left_col:
-                right_col = col_idx
-                break
+            # Find the bottom of the box
+            bottom_line = -1
+            for j in range(i + 1, len(stripped_lines)):
+                # Skip if bottom line would be in code fence
+                if is_in_code_fence(j, stripped_lines):
+                    continue
 
-        if right_col == -1:
-            # No valid right corner found
-            i += 1
-            continue
+                bottom_left = find_bottom_left_corner(stripped_lines[j], left_col)
+                if bottom_left == left_col:  # Same column as top-left
+                    bottom_line = j
+                    break
 
-        # Create box object
-        box = Box(
-            top_line=top_line,
-            bottom_line=bottom_line,
-            left_col=left_col,
-            right_col=right_col,
-            lines=box_lines,
-            file_path=file_path,
-        )
-        boxes.append(box)
+            if bottom_line == -1:
+                # No matching bottom found, skip this potential box
+                continue
 
-        # Move past this box
-        i = bottom_line + 1
+            # Extract box lines
+            box_lines = []
+            for j in range(top_line, bottom_line + 1):
+                box_lines.append(stripped_lines[j])
+
+            # Calculate right column (from top line)
+            top_right_corners = {"┐", "╗", "┓"}
+            right_col = -1
+            for col_idx in range(left_col + 1, len(line)):
+                if line[col_idx] in top_right_corners:
+                    right_col = col_idx
+                    break
+
+            if right_col == -1:
+                # No valid right corner found
+                continue
+
+            # Create box object
+            box = Box(
+                top_line=top_line,
+                bottom_line=bottom_line,
+                left_col=left_col,
+                right_col=right_col,
+                lines=box_lines,
+                file_path=file_path,
+            )
+            boxes.append(box)
+
+        # Move to next line
+        i += 1
 
     return boxes
