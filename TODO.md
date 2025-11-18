@@ -8,7 +8,8 @@
     > VERIFIED: All 3 bug patterns from Issue #10 fixed and tested: (1) Table separators ├─┬/┼─┤: ✅ Test case passes, 0 errors (2) Junction points ┌─┴─┐: ✅ Test case passes, width calculated correctly (3) Missing bottom corners: ✅ Fixer adds corner, lint reaches 0 errors. Malformed table with extra │ after separator: ✅ Detected and fixed (1 error → 0 errors after fix). All implementations verified with comprehensive test suite (177 tests passing). Multi-box lines (task#35.6) deferred to task#34.
   - [x] **#35.7** Test: Add test cases for tables, junction points, and multi-box lines
     > IMPLEMENTED: Added 8 comprehensive test cases covering table separators, junction points, and malformed lines. Tests verify: (1) Tables with column separators ├─┬/┼─┤ validate correctly (2) Junction points ┬┴ in borders count correctly (3) Flowchart junction points work (4) Malformed table separators with extra chars detected (5) Fixer removes extra chars from table separators (6) Fixer adds missing bottom corners (7) Fixer handles both issues together (8) Junction point conversion ┬→┴. All 177 tests passing.
-  - [ ] **#35.6** Implement: Add support for multiple boxes on same line (flowcharts)
+  - [x] **#35.6** Implement: Add support for multiple boxes on same line (flowcharts)
+    > COMPLETED via task#34: Multi-box detection implemented in detector.py with find_all_top_left_corners() and refactored detect_boxes(). Test cases added for flowcharts with side-by-side boxes. All 182 tests passing.
     > DEFERRED: Multi-box line support requires detector changes to find multiple boxes on same line. This overlaps with task#34 (detector false positives). Current detector finds only first box, validator then reports second box as 'extra characters'. Requires detector refactoring to split lines and detect boxes independently.
   - [x] **#35.5** Implement: Fix fixer logic to properly handle malformed lines (extra chars, missing borders)
     > IMPLEMENTED: Updated validator to detect extra characters after table separator lines. Updated fixer to remove extra characters from table separators and properly add missing bottom corner when line is too short. Fixer now correctly handles malformed tables.
@@ -205,7 +206,7 @@
 
 ---
 
-**Last Updated:** Tue Nov 18 21:51:18 CET 2025
+**Last Updated:** Tue Nov 18 21:52:25 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata
