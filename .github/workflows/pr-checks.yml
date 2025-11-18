@@ -43,13 +43,45 @@ jobs:
 
       - name: Check pyproject.toml dependencies
         run: |
-          # Verify that dependencies = [] (zero runtime deps)
-          if ! grep -q "dependencies = \[\]" pyproject.toml; then
-            echo "::error::Runtime dependencies detected!"
-            echo "ascii-guard must have ZERO runtime dependencies"
+          # Verify minimal runtime dependencies:
+          # - Python 3.11+: Zero dependencies (uses stdlib tomllib)
+          # - Python 3.10: Only tomli (conditional dependency for TOML parsing)
+
+          echo "Checking runtime dependencies..."
+
+          # Extract dependencies array from pyproject.toml
+          DEPS=$(grep -A5 "^dependencies = \[" pyproject.toml | grep -v "^dependencies = \[" | grep -v "^\]" | grep -v "^#" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | grep -v "^$")
+
+          if [ -z "$DEPS" ]; then
+            echo "✓ Zero runtime dependencies (empty array)"
+            exit 0
+          fi
+
+          # Check that only tomli is present and it's conditional on Python < 3.11
+          if echo "$DEPS" | grep -q '"tomli>=2.0.0; python_version < '"'"'3.11'"'"'"'; then
+            echo "✓ Valid conditional dependency: tomli for Python 3.10"
+
+            # Verify no other dependencies
+            DEP_COUNT=$(echo "$DEPS" | wc -l | tr -d ' ')
+            if [ "$DEP_COUNT" -eq 1 ]; then
+              echo "✓ Only tomli dependency present (Python 3.11+ has zero deps)"
+              exit 0
+            else
+              echo "::error::Multiple runtime dependencies detected!"
+              echo "Expected: only tomli for Python 3.10, zero for Python 3.11+"
+              echo "Found: $DEP_COUNT dependencies"
+              exit 1
+            fi
+          else
+            echo "::error::Unexpected runtime dependencies detected!"
+            echo "ascii-guard should have:"
+            echo "  - Python 3.11+: Zero dependencies (uses stdlib tomllib)"
+            echo "  - Python 3.10: Only tomli (conditional)"
+            echo ""
+            echo "Found:"
+            echo "$DEPS"
             exit 1
           fi
-          echo "✓ Zero runtime dependencies verified in pyproject.toml"
 
       - name: Check for forbidden imports
         run: |
