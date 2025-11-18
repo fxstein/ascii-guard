@@ -472,3 +472,79 @@ class TestColumnContinuityValidation:
         warnings = [e for e in errors if e.severity == "warning"]
         assert len(warnings) == 1
         assert "bottom border missing junction point" in warnings[0].message.lower()
+
+
+class TestValidatorEdgeCases:
+    """Test suite for edge cases in validator to achieve 100% coverage."""
+
+    def test_is_divider_line_with_short_line(self) -> None:
+        """Test is_divider_line when line is too short."""
+        from ascii_guard.validator import is_divider_line
+
+        line = "├──"  # Too short for right_col
+        assert not is_divider_line(line, 0, 10)  # right_col beyond line length
+
+    def test_is_table_separator_line_with_short_line(self) -> None:
+        """Test is_table_separator_line when line is too short."""
+        from ascii_guard.validator import is_table_separator_line
+
+        line = "├──"  # Too short
+        assert not is_table_separator_line(line, 0, 10)  # left_col beyond line length
+
+    def test_validate_box_with_misaligned_left_border(self) -> None:
+        """Test validation when left border has invalid character."""
+        box = Box(
+            top_line=0,
+            bottom_line=2,
+            left_col=0,
+            right_col=10,
+            lines=[
+                "┌──────────┐",
+                "X Content  │",  # 'X' instead of │ at left border
+                "└──────────┘",
+            ],
+            file_path="test.txt",
+        )
+
+        errors = validate_box(box)
+        # Should detect left border misalignment
+        assert any("left border" in e.message.lower() for e in errors)
+        assert any("expected vertical character" in e.message.lower() for e in errors)
+
+    def test_validate_box_with_right_border_invalid_char(self) -> None:
+        """Test validation when right border has invalid character (not space or vertical)."""
+        box = Box(
+            top_line=0,
+            bottom_line=2,
+            left_col=0,
+            right_col=10,
+            lines=[
+                "┌──────────┐",
+                "│ Content  X",  # 'X' instead of │ at right border
+                "└──────────┘",
+            ],
+            file_path="test.txt",
+        )
+
+        errors = validate_box(box)
+        # Should detect right border misalignment
+        assert any("right border" in e.message.lower() for e in errors)
+
+    def test_validate_box_with_line_too_short_left_border(self) -> None:
+        """Test validation when line is too short to reach left border."""
+        box = Box(
+            top_line=0,
+            bottom_line=2,
+            left_col=5,
+            right_col=15,
+            lines=[
+                "     ┌──────────┐",
+                "  S",  # Too short (len=3) to reach left_col (5)
+                "     └──────────┘",
+            ],
+            file_path="test.txt",
+        )
+
+        errors = validate_box(box)
+        # Should detect left border missing (line too short)
+        assert any("left border missing" in e.message.lower() for e in errors)
