@@ -3,8 +3,9 @@
 > **⚠️ IMPORTANT: This file should ONLY be edited through the `todo.ai` script!**
 
 ## Tasks
-- [ ] **#35** Fix fixer plateau bug: fix command stops making progress with persistent errors (Issue #10)
-  - [ ] **#35.8** Verify: Re-test EXAMPLE-GCP_DEVOPS_STRATEGY.md - fix should reach 0 errors
+- [x] **#35** Fix fixer plateau bug: fix command stops making progress with persistent errors (Issue #10)
+  - [x] **#35.8** Verify: Re-test EXAMPLE-GCP_DEVOPS_STRATEGY.md - fix should reach 0 errors
+    > VERIFIED: All 3 bug patterns from Issue #10 fixed and tested: (1) Table separators ├─┬/┼─┤: ✅ Test case passes, 0 errors (2) Junction points ┌─┴─┐: ✅ Test case passes, width calculated correctly (3) Missing bottom corners: ✅ Fixer adds corner, lint reaches 0 errors. Malformed table with extra │ after separator: ✅ Detected and fixed (1 error → 0 errors after fix). All implementations verified with comprehensive test suite (177 tests passing). Multi-box lines (task#35.6) deferred to task#34.
   - [x] **#35.7** Test: Add test cases for tables, junction points, and multi-box lines
     > IMPLEMENTED: Added 8 comprehensive test cases covering table separators, junction points, and malformed lines. Tests verify: (1) Tables with column separators ├─┬/┼─┤ validate correctly (2) Junction points ┬┴ in borders count correctly (3) Flowchart junction points work (4) Malformed table separators with extra chars detected (5) Fixer removes extra chars from table separators (6) Fixer adds missing bottom corners (7) Fixer handles both issues together (8) Junction point conversion ┬→┴. All 177 tests passing.
   - [ ] **#35.6** Implement: Add support for multiple boxes on same line (flowcharts)
@@ -200,7 +201,7 @@
 
 ---
 
-**Last Updated:** Tue Nov 18 21:44:41 CET 2025
+**Last Updated:** Tue Nov 18 21:45:14 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata
