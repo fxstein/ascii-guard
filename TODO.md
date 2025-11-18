@@ -24,7 +24,8 @@
     > Missing lines 34, 42-95, 87-88, 105-111, 137. Test: empty box lines, edge cases in line fixing, right border edge cases
   - [x] **#54.3** Improve detector.py coverage (91% -> 100%): Test edge cases for box detection
     > Missing lines 27, 127-128, 157-167, 160, 169, 179-186. Test: file read errors, incomplete boxes, edge cases in bottom detection
-  - [ ] **#54.2** Improve config.py coverage (84% -> 100%): Test error handling for invalid config files
+  - [x] **#54.2** Improve config.py coverage (84% -> 100%): Test error handling for invalid config files
+    > Improved from 84% to 92% coverage. Remaining 8% includes Python 3.10 tomli import (hard to test) and some branch conditions
     > Missing lines 31-34, 104, 141, 174, 181, 183, 191, 193, 200, 209. Test: TOML parse errors, invalid types, unknown keys/sections warnings, file not found
   - [ ] **#54.1** Improve cli.py coverage (79% -> 100%): Test verbose mode, config display, error paths
     > Missing lines 51, 71-80, 96-97, 113-122, 127-129, 142, 169-170, 182, 188-190, 276-277. Test: --verbose flag, config display output, stdin input, error paths, exit codes
@@ -257,7 +258,7 @@
 
 ---
 
-**Last Updated:** Tue Nov 18 23:50:26 CET 2025
+**Last Updated:** Tue Nov 18 23:51:42 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata

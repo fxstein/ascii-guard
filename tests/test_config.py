@@ -342,3 +342,99 @@ key = "value"
             captured = capsys.readouterr()
             assert "Warning" in captured.out
             assert "unknown_section" in captured.out
+
+
+class TestConfigEdgeCases:
+    """Test edge cases to achieve 100% coverage."""
+
+    def test_load_config_extensions_not_all_strings(self) -> None:
+        """Test that extensions with non-string values raises ValueError."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmppath = Path(tmpdir)
+            config_file = tmppath / ".ascii-guard.toml"
+            config_file.write_text(
+                """
+[files]
+extensions = [".txt", 123, ".md"]
+"""
+            )
+
+            with pytest.raises(ValueError, match="extensions must be a list of strings"):
+                load_config(config_file)
+
+    def test_load_config_exclude_not_all_strings(self) -> None:
+        """Test that exclude with non-string values raises ValueError."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmppath = Path(tmpdir)
+            config_file = tmppath / ".ascii-guard.toml"
+            config_file.write_text(
+                """
+[files]
+exclude = ["*.txt", 456]
+"""
+            )
+
+            with pytest.raises(ValueError, match="exclude must be a list of strings"):
+                load_config(config_file)
+
+    def test_load_config_include_not_all_strings(self) -> None:
+        """Test that include with non-string values raises ValueError."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmppath = Path(tmpdir)
+            config_file = tmppath / ".ascii-guard.toml"
+            config_file.write_text(
+                """
+[files]
+include = ["!*.md", 789]
+"""
+            )
+
+            with pytest.raises(ValueError, match="include must be a list of strings"):
+                load_config(config_file)
+
+    def test_load_config_follow_symlinks_not_bool(self) -> None:
+        """Test that follow_symlinks with non-bool value raises ValueError."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmppath = Path(tmpdir)
+            config_file = tmppath / ".ascii-guard.toml"
+            config_file.write_text(
+                """
+[files]
+follow_symlinks = "yes"
+"""
+            )
+
+            with pytest.raises(ValueError, match="follow_symlinks must be a boolean"):
+                load_config(config_file)
+
+    def test_load_config_max_file_size_not_int(self) -> None:
+        """Test that max_file_size with non-int value raises ValueError."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmppath = Path(tmpdir)
+            config_file = tmppath / ".ascii-guard.toml"
+            config_file.write_text(
+                """
+[files]
+max_file_size = "10"
+"""
+            )
+
+            with pytest.raises(ValueError, match="max_file_size must be an integer"):
+                load_config(config_file)
+
+    def test_find_config_stops_at_git_root(self) -> None:
+        """Test that config search stops at git root."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmppath = Path(tmpdir)
+            # Create a git root
+            git_dir = tmppath / ".git"
+            git_dir.mkdir()
+
+            # Create a nested directory below git root
+            nested = tmppath / "src" / "deep" / "nested"
+            nested.mkdir(parents=True)
+
+            # No config file exists, but search should stop at git root
+            config_file = find_config_file(nested)
+            # Should return None (no config found)
+            assert config_file is None
