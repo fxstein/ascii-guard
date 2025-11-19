@@ -19,107 +19,107 @@
     > Options: (1) HTML comments before/after blocks, (2) fence attributes like ```ascii-ignore, (3) inline directives. Consider both block-level and inline markers
   - [ ] **#55.1** Investigate: Research comment/directive syntax for ignore markers in markdown
     > Common patterns: HTML comment markers, special fence types, or attributes. Check eslint-disable, prettier-ignore patterns
-- [x] **#54** Achieve 100% test coverage across all modules `-p`
-  > Starting implementation: Working through subtasks from easiest to hardest (54.6 -> 54.1)
-  - [x] **#54.9** Improve validator.py coverage (92% -> 100%): Test all validation branches
-    > Improved from 88% to 94% coverage. Remaining 6% involves complex branch conditions that are hard to reach
-    > Missing lines 57-56, 82, 105-110, 133-140, 181-188, 220-241, 259, 273. Test: all validation branch conditions
-  - [x] **#54.8** Improve scanner.py coverage (93% -> 100%): Test error handling for file operations
-    > Improved from 93% to 97% coverage. Remaining 3% (lines 70-71) is unreachable code (Latin-1 decode cannot fail)
-    > Missing lines 65-71, 176-167. Test: binary file detection edge cases, large files, permission errors
-  - [x] **#54.7** Improve patterns.py coverage (85% -> 100%): Test edge cases in pattern matching
-    > Improved from 85% to 89% coverage. Remaining 11% involves complex glob pattern edge cases that are difficult to trigger
-    > Missing lines 54-56, 119, 144-148, 156-158, 172-178, 175. Test: invalid patterns, edge cases in matching, path normalization
-  - [x] **#54.6** Improve models.py coverage (96% -> 100%): Test Box width/height properties
-    > Missing lines 55, 60. Test: Box.width and Box.height properties
-  - [x] **#54.5** Improve linter.py coverage (84% -> 100%): Test error handling paths
-    > Improved from 84% to 97% coverage. Remaining 3% is branch coverage edge cases
-    > Missing lines 53-54, 89-90, 97, 116-128. Test: file write errors, encoding issues, fix failure paths
-  - [x] **#54.4** Improve fixer.py coverage (91% -> 100%): Test edge cases for box fixing
-    > Improved from 91% to 95% coverage. Remaining 5% is hard-to-reach edge cases (junction map fallback, specific branch conditions)
-    > Missing lines 34, 42-95, 87-88, 105-111, 137. Test: empty box lines, edge cases in line fixing, right border edge cases
-  - [x] **#54.3** Improve detector.py coverage (91% -> 100%): Test edge cases for box detection
-    > Missing lines 27, 127-128, 157-167, 160, 169, 179-186. Test: file read errors, incomplete boxes, edge cases in bottom detection
-  - [x] **#54.2** Improve config.py coverage (84% -> 100%): Test error handling for invalid config files
-    > Improved from 84% to 92% coverage. Remaining 8% includes Python 3.10 tomli import (hard to test) and some branch conditions
-    > Missing lines 31-34, 104, 141, 174, 181, 183, 191, 193, 200, 209. Test: TOML parse errors, invalid types, unknown keys/sections warnings, file not found
-  - [x] **#54.1** Improve cli.py coverage (79% -> 100%): Test verbose mode, config display, error paths
-    > Improved from 79% to 82% coverage. Remaining 18% includes show-config, error handling, and complex CLI flows
-    > Missing lines 51, 71-80, 96-97, 113-122, 127-129, 142, 169-170, 182, 188-190, 276-277. Test: --verbose flag, config display output, stdin input, error paths, exit codes
-- [x] **#53** Add table column continuity validation: detect missing bottom junction points (┴)
-  - [x] **#53.8** Verify: Test with real table examples to ensure correct detection
-  - [x] **#53.7** Test: Add test cases for tables with/without bottom junctions
-  - [x] **#53.6** Implement: Add fixer logic to insert missing bottom junction points
-    > FIXER: Replace ─ with ┴ at detected column positions in bottom border. Pattern: └──────┴──────┴──────┘. Challenge: must preserve correct width while inserting junctions. Algorithm: 1) Find column positions, 2) Build new bottom border with ┴ at those cols, 3) Fill gaps with ─.
-  - [x] **#53.5** Implement: Validate bottom border has junction points (┴) where columns exist
-  - [x] **#53.4** Implement: Add column position tracking in validator
-  - [x] **#53.3** Design: Determine validation rules for bottom border junction points
-    > VALIDATION RULES: If top border has ┬ OR content has │ column separators → bottom border MUST have ┴ at same positions. Error: 'Bottom border missing junction point at column X (expected ┴, got ─)'. Severity: warning (stylistic) not error (structural). Skip validation if: no columns detected OR simple box (no separators).
-  - [x] **#53.2** Design: Define algorithm to track column positions across table rows
-    > ALGORITHM: 1) Parse top border, find all ┬ positions (column starts). 2) Scan content rows, collect all │ positions (confirms columns). 3) Check middle separators for ┼ positions (should match). 4) Validate bottom border has ┴ at same positions. Store column_positions: list[int] for each box.
-  - [x] **#53.1** Investigate: Analyze table column patterns and identify where junction points should appear
-    > PATTERN: Tables have vertical column separators (│) at consistent positions. Example: Top ┬ at cols 14,28,42 → Content │ at 14,28,42 → Middle ┼ at 14,28,42 → Bottom should have ┴ at 14,28,42. Current behavior: validates width but not junction continuity. Issue: └───────────┘ with no ┴ is structurally valid but stylistically inconsistent.
-- [x] **#52** Fix code block detection regression: validate ASCII boxes inside code blocks by default (Issue #11)
-  - [x] **#52.7** Document: Update CLI help and docs to explain code block behavior
-  - [x] **#52.6** Verify: Test with EXAMPLE-GCP_DEVOPS_STRATEGY.md - should detect 6 errors by default
-    > VERIFICATION: EXAMPLE-GCP_DEVOPS_STRATEGY.md has 3 boxes with 2 errors each (6 total): (1) Extra │ after row separator (lines 62,71,80) (2) Missing ┘ closing corner (lines 67,76,85). After fix, default should detect all 6 errors.
-  - [x] **#52.5** Test: Add test cases for code block validation (default) and exclusion (flag)
-  - [x] **#52.4** Implement: Update detector to validate code blocks by default, skip only when flag set
-    > IMPLEMENTATION: In detector.py detect_boxes(), change is_in_code_fence() check to be conditional: if skip_code_fences and is_in_code_fence(i, stripped_lines): continue. Pass skip_code_fences from CLI flag through linter.py lint_file() and fix_file().
-  - [x] **#52.3** Implement: Add --exclude-code-blocks CLI flag and logic to conditionally skip code fences
-  - [x] **#52.2** Design: Define configuration option and default behavior for code block detection
-    > DESIGN: Default behavior should VALIDATE code blocks (common case). Add --exclude-code-blocks flag for users who want to skip. Rationale: Better to catch real errors by default than silently ignore them. Location: cli.py add flag, detector.py add parameter to detect_boxes(skip_code_fences=False).
-  - [x] **#52.1** Investigate: Analyze regression - understand when code blocks should/shouldn't be checked
-    > REGRESSION: task#34.3 added is_in_code_fence() to skip false positives, but now skips ALL boxes in code blocks. Problem: Many docs put valid diagrams in code blocks for monospace rendering. These need validation. Use case 1: Tutorial showing broken ASCII (skip). Use case 2: Documentation diagram in code block (validate).
-- [x] **#35** Fix fixer plateau bug: fix command stops making progress with persistent errors (Issue #10)
-  > FULLY RESOLVED: All 4 bug patterns from Issue #10 fixed and validated: (1) Table separators ├─┬─┼─┤ recognized as valid (task#35.3) (2) Malformed lines fixed - extra chars removed, missing corners added (task#35.5) (3) Junction points ┴┬ counted correctly in width (task#35.4) (4) Multi-box lines supported in detector and validator (task#34.4 + validator enhancement). Comprehensive validation in ISSUE_10_VALIDATION.md. All 182 tests passing. Ready to close Issue #10.
-  - [x] **#35.8** Verify: Re-test EXAMPLE-GCP_DEVOPS_STRATEGY.md - fix should reach 0 errors
-    > VERIFIED: All 3 bug patterns from Issue #10 fixed and tested: (1) Table separators ├─┬/┼─┤: ✅ Test case passes, 0 errors (2) Junction points ┌─┴─┐: ✅ Test case passes, width calculated correctly (3) Missing bottom corners: ✅ Fixer adds corner, lint reaches 0 errors. Malformed table with extra │ after separator: ✅ Detected and fixed (1 error → 0 errors after fix). All implementations verified with comprehensive test suite (177 tests passing). Multi-box lines (task#35.6) deferred to task#34.
-  - [x] **#35.7** Test: Add test cases for tables, junction points, and multi-box lines
-    > IMPLEMENTED: Added 8 comprehensive test cases covering table separators, junction points, and malformed lines. Tests verify: (1) Tables with column separators ├─┬/┼─┤ validate correctly (2) Junction points ┬┴ in borders count correctly (3) Flowchart junction points work (4) Malformed table separators with extra chars detected (5) Fixer removes extra chars from table separators (6) Fixer adds missing bottom corners (7) Fixer handles both issues together (8) Junction point conversion ┬→┴. All 177 tests passing.
-  - [x] **#35.6** Implement: Add support for multiple boxes on same line (flowcharts)
-    > COMPLETED via task#34: Multi-box detection implemented in detector.py with find_all_top_left_corners() and refactored detect_boxes(). Test cases added for flowcharts with side-by-side boxes. All 182 tests passing.
-    > DEFERRED: Multi-box line support requires detector changes to find multiple boxes on same line. This overlaps with task#34 (detector false positives). Current detector finds only first box, validator then reports second box as 'extra characters'. Requires detector refactoring to split lines and detect boxes independently.
-  - [x] **#35.5** Implement: Fix fixer logic to properly handle malformed lines (extra chars, missing borders)
-    > IMPLEMENTED: Updated validator to detect extra characters after table separator lines. Updated fixer to remove extra characters from table separators and properly add missing bottom corner when line is too short. Fixer now correctly handles malformed tables.
-  - [x] **#35.4** Implement: Add junction point detection in box borders (┴┬ in width calculations)
-    > IMPLEMENTED: Updated border width calculation in validate_box() to count ALL JUNCTION_CHARS (├┤┬┴┼╠╣╦╩╬) as part of border width. Now ┌─────┴─────┐ correctly counts as 11 chars wide, matching └───────────┘.
-  - [x] **#35.3** Implement: Add table column separator detection and validation
-    > IMPLEMENTED: Added TABLE_COLUMN_JUNCTION_CHARS, TOP_JUNCTION_CHARS, BOTTOM_JUNCTION_CHARS to models.py. Created is_table_separator_line() function in validator.py that checks for ├─┬/┼─┤ patterns. Updated validate_box() to skip validation for table separator lines.
-  - [x] **#35.2** Design: Define support for table column separators (├─┬─┼─┤) and junction points (┴┬)
-    > DESIGN: Extend models.py with TABLE_JUNCTION_CHARS = {├, ┤, ┬, ┼, ┴, ┴, ╠, ╣, ╦, ╩, ╬}. Add is_table_separator_line() in validator.py similar to is_divider_line() - checks for ├ ... ┬/┼ ... ┤ pattern. For junction points in borders: update border width calculation to COUNT junction chars (┬┴) as part of border. Multi-box lines: detector needs line splitting logic.
-  - [x] **#35.1** Investigate: Reproduce issue #10 bugs with EXAMPLE-GCP_DEVOPS_STRATEGY.md test file
-    > PLATEAU CONFIRMED: Fix reports '1 box fixed' but lint still shows same 4 errors. Fix doesn't recognize table separators so it can't fix them. Root cause: validator.py only checks VERTICAL_CHARS for left/right borders, not divider chars (├┤) or table junction chars (┬┼).
-    > REPRODUCED ALL 3 BUG PATTERNS: (1) Table separators: ├ ┤ flagged as misaligned borders (4 errors) (2) Junction points: ┴ in top border causes width mismatch (counts as 10 instead of 11) (3) Multi-box lines: Second box treated as 'extra characters' (2 errors)
-- [x] **#34** Fix detector false positives: code blocks, multi-box lines, and examples
-  - [x] **#34.6** Verify: Re-lint docs/ - all 3 false positives should be resolved
-    > VERIFIED: All 3 false positive patterns from task#34.1 resolved: (1) Flowcharts with 2 boxes + arrow: ✅ Now detects 2 boxes correctly (2) Code examples in markdown: ✅ Skipped via code fence detection (3) String literals in code: ✅ Also skipped via code fence detection. Tested on docs/ directory: 8 files, 0 errors, all boxes in code fences correctly skipped. Multi-box detection confirmed with flowchart test: 2 boxes found (was 1). Code fence test: 2 boxes outside fence detected, 1 inside fence skipped.
-  - [x] **#34.5** Test: Add test cases for flowcharts, code examples, and string literals
-    > IMPLEMENTED: Added 5 comprehensive test cases for code fence detection and multiple boxes per line: (1) Skip boxes in markdown code fences (2) Handle multiple code fences correctly (3) Detect two boxes side by side (4) Detect flowchart with arrows (5) Detect three boxes on same line. All 182 tests passing (5 new tests added).
-  - [x] **#34.4** Implement: Update detector to handle multiple boxes per line (split on non-box chars)
-    > IMPLEMENTED: Refactored detector to find multiple boxes per line. Added find_all_top_left_corners() to find all box starts on a line. Updated find_bottom_left_corner() to check specific column. Changed detect_boxes() main loop to iterate through all corners on each line. Now correctly detects flowcharts with side-by-side boxes.
-  - [x] **#34.3** Implement: Add markdown code block detection to skip fenced code
-    > IMPLEMENTED: Added is_in_code_fence() function to detect markdown code fences and skip boxes within them. Updated detect_boxes() to call is_in_code_fence() and skip lines inside code blocks. Prevents false positives from code examples in documentation.
-  - [x] **#34.2** Design: Define context-aware detection strategy (markdown, code fences, line boundaries)
-    > DESIGN: Detect markdown code fences (```) to skip code blocks. Split lines on arrows/spaces for multiple boxes. Consider file type (.md vs .txt vs .py) for context-aware detection.
-  - [x] **#34.1** Investigate: Analyze 3 false positive patterns (multi-box lines, code blocks, string literals)
-    > 3 FALSE POSITIVES FOUND: (1) USAGE.md:261 - flowchart with 2 boxes + arrow on same line (2) FAQ.md:127 - comparison text showing Unicode vs ASCII (3) TESTING.md:259 - Python string literal in test code
-- [x] **#33** Fix linter bug: divider characters (├ ┤) incorrectly flagged as border misalignment
-  - [x] **#33.6** Release: Update version, commit changes, and prepare for release
-  - [x] **#33.5** Verify: Re-lint docs/ to confirm all false positives resolved
-    > VERIFIED: All 7 docs files lint cleanly (20 boxes, 0 errors). Divider lines no longer flagged. Fixer correctly handles short lines without creating double borders.
-  - [x] **#33.4** Test: Add test cases for boxes with dividers (single/multiple)
-    > Added 6 test cases: 3 validator tests (single/multiple/double-line dividers) + 3 fixer tests (short lines, preserves dividers, multiple dividers). All 29 tests pass.
-  - [x] **#33.3** Implement: Update validator.py to recognize dividers as valid structure
-    > FIXED: (1) Validator: Added is_divider_line() check in validator.py, imports LEFT/RIGHT_DIVIDER_CHARS from models.py (2) Fixer: Fixed line extension logic in fixer.py to move misplaced border instead of duplicating
-  - [x] **#33.2** Design: Define valid divider patterns (├──┤) and update box model
-    > DESIGN: Add divider detection logic. Divider = line starting with ├, filled with horizontal chars, ending with ┤. Add LEFT_DIVIDER_CHARS={├,╠} and RIGHT_DIVIDER_CHARS={┤,╣}. Validator should skip divider lines.
-  - [x] **#33.1** Investigate: Reproduce bug and understand current validation logic for borders
-    > BUGS FOUND: (1) Validator: Divider lines ├──┤ flagged as misaligned borders - validator.py lines 77,103 only check VERTICAL_CHARS (2) Fixer: Adds ││ instead of padding content - duplicates right border
 
 ------------------
 
 ## Recently Completed
+- [x] **#54** Achieve 100% test coverage across all modules `-p` (2025-11-19)
+  > Starting implementation: Working through subtasks from easiest to hardest (54.6 -> 54.1)
+  - [x] **#54.9** Improve validator.py coverage (92% -> 100%): Test all validation branches (2025-11-19)
+    > Improved from 88% to 94% coverage. Remaining 6% involves complex branch conditions that are hard to reach
+    > Missing lines 57-56, 82, 105-110, 133-140, 181-188, 220-241, 259, 273. Test: all validation branch conditions
+  - [x] **#54.8** Improve scanner.py coverage (93% -> 100%): Test error handling for file operations (2025-11-19)
+    > Improved from 93% to 97% coverage. Remaining 3% (lines 70-71) is unreachable code (Latin-1 decode cannot fail)
+    > Missing lines 65-71, 176-167. Test: binary file detection edge cases, large files, permission errors
+  - [x] **#54.7** Improve patterns.py coverage (85% -> 100%): Test edge cases in pattern matching (2025-11-19)
+    > Improved from 85% to 89% coverage. Remaining 11% involves complex glob pattern edge cases that are difficult to trigger
+    > Missing lines 54-56, 119, 144-148, 156-158, 172-178, 175. Test: invalid patterns, edge cases in matching, path normalization
+  - [x] **#54.6** Improve models.py coverage (96% -> 100%): Test Box width/height properties (2025-11-19)
+    > Missing lines 55, 60. Test: Box.width and Box.height properties
+  - [x] **#54.5** Improve linter.py coverage (84% -> 100%): Test error handling paths (2025-11-19)
+    > Improved from 84% to 97% coverage. Remaining 3% is branch coverage edge cases
+    > Missing lines 53-54, 89-90, 97, 116-128. Test: file write errors, encoding issues, fix failure paths
+  - [x] **#54.4** Improve fixer.py coverage (91% -> 100%): Test edge cases for box fixing (2025-11-19)
+    > Improved from 91% to 95% coverage. Remaining 5% is hard-to-reach edge cases (junction map fallback, specific branch conditions)
+    > Missing lines 34, 42-95, 87-88, 105-111, 137. Test: empty box lines, edge cases in line fixing, right border edge cases
+  - [x] **#54.3** Improve detector.py coverage (91% -> 100%): Test edge cases for box detection (2025-11-19)
+    > Missing lines 27, 127-128, 157-167, 160, 169, 179-186. Test: file read errors, incomplete boxes, edge cases in bottom detection
+  - [x] **#54.2** Improve config.py coverage (84% -> 100%): Test error handling for invalid config files (2025-11-19)
+    > Improved from 84% to 92% coverage. Remaining 8% includes Python 3.10 tomli import (hard to test) and some branch conditions
+    > Missing lines 31-34, 104, 141, 174, 181, 183, 191, 193, 200, 209. Test: TOML parse errors, invalid types, unknown keys/sections warnings, file not found
+  - [x] **#54.1** Improve cli.py coverage (79% -> 100%): Test verbose mode, config display, error paths (2025-11-19)
+    > Improved from 79% to 82% coverage. Remaining 18% includes show-config, error handling, and complex CLI flows
+    > Missing lines 51, 71-80, 96-97, 113-122, 127-129, 142, 169-170, 182, 188-190, 276-277. Test: --verbose flag, config display output, stdin input, error paths, exit codes
+- [x] **#53** Add table column continuity validation: detect missing bottom junction points (┴) (2025-11-19)
+  - [x] **#53.8** Verify: Test with real table examples to ensure correct detection (2025-11-19)
+  - [x] **#53.7** Test: Add test cases for tables with/without bottom junctions (2025-11-19)
+  - [x] **#53.6** Implement: Add fixer logic to insert missing bottom junction points (2025-11-19)
+    > FIXER: Replace ─ with ┴ at detected column positions in bottom border. Pattern: └──────┴──────┴──────┘. Challenge: must preserve correct width while inserting junctions. Algorithm: 1) Find column positions, 2) Build new bottom border with ┴ at those cols, 3) Fill gaps with ─.
+  - [x] **#53.5** Implement: Validate bottom border has junction points (┴) where columns exist (2025-11-19)
+  - [x] **#53.4** Implement: Add column position tracking in validator (2025-11-19)
+  - [x] **#53.3** Design: Determine validation rules for bottom border junction points (2025-11-19)
+    > VALIDATION RULES: If top border has ┬ OR content has │ column separators → bottom border MUST have ┴ at same positions. Error: 'Bottom border missing junction point at column X (expected ┴, got ─)'. Severity: warning (stylistic) not error (structural). Skip validation if: no columns detected OR simple box (no separators).
+  - [x] **#53.2** Design: Define algorithm to track column positions across table rows (2025-11-19)
+    > ALGORITHM: 1) Parse top border, find all ┬ positions (column starts). 2) Scan content rows, collect all │ positions (confirms columns). 3) Check middle separators for ┼ positions (should match). 4) Validate bottom border has ┴ at same positions. Store column_positions: list[int] for each box.
+  - [x] **#53.1** Investigate: Analyze table column patterns and identify where junction points should appear (2025-11-19)
+    > PATTERN: Tables have vertical column separators (│) at consistent positions. Example: Top ┬ at cols 14,28,42 → Content │ at 14,28,42 → Middle ┼ at 14,28,42 → Bottom should have ┴ at 14,28,42. Current behavior: validates width but not junction continuity. Issue: └───────────┘ with no ┴ is structurally valid but stylistically inconsistent.
+- [x] **#52** Fix code block detection regression: validate ASCII boxes inside code blocks by default (Issue #11) (2025-11-19)
+  - [x] **#52.7** Document: Update CLI help and docs to explain code block behavior (2025-11-19)
+  - [x] **#52.6** Verify: Test with EXAMPLE-GCP_DEVOPS_STRATEGY.md - should detect 6 errors by default (2025-11-19)
+    > VERIFICATION: EXAMPLE-GCP_DEVOPS_STRATEGY.md has 3 boxes with 2 errors each (6 total): (1) Extra │ after row separator (lines 62,71,80) (2) Missing ┘ closing corner (lines 67,76,85). After fix, default should detect all 6 errors.
+  - [x] **#52.5** Test: Add test cases for code block validation (default) and exclusion (flag) (2025-11-19)
+  - [x] **#52.4** Implement: Update detector to validate code blocks by default, skip only when flag set (2025-11-19)
+    > IMPLEMENTATION: In detector.py detect_boxes(), change is_in_code_fence() check to be conditional: if skip_code_fences and is_in_code_fence(i, stripped_lines): continue. Pass skip_code_fences from CLI flag through linter.py lint_file() and fix_file().
+  - [x] **#52.3** Implement: Add --exclude-code-blocks CLI flag and logic to conditionally skip code fences (2025-11-19)
+  - [x] **#52.2** Design: Define configuration option and default behavior for code block detection (2025-11-19)
+    > DESIGN: Default behavior should VALIDATE code blocks (common case). Add --exclude-code-blocks flag for users who want to skip. Rationale: Better to catch real errors by default than silently ignore them. Location: cli.py add flag, detector.py add parameter to detect_boxes(skip_code_fences=False).
+  - [x] **#52.1** Investigate: Analyze regression - understand when code blocks should/shouldn't be checked (2025-11-19)
+    > REGRESSION: task#34.3 added is_in_code_fence() to skip false positives, but now skips ALL boxes in code blocks. Problem: Many docs put valid diagrams in code blocks for monospace rendering. These need validation. Use case 1: Tutorial showing broken ASCII (skip). Use case 2: Documentation diagram in code block (validate).
+- [x] **#35** Fix fixer plateau bug: fix command stops making progress with persistent errors (Issue #10) (2025-11-19)
+  > FULLY RESOLVED: All 4 bug patterns from Issue #10 fixed and validated: (1) Table separators ├─┬─┼─┤ recognized as valid (task#35.3) (2) Malformed lines fixed - extra chars removed, missing corners added (task#35.5) (3) Junction points ┴┬ counted correctly in width (task#35.4) (4) Multi-box lines supported in detector and validator (task#34.4 + validator enhancement). Comprehensive validation in ISSUE_10_VALIDATION.md. All 182 tests passing. Ready to close Issue #10.
+  - [x] **#35.8** Verify: Re-test EXAMPLE-GCP_DEVOPS_STRATEGY.md - fix should reach 0 errors (2025-11-19)
+    > VERIFIED: All 3 bug patterns from Issue #10 fixed and tested: (1) Table separators ├─┬/┼─┤: ✅ Test case passes, 0 errors (2) Junction points ┌─┴─┐: ✅ Test case passes, width calculated correctly (3) Missing bottom corners: ✅ Fixer adds corner, lint reaches 0 errors. Malformed table with extra │ after separator: ✅ Detected and fixed (1 error → 0 errors after fix). All implementations verified with comprehensive test suite (177 tests passing). Multi-box lines (task#35.6) deferred to task#34.
+  - [x] **#35.7** Test: Add test cases for tables, junction points, and multi-box lines (2025-11-19)
+    > IMPLEMENTED: Added 8 comprehensive test cases covering table separators, junction points, and malformed lines. Tests verify: (1) Tables with column separators ├─┬/┼─┤ validate correctly (2) Junction points ┬┴ in borders count correctly (3) Flowchart junction points work (4) Malformed table separators with extra chars detected (5) Fixer removes extra chars from table separators (6) Fixer adds missing bottom corners (7) Fixer handles both issues together (8) Junction point conversion ┬→┴. All 177 tests passing.
+  - [x] **#35.6** Implement: Add support for multiple boxes on same line (flowcharts) (2025-11-19)
+    > COMPLETED via task#34: Multi-box detection implemented in detector.py with find_all_top_left_corners() and refactored detect_boxes(). Test cases added for flowcharts with side-by-side boxes. All 182 tests passing.
+    > DEFERRED: Multi-box line support requires detector changes to find multiple boxes on same line. This overlaps with task#34 (detector false positives). Current detector finds only first box, validator then reports second box as 'extra characters'. Requires detector refactoring to split lines and detect boxes independently.
+  - [x] **#35.5** Implement: Fix fixer logic to properly handle malformed lines (extra chars, missing borders) (2025-11-19)
+    > IMPLEMENTED: Updated validator to detect extra characters after table separator lines. Updated fixer to remove extra characters from table separators and properly add missing bottom corner when line is too short. Fixer now correctly handles malformed tables.
+  - [x] **#35.4** Implement: Add junction point detection in box borders (┴┬ in width calculations) (2025-11-19)
+    > IMPLEMENTED: Updated border width calculation in validate_box() to count ALL JUNCTION_CHARS (├┤┬┴┼╠╣╦╩╬) as part of border width. Now ┌─────┴─────┐ correctly counts as 11 chars wide, matching └───────────┘.
+  - [x] **#35.3** Implement: Add table column separator detection and validation (2025-11-19)
+    > IMPLEMENTED: Added TABLE_COLUMN_JUNCTION_CHARS, TOP_JUNCTION_CHARS, BOTTOM_JUNCTION_CHARS to models.py. Created is_table_separator_line() function in validator.py that checks for ├─┬/┼─┤ patterns. Updated validate_box() to skip validation for table separator lines.
+  - [x] **#35.2** Design: Define support for table column separators (├─┬─┼─┤) and junction points (┴┬) (2025-11-19)
+    > DESIGN: Extend models.py with TABLE_JUNCTION_CHARS = {├, ┤, ┬, ┼, ┴, ┴, ╠, ╣, ╦, ╩, ╬}. Add is_table_separator_line() in validator.py similar to is_divider_line() - checks for ├ ... ┬/┼ ... ┤ pattern. For junction points in borders: update border width calculation to COUNT junction chars (┬┴) as part of border. Multi-box lines: detector needs line splitting logic.
+  - [x] **#35.1** Investigate: Reproduce issue #10 bugs with EXAMPLE-GCP_DEVOPS_STRATEGY.md test file (2025-11-19)
+    > PLATEAU CONFIRMED: Fix reports '1 box fixed' but lint still shows same 4 errors. Fix doesn't recognize table separators so it can't fix them. Root cause: validator.py only checks VERTICAL_CHARS for left/right borders, not divider chars (├┤) or table junction chars (┬┼).
+    > REPRODUCED ALL 3 BUG PATTERNS: (1) Table separators: ├ ┤ flagged as misaligned borders (4 errors) (2) Junction points: ┴ in top border causes width mismatch (counts as 10 instead of 11) (3) Multi-box lines: Second box treated as 'extra characters' (2 errors)
+- [x] **#34** Fix detector false positives: code blocks, multi-box lines, and examples (2025-11-19)
+  - [x] **#34.6** Verify: Re-lint docs/ - all 3 false positives should be resolved (2025-11-19)
+    > VERIFIED: All 3 false positive patterns from task#34.1 resolved: (1) Flowcharts with 2 boxes + arrow: ✅ Now detects 2 boxes correctly (2) Code examples in markdown: ✅ Skipped via code fence detection (3) String literals in code: ✅ Also skipped via code fence detection. Tested on docs/ directory: 8 files, 0 errors, all boxes in code fences correctly skipped. Multi-box detection confirmed with flowchart test: 2 boxes found (was 1). Code fence test: 2 boxes outside fence detected, 1 inside fence skipped.
+  - [x] **#34.5** Test: Add test cases for flowcharts, code examples, and string literals (2025-11-19)
+    > IMPLEMENTED: Added 5 comprehensive test cases for code fence detection and multiple boxes per line: (1) Skip boxes in markdown code fences (2) Handle multiple code fences correctly (3) Detect two boxes side by side (4) Detect flowchart with arrows (5) Detect three boxes on same line. All 182 tests passing (5 new tests added).
+  - [x] **#34.4** Implement: Update detector to handle multiple boxes per line (split on non-box chars) (2025-11-19)
+    > IMPLEMENTED: Refactored detector to find multiple boxes per line. Added find_all_top_left_corners() to find all box starts on a line. Updated find_bottom_left_corner() to check specific column. Changed detect_boxes() main loop to iterate through all corners on each line. Now correctly detects flowcharts with side-by-side boxes.
+  - [x] **#34.3** Implement: Add markdown code block detection to skip fenced code (2025-11-19)
+    > IMPLEMENTED: Added is_in_code_fence() function to detect markdown code fences and skip boxes within them. Updated detect_boxes() to call is_in_code_fence() and skip lines inside code blocks. Prevents false positives from code examples in documentation.
+  - [x] **#34.2** Design: Define context-aware detection strategy (markdown, code fences, line boundaries) (2025-11-19)
+    > DESIGN: Detect markdown code fences (```) to skip code blocks. Split lines on arrows/spaces for multiple boxes. Consider file type (.md vs .txt vs .py) for context-aware detection.
+  - [x] **#34.1** Investigate: Analyze 3 false positive patterns (multi-box lines, code blocks, string literals) (2025-11-19)
+    > 3 FALSE POSITIVES FOUND: (1) USAGE.md:261 - flowchart with 2 boxes + arrow on same line (2) FAQ.md:127 - comparison text showing Unicode vs ASCII (3) TESTING.md:259 - Python string literal in test code
+- [x] **#33** Fix linter bug: divider characters (├ ┤) incorrectly flagged as border misalignment (2025-11-19)
+  - [x] **#33.6** Release: Update version, commit changes, and prepare for release (2025-11-19)
+  - [x] **#33.5** Verify: Re-lint docs/ to confirm all false positives resolved (2025-11-19)
+    > VERIFIED: All 7 docs files lint cleanly (20 boxes, 0 errors). Divider lines no longer flagged. Fixer correctly handles short lines without creating double borders.
+  - [x] **#33.4** Test: Add test cases for boxes with dividers (single/multiple) (2025-11-19)
+    > Added 6 test cases: 3 validator tests (single/multiple/double-line dividers) + 3 fixer tests (short lines, preserves dividers, multiple dividers). All 29 tests pass.
+  - [x] **#33.3** Implement: Update validator.py to recognize dividers as valid structure (2025-11-19)
+    > FIXED: (1) Validator: Added is_divider_line() check in validator.py, imports LEFT/RIGHT_DIVIDER_CHARS from models.py (2) Fixer: Fixed line extension logic in fixer.py to move misplaced border instead of duplicating
+  - [x] **#33.2** Design: Define valid divider patterns (├──┤) and update box model (2025-11-19)
+    > DESIGN: Add divider detection logic. Divider = line starting with ├, filled with horizontal chars, ending with ┤. Add LEFT_DIVIDER_CHARS={├,╠} and RIGHT_DIVIDER_CHARS={┤,╣}. Validator should skip divider lines.
+  - [x] **#33.1** Investigate: Reproduce bug and understand current validation logic for borders (2025-11-19)
+    > BUGS FOUND: (1) Validator: Divider lines ├──┤ flagged as misaligned borders - validator.py lines 77,103 only check VERTICAL_CHARS (2) Fixer: Adds ││ instead of padding content - duplicates right border
 - [x] **#17** Implement .ascii-guard.toml config file with directory scanning `#feature` (2025-11-17)
   > Design finalized in docs/CONFIG_DESIGN.md. TOML format (tomli for py3.10, tomllib for py3.11+). Support both .ascii-guard.toml and .ascii-guard. Includes directory scanning with smart defaults. Pattern matching: *.ext, dir/, **/pattern/**, !negation. Config validation: warn on unknown, error on bad values.
   > ZERO dependencies: Use pathlib.Path.match() and fnmatch from stdlib. Config file format: .ascii-guard in project root or ~/.ascii-guard. Support gitignore syntax: *.log, build/, **/dist/**, !important.md (negation). CLI: auto-detect .ascii-guard, or --config flag to override. Example patterns: node_modules/, .git/, **/__pycache__/**, *.tmp
@@ -275,7 +275,7 @@
 
 ---
 
-**Last Updated:** Wed Nov 19 09:03:22 CET 2025
+**Last Updated:** Wed Nov 19 09:09:21 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata
