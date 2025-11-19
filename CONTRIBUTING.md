@@ -91,8 +91,6 @@ The `setup.sh` script automatically:
 
 **Platform compatibility**: Linux, macOS, Windows (WSL/Git Bash)
 
-**Note**: The older `setup-venv.sh` script is still available but doesn't auto-install git hooks.
-
 ### Development Workflow
 
 ```bash

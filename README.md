@@ -228,9 +228,9 @@ We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guid
 ### Development Setup
 
 1. Fork and clone the repository
-2. Run `./setup-venv.sh` to set up your environment
+2. Run `./setup.sh` to set up your environment
 3. Make your changes
-4. Run tests and linters: `pre-commit run --all-files`
+4. Run tests: `pytest` (pre-commit hooks run automatically on commit)
 5. Submit a pull request
 
 ### Code Style

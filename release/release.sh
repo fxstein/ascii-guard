@@ -78,13 +78,13 @@ validate_environment() {
         echo -e "${RED}❌ Virtual environment not found${NC}"
         echo ""
         echo -e "${YELLOW}Fix: Create virtual environment:${NC}"
-        echo -e "${YELLOW}  ./setup-venv.sh${NC}"
+        echo -e "${YELLOW}  ./setup.sh${NC}"
         errors=$((errors + 1))
     elif [[ ! -f .venv/bin/python ]]; then
         echo -e "${RED}❌ Virtual environment is corrupted${NC}"
         echo ""
         echo -e "${YELLOW}Fix: Rebuild virtual environment:${NC}"
-        echo -e "${YELLOW}  rm -rf .venv && ./setup-venv.sh${NC}"
+        echo -e "${YELLOW}  rm -rf .venv && ./setup.sh${NC}"
         errors=$((errors + 1))
     else
         echo -e "${GREEN}✓ Virtual environment: exists${NC}"
