@@ -136,13 +136,19 @@ jobs:
           echo "version=${VERSION}" >> $GITHUB_OUTPUT
           echo "version_number=${VERSION#v}" >> $GITHUB_OUTPUT
 
-      - name: Generate release notes
+      - name: Use prepared release notes
         id: release_notes
         run: |
           VERSION="${{ steps.get_version.outputs.version }}"
           VERSION_NUMBER="${{ steps.get_version.outputs.version_number }}"
 
-          cat > release_notes.md << EOF
+          # Check if RELEASE_SUMMARY.md exists (prepared by release.sh)
+          if [ -f "release/RELEASE_SUMMARY.md" ]; then
+            echo "Using prepared release notes from release/RELEASE_SUMMARY.md"
+            cp release/RELEASE_SUMMARY.md release_notes.md
+          else
+            echo "Warning: release/RELEASE_SUMMARY.md not found, generating fallback template"
+            cat > release_notes.md << EOF
           ## ascii-guard ${VERSION}
 
           A zero-dependency Python linter for detecting and fixing misaligned ASCII art boxes in documentation.
@@ -180,6 +186,7 @@ jobs:
           - \`ascii_guard-${VERSION_NUMBER}-py3-none-any.whl\` - Wheel distribution
           - \`ascii_guard-${VERSION_NUMBER}.tar.gz\` - Source distribution
           EOF
+          fi
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
