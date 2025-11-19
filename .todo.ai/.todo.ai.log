@@ -2,6 +2,22 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2025-11-19 09:03:22 | fxstein | NOTE | 55.9 | Document syntax, provide examples: (1) showing broken box for comparison, (2) testing edge cases, (3) examples in documentation without errors
+2025-11-19 09:03:22 | fxstein | NOTE | 55.4 | Modify detect_boxes() in detector.py to track ignore regions. Store line ranges to skip. See is_in_code_fence() pattern from Issue task#11
+2025-11-19 09:03:22 | fxstein | NOTE | 55.3 | Decide: Should markers work only in markdown code blocks, or also for inline ASCII boxes? Consider use case: README examples, documentation with intentionally broken boxes
+2025-11-19 09:03:22 | fxstein | NOTE | 55.2 | Options: (1) HTML comments before/after blocks, (2) fence attributes like ```ascii-ignore, (3) inline directives. Consider both block-level and inline markers
+2025-11-19 09:03:10 | fxstein | NOTE | 55.1 | Common patterns: HTML comment markers, special fence types, or attributes. Check eslint-disable, prettier-ignore patterns
+2025-11-19 09:02:59 | fxstein | ADD_SUBTASK | 55.10 | Document: Add examples to README showing broken boxes with ignore markers (parent: #55)
+2025-11-19 09:02:59 | fxstein | ADD_SUBTASK | 55.9 | Document: Update USAGE.md with ignore marker syntax and examples (parent: #55)
+2025-11-19 09:02:58 | fxstein | ADD_SUBTASK | 55.8 | Test: Verify linter skips marked boxes, fixer doesn't touch them (parent: #55)
+2025-11-19 09:02:58 | fxstein | ADD_SUBTASK | 55.7 | Test: Add test cases for ignore markers in code blocks and inline (parent: #55)
+2025-11-19 09:02:58 | fxstein | ADD_SUBTASK | 55.6 | Implement: Ensure fixer respects ignore markers (parent: #55)
+2025-11-19 09:02:58 | fxstein | ADD_SUBTASK | 55.5 | Implement: Modify detector to skip marked regions (parent: #55)
+2025-11-19 09:02:58 | fxstein | ADD_SUBTASK | 55.4 | Implement: Add ignore marker detection in detector.py (parent: #55)
+2025-11-19 09:02:58 | fxstein | ADD_SUBTASK | 55.3 | Design: Decide scope - code blocks only, or any ASCII box? (parent: #55)
+2025-11-19 09:02:58 | fxstein | ADD_SUBTASK | 55.2 | Design: Define ignore marker syntax (HTML comments, directives, or special fences) (parent: #55)
+2025-11-19 09:02:47 | fxstein | ADD_SUBTASK | 55.1 | Investigate: Research comment/directive syntax for ignore markers in markdown (parent: #55)
+2025-11-19 09:02:41 | fxstein | ADD | 55 | Add ignore markers for code blocks: allow marking ASCII boxes as exempt from validation
 2025-11-19 00:07:49 | fxstein | COMPLETE | 54.2 | Improve config.py coverage (84% -> 100%): Test error handling for invalid config files
 2025-11-19 00:06:26 | fxstein | COMPLETE | 54.1 | Improve cli.py coverage (79% -> 100%): Test verbose mode, config display, error paths
 2025-11-18 23:54:54 | fxstein | NOTE | 54.1 | Improved from 79% to 82% coverage. Remaining 18% includes show-config, error handling, and complex CLI flows
