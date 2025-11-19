@@ -63,7 +63,7 @@ Enhancement suggestions are welcome! Please:
 
 ### Prerequisites
 
-- Python 3.12+
+- Python 3.10+ (3.12+ recommended)
 - git
 
 ### Initial Setup
@@ -73,16 +73,23 @@ Enhancement suggestions are welcome! Please:
 git clone https://github.com/YOUR-USERNAME/ascii-guard.git
 cd ascii-guard
 
-# Set up development environment
-./setup-venv.sh
+# One-step setup (handles everything automatically)
+./setup.zsh
 
 # Activate virtual environment
 source .venv/bin/activate  # Linux/macOS
 .venv\Scripts\activate     # Windows
-
-# Install pre-commit hooks
-pre-commit install
 ```
+
+The `setup.zsh` script automatically:
+1. ✅ Checks Python version (3.10+ required)
+2. ✅ Creates isolated virtual environment (.venv)
+3. ✅ Installs ascii-guard in editable mode
+4. ✅ Installs all dev dependencies (pytest, ruff, mypy, pre-commit, build, twine)
+5. ✅ Configures pre-commit git hooks
+6. ✅ Runs verification tests
+
+**Note**: The older `setup-venv.sh` script is still available but doesn't auto-install git hooks.
 
 ### Development Workflow
 

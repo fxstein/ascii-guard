@@ -47,15 +47,21 @@ That's it! No other dependencies needed.
 git clone https://github.com/fxstein/ascii-guard.git
 cd ascii-guard
 
-# Set up development environment (creates venv, installs dev deps)
-./setup-venv.sh
+# One-step setup (creates venv, installs deps, configures hooks, runs tests)
+./setup.zsh
 
 # Activate virtual environment
 source .venv/bin/activate
-
-# Install pre-commit hooks
-pre-commit install
 ```
+
+That's it! The setup script handles everything:
+- ✅ Creates isolated virtual environment
+- ✅ Installs ascii-guard in editable mode
+- ✅ Installs all dev dependencies (pytest, ruff, mypy, pre-commit)
+- ✅ Configures git hooks automatically
+- ✅ Runs verification tests
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed development workflow.
 
 ---
 

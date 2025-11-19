@@ -1,6 +1,9 @@
 #!/bin/zsh
 # setup-venv.sh - Virtual environment setup script for ascii-guard
 # Ensures clean isolation with zero system pollution
+#
+# NOTE: For full automated setup including git hooks, use ./setup.zsh instead.
+#       This script is kept for backward compatibility and minimal venv setup.
 
 set -e
 
