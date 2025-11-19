@@ -3,21 +3,22 @@
 > **⚠️ IMPORTANT: This file should ONLY be edited through the `todo.ai` script!**
 
 ## Tasks
-- [ ] **#55** Add ignore markers for code blocks: allow marking ASCII boxes as exempt from validation
-  - [ ] **#55.10** Document: Add examples to README showing broken boxes with ignore markers
-  - [ ] **#55.9** Document: Update USAGE.md with ignore marker syntax and examples
+- [x] **#55** Add ignore markers for code blocks: allow marking ASCII boxes as exempt from validation
+  - [x] **#55.10** Document: Add examples to README showing broken boxes with ignore markers
+  - [x] **#55.9** Document: Update USAGE.md with ignore marker syntax and examples
     > Document syntax, provide examples: (1) showing broken box for comparison, (2) testing edge cases, (3) examples in documentation without errors
-  - [ ] **#55.8** Test: Verify linter skips marked boxes, fixer doesn't touch them
-  - [ ] **#55.7** Test: Add test cases for ignore markers in code blocks and inline
-  - [ ] **#55.6** Implement: Ensure fixer respects ignore markers
-  - [ ] **#55.5** Implement: Modify detector to skip marked regions
-  - [ ] **#55.4** Implement: Add ignore marker detection in detector.py
+  - [x] **#55.8** Test: Verify linter skips marked boxes, fixer doesn't touch them
+  - [x] **#55.7** Test: Add test cases for ignore markers in code blocks and inline
+  - [x] **#55.6** Implement: Ensure fixer respects ignore markers
+  - [x] **#55.5** Implement: Modify detector to skip marked regions
+  - [x] **#55.4** Implement: Add ignore marker detection in detector.py
     > Modify detect_boxes() in detector.py to track ignore regions. Store line ranges to skip. See is_in_code_fence() pattern from Issue task#11
-  - [ ] **#55.3** Design: Decide scope - code blocks only, or any ASCII box?
+  - [x] **#55.3** Design: Decide scope - code blocks only, or any ASCII box?
+    > Decision: Ignore markers work ANYWHERE (not just code blocks). Provides maximum flexibility for all documentation scenarios.
     > Decide: Should markers work only in markdown code blocks, or also for inline ASCII boxes? Consider use case: README examples, documentation with intentionally broken boxes
-  - [ ] **#55.2** Design: Define ignore marker syntax (HTML comments, directives, or special fences)
+  - [x] **#55.2** Design: Define ignore marker syntax (HTML comments, directives, or special fences)
     > Options: (1) HTML comments before/after blocks, (2) fence attributes like ```ascii-ignore, (3) inline directives. Consider both block-level and inline markers
-  - [ ] **#55.1** Investigate: Research comment/directive syntax for ignore markers in markdown
+  - [x] **#55.1** Investigate: Research comment/directive syntax for ignore markers in markdown
     > Common patterns: HTML comment markers, special fence types, or attributes. Check eslint-disable, prettier-ignore patterns
 
 ------------------
@@ -275,7 +276,7 @@
 
 ---
 
-**Last Updated:** Wed Nov 19 09:09:21 CET 2025
+**Last Updated:** Wed Nov 19 09:14:04 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata

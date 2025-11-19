@@ -2,6 +2,18 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2025-11-19 09:14:04 | fxstein | COMPLETE | 55 | Add ignore markers for code blocks: allow marking ASCII boxes as exempt from validation
+2025-11-19 09:14:04 | fxstein | COMPLETE | 55.10 | Document: Add examples to README showing broken boxes with ignore markers
+2025-11-19 09:14:04 | fxstein | COMPLETE | 55.9 | Document: Update USAGE.md with ignore marker syntax and examples
+2025-11-19 09:12:33 | fxstein | COMPLETE | 55.8 | Test: Verify linter skips marked boxes, fixer doesn't touch them
+2025-11-19 09:12:33 | fxstein | COMPLETE | 55.7 | Test: Add test cases for ignore markers in code blocks and inline
+2025-11-19 09:11:31 | fxstein | COMPLETE | 55.6 | Implement: Ensure fixer respects ignore markers
+2025-11-19 09:11:31 | fxstein | COMPLETE | 55.5 | Implement: Modify detector to skip marked regions
+2025-11-19 09:11:31 | fxstein | COMPLETE | 55.4 | Implement: Add ignore marker detection in detector.py
+2025-11-19 09:10:21 | fxstein | COMPLETE | 55.3 | Design: Decide scope - code blocks only, or any ASCII box?
+2025-11-19 09:10:21 | fxstein | NOTE | 55.3 | Decision: Ignore markers work ANYWHERE (not just code blocks). Provides maximum flexibility for all documentation scenarios.
+2025-11-19 09:10:14 | fxstein | COMPLETE | 55.2 | Design: Define ignore marker syntax (HTML comments, directives, or special fences)
+2025-11-19 09:10:14 | fxstein | COMPLETE | 55.1 | Investigate: Research comment/directive syntax for ignore markers in markdown
 2025-11-19 09:09:21 | fxstein | ARCHIVE | 54 | Achieve 100% test coverage across all modules (with 9 subtasks)
 2025-11-19 09:09:20 | fxstein | ARCHIVE | 53 | Add table column continuity validation: detect missing bottom junction points (┴) (with 8 subtasks)
 2025-11-19 09:09:18 | fxstein | ARCHIVE | 52 | Fix code block detection regression: validate ASCII boxes inside code blocks by default (Issue #11) (with 7 subtasks)

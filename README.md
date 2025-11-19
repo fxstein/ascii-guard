@@ -93,6 +93,34 @@ ascii-guard fix --dry-run docs/guide.md  # Preview changes first
 
 ---
 
+## 🎭 Ignore Markers
+
+Need to show intentionally broken boxes in your docs? Use ignore markers:
+
+```markdown
+**❌ Common Mistake (don't do this):**
+
+<!-- ascii-guard-ignore-next -->
+┌─────────────────────┐
+│ Box Content         │
+└────────────────────┘   ← Misaligned on purpose for demonstration
+
+**✅ Correct Way:**
+
+┌─────────────────────┐
+│ Box Content         │
+└─────────────────────┘  ← Perfect alignment
+```
+
+The ignore markers are invisible in rendered markdown but tell ascii-guard to skip validation. Perfect for:
+- Before/after comparisons
+- Tutorial examples showing common mistakes
+- Documentation with intentionally broken examples
+
+See [USAGE.md](docs/USAGE.md#ignore-markers) for complete syntax and examples.
+
+---
+
 ## 🎨 Supported Box-Drawing Characters
 
 ascii-guard supports Unicode box-drawing characters:

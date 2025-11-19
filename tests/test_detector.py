@@ -349,3 +349,211 @@ class TestDetectorEdgeCases:
         boxes = detect_boxes(str(test_file), exclude_code_blocks=True)
         # Bottom corner is in code fence, so box should not be detected
         assert len(boxes) == 0
+
+
+class TestIgnoreMarkers:
+    """Test suite for ascii-guard ignore markers."""
+
+    def test_ignore_block_region(self, tmp_path: Path) -> None:
+        """Test that boxes in block ignore regions are skipped."""
+        test_file = tmp_path / "ignore_block.txt"
+        test_file.write_text(
+            """┌──────────────┐
+│ Before       │
+└──────────────┘
+
+<!-- ascii-guard-ignore -->
+┌──────────────┐
+│ Ignored      │
+└──────────────
+<!-- ascii-guard-ignore-end -->
+
+┌──────────────┐
+│ After        │
+└──────────────┘
+"""
+        )
+
+        boxes = detect_boxes(str(test_file))
+        # Should detect 2 boxes (before and after), skip the ignored one
+        assert len(boxes) == 2
+        assert boxes[0].lines[1] == "│ Before       │"
+        assert boxes[1].lines[1] == "│ After        │"
+
+    def test_ignore_next_marker(self, tmp_path: Path) -> None:
+        """Test that ignore-next marker skips only the next box."""
+        test_file = tmp_path / "ignore_next.txt"
+        test_file.write_text(
+            """┌──────────────┐
+│ First box    │
+└──────────────┘
+
+<!-- ascii-guard-ignore-next -->
+┌──────────────┐
+│ Ignored box  │
+└──────────────
+
+┌──────────────┐
+│ Third box    │
+└──────────────┘
+"""
+        )
+
+        boxes = detect_boxes(str(test_file))
+        # Should detect 2 boxes (first and third), skip the ignored one
+        assert len(boxes) == 2
+        assert boxes[0].lines[1] == "│ First box    │"
+        assert boxes[1].lines[1] == "│ Third box    │"
+
+    def test_ignore_next_with_empty_lines(self, tmp_path: Path) -> None:
+        """Test that ignore-next skips empty lines before finding box."""
+        test_file = tmp_path / "ignore_next_empty.txt"
+        test_file.write_text(
+            """<!-- ascii-guard-ignore-next -->
+
+
+┌──────────────┐
+│ Should ignore│
+└──────────────┘
+
+┌──────────────┐
+│ Should detect│
+└──────────────┘
+"""
+        )
+
+        boxes = detect_boxes(str(test_file))
+        # Should detect only the second box
+        assert len(boxes) == 1
+        assert boxes[0].lines[1] == "│ Should detect│"
+
+    def test_nested_ignore_regions(self, tmp_path: Path) -> None:
+        """Test multiple ignore blocks."""
+        test_file = tmp_path / "nested_ignore.txt"
+        test_file.write_text(
+            """┌──────────────┐
+│ Box 1        │
+└──────────────┘
+
+<!-- ascii-guard-ignore -->
+┌──────────────┐
+│ Ignored A    │
+└──────────────┘
+<!-- ascii-guard-ignore-end -->
+
+┌──────────────┐
+│ Box 2        │
+└──────────────┘
+
+<!-- ascii-guard-ignore -->
+┌──────────────┐
+│ Ignored B    │
+└──────────────┘
+<!-- ascii-guard-ignore-end -->
+
+┌──────────────┐
+│ Box 3        │
+└──────────────┘
+"""
+        )
+
+        boxes = detect_boxes(str(test_file))
+        # Should detect 3 boxes, skip 2 ignored ones
+        assert len(boxes) == 3
+        assert boxes[0].lines[1] == "│ Box 1        │"
+        assert boxes[1].lines[1] == "│ Box 2        │"
+        assert boxes[2].lines[1] == "│ Box 3        │"
+
+    def test_ignore_broken_box(self, tmp_path: Path) -> None:
+        """Test that intentionally broken boxes in ignore regions are skipped."""
+        test_file = tmp_path / "ignore_broken.txt"
+        test_file.write_text(
+            """<!-- ascii-guard-ignore -->
+┌──────────────┐
+│ Broken box││
+└──────────────
+<!-- ascii-guard-ignore-end -->
+"""
+        )
+
+        boxes = detect_boxes(str(test_file))
+        # Should not detect the broken box
+        assert len(boxes) == 0
+
+    def test_ignore_marker_inline_with_content(self, tmp_path: Path) -> None:
+        """Test ignore markers on same line as other content."""
+        test_file = tmp_path / "inline_marker.txt"
+        test_file.write_text(
+            """Some text <!-- ascii-guard-ignore --> more text
+┌──────────────┐
+│ Ignored      │
+└──────────────┘
+<!-- ascii-guard-ignore-end --> trailing content
+
+┌──────────────┐
+│ Detected     │
+└──────────────┘
+"""
+        )
+
+        boxes = detect_boxes(str(test_file))
+        # Should detect only the second box
+        assert len(boxes) == 1
+        assert boxes[0].lines[1] == "│ Detected     │"
+
+    def test_unclosed_ignore_block(self, tmp_path: Path) -> None:
+        """Test that unclosed ignore block ignores all subsequent boxes."""
+        test_file = tmp_path / "unclosed_ignore.txt"
+        test_file.write_text(
+            """┌──────────────┐
+│ Before       │
+└──────────────┘
+
+<!-- ascii-guard-ignore -->
+┌──────────────┐
+│ Ignored 1    │
+└──────────────┘
+
+┌──────────────┐
+│ Ignored 2    │
+└──────────────┘
+"""
+        )
+
+        boxes = detect_boxes(str(test_file))
+        # Should detect only the first box (before ignore marker)
+        assert len(boxes) == 1
+        assert boxes[0].lines[1] == "│ Before       │"
+
+    def test_ignore_with_code_blocks(self, tmp_path: Path) -> None:
+        """Test ignore markers work independently of code block exclusion."""
+        test_file = tmp_path / "ignore_and_fence.txt"
+        test_file.write_text(
+            """```
+┌──────────────┐
+│ In fence     │
+└──────────────┘
+```
+
+<!-- ascii-guard-ignore -->
+┌──────────────┐
+│ Ignored      │
+└──────────────┘
+<!-- ascii-guard-ignore-end -->
+
+┌──────────────┐
+│ Detected     │
+└──────────────┘
+"""
+        )
+
+        # Without exclude_code_blocks: should detect fence box but not ignored box
+        boxes = detect_boxes(str(test_file), exclude_code_blocks=False)
+        assert len(boxes) == 2
+        assert boxes[0].lines[1] == "│ In fence     │"
+        assert boxes[1].lines[1] == "│ Detected     │"
+
+        # With exclude_code_blocks: should detect only the last box
+        boxes = detect_boxes(str(test_file), exclude_code_blocks=True)
+        assert len(boxes) == 1
+        assert boxes[0].lines[1] == "│ Detected     │"

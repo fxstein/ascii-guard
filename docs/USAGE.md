@@ -283,6 +283,106 @@ All styles are automatically detected and validated.
 
 ---
 
+## Ignore Markers
+
+Sometimes you need to show intentionally broken ASCII boxes in documentation (e.g., "before/after" examples, tutorials showing common mistakes). Use ignore markers to exclude specific boxes from validation.
+
+### Syntax
+
+**Block ignore (multiple boxes)**:
+```markdown
+<!-- ascii-guard-ignore -->
+┌──────────────┐
+│ Broken box││
+└──────────────
+
+┌──────────────┐
+│ Another bad  │
+└──────────────
+<!-- ascii-guard-ignore-end -->
+```
+
+**Single-box ignore**:
+```markdown
+<!-- ascii-guard-ignore-next -->
+┌──────────────┐
+│ Broken box││
+└──────────────
+```
+
+### Examples
+
+**Example 1: Showing a "Before" State**
+
+```markdown
+# Common Mistakes
+
+**❌ Incorrect (missing bottom-right corner):**
+
+<!-- ascii-guard-ignore-next -->
+┌──────────────┐
+│ Content here │
+└──────────────
+
+**✓ Correct:**
+
+┌──────────────┐
+│ Content here │
+└──────────────┘
+```
+
+**Example 2: Documentation with Test Cases**
+
+```markdown
+# Edge Cases
+
+The following examples should NOT validate:
+
+<!-- ascii-guard-ignore -->
+┌──────────────┐
+│ Double border││
+└──────────────┘
+
+┌──────────────┐
+│ Misaligned│
+└──────────────┘
+<!-- ascii-guard-ignore-end -->
+```
+
+**Example 3: Tutorial Showing Fixes**
+
+```markdown
+# Tutorial: Fixing ASCII Boxes
+
+Step 1: Identify the problem
+
+<!-- ascii-guard-ignore-next -->
+┌─────────┐
+│ Too long content │
+└─────────┘
+
+Step 2: Run ascii-guard fix to automatically align the borders.
+```
+
+### Behavior
+
+- Ignore markers work **anywhere** (not just in code blocks)
+- Markers are **HTML comments** - invisible in rendered markdown
+- Block ignore (`<!-- ascii-guard-ignore -->`) stays active until `<!-- ascii-guard-ignore-end -->`
+- Single ignore (`<!-- ascii-guard-ignore-next -->`) affects only the next box
+- Ignore markers **always** take precedence (even over `--exclude-code-blocks`)
+- Unclosed block ignore markers will ignore all subsequent boxes (be careful!)
+
+### Use Cases
+
+1. **Before/After Comparisons** - Show broken boxes alongside fixed versions
+2. **Documentation** - Demonstrate common mistakes without triggering errors
+3. **Tutorials** - Walk through fixing process step-by-step
+4. **Test Cases** - Include edge cases in documentation
+5. **Design Specs** - Show both valid and invalid patterns
+
+---
+
 ## Integration
 
 ### Pre-commit Hook

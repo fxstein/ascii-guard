@@ -47,6 +47,76 @@ def is_in_code_fence(line_idx: int, lines: list[str]) -> bool:
     return fence_count % 2 == 1
 
 
+def is_ignore_marker(line: str) -> tuple[str, bool]:
+    """Check if a line contains an ascii-guard ignore marker.
+
+    Args:
+        line: The line to check
+
+    Returns:
+        Tuple of (marker_type, is_marker) where marker_type is one of:
+        - "start": <!-- ascii-guard-ignore -->
+        - "end": <!-- ascii-guard-ignore-end -->
+        - "next": <!-- ascii-guard-ignore-next -->
+        - "": not a marker
+    """
+    stripped = line.strip()
+
+    if "<!-- ascii-guard-ignore-next -->" in stripped:
+        return ("next", True)
+    if "<!-- ascii-guard-ignore -->" in stripped:
+        return ("start", True)
+    if "<!-- ascii-guard-ignore-end -->" in stripped:
+        return ("end", True)
+
+    return ("", False)
+
+
+def is_in_ignore_region(line_idx: int, lines: list[str]) -> bool:
+    """Check if a line is within an ascii-guard ignore region.
+
+    Ignore regions are marked with:
+    - Block: <!-- ascii-guard-ignore --> ... <!-- ascii-guard-ignore-end -->
+    - Single: <!-- ascii-guard-ignore-next --> (ignores next box only)
+
+    Args:
+        line_idx: The line index to check
+        lines: All lines in the file
+
+    Returns:
+        True if the line is within an ignore region or is the next line after ignore-next
+    """
+    # Check for block ignore regions (start/end pairs)
+    in_block_ignore = False
+    for i in range(line_idx):
+        marker_type, is_marker = is_ignore_marker(lines[i])
+        if is_marker:
+            if marker_type == "start":
+                in_block_ignore = True
+            elif marker_type == "end":
+                in_block_ignore = False
+
+    if in_block_ignore:
+        return True
+
+    # Check for single-line ignore-next marker
+    # Look at previous non-empty lines to find ignore-next
+    for i in range(line_idx - 1, -1, -1):
+        line = lines[i].strip()
+        if not line:  # Skip empty lines
+            continue
+
+        marker_type, is_marker = is_ignore_marker(lines[i])
+        if is_marker and marker_type == "next":
+            # This is the first non-empty line after ignore-next
+            return True
+
+        # Found a non-empty, non-marker line - stop looking
+        break
+
+    return False
+
+
 def find_top_left_corner(line: str, start_col: int = 0) -> int:
     """Find the first top-left corner character in a line after start_col.
 
@@ -141,6 +211,11 @@ def detect_boxes(file_path: str, exclude_code_blocks: bool = False) -> list[Box]
             i += 1
             continue
 
+        # ALWAYS skip lines in ignore regions (regardless of exclude_code_blocks setting)
+        if is_in_ignore_region(i, stripped_lines):
+            i += 1
+            continue
+
         # Find all potential box starts on this line
         left_cols = find_all_top_left_corners(line)
         if not left_cols:
@@ -157,6 +232,10 @@ def detect_boxes(file_path: str, exclude_code_blocks: bool = False) -> list[Box]
             for j in range(i + 1, len(stripped_lines)):
                 # Skip if bottom line would be in code fence (if requested)
                 if exclude_code_blocks and is_in_code_fence(j, stripped_lines):
+                    continue
+
+                # ALWAYS skip if bottom line would be in ignore region
+                if is_in_ignore_region(j, stripped_lines):
                     continue
 
                 bottom_left = find_bottom_left_corner(stripped_lines[j], left_col)
