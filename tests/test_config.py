@@ -362,6 +362,21 @@ extensions = [".txt", 123, ".md"]
             with pytest.raises(ValueError, match="extensions must be a list of strings"):
                 load_config(config_file)
 
+    def test_load_config_exclude_not_list(self) -> None:
+        """Test that exclude must be a list."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmppath = Path(tmpdir)
+            config_file = tmppath / ".ascii-guard.toml"
+            config_file.write_text(
+                """
+[files]
+exclude = "not_a_list"
+"""
+            )
+
+            with pytest.raises(ValueError, match="exclude must be a list, got str"):
+                load_config(config_file)
+
     def test_load_config_exclude_not_all_strings(self) -> None:
         """Test that exclude with non-string values raises ValueError."""
         with tempfile.TemporaryDirectory() as tmpdir:
@@ -375,6 +390,21 @@ exclude = ["*.txt", 456]
             )
 
             with pytest.raises(ValueError, match="exclude must be a list of strings"):
+                load_config(config_file)
+
+    def test_load_config_include_not_list(self) -> None:
+        """Test that include must be a list."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmppath = Path(tmpdir)
+            config_file = tmppath / ".ascii-guard.toml"
+            config_file.write_text(
+                """
+[files]
+include = "not_a_list"
+"""
+            )
+
+            with pytest.raises(ValueError, match="include must be a list, got str"):
                 load_config(config_file)
 
     def test_load_config_include_not_all_strings(self) -> None:

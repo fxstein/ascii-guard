@@ -350,3 +350,169 @@ class TestCLIEdgeCases:
         # Output should mention "Would fix"
         captured = capsys.readouterr()
         assert "Would fix" in captured.out
+
+    def test_lint_displays_warnings_non_quiet(
+        self, tmp_path: Path, capsys: pytest.CaptureFixture[str]
+    ) -> None:
+        """Test lint displays warnings in non-quiet mode."""
+        # Create a file with a table missing bottom junctions (warning)
+        test_file = tmp_path / "mixed.txt"
+        test_file.write_text(
+            "┌───┬───┐\n"
+            "│ A │ B │\n"
+            "├───┼───┤\n"
+            "│ 1 │ 2 │\n"
+            "└───────┘\n"  # Missing bottom junction (warning)
+        )
+
+        class Args:
+            files = [str(test_file)]
+            quiet = False
+
+        exit_code = cmd_lint(Args())
+
+        # Warnings don't cause error exit code
+        assert exit_code == 0
+
+        captured = capsys.readouterr()
+        # Should display warnings (⚠ symbol or "Warnings:" text)
+        assert "⚠" in captured.out or "Warning" in captured.out
+
+    def test_lint_exception_handling(
+        self, tmp_path: Path, capsys: pytest.CaptureFixture[str]
+    ) -> None:
+        """Test lint exception handling when file cannot be processed."""
+        test_file = tmp_path / "test.txt"
+        test_file.write_text("┌────┐\n│ OK │\n└────┘\n")
+
+        class Args:
+            files = [str(test_file)]
+            quiet = False
+
+        # Mock lint_file to raise an exception
+        from ascii_guard import cli
+
+        def mock_lint_file(*args, **kwargs):  # type: ignore[no-untyped-def]
+            raise ValueError("Simulated processing error")
+
+        with patch.object(cli, "lint_file", side_effect=mock_lint_file):
+            exit_code = cmd_lint(Args())
+
+        # Should return error code
+        assert exit_code == 1
+
+        captured = capsys.readouterr()
+        # Should show error message
+        assert "Error processing" in captured.err or "Simulated processing error" in captured.err
+
+    def test_fix_exception_handling(
+        self, tmp_path: Path, capsys: pytest.CaptureFixture[str]
+    ) -> None:
+        """Test fix exception handling when file cannot be processed."""
+        test_file = tmp_path / "test.txt"
+        test_file.write_text("┌────┐\n│ OK │\n└────\n")
+
+        class Args:
+            files = [str(test_file)]
+            dry_run = False
+
+        # Mock fix_file to raise an exception
+        from ascii_guard import cli
+
+        def mock_fix_file(*args, **kwargs):  # type: ignore[no-untyped-def]
+            raise OSError("Permission denied")
+
+        with patch.object(cli, "fix_file", side_effect=mock_fix_file):
+            exit_code = cmd_fix(Args())
+
+        # Should return error code
+        assert exit_code == 1
+
+        captured = capsys.readouterr()
+        # Should show error message
+        assert "Error processing" in captured.err or "Permission denied" in captured.err
+
+    def test_show_config_with_config_file(
+        self, tmp_path: Path, capsys: pytest.CaptureFixture[str]
+    ) -> None:
+        """Test --show-config flag with config file present."""
+        # Create a config file
+        config_file = tmp_path / ".ascii-guard.toml"
+        config_file.write_text(
+            "[ascii-guard]\n"
+            'extensions = [".txt", ".md"]\n'
+            'exclude = ["node_modules/**"]\n'
+            'include = ["docs/**"]\n'
+            "follow_symlinks = true\n"
+            "max_file_size = 5\n"
+        )
+
+        # Create a test file
+        test_file = tmp_path / "test.txt"
+        test_file.write_text("┌────┐\n│ OK │\n└────┘\n")
+
+        class Args:
+            files = [str(test_file)]
+            quiet = False
+            show_config = True
+            config = str(config_file)
+
+        # Mock load_config to return the config
+        from ascii_guard.config import Config
+
+        config_obj = Config(
+            extensions=[".txt", ".md"],
+            exclude=["node_modules/**"],
+            include=["docs/**"],
+            follow_symlinks=True,
+            max_file_size=5,
+        )
+
+        from ascii_guard import cli
+
+        with patch.object(cli, "load_config", return_value=config_obj):
+            exit_code = cmd_lint(Args())
+
+        assert exit_code == 0
+
+        captured = capsys.readouterr()
+        # Should display config info
+        assert "Config loaded from:" in captured.out
+        assert ".txt" in captured.out
+        assert "node_modules" in captured.out
+
+    def test_show_config_without_config_file(
+        self, tmp_path: Path, capsys: pytest.CaptureFixture[str]
+    ) -> None:
+        """Test --show-config flag without config file."""
+        test_file = tmp_path / "test.txt"
+        test_file.write_text("┌────┐\n│ OK │\n└────┘\n")
+
+        class Args:
+            files = [str(test_file)]
+            quiet = False
+            show_config = True
+            config = None
+
+        # Mock load_config to return None
+        from ascii_guard import cli
+
+        with patch.object(cli, "load_config", return_value=None):
+            exit_code = cmd_lint(Args())
+
+        assert exit_code == 0
+
+        captured = capsys.readouterr()
+        # Should display default config message
+        assert (
+            "Using default config" in captured.out or "no .ascii-guard.toml found" in captured.out
+        )
+
+    def test_main_no_command_shows_help(self, capsys: pytest.CaptureFixture[str]) -> None:
+        """Test that running without a subcommand shows help."""
+        with patch.object(sys, "argv", ["ascii-guard"]), pytest.raises(SystemExit):
+            main()
+
+        captured = capsys.readouterr()
+        # Should show help/usage
+        assert "usage:" in captured.out.lower() or "ascii-guard" in captured.out
