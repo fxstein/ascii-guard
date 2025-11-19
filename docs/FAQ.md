@@ -302,6 +302,19 @@ Not yet through configuration, but you can:
 2. Modify `src/ascii_guard/validator.py`
 3. Submit a pull request if the rule would be useful to others
 
+### Why doesn't ascii-guard run on its own repository?
+
+`ascii-guard` **intentionally does not lint itself** in pre-commit hooks or CI/CD pipelines.
+
+**Reason**: The ascii-guard repository contains many intentionally broken ASCII boxes used for:
+- **Documentation examples** showing "before/after" states
+- **Test fixtures** with broken boxes for validation testing
+- **Tutorial content** demonstrating common mistakes
+
+Running ascii-guard would flag all these examples as errors, creating false positives and blocking commits.
+
+**For contributors**: See the [CONTRIBUTING.md](../CONTRIBUTING.md#why-ascii-guard-doesnt-lint-itself) section for details on testing your changes.
+
 ---
 
 ## Comparison & Alternatives

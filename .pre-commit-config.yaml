@@ -1,6 +1,14 @@
 # Pre-commit hooks for ascii-guard
 # Install: pre-commit install
 # Run manually: pre-commit run --all-files
+#
+# NOTE: ascii-guard does NOT lint itself in pre-commit hooks
+# Reason: This repo contains intentionally broken ASCII boxes in:
+#   - Documentation examples (README.md, docs/*.md)
+#   - Test fixtures (tests/fixtures/*.md)
+#   - Tutorial content showing "before/after" states
+# Running ascii-guard would create false positives for these examples.
+# Contributors should manually run ascii-guard on specific files if needed.
 
 repos:
   # Ruff - Fast Python linter and formatter (replaces black, isort, flake8)

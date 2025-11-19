@@ -263,10 +263,32 @@ pytest
 pytest --cov=ascii_guard --cov-report=html
 # Open htmlcov/index.html to see coverage report
 
-# Test on real files
-ascii-guard lint README.md
-ascii-guard fix docs/*.md --dry-run
+# Test on real files (if working on non-documentation files)
+ascii-guard lint your-file.md
+ascii-guard fix your-file.md --dry-run
 ```
+
+### Why ascii-guard Doesn't Lint Itself
+
+**Important**: `ascii-guard` is **intentionally NOT run** on its own repository in:
+- Pre-commit hooks (`.pre-commit-config.yaml`)
+- CI/CD pipelines (`.github/workflows/`)
+
+**Reason**: This repository contains many intentionally broken ASCII boxes for:
+1. **Documentation examples** - `README.md` and `docs/*.md` show "before/after" states
+2. **Test fixtures** - `tests/fixtures/*.md` contain broken boxes for validation tests
+3. **Tutorial content** - Demonstrating common mistakes requires broken examples
+
+Running ascii-guard on these files would create false positives and prevent commits.
+
+**For contributors**:
+- Don't worry about broken ASCII boxes in documentation/tests
+- If you're adding new code/docs, manually verify ASCII boxes if needed:
+  ```bash
+  # Check a specific file (skip code blocks if it has examples)
+  ascii-guard lint --exclude-code-blocks your-new-file.md
+  ```
+- Use ignore markers for intentional examples (see docs/USAGE.md#ignore-markers)
 
 ### CI Testing
 
