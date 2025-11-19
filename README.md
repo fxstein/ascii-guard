@@ -48,7 +48,7 @@ git clone https://github.com/fxstein/ascii-guard.git
 cd ascii-guard
 
 # One-step setup (creates venv, installs deps, configures hooks, runs tests)
-./setup.zsh
+./setup.sh
 
 # Activate virtual environment
 source .venv/bin/activate
@@ -60,6 +60,8 @@ That's it! The setup script handles everything:
 - ✅ Installs all dev dependencies (pytest, ruff, mypy, pre-commit)
 - ✅ Configures git hooks automatically
 - ✅ Runs verification tests
+
+**Compatible with:** Linux, macOS, Windows (WSL/Git Bash)
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed development workflow.
 

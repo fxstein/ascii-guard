@@ -74,20 +74,22 @@ git clone https://github.com/YOUR-USERNAME/ascii-guard.git
 cd ascii-guard
 
 # One-step setup (handles everything automatically)
-./setup.zsh
+./setup.sh
 
 # Activate virtual environment
-source .venv/bin/activate  # Linux/macOS
-.venv\Scripts\activate     # Windows
+source .venv/bin/activate  # Linux/macOS/WSL
+.venv\Scripts\activate     # Windows (cmd.exe)
 ```
 
-The `setup.zsh` script automatically:
+The `setup.sh` script automatically:
 1. ✅ Checks Python version (3.10+ required)
 2. ✅ Creates isolated virtual environment (.venv)
 3. ✅ Installs ascii-guard in editable mode
 4. ✅ Installs all dev dependencies (pytest, ruff, mypy, pre-commit, build, twine)
 5. ✅ Configures pre-commit git hooks
 6. ✅ Runs verification tests
+
+**Platform compatibility**: Linux, macOS, Windows (WSL/Git Bash)
 
 **Note**: The older `setup-venv.sh` script is still available but doesn't auto-install git hooks.
 
