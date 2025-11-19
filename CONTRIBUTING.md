@@ -61,12 +61,7 @@ Enhancement suggestions are welcome! Please:
 
 ## Development Setup
 
-### Prerequisites
-
-- Python 3.10+ (3.12+ recommended)
-- git
-
-### Initial Setup
+**Quick Start:**
 
 ```bash
 # Clone your fork
@@ -78,41 +73,11 @@ cd ascii-guard
 
 # Activate virtual environment
 source .venv/bin/activate  # Linux/macOS/WSL
-.venv\Scripts\activate     # Windows (cmd.exe)
 ```
 
-The `setup.sh` script automatically:
-1. ✅ Checks Python version (3.10+ required)
-2. ✅ Creates isolated virtual environment (.venv)
-3. ✅ Installs ascii-guard in editable mode
-4. ✅ Installs all dev dependencies (pytest, ruff, mypy, pre-commit, build, twine)
-5. ✅ Configures pre-commit git hooks
-6. ✅ Runs verification tests
+That's it! The script sets up everything you need.
 
-**Platform compatibility**: Linux, macOS, Windows (WSL/Git Bash)
-
-### Development Workflow
-
-```bash
-# Create a feature branch
-git checkout -b feature/my-awesome-feature
-
-# Make your changes
-# ... edit code ...
-
-# Run tests
-pytest
-
-# Run pre-commit checks
-pre-commit run --all-files
-
-# Commit changes
-git add .
-git commit -m "feat: Add awesome feature"
-
-# Push to your fork
-git push origin feature/my-awesome-feature
-```
+**For detailed development guide (setup, workflow, testing, architecture), see [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md)**
 
 ## Coding Standards
 

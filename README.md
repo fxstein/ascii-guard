@@ -223,22 +223,22 @@ ascii-guard checks for:
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+We welcome contributions! Here's how to get started:
 
-### Development Setup
+```bash
+# Fork and clone the repository
+git clone https://github.com/YOUR-USERNAME/ascii-guard.git
+cd ascii-guard
 
-1. Fork and clone the repository
-2. Run `./setup.sh` to set up your environment
-3. Make your changes
-4. Run tests: `pytest` (pre-commit hooks run automatically on commit)
-5. Submit a pull request
+# One-step setup
+./setup.sh
 
-### Code Style
+# Make your changes and submit a PR
+```
 
-- **Minimal dependencies** - Only essential runtime dependencies (tomli for Python 3.10)
-- **Type-safe** - All code must pass `mypy --strict`
-- **Tested** - Maintain high test coverage
-- **Formatted** - Code is auto-formatted with ruff
+**For detailed development guide, see [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md)**
+
+**For contribution guidelines, see [CONTRIBUTING.md](CONTRIBUTING.md)**
 
 ---
 
@@ -255,7 +255,10 @@ Copyright 2025 Oliver Ratzesberger
 - **Repository**: https://github.com/fxstein/ascii-guard
 - **Issues**: https://github.com/fxstein/ascii-guard/issues
 - **PyPI**: https://pypi.org/project/ascii-guard/ _(coming soon)_
-- **Documentation**: [docs/](docs/)
+- **Documentation**:
+  - [User Guide](docs/USAGE.md) - Complete usage documentation
+  - [Development Guide](docs/DEVELOPMENT.md) - Setup, workflow, architecture
+  - [FAQ](docs/FAQ.md) - Frequently asked questions
 
 ---
 
