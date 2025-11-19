@@ -40,31 +40,6 @@ pip install ascii-guard
 
 That's it! No other dependencies needed.
 
-### For Developers
-
-```bash
-# Clone repository
-git clone https://github.com/fxstein/ascii-guard.git
-cd ascii-guard
-
-# One-step setup (creates venv, installs deps, configures hooks, runs tests)
-./setup.sh
-
-# Activate virtual environment
-source .venv/bin/activate
-```
-
-That's it! The setup script handles everything:
-- ✅ Creates isolated virtual environment
-- ✅ Installs ascii-guard in editable mode
-- ✅ Installs all dev dependencies (pytest, ruff, mypy, pre-commit)
-- ✅ Configures git hooks automatically
-- ✅ Runs verification tests
-
-**Compatible with:** Linux, macOS, Windows (WSL/Git Bash)
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed development workflow.
-
 ---
 
 ## 🚀 Quick Start
@@ -142,70 +117,6 @@ ascii-guard supports Unicode box-drawing characters:
 | **Cross** | `┼` | Four-way intersection |
 | **Heavy lines** | `━` `┃` `┏` `┓` `┗` `┛` | Bold variants |
 | **Double lines** | `═` `║` `╔` `╗` `╚` `╝` | Double-line variants |
-
----
-
-## 🛠️ Development
-
-### Project Structure
-
-```
-ascii-guard/
-├── src/ascii_guard/    # Source code (ZERO dependencies)
-│   ├── __init__.py     # Package initialization
-│   ├── cli.py          # CLI interface (argparse only)
-│   └── core.py         # Linting logic (stdlib only)
-├── tests/              # Test suite (pytest)
-├── docs/               # Documentation
-└── pyproject.toml      # Project configuration
-```
-
-### Running Tests
-
-```bash
-# Run all tests with coverage
-pytest
-
-# Run specific test file
-pytest tests/test_cli.py
-
-# Run with verbose output
-pytest -v
-
-# Fast tests only (pre-commit)
-pytest -m "not slow"
-```
-
-### Linting and Type Checking
-
-```bash
-# Run all pre-commit hooks
-pre-commit run --all-files
-
-# Run linter only
-ruff check .
-
-# Run formatter
-ruff format .
-
-# Run type checker
-mypy src/
-```
-
-### Virtual Environment Isolation
-
-ascii-guard uses **strict virtual environment isolation** to ensure minimal system pollution:
-
-```bash
-# Development dependencies are isolated in .venv/
-# Runtime has minimal dependencies:
-#   - Python 3.11+: Zero dependencies (uses stdlib tomllib)
-#   - Python 3.10: One dependency (tomli for TOML config)
-# All tools (ruff, mypy, pytest) are dev-only
-
-# Verify minimal runtime dependencies
-python -c "import ascii_guard; print('Success - no imports failed')"
-```
 
 ---
 
