@@ -840,6 +840,62 @@ main() {
         exit 1
     fi
 
+    # CRITICAL: Check that AI release summary was created recently (within last 30 seconds)
+    # This enforces cursor rules: AI must write summary BEFORE running --prepare
+    local AI_SUMMARY_FILE="release/AI_RELEASE_SUMMARY.md"
+    if [[ ! -f "$AI_SUMMARY_FILE" ]]; then
+        echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+        echo -e "${RED}❌ RELEASE PROCESS VIOLATION${NC}"
+        echo ""
+        echo -e "${YELLOW}AI release summary not found: $AI_SUMMARY_FILE${NC}"
+        echo ""
+        echo -e "${RED}Per cursor rules (.cursor/rules/ascii-guard-releases.mdc):${NC}"
+        echo -e "${RED}Step 1: AI must generate release summary FIRST${NC}"
+        echo -e "${RED}Step 2: Then run --prepare${NC}"
+        echo ""
+        echo -e "${YELLOW}Required workflow:${NC}"
+        echo -e "${YELLOW}1. AI writes 2-3 paragraph summary to release/AI_RELEASE_SUMMARY.md${NC}"
+        echo -e "${YELLOW}2. AI runs: ./release/release.sh --prepare${NC}"
+        echo -e "${YELLOW}3. Human reviews: release/RELEASE_NOTES.md${NC}"
+        echo -e "${YELLOW}4. Human instructs: execute release${NC}"
+        echo ""
+        echo -e "${RED}Do NOT skip Step 1!${NC}"
+        echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+        exit 1
+    fi
+
+    # Check that AI summary was created/modified recently (within 30 seconds)
+    local AI_SUMMARY_AGE=999999
+    if [[ "$(uname)" == "Darwin" ]]; then
+        # macOS
+        AI_SUMMARY_AGE=$(($(date +%s) - $(stat -f %m "$AI_SUMMARY_FILE")))
+    else
+        # Linux
+        AI_SUMMARY_AGE=$(($(date +%s) - $(stat -c %Y "$AI_SUMMARY_FILE")))
+    fi
+
+    if [[ $AI_SUMMARY_AGE -gt 30 ]]; then
+        echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+        echo -e "${RED}❌ RELEASE PROCESS VIOLATION${NC}"
+        echo ""
+        echo -e "${YELLOW}AI release summary is too old (${AI_SUMMARY_AGE} seconds)${NC}"
+        echo -e "${YELLOW}File: $AI_SUMMARY_FILE${NC}"
+        echo ""
+        echo -e "${RED}Per cursor rules (.cursor/rules/ascii-guard-releases.mdc):${NC}"
+        echo -e "${RED}AI must generate FRESH release summary before --prepare${NC}"
+        echo ""
+        echo -e "${YELLOW}This prevents agents from skipping Step 1 and reusing old summaries.${NC}"
+        echo ""
+        echo -e "${YELLOW}Required workflow:${NC}"
+        echo -e "${YELLOW}1. AI writes NEW 2-3 paragraph summary to release/AI_RELEASE_SUMMARY.md${NC}"
+        echo -e "${YELLOW}2. AI IMMEDIATELY runs: ./release/release.sh --prepare${NC}"
+        echo -e "${YELLOW}   (within 30 seconds of creating the summary)${NC}"
+        echo ""
+        echo -e "${RED}Do NOT reuse old summaries!${NC}"
+        echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+        exit 1
+    fi
+
     # Check for uncommitted changes (exclude audit logs and release working files)
     local status_output=$(git status -s | grep -vE "release/RELEASE_LOG\.log|release/RELEASE_SUMMARY\.md|release/AI_RELEASE_SUMMARY\.md|release/RELEASE_NOTES\.md|release/\.prepare_state")
     if [[ -n "$status_output" ]]; then
