@@ -1,0 +1,5 @@
+This release focuses on documentation accuracy and user experience improvements. The most visible change is updating all documentation to reflect the project's stable status, removing outdated alpha version references and correcting the PyPI availability information that previously indicated the package was "coming soon" despite being published since v1.4.0.
+
+Documentation has been enhanced with practical troubleshooting guidance for ignore markers, addressing a common user error where incorrect marker syntax prevents the feature from working as expected. The FAQ has been updated to accurately reflect that file exclusion patterns are fully implemented via configuration files, correcting the previous documentation that suggested this feature was still in development.
+
+All pre-commit hook examples across the documentation have been updated from the outdated v0.1.0 to the current stable version v1.5.1, ensuring users reference the latest release with all bug fixes and features. These changes improve the onboarding experience for new users and provide existing users with accurate, current information about the tool's capabilities.
