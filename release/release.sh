@@ -899,6 +899,14 @@ main() {
         exit 1
     fi
 
+    # Clean up any leftover version files from previous failed prepare attempts
+    # These files get modified during prepare but only committed during execute
+    local dirty_version_files=$(git status -s pyproject.toml src/ascii_guard/__init__.py 2>/dev/null | wc -l | tr -d ' ')
+    if [[ "$dirty_version_files" -gt 0 ]]; then
+        echo -e "${YELLOW}🧹 Cleaning up version files from previous prepare attempt...${NC}"
+        git checkout -- pyproject.toml src/ascii_guard/__init__.py 2>/dev/null || true
+    fi
+
     # Check for uncommitted changes (exclude audit logs and release working files)
     local status_output=$(git status -s | grep -vE "release/RELEASE_LOG\.log|release/RELEASE_SUMMARY\.md|release/AI_RELEASE_SUMMARY\.md|release/RELEASE_NOTES\.md|release/\.prepare_state")
     if [[ -n "$status_output" ]]; then
