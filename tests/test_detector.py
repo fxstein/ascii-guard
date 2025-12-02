@@ -17,6 +17,7 @@
 Verifies that ASCII art boxes are correctly detected in files.
 """
 
+import sys
 from pathlib import Path
 
 import pytest
@@ -290,6 +291,9 @@ class TestDetectorEdgeCases:
         with pytest.raises(FileNotFoundError, match="File not found"):
             detect_boxes(str(non_existent))
 
+    @pytest.mark.skipif(
+        sys.platform == "win32", reason="chmod doesn't make files unreadable on Windows"
+    )
     def test_detect_boxes_file_read_error(self, tmp_path: Path) -> None:
         """Test detecting boxes when file cannot be read (OSError)."""
         test_file = tmp_path / "test.txt"

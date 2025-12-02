@@ -17,6 +17,7 @@
 Tests the high-level lint_file and fix_file functions.
 """
 
+import sys
 from pathlib import Path
 
 import pytest
@@ -296,6 +297,9 @@ class TestLinterEdgeCases:
         # Should have warnings for missing bottom junction points
         assert len(result.warnings) > 0
 
+    @pytest.mark.skipif(
+        sys.platform == "win32", reason="chmod doesn't make files unreadable on Windows"
+    )
     def test_fix_file_read_error(self, tmp_path: Path) -> None:
         """Test fix_file when file cannot be read."""
         test_file = tmp_path / "unreadable.txt"
