@@ -2,6 +2,9 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2025-12-02 22:45:46 | fxstein | NOTE | 57 | Fixed Python 3.10 failure: test_stdlib_only.py was rejecting 'tomllib' import even though it only executes on Python 3.11+. Added tomllib to allowed modules list. This should fix failures on Python 3.10 (all platforms). Windows failures across all Python versions may be a separate issue - need to verify after this fix.
+2025-12-02 22:40:08 | fxstein | NOTE | 57 | Issues #12 & #13: Scheduled test failures are REAL issues. Cannot access detailed logs via gh CLI. Failures occur on: Python 3.10 (all platforms), All Windows runners (all Python versions). Local tests pass. Need to investigate actual failure logs from GitHub Actions web interface.
+2025-12-02 22:38:08 | fxstein | UNDO | 57 | Review and fix all open GitHub issues
 2025-12-02 22:36:41 | fxstein | COMPLETE | 57 | Review and fix all open GitHub issues
 2025-12-02 22:36:41 | fxstein | NOTE | 57 | Issues #12 & #13 are auto-generated scheduled test failures. These need separate investigation to determine if they're real failures or environment issues. Can be addressed in future work.
 2025-12-02 22:35:34 | fxstein | ARCHIVE | 58 | Fix Issue #11: Restore ASCII box detection in markdown code blocks (Issue #11 already fixed in v1.5.0 - no implementation needed) (with 7 subtasks)
