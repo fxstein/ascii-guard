@@ -165,7 +165,7 @@ Copyright 2025 Oliver Ratzesberger
 
 - **Repository**: https://github.com/fxstein/ascii-guard
 - **Issues**: https://github.com/fxstein/ascii-guard/issues
-- **PyPI**: https://pypi.org/project/ascii-guard/ _(coming soon)_
+- **PyPI**: https://pypi.org/project/ascii-guard/
 - **Documentation**:
   - [User Guide](docs/USAGE.md) - Complete usage documentation
   - [Development Guide](docs/DEVELOPMENT.md) - Setup, workflow, architecture
@@ -181,4 +181,4 @@ Built with ❤️ using only Python's standard library.
 
 ---
 
-**Note**: This project is in active development (v0.1.0-alpha). The core linter functionality is being implemented. Contributions and feedback are welcome!
+**Note**: ascii-guard is stable and actively maintained. Contributions and feedback are welcome!

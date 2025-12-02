@@ -392,7 +392,7 @@ Add to `.pre-commit-config.yaml`:
 ```yaml
 repos:
   - repo: https://github.com/fxstein/ascii-guard
-    rev: v0.1.0
+    rev: v1.5.1
     hooks:
       - id: ascii-guard
         args: [lint]

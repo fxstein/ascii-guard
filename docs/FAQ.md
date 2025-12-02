@@ -99,7 +99,7 @@ Yes! Add to `.pre-commit-config.yaml`:
 
 ```yaml
   - repo: https://github.com/fxstein/ascii-guard
-    rev: v0.1.0
+    rev: v1.5.1
     hooks:
       - id: ascii-guard
 ```
@@ -248,13 +248,32 @@ If content was modified:
 
 ### Can I exclude certain files or directories?
 
-Currently, you must specify files explicitly. Exclusion patterns are planned for v0.2.0.
+Yes! Use a configuration file `.ascii-guard.toml` in your project root:
 
-**Workaround**: Use shell patterns:
-```bash
-# Exclude test files
-ascii-guard lint $(find docs -name "*.md" ! -path "*/test/*")
+```toml
+[files]
+# Exclude patterns (gitignore-style)
+exclude = [
+    "node_modules/",
+    "build/",
+    "*.tmp",
+    "**/__pycache__/**"
+]
+
+# Include patterns (override excludes)
+include = [
+    "!important.md"
+]
 ```
+
+**Default exclusions** (when no config file exists):
+- `.git/`, `node_modules/`, `__pycache__/`
+- `.venv/`, `venv/`, `.tox/`
+- `build/`, `dist/`
+- `.mypy_cache/`, `.pytest_cache/`, `.ruff_cache/`
+- `*.egg-info/`
+
+See [Configuration](USAGE.md#configuration) for full details.
 
 ### Can I configure which box styles to allow?
 
