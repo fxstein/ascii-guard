@@ -3,14 +3,22 @@
 > **⚠️ IMPORTANT: This file should ONLY be edited through the `todo.ai` script!**
 
 ## Tasks
-- [ ] **#59** Investigate: Validate ignore markers functionality
+- [x] **#59** Investigate: Validate ignore markers functionality
   > During testing of issue #11, ignore markers appeared to not work - boxes marked with <!-- ascii-guard-ignore-start/end --> were still being validated. Need to verify if this is expected behavior or a bug.
-  - [ ] **#59.6** Document: Update docs if behavior needs clarification
-  - [ ] **#59.5** Fix: Implement or correct ignore marker behavior if broken
-  - [ ] **#59.4** Review: Check test cases for ignore markers (task#55)
-  - [ ] **#59.3** Review: Check detector.py for ignore marker implementation
-  - [ ] **#59.2** Test: Verify ignore markers work with boxes inside code blocks
-  - [ ] **#59.1** Test: Verify ignore markers work with boxes outside code blocks
+  - [x] **#59.6** Document: Update docs if behavior needs clarification
+    > Added troubleshooting section to docs/USAGE.md explaining common marker name mistakes (e.g., using -start suffix). Documented all three valid markers clearly.
+  - [x] **#59.5** Fix: Implement or correct ignore marker behavior if broken
+    > No fix needed - ignore markers work correctly. Issue was confusion about marker names. Documentation is accurate.
+  - [x] **#59.4** Review: Check test cases for ignore markers (task#55)
+    > Test cases in test_detector.py::TestIgnoreMarkers are comprehensive and correct. They use proper marker names and test block regions, single-next markers, empty lines handling, nested regions, and broken boxes.
+  - [x] **#59.3** Review: Check detector.py for ignore marker implementation
+    > Implementation in detector.py is CORRECT. Markers: '<!-- ascii-guard-ignore -->' (start), '<!-- ascii-guard-ignore-end -->' (end), '<!-- ascii-guard-ignore-next -->' (single box). Function is_in_ignore_region() properly tracks regions.
+  - [x] **#59.2** Test: Verify ignore markers work with boxes inside code blocks
+    > UPDATE: Ignore markers work correctly inside code blocks too when using correct marker names.
+    > CONFIRMED BUG: Ignore markers DO NOT work inside code blocks either. Same behavior as outside code blocks - all boxes detected and validated regardless of ignore markers.
+  - [x] **#59.1** Test: Verify ignore markers work with boxes outside code blocks
+    > UPDATE: Ignore markers WORK CORRECTLY! Issue was user error - used wrong marker name. Correct: '<!-- ascii-guard-ignore -->' NOT '<!-- ascii-guard-ignore-start -->'. With correct markers, detected 2 boxes (not 3) and no errors.
+    > CONFIRMED BUG: Ignore markers DO NOT work outside code blocks. Detected 3 boxes when should have detected 2. The box between ignore-start/end markers was still validated and errors reported.
 
 ------------------
 
@@ -319,7 +327,7 @@
 
 ---
 
-**Last Updated:** Tue Dec  2 22:59:22 GMT 2025
+**Last Updated:** Tue Dec  2 23:20:27 GMT 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata

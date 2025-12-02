@@ -2,6 +2,21 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2025-12-02 23:20:27 | fxstein | COMPLETE | 59 | Investigate: Validate ignore markers functionality
+2025-12-02 23:20:26 | fxstein | NOTE | 59.6 | Added troubleshooting section to docs/USAGE.md explaining common marker name mistakes (e.g., using -start suffix). Documented all three valid markers clearly.
+2025-12-02 23:20:24 | fxstein | COMPLETE | 59.6 | Document: Update docs if behavior needs clarification
+2025-12-02 23:19:41 | fxstein | NOTE | 59.5 | No fix needed - ignore markers work correctly. Issue was confusion about marker names. Documentation is accurate.
+2025-12-02 23:19:40 | fxstein | COMPLETE | 59.5 | Fix: Implement or correct ignore marker behavior if broken
+2025-12-02 23:19:22 | fxstein | NOTE | 59.4 | Test cases in test_detector.py::TestIgnoreMarkers are comprehensive and correct. They use proper marker names and test block regions, single-next markers, empty lines handling, nested regions, and broken boxes.
+2025-12-02 23:19:19 | fxstein | COMPLETE | 59.4 | Review: Check test cases for ignore markers (task#55)
+2025-12-02 23:19:03 | fxstein | NOTE | 59.3 | Implementation in detector.py is CORRECT. Markers: '<!-- ascii-guard-ignore -->' (start), '<!-- ascii-guard-ignore-end -->' (end), '<!-- ascii-guard-ignore-next -->' (single box). Function is_in_ignore_region() properly tracks regions.
+2025-12-02 23:19:01 | fxstein | COMPLETE | 59.3 | Review: Check detector.py for ignore marker implementation
+2025-12-02 23:19:01 | fxstein | NOTE | 59.2 | UPDATE: Ignore markers work correctly inside code blocks too when using correct marker names.
+2025-12-02 23:19:00 | fxstein | NOTE | 59.1 | UPDATE: Ignore markers WORK CORRECTLY! Issue was user error - used wrong marker name. Correct: '<!-- ascii-guard-ignore -->' NOT '<!-- ascii-guard-ignore-start -->'. With correct markers, detected 2 boxes (not 3) and no errors.
+2025-12-02 23:18:25 | fxstein | NOTE | 59.2 | CONFIRMED BUG: Ignore markers DO NOT work inside code blocks either. Same behavior as outside code blocks - all boxes detected and validated regardless of ignore markers.
+2025-12-02 23:18:24 | fxstein | COMPLETE | 59.2 | Test: Verify ignore markers work with boxes inside code blocks
+2025-12-02 23:18:03 | fxstein | NOTE | 59.1 | CONFIRMED BUG: Ignore markers DO NOT work outside code blocks. Detected 3 boxes when should have detected 2. The box between ignore-start/end markers was still validated and errors reported.
+2025-12-02 23:18:00 | fxstein | COMPLETE | 59.1 | Test: Verify ignore markers work with boxes outside code blocks
 2025-12-02 22:59:22 | fxstein | ARCHIVE | 57 | Review and fix all open GitHub issues (with 7 subtasks)
 2025-12-02 22:58:43 | fxstein | COMPLETE | 57 | Review and fix all open GitHub issues
 2025-12-02 22:58:43 | fxstein | NOTE | 57 | ✅ ALL ISSUES RESOLVED! Fixed 3 problems: (1) Python 3.10 tomllib detection, (2) Windows UTF-8 encoding, (3) Windows permission tests. All platforms now pass. Issues #12 and #13 were auto-closed.

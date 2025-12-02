@@ -603,6 +603,27 @@ file filename.md
 iconv -f ISO-8859-1 -t UTF-8 filename.md > filename_utf8.md
 ```
 
+#### "Ignore markers not working"
+
+**Cause**: Using incorrect marker syntax.
+
+**Solution**: Use the exact marker names (common mistake is adding `-start` suffix):
+
+```markdown
+❌ Wrong: <!-- ascii-guard-ignore-start -->
+✅ Correct: <!-- ascii-guard-ignore -->
+
+❌ Wrong: <!-- ascii-guard-ignore-next-box -->
+✅ Correct: <!-- ascii-guard-ignore-next -->
+```
+
+Valid markers:
+- `<!-- ascii-guard-ignore -->` - Start of ignore block
+- `<!-- ascii-guard-ignore-end -->` - End of ignore block
+- `<!-- ascii-guard-ignore-next -->` - Ignore next box only
+
+See [Ignore Markers](#ignore-markers) section for detailed examples.
+
 ### Debug Mode
 
 For detailed debugging information:
