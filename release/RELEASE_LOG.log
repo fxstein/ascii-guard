@@ -2,6 +2,23 @@
 # Format: TIMESTAMP | USER | STEP | MESSAGE
 # Generated: 2025-11-16
 #
+2025-12-02 23:05:22 | fxstein | RELEASE INITIATED | Release 1.5.1 initiated! GitHub Actions will complete publishing.
+2025-12-02 23:05:22 | fxstein | CLEANUP | Deleted working files and build artifacts
+2025-12-02 23:05:22 | fxstein | CLEANUP COMMITTED | Committed cleanup of release artifacts
+2025-12-02 23:05:19 | fxstein | GITHUB ACTIONS | Tag pushed, GitHub Actions will handle PyPI publish and GitHub release
+2025-12-02 23:05:17 | fxstein | PUSH TAG | Pushing tag v1.5.1 to origin
+2025-12-02 23:05:15 | fxstein | PUSH MAIN | Pushing main branch to origin
+2025-12-02 23:05:15 | fxstein | TAG CREATED | Git tag v1.5.1 created successfully
+2025-12-02 23:05:15 | fxstein | CREATE TAG | Creating git tag: v1.5.1
+2025-12-02 23:05:15 | fxstein | VERSION COMMITTED | Version change committed: 91005665b6a9d88d6be7fc98ca8eca4130db3ed5
+2025-12-02 23:05:12 | fxstein | COMMIT VERSION | Committing version change and release files to git
+2025-12-02 23:05:12 | fxstein | BUILD SUCCESS | Package built successfully
+2025-12-02 23:05:09 | fxstein | BUILD PACKAGE | Building wheel and sdist
+2025-12-02 23:05:09 | fxstein | VALIDATE FILES | Validated and formatted release files
+2025-12-02 23:05:07 | fxstein | COPY NOTES | Copied RELEASE_NOTES.md to RELEASE_SUMMARY.md
+2025-12-02 23:03:33 | fxstein | PREPARE | Release preview prepared for v1.5.1
+2025-12-02 23:03:33 | fxstein | VERSION FILES UPDATED | Updated all version files to 1.5.1 (not yet committed)
+2025-12-02 23:03:32 | fxstein | RELEASE START | Starting release process: 1.5.0 → 1.5.1 (patch)
 2025-11-19 10:23:36 | fxstein | RELEASE INITIATED | Release 1.5.0 initiated! GitHub Actions will complete publishing.
 2025-11-19 10:23:36 | fxstein | CLEANUP | Deleted working files and build artifacts
 2025-11-19 10:23:35 | fxstein | CLEANUP COMMITTED | Committed cleanup of release artifacts
