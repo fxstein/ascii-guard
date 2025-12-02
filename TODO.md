@@ -3,19 +3,20 @@
 > **⚠️ IMPORTANT: This file should ONLY be edited through the `todo.ai` script!**
 
 ## Tasks
-- [ ] **#58** Fix Issue #11: Restore ASCII box detection in markdown code blocks
-  > Fixes GitHub issue #11 - Regression where boxes in markdown code blocks are not detected
-  - [ ] **#58.7** Document: Update docs about code block behavior
-  - [ ] **#58.6** Verify: Test with user's example from issue #11
-  - [ ] **#58.5** Test: Add test cases for boxes in code blocks
-  - [ ] **#58.4** Implement: Add config option and restore code block scanning
-  - [ ] **#58.3** Design: Plan configuration option for include/exclude code blocks
-  - [ ] **#58.2** Analyze: Understand how code block detection was added
-  - [ ] **#58.1** Investigate: Review code changes between v1.2.1 and v1.3.0
+- [ ] **#59** Investigate: Validate ignore markers functionality
+  > During testing of issue #11, ignore markers appeared to not work - boxes marked with <!-- ascii-guard-ignore-start/end --> were still being validated. Need to verify if this is expected behavior or a bug.
+  - [ ] **#59.6** Document: Update docs if behavior needs clarification
+  - [ ] **#59.5** Fix: Implement or correct ignore marker behavior if broken
+  - [ ] **#59.4** Review: Check test cases for ignore markers (task#55)
+  - [ ] **#59.3** Review: Check detector.py for ignore marker implementation
+  - [ ] **#59.2** Test: Verify ignore markers work with boxes inside code blocks
+  - [ ] **#59.1** Test: Verify ignore markers work with boxes outside code blocks
 - [ ] **#57** Review and fix all open GitHub issues
-  - [ ] **#57.7** Close fixed issues with reference to commits
-  - [ ] **#57.6** Verify fixes with CI/CD and local testing
-  - [ ] **#57.5** Fix issues: implement solutions and test
+  - [x] **#57.7** Close fixed issues with reference to commits
+    > Closed GitHub issue #11 - verified as fixed in v1.5.0
+  - [x] **#57.6** Verify fixes with CI/CD and local testing
+  - [x] **#57.5** Fix issues: implement solutions and test
+    > Issue #11 verified as FIXED in v1.5.0 - boxes in code blocks ARE being detected correctly. Can close issue as resolved.
   - [x] **#57.4** Create subtasks for complex issues if needed
   - [x] **#57.3** Prioritize issues by severity and impact
     > Priority 1 (HIGH): Issue #11 - Regression bug, boxes in code blocks not detected. Priority 2 (MEDIUM): Issues #12 & #13 - Scheduled test failures, need investigation
@@ -25,6 +26,16 @@
 ------------------
 
 ## Recently Completed
+- [~] **#58** Fix Issue #11: Restore ASCII box detection in markdown code blocks (Issue #11 already fixed in v1.5.0 - no implementation needed) (2025-12-02)
+  > Issue #11 is already FIXED in v1.5.0. Task #58 may not be needed - can archive after closing GitHub issue.
+  > Fixes GitHub issue #11 - Regression where boxes in markdown code blocks are not detected
+  - [ ] **#58.7** Document: Update docs about code block behavior (2025-12-02)
+  - [ ] **#58.6** Verify: Test with user's example from issue #11 (2025-12-02)
+  - [ ] **#58.5** Test: Add test cases for boxes in code blocks (2025-12-02)
+  - [ ] **#58.4** Implement: Add config option and restore code block scanning (2025-12-02)
+  - [ ] **#58.3** Design: Plan configuration option for include/exclude code blocks (2025-12-02)
+  - [ ] **#58.2** Analyze: Understand how code block detection was added (2025-12-02)
+  - [ ] **#58.1** Investigate: Review code changes between v1.2.1 and v1.3.0 (2025-12-02)
 - [x] **#56** Review and merge Dependabot PRs (2025-12-02)
   - [x] **#56.6** Approve and merge passing PRs (2025-12-02)
   - [x] **#56.5** Run local tests if needed to verify changes (2025-12-02)
@@ -303,7 +314,7 @@
 
 ---
 
-**Last Updated:** Tue Dec  2 22:29:04 GMT 2025
+**Last Updated:** Tue Dec  2 22:35:34 GMT 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata

@@ -2,6 +2,21 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2025-12-02 22:35:34 | fxstein | ARCHIVE | 58 | Fix Issue #11: Restore ASCII box detection in markdown code blocks (Issue #11 already fixed in v1.5.0 - no implementation needed) (with 7 subtasks)
+2025-12-02 22:35:27 | fxstein | NOTE | 57.7 | Closed GitHub issue #11 - verified as fixed in v1.5.0
+2025-12-02 22:35:26 | fxstein | COMPLETE | 57.7 | Close fixed issues with reference to commits
+2025-12-02 22:35:25 | fxstein | COMPLETE | 57.6 | Verify fixes with CI/CD and local testing
+2025-12-02 22:35:05 | fxstein | NOTE | 59 | During testing of issue #11, ignore markers appeared to not work - boxes marked with <!-- ascii-guard-ignore-start/end --> were still being validated. Need to verify if this is expected behavior or a bug.
+2025-12-02 22:34:57 | fxstein | ADD_SUBTASK | 59.6 | Document: Update docs if behavior needs clarification (parent: #59)
+2025-12-02 22:34:57 | fxstein | ADD_SUBTASK | 59.5 | Fix: Implement or correct ignore marker behavior if broken (parent: #59)
+2025-12-02 22:34:55 | fxstein | ADD_SUBTASK | 59.4 | Review: Check test cases for ignore markers (task#55) (parent: #59)
+2025-12-02 22:34:55 | fxstein | ADD_SUBTASK | 59.3 | Review: Check detector.py for ignore marker implementation (parent: #59)
+2025-12-02 22:34:54 | fxstein | ADD_SUBTASK | 59.2 | Test: Verify ignore markers work with boxes inside code blocks (parent: #59)
+2025-12-02 22:34:53 | fxstein | ADD_SUBTASK | 59.1 | Test: Verify ignore markers work with boxes outside code blocks (parent: #59)
+2025-12-02 22:34:48 | fxstein | ADD | 59 | Investigate: Validate ignore markers functionality
+2025-12-02 22:32:24 | fxstein | COMPLETE | 57.5 | Fix issues: implement solutions and test
+2025-12-02 22:32:19 | fxstein | NOTE | 58 | Issue #11 is already FIXED in v1.5.0. Task #58 may not be needed - can archive after closing GitHub issue.
+2025-12-02 22:32:17 | fxstein | NOTE | 57.5 | Issue #11 verified as FIXED in v1.5.0 - boxes in code blocks ARE being detected correctly. Can close issue as resolved.
 2025-12-02 22:29:04 | fxstein | NOTE | 58 | Fixes GitHub issue #11 - Regression where boxes in markdown code blocks are not detected
 2025-12-02 22:29:03 | fxstein | COMPLETE | 57.4 | Create subtasks for complex issues if needed
 2025-12-02 22:28:54 | fxstein | ADD_SUBTASK | 58.7 | Document: Update docs about code block behavior (parent: #58)
