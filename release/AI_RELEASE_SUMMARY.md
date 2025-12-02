@@ -1,0 +1,5 @@
+This release focuses on improving cross-platform compatibility and CI/CD reliability. The most significant improvements address scheduled test failures that were occurring on Python 3.10 and Windows platforms, ensuring ascii-guard works reliably across all supported environments.
+
+Three critical compatibility issues have been resolved: Python 3.10 test failures due to conditional tomllib imports, Windows Unicode encoding errors when handling box-drawing characters, and Windows-specific file permission test behavior. These fixes ensure the test suite passes completely on Python 3.10, 3.11, and 3.12 across Ubuntu, macOS, and Windows environments.
+
+The release process itself has been enhanced with GitHub Actions now correctly using detailed release notes from the repository instead of generic templates. This provides users with comprehensive changelog information for each release. Additionally, several GitHub Actions dependencies have been updated to their latest versions, including actions/checkout v6, actions/setup-python v6, and wait-on-check-action v1.4.1, ensuring the CI/CD pipeline benefits from the latest improvements and security updates.
