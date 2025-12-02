@@ -864,7 +864,7 @@ main() {
         exit 1
     fi
 
-    # Check that AI summary was created/modified recently (within 30 seconds)
+    # Check that AI summary was created/modified recently (within 60 seconds)
     local AI_SUMMARY_AGE=999999
     if [[ "$(uname)" == "Darwin" ]]; then
         # macOS
@@ -874,7 +874,7 @@ main() {
         AI_SUMMARY_AGE=$(($(date +%s) - $(stat -c %Y "$AI_SUMMARY_FILE")))
     fi
 
-    if [[ $AI_SUMMARY_AGE -gt 30 ]]; then
+    if [[ $AI_SUMMARY_AGE -gt 60 ]]; then
         echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
         echo -e "${RED}❌ RELEASE PROCESS VIOLATION${NC}"
         echo ""
@@ -888,8 +888,9 @@ main() {
         echo ""
         echo -e "${YELLOW}Required workflow:${NC}"
         echo -e "${YELLOW}1. AI writes NEW 2-3 paragraph summary to release/AI_RELEASE_SUMMARY.md${NC}"
-        echo -e "${YELLOW}2. AI IMMEDIATELY runs: ./release/release.sh --prepare${NC}"
-        echo -e "${YELLOW}   (within 30 seconds of creating the summary)${NC}"
+        echo -e "${YELLOW}2. AI commits it: git add release/AI_RELEASE_SUMMARY.md && git commit && git push${NC}"
+        echo -e "${YELLOW}3. AI IMMEDIATELY runs: ./release/release.sh --prepare${NC}"
+        echo -e "${YELLOW}   (within 60 seconds of committing the summary)${NC}"
         echo ""
         echo -e "${RED}Do NOT reuse old summaries!${NC}"
         echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"

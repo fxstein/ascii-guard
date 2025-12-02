@@ -368,17 +368,22 @@ If the human wants a specific version (e.g., "This should be 1.0.0"):
 # 1. AI writes summary
 # (AI creates release/AI_RELEASE_SUMMARY.md with 2-3 paragraphs)
 
-# 2. Prepare
+# 2. AI commits the summary immediately
+git add release/AI_RELEASE_SUMMARY.md
+git commit -m "chore: prepare vX.Y.Z release - add AI summary"
+git push
+
+# 3. AI runs prepare (within 60 seconds of commit)
 ./release/release.sh --prepare
 # (Reads AI summary, adds commits, writes release/RELEASE_NOTES.md)
 
-# 3. Review and optionally edit release notes
+# 4. Human reviews and optionally edits release notes
 vim release/RELEASE_NOTES.md  # THIS is the file to edit!
 
 # Optional: Override version
 ./release/release.sh --set-version 1.0.0
 
-# 4. Execute
+# 5. Human instructs AI to execute
 ./release/release.sh --execute
 # (Updates version, builds, tags, pushes - GitHub Actions publishes)
 ```
@@ -422,6 +427,8 @@ vim release/RELEASE_NOTES.md  # THIS is the file to edit!
 
 **✅ ALWAYS DO THIS:**
 - ALWAYS create AI summary in `release/AI_RELEASE_SUMMARY.md` first
+- ALWAYS commit the AI summary immediately after creating it
+- ALWAYS run prepare within 60 seconds of committing the AI summary
 - ALWAYS run prepare before execute
 - ALWAYS wait for human review before execute
 - ALWAYS let the human edit `release/RELEASE_NOTES.md` if they want
@@ -546,12 +553,21 @@ If automatic detection doesn't match your intent:
    Saved to: release/AI_RELEASE_SUMMARY.md
    ```
 
-3. **Run Prepare:**
+3. **Commit AI Summary Immediately:**
+   ```bash
+   git add release/AI_RELEASE_SUMMARY.md
+   git commit -m "chore: prepare vX.Y.Z release - add AI summary"
+   git push
+   ```
+   - This keeps the AI summary in version history for easy diffs
+   - Must be done BEFORE running --prepare (within 60 seconds)
+
+4. **Run Prepare:**
    ```bash
    ./release/release.sh --prepare
    ```
 
-4. **STOP AND SHOW PREVIEW:**
+5. **STOP AND SHOW PREVIEW:**
    ```markdown
    ✅ Release prepared successfully!
 
@@ -565,7 +581,7 @@ If automatic detection doesn't match your intent:
    - Tell me "set version to X.Y.Z" if you want to change it
    ```
 
-5. **⚠️ STOP HERE - WAIT FOR USER TO SAY:**
+6. **⚠️ STOP HERE - WAIT FOR USER TO SAY:**
    - "execute release" → Then run `./release/release.sh --execute`
    - "set version to X.Y.Z" → Then run `./release/release.sh --set-version X.Y.Z`
    - Any other instruction
