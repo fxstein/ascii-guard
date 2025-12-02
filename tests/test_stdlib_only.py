@@ -54,6 +54,7 @@ class TestStdlibOnly:
         # tomli is only needed for Python 3.10 (3.11+ uses stdlib tomllib)
         allowed_external = {
             "tomli",  # TOML config support for Python 3.10
+            "tomllib",  # Stdlib in 3.11+, appears in source but won't execute on 3.10
         }
 
         stdlib_modules.update(always_available)
