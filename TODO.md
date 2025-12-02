@@ -3,14 +3,24 @@
 > **⚠️ IMPORTANT: This file should ONLY be edited through the `todo.ai` script!**
 
 ## Tasks
+- [ ] **#58** Fix Issue #11: Restore ASCII box detection in markdown code blocks
+  > Fixes GitHub issue #11 - Regression where boxes in markdown code blocks are not detected
+  - [ ] **#58.7** Document: Update docs about code block behavior
+  - [ ] **#58.6** Verify: Test with user's example from issue #11
+  - [ ] **#58.5** Test: Add test cases for boxes in code blocks
+  - [ ] **#58.4** Implement: Add config option and restore code block scanning
+  - [ ] **#58.3** Design: Plan configuration option for include/exclude code blocks
+  - [ ] **#58.2** Analyze: Understand how code block detection was added
+  - [ ] **#58.1** Investigate: Review code changes between v1.2.1 and v1.3.0
 - [ ] **#57** Review and fix all open GitHub issues
   - [ ] **#57.7** Close fixed issues with reference to commits
   - [ ] **#57.6** Verify fixes with CI/CD and local testing
   - [ ] **#57.5** Fix issues: implement solutions and test
-  - [ ] **#57.4** Create subtasks for complex issues if needed
-  - [ ] **#57.3** Prioritize issues by severity and impact
-  - [ ] **#57.2** Review each issue: understand problem and scope
-  - [ ] **#57.1** List all open GitHub issues
+  - [x] **#57.4** Create subtasks for complex issues if needed
+  - [x] **#57.3** Prioritize issues by severity and impact
+    > Priority 1 (HIGH): Issue #11 - Regression bug, boxes in code blocks not detected. Priority 2 (MEDIUM): Issues #12 & #13 - Scheduled test failures, need investigation
+  - [x] **#57.2** Review each issue: understand problem and scope
+  - [x] **#57.1** List all open GitHub issues
 
 ------------------
 
@@ -293,7 +303,7 @@
 
 ---
 
-**Last Updated:** Tue Dec  2 22:26:44 GMT 2025
+**Last Updated:** Tue Dec  2 22:29:04 GMT 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata
