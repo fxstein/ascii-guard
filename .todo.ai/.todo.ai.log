@@ -2,6 +2,7 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2025-12-02 23:22:48 | fxstein | ARCHIVE | 59 | Investigate: Validate ignore markers functionality (with 6 subtasks)
 2025-12-02 23:20:27 | fxstein | COMPLETE | 59 | Investigate: Validate ignore markers functionality
 2025-12-02 23:20:26 | fxstein | NOTE | 59.6 | Added troubleshooting section to docs/USAGE.md explaining common marker name mistakes (e.g., using -start suffix). Documented all three valid markers clearly.
 2025-12-02 23:20:24 | fxstein | COMPLETE | 59.6 | Document: Update docs if behavior needs clarification
