@@ -1,3 +1,0 @@
-This release focuses on critical stability improvements for complex ASCII art structures. We have resolved significant issues with nested boxes and non-standard border characters, ensuring that `ascii-guard` correctly handles diagrams with internal components, arrows, and junction points without triggering false positives or creating duplicate border artifacts.
-
-Key improvements include a smarter border width validation algorithm that correctly accounts for visual width including arrows (e.g., `▼`) and junctions, as well as an enhanced fixer that can surgically repair inner boxes without damaging surrounding structures. These changes make the tool much more reliable for verifying sophisticated architectural diagrams and technical documentation.
