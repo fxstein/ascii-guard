@@ -2,6 +2,117 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2025-12-12 12:27:39 | fxstein | NOTE | 69.1 | Analysis complete. See docs/API_ANALYSIS.md for full findings.
+2025-12-12 12:27:32 | fxstein | DELETE_NOTE | 69.1 | Deleted 61 line(s) of notes
+2025-12-12 12:25:08 | fxstein | COMPLETE | 69.1 | Design: Analyze current internal API and identify stable functions
+2025-12-12 12:25:05 | fxstein | NOTE | 69.1 | ANALYSIS COMPLETE:
+CURRENT API STRUCTURE:
+1. PUBLIC-READY FUNCTIONS (High-level, stable):
+   - linter.lint_file(file_path: str, exclude_code_blocks: bool = False) -> LintResult
+     * Well-documented, used in tests, CLI, and examples
+     * Stable signature, clear return type
+
+   - linter.fix_file(file_path: str, dry_run: bool = False, exclude_code_blocks: bool = False) -> tuple[int, list[str]]
+     * Well-documented, used in tests and CLI
+     * Returns (boxes_fixed_count, fixed_lines)
+     * Note: Return type could be improved (named tuple or dataclass)
+   - detector.detect_boxes(file_path: str, exclude_code_blocks: bool = False) -> list[Box]
+     * Used in linter.py and examples
+     * Stable, well-documented
+     * Good for programmatic box detection
+2. DATA MODELS (Should be public):
+   - models.Box: Core data structure, used everywhere
+   - models.ValidationError: Error representation
+   - models.LintResult: Return type for lint_file()
+     * Has helpful properties: has_errors, has_warnings, is_clean
+3. VALIDATION/FIXING (Mid-level, could be public):
+   - validator.validate_box(box: Box) -> list[ValidationError]
+     * Used internally, could be useful for programmatic validation
+     * Stable signature
+
+   - fixer.fix_box(box: Box) -> list[str]
+     * Used internally, could be useful for programmatic fixing
+     * Stable signature
+4. INTERNAL/HELPER FUNCTIONS (Should remain private):
+   - detector.has_box_drawing_chars()
+   - detector.is_in_code_fence()
+   - detector.is_ignore_marker()
+   - detector.is_in_ignore_region()
+   - detector.find_top_left_corner()
+   - detector.find_bottom_left_corner()
+   - detector.find_all_top_left_corners()
+   - validator.is_divider_line()
+   - validator.is_table_separator_line()
+   - validator.get_column_positions()
+   - cli.* functions (CLI-specific)
+   - scanner.* functions (internal file scanning)
+   - patterns.* functions (internal pattern matching)
+   - config.* functions (internal config handling)
+5. CURRENT USAGE PATTERNS:
+   - Tests import: linter.lint_file, linter.fix_file
+   - Examples show: detector.detect_boxes, validator.validate_box
+   - CLI uses: linter.lint_file, linter.fix_file
+   - Package exports: Only __version__ currently
+6. ISSUES IDENTIFIED:
+   - fix_file() returns tuple - should use named tuple or dataclass
+   - No public API exported from __init__.py
+   - Inconsistent examples in docs (some show detector/validator, some show linter)
+   - No clear stability guarantees documented
+2025-12-12 12:23:58 | fxstein | DELETE | 60 | Design: Create Python API design document for public programmatic interface
+2025-12-12 12:22:59 | fxstein | ADD_SUBTASK | 69.20 | Release: Prepare release notes for Python API feature (parent: #69)
+2025-12-12 12:22:59 | fxstein | ADD_SUBTASK | 69.19 | Document: Add API reference documentation (parent: #69)
+2025-12-12 12:22:59 | fxstein | ADD_SUBTASK | 69.18 | Document: Update FAQ.md to reference official API (parent: #69)
+2025-12-12 12:22:59 | fxstein | ADD_SUBTASK | 69.17 | Document: Update USAGE.md with official Python API section (parent: #69)
+2025-12-12 12:22:59 | fxstein | ADD_SUBTASK | 69.16 | Test: Verify backward compatibility with existing imports (parent: #69)
+2025-12-12 12:22:58 | fxstein | ADD_SUBTASK | 69.15 | Test: Add integration tests for API usage patterns (parent: #69)
+2025-12-12 12:22:58 | fxstein | ADD_SUBTASK | 69.14 | Test: Add unit tests for public API functions (parent: #69)
+2025-12-12 12:22:58 | fxstein | ADD_SUBTASK | 69.13 | Implement: Add programmatic box detection API (parent: #69)
+2025-12-12 12:22:58 | fxstein | ADD_SUBTASK | 69.12 | Implement: Update fix_file() API signature and documentation (parent: #69)
+2025-12-12 12:22:57 | fxstein | ADD_SUBTASK | 69.11 | Implement: Update lint_file() API signature and documentation (parent: #69)
+2025-12-12 12:22:57 | fxstein | ADD_SUBTASK | 69.10 | Implement: Export public API from __init__.py (parent: #69)
+2025-12-12 12:22:57 | fxstein | ADD_SUBTASK | 69.9 | Review: Review and approve API design document before implementation (parent: #69)
+2025-12-12 12:22:47 | fxstein | ADD_SUBTASK | 69.8 | Design: Write design document in docs/API_DESIGN.md for review (parent: #69)
+2025-12-12 12:22:47 | fxstein | ADD_SUBTASK | 69.7 | Design: Document API versioning and stability guarantees (parent: #69)
+2025-12-12 12:22:47 | fxstein | ADD_SUBTASK | 69.6 | Design: Define backward compatibility strategy for existing imports (parent: #69)
+2025-12-12 12:22:47 | fxstein | ADD_SUBTASK | 69.5 | Design: Design API for programmatic box detection and validation (parent: #69)
+2025-12-12 12:22:47 | fxstein | ADD_SUBTASK | 69.4 | Design: Design API for fix_file() - parameters, return types, error handling (parent: #69)
+2025-12-12 12:22:46 | fxstein | ADD_SUBTASK | 69.3 | Design: Design API for lint_file() - parameters, return types, error handling (parent: #69)
+2025-12-12 12:22:46 | fxstein | ADD_SUBTASK | 69.2 | Design: Define public API surface (what to export from __init__.py) (parent: #69)
+2025-12-12 12:22:38 | fxstein | ADD_SUBTASK | 69.1 | Design: Analyze current internal API and identify stable functions (parent: #69)
+2025-12-12 12:22:32 | fxstein | DELETE | 77 | 69.8
+2025-12-12 12:22:32 | fxstein | DELETE | 76 | 69.7
+2025-12-12 12:22:32 | fxstein | DELETE | 75 | 69.6
+2025-12-12 12:22:32 | fxstein | DELETE | 74 | 69.5
+2025-12-12 12:22:32 | fxstein | DELETE | 73 | 69.4
+2025-12-12 12:22:31 | fxstein | DELETE | 72 | 69.3
+2025-12-12 12:22:31 | fxstein | DELETE | 71 | 69.2
+2025-12-12 12:22:31 | fxstein | DELETE | 70 | 69.1
+2025-12-12 12:20:39 | fxstein | ADD | 77 | 69.8
+2025-12-12 12:20:38 | fxstein | ADD | 76 | 69.7
+2025-12-12 12:20:38 | fxstein | ADD | 75 | 69.6
+2025-12-12 12:20:38 | fxstein | ADD | 74 | 69.5
+2025-12-12 12:20:37 | fxstein | ADD | 73 | 69.4
+2025-12-12 12:20:37 | fxstein | ADD | 72 | 69.3
+2025-12-12 12:20:36 | fxstein | ADD | 71 | 69.2
+2025-12-12 12:20:36 | fxstein | ADD | 70 | 69.1
+2025-12-12 12:20:28 | fxstein | ADD | 69 | Design and implement well-defined Python API for ascii-guard
+2025-12-12 12:20:24 | fxstein | DELETE | 68 | 60.8
+2025-12-12 12:20:24 | fxstein | DELETE | 67 | 60.7
+2025-12-12 12:20:23 | fxstein | DELETE | 66 | 60.6
+2025-12-12 12:20:23 | fxstein | DELETE | 65 | 60.5
+2025-12-12 12:20:23 | fxstein | DELETE | 64 | 60.4
+2025-12-12 12:20:23 | fxstein | DELETE | 63 | 60.3
+2025-12-12 12:20:23 | fxstein | DELETE | 62 | 60.2
+2025-12-12 12:20:23 | fxstein | DELETE | 61 | 60.1
+2025-12-12 12:19:09 | fxstein | ADD | 68 | 60.8
+2025-12-12 12:19:09 | fxstein | ADD | 67 | 60.7
+2025-12-12 12:19:09 | fxstein | ADD | 66 | 60.6
+2025-12-12 12:19:08 | fxstein | ADD | 65 | 60.5
+2025-12-12 12:19:08 | fxstein | ADD | 64 | 60.4
+2025-12-12 12:19:07 | fxstein | ADD | 63 | 60.3
+2025-12-12 12:19:07 | fxstein | ADD | 62 | 60.2
+2025-12-12 12:19:07 | fxstein | ADD | 61 | 60.1
+2025-12-12 12:18:57 | fxstein | ADD | 60 | Design: Create Python API design document for public programmatic interface
 2025-12-02 23:22:48 | fxstein | ARCHIVE | 59 | Investigate: Validate ignore markers functionality (with 6 subtasks)
 2025-12-02 23:20:27 | fxstein | COMPLETE | 59 | Investigate: Validate ignore markers functionality
 2025-12-02 23:20:26 | fxstein | NOTE | 59.6 | Added troubleshooting section to docs/USAGE.md explaining common marker name mistakes (e.g., using -start suffix). Documented all three valid markers clearly.

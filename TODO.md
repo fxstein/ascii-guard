@@ -3,6 +3,28 @@
 > **⚠️ IMPORTANT: This file should ONLY be edited through the `todo.ai` script!**
 
 ## Tasks
+- [ ] **#69** Design and implement well-defined Python API for ascii-guard `-p`
+  - [ ] **#69.20** Release: Prepare release notes for Python API feature
+  - [ ] **#69.19** Document: Add API reference documentation
+  - [ ] **#69.18** Document: Update FAQ.md to reference official API
+  - [ ] **#69.17** Document: Update USAGE.md with official Python API section
+  - [ ] **#69.16** Test: Verify backward compatibility with existing imports
+  - [ ] **#69.15** Test: Add integration tests for API usage patterns
+  - [ ] **#69.14** Test: Add unit tests for public API functions
+  - [ ] **#69.13** Implement: Add programmatic box detection API
+  - [ ] **#69.12** Implement: Update fix_file() API signature and documentation
+  - [ ] **#69.11** Implement: Update lint_file() API signature and documentation
+  - [ ] **#69.10** Implement: Export public API from __init__.py
+  - [ ] **#69.9** Review: Review and approve API design document before implementation
+  - [ ] **#69.8** Design: Write design document in docs/API_DESIGN.md for review
+  - [ ] **#69.7** Design: Document API versioning and stability guarantees
+  - [ ] **#69.6** Design: Define backward compatibility strategy for existing imports
+  - [ ] **#69.5** Design: Design API for programmatic box detection and validation
+  - [ ] **#69.4** Design: Design API for fix_file() - parameters, return types, error handling
+  - [ ] **#69.3** Design: Design API for lint_file() - parameters, return types, error handling
+  - [ ] **#69.2** Design: Define public API surface (what to export from __init__.py)
+  - [x] **#69.1** Design: Analyze current internal API and identify stable functions
+    > Analysis complete. See docs/API_ANALYSIS.md for full findings.
 
 ------------------
 
@@ -302,6 +324,23 @@
 
 
 ## Deleted Tasks
+- [D] **#60** Design: Create Python API design document for public programmatic interface `-p` (deleted 2025-12-12, expires 2026-01-11)
+- [D] **#77** 69.8 `Design:` `Write` `design` `document` `in` `docs/API_DESIGN.md` `for` `review` (deleted 2025-12-12, expires 2026-01-11)
+- [D] **#76** 69.7 `Design:` `Document` `API` `versioning` `and` `stability` `guarantees` (deleted 2025-12-12, expires 2026-01-11)
+- [D] **#75** 69.6 `Design:` `Define` `backward` `compatibility` `strategy` `for` `existing` `imports` (deleted 2025-12-12, expires 2026-01-11)
+- [D] **#74** 69.5 `Design:` `Design` `API` `for` `programmatic` `box` `detection` `and` `validation` (deleted 2025-12-12, expires 2026-01-11)
+- [D] **#73** 69.4 `Design:` `Design` `API` `for` `fix_file()` `-` `parameters,` `return` `types,` `error` `handling` (deleted 2025-12-12, expires 2026-01-11)
+- [D] **#72** 69.3 `Design:` `Design` `API` `for` `lint_file()` `-` `parameters,` `return` `types,` `error` `handling` (deleted 2025-12-12, expires 2026-01-11)
+- [D] **#71** 69.2 `Design:` `Define` `public` `API` `surface` `(what` `to` `export` `from` `__init__.py)` (deleted 2025-12-12, expires 2026-01-11)
+- [D] **#70** 69.1 `Design:` `Analyze` `current` `internal` `API` `and` `identify` `stable` `functions` (deleted 2025-12-12, expires 2026-01-11)
+- [D] **#68** 60.8 `Design:` `Write` `design` `document` `in` `docs/API_DESIGN.md` (deleted 2025-12-12, expires 2026-01-11)
+- [D] **#67** 60.7 `Design:` `Document` `API` `versioning` `and` `stability` `guarantees` (deleted 2025-12-12, expires 2026-01-11)
+- [D] **#66** 60.6 `Design:` `Define` `backward` `compatibility` `strategy` `for` `existing` `imports` (deleted 2025-12-12, expires 2026-01-11)
+- [D] **#65** 60.5 `Design:` `Design` `API` `for` `programmatic` `box` `detection` `and` `validation` (deleted 2025-12-12, expires 2026-01-11)
+- [D] **#64** 60.4 `Design:` `Design` `API` `for` `fix_file()` `-` `parameters,` `return` `types,` `error` `handling` (deleted 2025-12-12, expires 2026-01-11)
+- [D] **#63** 60.3 `Design:` `Design` `API` `for` `lint_file()` `-` `parameters,` `return` `types,` `error` `handling` (deleted 2025-12-12, expires 2026-01-11)
+- [D] **#62** 60.2 `Design:` `Define` `public` `API` `surface` `(what` `to` `export` `from` `__init__.py)` (deleted 2025-12-12, expires 2026-01-11)
+- [D] **#61** 60.1 `Design:` `Analyze` `current` `internal` `API` `and` `identify` `stable` `functions` (deleted 2025-12-12, expires 2026-01-11)
 - [D] **#51** 35:Verify: Re-test EXAMPLE-GCP_DEVOPS_STRATEGY.md - fix should reach 0 errors (deleted 2025-11-18, expires 2025-12-18)
 - [D] **#50** 35:Test: Add test cases for tables, junction points, and multi-box lines (deleted 2025-11-18, expires 2025-12-18)
 - [D] **#49** 35:Implement: Add support for multiple boxes on same line (deleted 2025-11-18, expires 2025-12-18)
@@ -327,7 +366,7 @@
 
 ---
 
-**Last Updated:** Tue Dec  2 23:22:48 GMT 2025
+**Last Updated:** Fri Dec 12 12:27:39 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata
