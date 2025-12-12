@@ -90,25 +90,28 @@ validate_environment() {
         echo -e "${GREEN}✓ Virtual environment: exists${NC}"
     fi
 
-    # Check Python version
+    # Check Python version in venv (NOT system python)
     if [[ -f .python-version ]]; then
         local required_version=$(cat .python-version)
-        local current_version=$(python3 --version 2>&1 | awk '{print $2}')
+        # Use .venv/bin/python explicitly to check version
+        local current_version=$(.venv/bin/python --version 2>&1 | awk '{print $2}')
 
         # Extract major.minor from both versions
         local required_major_minor=$(echo "$required_version" | cut -d. -f1-2)
         local current_major_minor=$(echo "$current_version" | cut -d. -f1-2)
 
         if [[ "$required_major_minor" != "$current_major_minor" ]]; then
-            echo -e "${RED}❌ Python version mismatch${NC}"
+            echo -e "${RED}❌ Venv Python version mismatch${NC}"
             echo -e "${RED}   Required: $required_version (.python-version)${NC}"
-            echo -e "${RED}   Current:  $current_version${NC}"
+            echo -e "${RED}   Current:  $current_version (in .venv/bin/python)${NC}"
             echo ""
-            echo -e "${YELLOW}Fix: Install correct Python version:${NC}"
+            echo -e "${YELLOW}Fix: Rebuild virtual environment with correct version:${NC}"
             echo -e "${YELLOW}  pyenv install $required_version${NC}"
+            echo -e "${YELLOW}  pyenv local $required_version${NC}"
+            echo -e "${YELLOW}  rm -rf .venv && ./setup.sh${NC}"
             errors=$((errors + 1))
         else
-            echo -e "${GREEN}✓ Python version: $current_version${NC}"
+            echo -e "${GREEN}✓ Venv Python version: $current_version${NC}"
         fi
     fi
 
