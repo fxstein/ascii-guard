@@ -2,6 +2,11 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2025-12-12 17:33:55 | fxstein | COMPLETE | 78.6 | Update validation document with final test results
+2025-12-12 17:33:55 | fxstein | COMPLETE | 78.5 | Add comprehensive test cases for both bug patterns (nested boxes and junction characters)
+2025-12-12 17:33:55 | fxstein | COMPLETE | 78.4 | Verify fixer handles all edge cases for nested box content with extra border characters
+2025-12-12 17:33:55 | fxstein | COMPLETE | 78.3 | Enhance fixer to adjust bottom border width when junction characters are present
+2025-12-12 17:33:55 | fxstein | COMPLETE | 78.2 | Fix border width calculation to correctly handle junction characters (▼, ┴, etc.)
 2025-12-12 17:32:30 | fxstein | COMPLETE | 78 | Fix: Resolve issue #17 - fix command does not fix all detected errors
 2025-12-12 17:23:28 | fxstein | NOTE | 78.1 | Resolved persistent duplicate borders in nested boxes. Updated linter.py to detect '│ │' patterns (space-separated duplicates) near borders and fixer.py to remove them. Verified clean output in issue_17_nested_boxes.md.
 2025-12-12 17:23:24 | fxstein | COMPLETE | 78.1 | Investigate why fixer reports fixing boxes but errors persist for border width mismatches

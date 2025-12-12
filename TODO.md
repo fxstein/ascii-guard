@@ -4,11 +4,11 @@
 
 ## Tasks
 - [x] **#78** Fix: Resolve issue #17 - fix command does not fix all detected errors `-p`
-  - [ ] **#78.6** Update validation document with final test results
-  - [ ] **#78.5** Add comprehensive test cases for both bug patterns (nested boxes and junction characters)
-  - [ ] **#78.4** Verify fixer handles all edge cases for nested box content with extra border characters
-  - [ ] **#78.3** Enhance fixer to adjust bottom border width when junction characters are present
-  - [ ] **#78.2** Fix border width calculation to correctly handle junction characters (▼, ┴, etc.)
+  - [x] **#78.6** Update validation document with final test results
+  - [x] **#78.5** Add comprehensive test cases for both bug patterns (nested boxes and junction characters)
+  - [x] **#78.4** Verify fixer handles all edge cases for nested box content with extra border characters
+  - [x] **#78.3** Enhance fixer to adjust bottom border width when junction characters are present
+  - [x] **#78.2** Fix border width calculation to correctly handle junction characters (▼, ┴, etc.)
     > FIXED: Updated fixer to calculate top border width correctly (counting only HORIZONTAL_CHARS and JUNCTION_CHARS) and match bottom border width exactly. Also fixed linter.py to merge fixes when multiple boxes share the same line.
   - [x] **#78.1** Investigate why fixer reports fixing boxes but errors persist for border width mismatches
     > Resolved persistent duplicate borders in nested boxes. Updated linter.py to detect '│ │' patterns (space-separated duplicates) near borders and fixer.py to remove them. Verified clean output in issue_17_nested_boxes.md.
@@ -379,7 +379,7 @@
 
 ---
 
-**Last Updated:** Fri Dec 12 17:32:30 CET 2025
+**Last Updated:** Fri Dec 12 17:33:55 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata
