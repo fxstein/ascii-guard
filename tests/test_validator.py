@@ -43,6 +43,25 @@ class TestBoxValidation:
         errors = validate_box(box)
         assert len(errors) == 0
 
+    def test_validate_box_with_arrow_in_border(self) -> None:
+        """Test that non-standard characters (like ▼) in border count towards width."""
+        box = Box(
+            top_line=0,
+            bottom_line=2,
+            left_col=0,
+            right_col=10,
+            lines=[
+                "┌────▼────┐",  # 4 dashes + 1 arrow + 4 dashes = 9 chars + 2 corners = 11 length
+                "│ Content │",
+                "└─────────┘",  # 9 dashes + 2 corners = 11 length
+            ],
+            file_path="test.txt",
+        )
+
+        errors = validate_box(box)
+        # Should be valid because top effective width (9) matches bottom effective width (9)
+        assert len(errors) == 0
+
     def test_validate_broken_bottom(self) -> None:
         """Test detection of bottom edge misalignment."""
         box = Box(

@@ -276,6 +276,49 @@ class TestIntegrationScenarios:
         result = lint_file(str(test_file))
         assert result.boxes_found == 50
 
+    def test_nested_boxes_with_duplicates(self, tmp_path: Path) -> None:
+        """Test fixing nested boxes with duplicate borders."""
+        test_file = tmp_path / "nested_duplicates.md"
+        test_file.write_text(
+            """
+```ascii
+┌─────────────────────────────────────────────────────────┐
+│                  Core Logic (Python)                    │
+│  ┌───────────────────────────────────────────────────┐  │
+│  │  Task Management Module                           │  │
+│  │  - Task CRUD operations                           │  │
+│  │  - Subtask management                             │  │
+│  │  - Archive/restore                                │  │
+│  └───────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────┘
+         │                              │
+         │                              │
+    ┌────▼────┐                    ┌────▼────┐
+    │   MCP   ││                   ││    CLI  │
+    │  Server ││                   ││ Interfac│
+    └─────────┘                    └─────────┘
+```
+"""
+        )
+
+        # Fix the file
+        result = fix_file(str(test_file))
+        assert result.boxes_fixed > 0
+
+        content = test_file.read_text()
+
+        # Check that unwanted ┴ are NOT added
+        assert "│  └───────────────────────────────────────────────────┘  │" in content
+
+        # Check that duplicate borders are removed
+        # Note: exact spacing depends on which duplicate is removed
+        # But we definitely shouldn't see ││
+        assert "││" not in content
+        assert "MCP" in content
+        assert "CLI" in content
+        # Ensure we still have the box structure
+        assert "│" in content
+
 
 class TestLinterEdgeCases:
     """Test edge cases to achieve 100% coverage."""

@@ -18,8 +18,8 @@ ZERO dependencies - uses only Python stdlib.
 """
 
 from ascii_guard.models import (
+    CORNER_CHARS,
     HORIZONTAL_CHARS,
-    JUNCTION_CHARS,
     LEFT_DIVIDER_CHARS,
     RIGHT_DIVIDER_CHARS,
     TABLE_COLUMN_JUNCTION_CHARS,
@@ -136,13 +136,10 @@ def get_column_positions(box: Box) -> list[int]:
             if char in TOP_JUNCTION_CHARS:
                 column_positions.add(i)
 
-    # Check content lines for consistent │ positions
-    for line in box.lines[1:-1]:  # Skip top and bottom borders
-        for i, char in enumerate(line):
-            if (char == "│" or char == "┃" or char == "║") and (
-                i != box.left_col and i != box.right_col
-            ):
-                column_positions.add(i)
+    # Note: We intentionally DO NOT check content lines for │ separators
+    # because that causes false positives for nested boxes (inner box borders
+    # interpreted as columns of outer box). We only trust top junctions (┬)
+    # and middle separators (┼) for defining table columns.
 
     # Check for ┼ in middle separator lines
     for line in box.lines[1:-1]:
@@ -182,20 +179,24 @@ def validate_box(box: Box) -> list[ValidationError]:
     top_line = box.lines[0] if box.lines else ""
     bottom_line = box.lines[-1] if len(box.lines) > 1 else ""
 
-    # Count horizontal characters in top border (including junction points)
+    # Count horizontal characters in top border (including junction points and any non-space chars)
+    # This ensures we handle boxes with labels or arrows (like ▼) correctly
     top_width = 0
     for i in range(box.left_col, min(len(top_line), box.right_col + 1)):
         if i < len(top_line):
             char = top_line[i]
-            if char in HORIZONTAL_CHARS or char in JUNCTION_CHARS:
+            # Count effectively solid parts of the border (not spaces, not corners)
+            # We include JUNCTION_CHARS because they are part of the border length
+            # We exclude CORNER_CHARS because they define the endpoints
+            if char != " " and char not in CORNER_CHARS:
                 top_width += 1
 
-    # Count horizontal characters in bottom border (including junction points)
+    # Count horizontal characters in bottom border
     bottom_width = 0
     for i in range(box.left_col, min(len(bottom_line), box.right_col + 1)):
         if i < len(bottom_line):
             char = bottom_line[i]
-            if char in HORIZONTAL_CHARS or char in JUNCTION_CHARS:
+            if char != " " and char not in CORNER_CHARS:
                 bottom_width += 1
 
     # Check if widths match

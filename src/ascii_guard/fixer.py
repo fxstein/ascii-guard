@@ -159,11 +159,6 @@ def fix_box(box: Box) -> list[str]:
         # Place right corner
         bottom_chars[right_corner_pos] = right_corner
 
-        # Clear any old border characters beyond the right corner
-        for i in range(right_corner_pos + 1, min(len(bottom_chars), box.right_col + 10)):
-            if i < len(bottom_chars):
-                bottom_chars[i] = " "
-
         fixed_lines[-1] = "".join(bottom_chars).rstrip()
 
     # Fix middle lines (ensure they have proper vertical borders)
@@ -234,6 +229,19 @@ def fix_box(box: Box) -> list[str]:
         ):
             # Replace the duplicate before right border with space (keep position indices stable)
             line_chars[box.right_col - 1] = " "
+
+        # Check for space-separated duplicate before right_col
+        # e.g., "│ │" where second is at right_col
+        if (
+            box.right_col > box.left_col + 2
+            and box.right_col < len(line_chars)
+            and box.right_col - 2 >= 0
+            and line_chars[box.right_col] in {"│", "║", "┃"}
+            and line_chars[box.right_col - 1] == " "
+            and line_chars[box.right_col - 2] in {"│", "║", "┃"}
+        ):
+            # Replace the inner duplicate with space
+            line_chars[box.right_col - 2] = " "
 
         # Check if this line is too short and needs the right border moved/added
         if len(line_chars) <= box.right_col:

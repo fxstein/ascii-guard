@@ -163,7 +163,11 @@ def fix_file(
                 for i in range(1, len(box.lines) - 1):
                     line = box.lines[i]
                     # Check for consecutive border chars at boundaries
-                    for j in range(box.left_col, min(len(line), box.right_col + 2)):
+                    # Start checking from left_col - 1 to catch duplicates before the box
+                    for j in range(box.left_col - 1, min(len(line), box.right_col + 2)):
+                        if j < 0:
+                            continue
+
                         # Check for duplicate borders (││)
                         has_dup = (
                             j < len(line)
@@ -173,13 +177,27 @@ def fix_file(
                         )
                         # Check position validity
                         is_at_border = (
-                            (j == box.left_col and j + 1 > box.left_col)
-                            or (j == box.right_col and j + 1 > box.right_col)
-                            or (box.left_col < j < box.right_col)
+                            j == box.left_col - 1  # Before left border
+                            or j == box.left_col  # At left border (dup inside)
+                            or j == box.right_col  # At right border (dup outside)
+                            or j == box.right_col - 1  # Inside right border (dup at border)
                         )
                         if has_dup and is_at_border:
                             needs_fixing = True
                             break
+
+                    # Check for "│ │" pattern at right border (space separated duplicate)
+                    # This handles artifacts like "...│ │" where the inner │ is a leftover
+                    if (
+                        not needs_fixing
+                        and box.right_col > box.left_col + 2
+                        and box.right_col < len(line)
+                        and line[box.right_col] in {"│", "║", "┃"}
+                        and line[box.right_col - 1] == " "
+                        and line[box.right_col - 2] in {"│", "║", "┃"}
+                    ):
+                        needs_fixing = True
+
                     if needs_fixing:
                         break
 
@@ -205,8 +223,29 @@ def fix_file(
 
                     # Merge: use fixed_line characters ONLY in the box's column range
                     # Each box should only update its own boundaries, not touch other boxes' areas
-                    for col in range(box.left_col, min(box.right_col + 1, len(fixed_line))):
+                    # We expand range slightly to allow fixing duplicates near borders
+                    start_col = max(0, box.left_col - 1)
+                    end_col = min(box.right_col + 2, len(fixed_line))
+
+                    for col in range(start_col, end_col):
                         if col < len(fixed_line) and col < len(merged_line):
+                            # Only write if this column is not owned by another box
+                            # (unless it's inside THIS box)
+                            is_owned_by_other = False
+                            if col < box.left_col or col > box.right_col:
+                                for other_box in boxes:
+                                    if other_box is box:
+                                        continue
+                                    if (
+                                        other_box.top_line <= line_idx <= other_box.bottom_line
+                                        and other_box.left_col <= col <= other_box.right_col
+                                    ):
+                                        is_owned_by_other = True
+                                        break
+
+                            if is_owned_by_other:
+                                continue
+
                             char = fixed_line[col]
                             existing_char = merged_line[col]
                             # Check if this is a corner character

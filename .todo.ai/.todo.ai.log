@@ -2,6 +2,13 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2025-12-12 17:23:28 | fxstein | NOTE | 78.1 | Resolved persistent duplicate borders in nested boxes. Updated linter.py to detect '│ │' patterns (space-separated duplicates) near borders and fixer.py to remove them. Verified clean output in issue_17_nested_boxes.md.
+2025-12-12 17:23:24 | fxstein | COMPLETE | 78.1 | Investigate why fixer reports fixing boxes but errors persist for border width mismatches
+2025-12-12 17:20:11 | fxstein | UNDO | 78.1 | Investigate why fixer reports fixing boxes but errors persist for border width mismatches
+2025-12-12 17:19:25 | fxstein | COMPLETE | 78.1 | Investigate why fixer reports fixing boxes but errors persist for border width mismatches
+2025-12-12 17:13:25 | fxstein | UNDO | 78.1 | Investigate why fixer reports fixing boxes but errors persist for border width mismatches
+2025-12-12 17:11:56 | fxstein | NOTE | 78.1 | Updated validator to count non-space characters as part of border width, resolving mismatch with fixer which was already correctly handling visual width.
+2025-12-12 17:11:50 | fxstein | COMPLETE | 78.1 | Investigate why fixer reports fixing boxes but errors persist for border width mismatches
 2025-12-12 16:20:24 | fxstein | NOTE | 78.1 | User feedback: Fix must ensure (1) continuous borders with no spaces in middle, (2) no duplicate borders or extra corners. Current fix creates spaces where top border has non-border chars. Need to always make borders continuous regardless of validator errors.
 2025-12-12 16:12:52 | fxstein | NOTE | 78.2 | FIXED: Updated fixer to calculate top border width correctly (counting only HORIZONTAL_CHARS and JUNCTION_CHARS) and match bottom border width exactly. Also fixed linter.py to merge fixes when multiple boxes share the same line.
 2025-12-12 16:11:52 | fxstein | NOTE | 78.1 | FIXED: Updated fixer to calculate top border width (counting only HORIZONTAL_CHARS and JUNCTION_CHARS) and match bottom border width exactly. Fixer now correctly handles cases where top border has non-border characters like ▼ that shouldn't be counted in width.

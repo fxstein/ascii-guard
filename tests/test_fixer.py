@@ -502,8 +502,11 @@ class TestFixerWithColumnContinuity:
         assert fixed_lines[1] == "│ Simple Box   │"
         assert fixed_lines[2] == "└──────────────┘"
 
-    def test_fix_detects_columns_from_content_rows(self) -> None:
-        """Test that fixer detects columns from │ in content, not just top border."""
+    def test_fix_ignores_columns_from_content_rows_only(self) -> None:
+        """Test that fixer ignores │ in content if no top junction exists.
+
+        This avoids false positives in nested boxes where inner borders look like columns.
+        """
         box = Box(
             top_line=0,
             bottom_line=3,
@@ -513,18 +516,15 @@ class TestFixerWithColumnContinuity:
                 "┌─────────────────────────────┐",  # No top junction
                 "│ Column 1    │ Column 2    │",  # Has │ separator
                 "│ Value 1     │ Value 2     │",
-                "└─────────────────────────────┘",  # Should add ┴
+                "└─────────────────────────────┘",  # Should NOT add ┴
             ],
             file_path="test.txt",
         )
 
         fixed_lines = fix_box(box)
-        # Bottom should have junction at column separator position
+        # Bottom should NOT have junction (strict column detection)
         bottom_line = fixed_lines[3]
-        assert "┴" in bottom_line
-        # The junction should be at the same position as the │ in content rows
-        content_sep_pos = fixed_lines[1].index("│", 1)  # Find second │ (not left border)
-        assert bottom_line[content_sep_pos] == "┴"
+        assert "┴" not in bottom_line
 
     def test_fix_multiple_columns_complex_table(self) -> None:
         """Test fixer with complex table having multiple columns and separators."""
