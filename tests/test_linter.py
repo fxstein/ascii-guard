@@ -99,13 +99,13 @@ class TestFixFile:
             "└────────────────────\n"  # Missing corner
         )
 
-        boxes_fixed, fixed_lines = fix_file(str(test_file))
+        result = fix_file(str(test_file))
 
         # File has a box with errors (bottom too short)
         # Note: Fix behavior depends on validator detecting errors
-        assert boxes_fixed >= 0  # May or may not fix depending on validator
+        assert result.boxes_fixed >= 0  # May or may not fix depending on validator
         # Should have box structure
-        assert any("└" in line for line in fixed_lines)
+        assert any("└" in line for line in result.lines)
 
     def test_fix_perfect_file(self, tmp_path: Path) -> None:
         """Test that perfect files are not modified."""
@@ -115,10 +115,10 @@ class TestFixFile:
         )
         test_file.write_text(original_content)
 
-        boxes_fixed, _ = fix_file(str(test_file))
+        result = fix_file(str(test_file))
 
         # No fixes needed
-        assert boxes_fixed == 0
+        assert result.boxes_fixed == 0
 
         # File should be unchanged
         assert test_file.read_text() == original_content
@@ -133,10 +133,10 @@ class TestFixFile:
         )
         test_file.write_text(original_content)
 
-        boxes_fixed, _ = fix_file(str(test_file), dry_run=True)
+        result = fix_file(str(test_file), dry_run=True)
 
         # Note: Whether fixes are detected depends on validator
-        assert boxes_fixed >= 0
+        assert result.boxes_fixed >= 0
 
         # File should be unchanged in dry-run mode
         assert test_file.read_text() == original_content
@@ -154,10 +154,10 @@ class TestFixFile:
             "└────────\n"  # Missing corner
         )
 
-        boxes_fixed, _ = fix_file(str(test_file))
+        result = fix_file(str(test_file))
 
         # May fix boxes if validator detects errors
-        assert boxes_fixed >= 0
+        assert result.boxes_fixed >= 0
 
     def test_fix_writes_to_file(self, tmp_path: Path) -> None:
         """Test that fixes are actually written to the file."""
@@ -245,9 +245,9 @@ class TestIntegrationScenarios:
         assert result.boxes_found == 2
 
         # Fix the file
-        boxes_fixed, _ = fix_file(str(test_file))
+        result = fix_file(str(test_file))
         # May or may not fix depending on validator
-        assert boxes_fixed >= 0
+        assert result.boxes_fixed >= 0
 
         # Verify structure is preserved
         content = test_file.read_text()
@@ -346,7 +346,9 @@ class TestLinterEdgeCases:
         test_file = tmp_path / "no_boxes.txt"
         test_file.write_text("Just some regular text\nNo boxes here\n")
 
-        boxes_fixed, lines = fix_file(str(test_file))
+        result = fix_file(str(test_file))
+        boxes_fixed = result.boxes_fixed
+        lines = result.lines
         # Should return 0 boxes fixed
         assert boxes_fixed == 0
         assert len(lines) == 2
@@ -362,12 +364,12 @@ class TestLinterEdgeCases:
 """
         )
 
-        boxes_fixed, result_lines = fix_file(str(test_file), dry_run=False)
+        result = fix_file(str(test_file), dry_run=False)
 
         # Should fix 1 box
-        assert boxes_fixed == 1
+        assert result.boxes_fixed == 1
         # Line should be fixed to proper length
-        assert result_lines[1].endswith("│")
+        assert result.lines[1].endswith("│")
         # Verify file was actually written
         content = test_file.read_text()
         assert "│ Content  │" in content or "│ Content │" in content

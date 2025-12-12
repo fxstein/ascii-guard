@@ -11,10 +11,10 @@
   - [ ] **#69.16** Test: Verify backward compatibility with existing imports
   - [ ] **#69.15** Test: Add integration tests for API usage patterns
   - [ ] **#69.14** Test: Add unit tests for public API functions
-  - [ ] **#69.13** Implement: Add programmatic box detection API
-  - [ ] **#69.12** Implement: Update fix_file() API signature and documentation
-  - [ ] **#69.11** Implement: Update lint_file() API signature and documentation
-  - [ ] **#69.10** Implement: Export public API from __init__.py
+  - [x] **#69.13** Implement: Add programmatic box detection API
+  - [x] **#69.12** Implement: Update fix_file() API signature and documentation
+  - [x] **#69.11** Implement: Update lint_file() API signature and documentation
+  - [x] **#69.10** Implement: Export public API from __init__.py
   - [x] **#69.9** Review: Review and approve API design document before implementation
   - [x] **#69.8** Design: Write design document in docs/API_DESIGN.md for review
   - [x] **#69.7** Design: Document API versioning and stability guarantees
@@ -366,7 +366,7 @@
 
 ---
 
-**Last Updated:** Fri Dec 12 12:45:15 CET 2025
+**Last Updated:** Fri Dec 12 12:48:27 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata

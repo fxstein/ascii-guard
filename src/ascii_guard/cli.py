@@ -172,16 +172,16 @@ def cmd_fix(args: argparse.Namespace) -> int:
     for file_path in file_paths:
         try:
             exclude_code_blocks = getattr(args, "exclude_code_blocks", False)
-            boxes_fixed, _ = fix_file(
+            result = fix_file(
                 str(file_path), dry_run=args.dry_run, exclude_code_blocks=exclude_code_blocks
             )
-            total_fixed += boxes_fixed
+            total_fixed += result.boxes_fixed
 
-            if boxes_fixed > 0:
+            if result.boxes_fixed > 0:
                 if args.dry_run:
-                    print_info(f"{file_path}: Would fix {boxes_fixed} box(es)")
+                    print_info(f"{file_path}: Would fix {result.boxes_fixed} box(es)")
                 else:
-                    print_success(f"{file_path}: Fixed {boxes_fixed} box(es)")
+                    print_success(f"{file_path}: Fixed {result.boxes_fixed} box(es)")
             else:
                 print_success(f"{file_path}: No fixes needed")
 

@@ -161,13 +161,20 @@ def get_column_positions(box: Box) -> list[int]:
 
 
 def validate_box(box: Box) -> list[ValidationError]:
-    """Validate a box for alignment issues.
+    """Validate a single ASCII art box.
 
     Args:
-        box: Box to validate
+        box: Box object to validate
 
     Returns:
-        List of validation errors found
+        List of ValidationError objects (empty if box is valid)
+
+    Example:
+        >>> boxes = detect_boxes("README.md")
+        >>> for box in boxes:
+        ...     errors = validate_box(box)
+        ...     if errors:
+        ...         print(f"Box has {len(errors)} validation errors")
     """
     errors: list[ValidationError] = []
 

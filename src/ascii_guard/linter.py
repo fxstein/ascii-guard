@@ -21,15 +21,15 @@ from pathlib import Path
 
 from ascii_guard.detector import detect_boxes
 from ascii_guard.fixer import fix_box
-from ascii_guard.models import LintResult, ValidationError
+from ascii_guard.models import FixResult, LintResult, ValidationError
 from ascii_guard.validator import validate_box
 
 
-def lint_file(file_path: str, exclude_code_blocks: bool = False) -> LintResult:
+def lint_file(file_path: str | Path, exclude_code_blocks: bool = False) -> LintResult:
     """Lint a file for ASCII art alignment issues.
 
     Args:
-        file_path: Path to file to lint
+        file_path: Path to file to lint (str or Path)
         exclude_code_blocks: If True, skip ASCII boxes inside markdown code blocks
 
     Returns:
@@ -37,9 +37,16 @@ def lint_file(file_path: str, exclude_code_blocks: bool = False) -> LintResult:
 
     Raises:
         FileNotFoundError: If file doesn't exist
-        IOError: If file cannot be read
+        OSError: If file cannot be read
+        ValueError: If file_path is invalid
+
+    Example:
+        >>> result = lint_file("README.md")
+        >>> if result.has_errors:
+        ...     print(f"Found {len(result.errors)} errors")
     """
-    boxes = detect_boxes(file_path, exclude_code_blocks=exclude_code_blocks)
+    file_path_str = str(file_path)
+    boxes = detect_boxes(file_path_str, exclude_code_blocks=exclude_code_blocks)
 
     all_errors: list[ValidationError] = []
     all_warnings: list[ValidationError] = []
@@ -54,7 +61,7 @@ def lint_file(file_path: str, exclude_code_blocks: bool = False) -> LintResult:
                 all_warnings.append(error)
 
     return LintResult(
-        file_path=file_path,
+        file_path=file_path_str,
         boxes_found=len(boxes),
         errors=all_errors,
         warnings=all_warnings,
@@ -62,39 +69,52 @@ def lint_file(file_path: str, exclude_code_blocks: bool = False) -> LintResult:
 
 
 def fix_file(
-    file_path: str, dry_run: bool = False, exclude_code_blocks: bool = False
-) -> tuple[int, list[str]]:
+    file_path: str | Path, dry_run: bool = False, exclude_code_blocks: bool = False
+) -> FixResult:
     """Fix ASCII art alignment issues in a file.
 
     Args:
-        file_path: Path to file to fix
-        dry_run: If True, don't write changes to file
+        file_path: Path to file to fix (str or Path)
+        dry_run: If True, don't write changes to file (returns fixed lines)
         exclude_code_blocks: If True, skip ASCII boxes inside markdown code blocks
 
     Returns:
-        Tuple of (number of boxes fixed, fixed file lines)
+        FixResult with fixed lines and metadata
 
     Raises:
         FileNotFoundError: If file doesn't exist
-        IOError: If file cannot be read/written
+        OSError: If file cannot be read/written
+        ValueError: If file_path is invalid
+
+    Example:
+        >>> result = fix_file("README.md", dry_run=True)
+        >>> print(f"Would fix {result.boxes_fixed} boxes")
+        >>> if not result.dry_run:
+        ...     print(f"Fixed {result.boxes_fixed} boxes in {result.file_path}")
     """
-    path = Path(file_path)
+    file_path_str = str(file_path)
+    path = Path(file_path_str)
     if not path.exists():
-        raise FileNotFoundError(f"File not found: {file_path}")
+        raise FileNotFoundError(f"File not found: {file_path_str}")
 
     # Read original file
     try:
         with open(path, encoding="utf-8") as f:
             original_lines = f.readlines()
     except OSError as e:
-        raise OSError(f"Cannot read file {file_path}: {e}") from e
+        raise OSError(f"Cannot read file {file_path_str}: {e}") from e
 
     # Detect boxes
-    boxes = detect_boxes(file_path, exclude_code_blocks=exclude_code_blocks)
+    boxes = detect_boxes(file_path_str, exclude_code_blocks=exclude_code_blocks)
 
     if not boxes:
         # No boxes to fix
-        return 0, [line.rstrip("\n") for line in original_lines]
+        return FixResult(
+            file_path=file_path_str,
+            boxes_fixed=0,
+            lines=[line.rstrip("\n") for line in original_lines],
+            modified=False,
+        )
 
     # Start with original lines
     result_lines = [line.rstrip("\n") for line in original_lines]
@@ -125,6 +145,11 @@ def fix_file(
                 for line in result_lines:
                     f.write(line + "\n")
         except OSError as e:
-            raise OSError(f"Cannot write file {file_path}: {e}") from e
+            raise OSError(f"Cannot write file {file_path_str}: {e}") from e
 
-    return boxes_fixed, result_lines
+    return FixResult(
+        file_path=file_path_str,
+        boxes_fixed=boxes_fixed,
+        lines=result_lines,
+        modified=not dry_run and boxes_fixed > 0,
+    )

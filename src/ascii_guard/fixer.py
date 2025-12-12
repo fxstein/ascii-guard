@@ -22,13 +22,21 @@ from ascii_guard.validator import get_column_positions, is_divider_line, is_tabl
 
 
 def fix_box(box: Box) -> list[str]:
-    """Fix alignment issues in a box.
+    """Fix alignment issues in a single box.
 
     Args:
-        box: Box to fix
+        box: Box object to fix
 
     Returns:
-        List of fixed lines
+        List of fixed lines (replacement for box.lines)
+
+    Example:
+        >>> boxes = detect_boxes("README.md")
+        >>> for box in boxes:
+        ...     errors = validate_box(box)
+        ...     if errors:
+        ...         fixed_lines = fix_box(box)
+        ...         # Apply fixed_lines to file
     """
     if not box.lines:
         return []

@@ -170,14 +170,17 @@ def find_all_top_left_corners(line: str) -> list[int]:
     return corners
 
 
-def detect_boxes(file_path: str, exclude_code_blocks: bool = False) -> list[Box]:
+def detect_boxes(file_path: str | Path, exclude_code_blocks: bool = False) -> list[Box]:
     """Detect ASCII art boxes in a file.
+
+    This function only detects boxes; it does not validate them.
+    Use lint_file() for validation or validate_box() for individual boxes.
 
     By default, detects boxes everywhere including markdown code fences.
     Optionally skips code blocks if exclude_code_blocks=True.
 
     Args:
-        file_path: Path to file to analyze
+        file_path: Path to file to analyze (str or Path)
         exclude_code_blocks: If True, skip ASCII boxes inside markdown code blocks (```)
 
     Returns:
@@ -185,17 +188,25 @@ def detect_boxes(file_path: str, exclude_code_blocks: bool = False) -> list[Box]
 
     Raises:
         FileNotFoundError: If file doesn't exist
-        IOError: If file cannot be read
+        OSError: If file cannot be read
+        ValueError: If file_path is invalid
+
+    Example:
+        >>> boxes = detect_boxes("README.md")
+        >>> print(f"Found {len(boxes)} ASCII art boxes")
+        >>> for box in boxes:
+        ...     print(f"Box at line {box.top_line + 1}: {box.width}x{box.height}")
     """
-    path = Path(file_path)
+    file_path_str = str(file_path)
+    path = Path(file_path_str)
     if not path.exists():
-        raise FileNotFoundError(f"File not found: {file_path}")
+        raise FileNotFoundError(f"File not found: {file_path_str}")
 
     try:
         with open(path, encoding="utf-8") as f:
             lines = f.readlines()
     except OSError as e:
-        raise OSError(f"Cannot read file {file_path}: {e}") from e
+        raise OSError(f"Cannot read file {file_path_str}: {e}") from e
 
     # Strip newlines from all lines
     stripped_lines = [line.rstrip("\n") for line in lines]
@@ -271,7 +282,7 @@ def detect_boxes(file_path: str, exclude_code_blocks: bool = False) -> list[Box]
                 left_col=left_col,
                 right_col=right_col,
                 lines=box_lines,
-                file_path=file_path,
+                file_path=file_path_str,
             )
             boxes.append(box)
 

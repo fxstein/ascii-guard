@@ -16,7 +16,38 @@
 
 This package provides tools for detecting and fixing misaligned ASCII art
 boxes in documentation and markdown files.
+
+Public API:
+    - lint_file: Lint a file for ASCII art alignment issues
+    - fix_file: Fix ASCII art alignment issues in a file
+    - detect_boxes: Detect ASCII art boxes in a file
+    - validate_box: Validate a single Box object
+    - fix_box: Fix a single Box object
+    - Box: ASCII art box data structure
+    - ValidationError: Validation error representation
+    - LintResult: Results from linting a file
+    - FixResult: Results from fixing a file
 """
 
+from ascii_guard.detector import detect_boxes
+from ascii_guard.fixer import fix_box
+from ascii_guard.linter import fix_file, lint_file
+from ascii_guard.models import Box, FixResult, LintResult, ValidationError
+from ascii_guard.validator import validate_box
+
 __version__ = "1.6.0"
-__all__ = ["__version__"]
+__all__ = [
+    "__version__",
+    # High-level functions
+    "lint_file",
+    "fix_file",
+    "detect_boxes",
+    # Programmatic functions
+    "validate_box",
+    "fix_box",
+    # Data models
+    "Box",
+    "ValidationError",
+    "LintResult",
+    "FixResult",
+]

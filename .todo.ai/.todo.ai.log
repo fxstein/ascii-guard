@@ -2,6 +2,10 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2025-12-12 12:48:27 | fxstein | COMPLETE | 69.13 | Implement: Add programmatic box detection API
+2025-12-12 12:48:27 | fxstein | COMPLETE | 69.12 | Implement: Update fix_file() API signature and documentation
+2025-12-12 12:48:27 | fxstein | COMPLETE | 69.11 | Implement: Update lint_file() API signature and documentation
+2025-12-12 12:48:27 | fxstein | COMPLETE | 69.10 | Implement: Export public API from __init__.py
 2025-12-12 12:45:15 | fxstein | COMPLETE | 69.9 | Review: Review and approve API design document before implementation
 2025-12-12 12:31:53 | fxstein | COMPLETE | 69.8 | Design: Write design document in docs/API_DESIGN.md for review
 2025-12-12 12:31:53 | fxstein | COMPLETE | 69.7 | Design: Document API versioning and stability guarantees

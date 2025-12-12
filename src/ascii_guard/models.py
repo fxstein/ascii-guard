@@ -98,3 +98,18 @@ class LintResult:
     def is_clean(self) -> bool:
         """Check if file is clean (no errors or warnings)."""
         return not self.has_errors and not self.has_warnings
+
+
+@dataclass
+class FixResult:
+    """Results from fixing a file."""
+
+    file_path: str
+    boxes_fixed: int
+    lines: list[str]
+    modified: bool  # True if file was actually modified
+
+    @property
+    def was_modified(self) -> bool:
+        """Check if file was modified."""
+        return self.modified
