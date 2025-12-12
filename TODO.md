@@ -3,32 +3,32 @@
 > **⚠️ IMPORTANT: This file should ONLY be edited through the `todo.ai` script!**
 
 ## Tasks
-- [ ] **#69** Design and implement well-defined Python API for ascii-guard `-p`
-  - [ ] **#69.20** Release: Prepare release notes for Python API feature
-  - [x] **#69.19** Document: Add API reference documentation
-  - [x] **#69.18** Document: Update FAQ.md to reference official API
-  - [x] **#69.17** Document: Update USAGE.md with official Python API section
-  - [x] **#69.16** Test: Verify backward compatibility with existing imports
-  - [x] **#69.15** Test: Add integration tests for API usage patterns
-  - [x] **#69.14** Test: Add unit tests for public API functions
-  - [x] **#69.13** Implement: Add programmatic box detection API
-  - [x] **#69.12** Implement: Update fix_file() API signature and documentation
-  - [x] **#69.11** Implement: Update lint_file() API signature and documentation
-  - [x] **#69.10** Implement: Export public API from __init__.py
-  - [x] **#69.9** Review: Review and approve API design document before implementation
-  - [x] **#69.8** Design: Write design document in docs/API_DESIGN.md for review
-  - [x] **#69.7** Design: Document API versioning and stability guarantees
-  - [x] **#69.6** Design: Define backward compatibility strategy for existing imports
-  - [x] **#69.5** Design: Design API for programmatic box detection and validation
-  - [x] **#69.4** Design: Design API for fix_file() - parameters, return types, error handling
-  - [x] **#69.3** Design: Design API for lint_file() - parameters, return types, error handling
-  - [x] **#69.2** Design: Define public API surface (what to export from __init__.py)
-  - [x] **#69.1** Design: Analyze current internal API and identify stable functions
-    > Analysis complete. See docs/API_ANALYSIS.md for full findings.
 
 ------------------
 
 ## Recently Completed
+- [x] **#69** Design and implement well-defined Python API for ascii-guard `-p` (2025-12-12)
+  - [x] **#69.20** Release: Prepare release notes for Python API feature (2025-12-12)
+  - [x] **#69.19** Document: Add API reference documentation (2025-12-12)
+  - [x] **#69.18** Document: Update FAQ.md to reference official API (2025-12-12)
+  - [x] **#69.17** Document: Update USAGE.md with official Python API section (2025-12-12)
+  - [x] **#69.16** Test: Verify backward compatibility with existing imports (2025-12-12)
+  - [x] **#69.15** Test: Add integration tests for API usage patterns (2025-12-12)
+  - [x] **#69.14** Test: Add unit tests for public API functions (2025-12-12)
+  - [x] **#69.13** Implement: Add programmatic box detection API (2025-12-12)
+  - [x] **#69.12** Implement: Update fix_file() API signature and documentation (2025-12-12)
+  - [x] **#69.11** Implement: Update lint_file() API signature and documentation (2025-12-12)
+  - [x] **#69.10** Implement: Export public API from __init__.py (2025-12-12)
+  - [x] **#69.9** Review: Review and approve API design document before implementation (2025-12-12)
+  - [x] **#69.8** Design: Write design document in docs/API_DESIGN.md for review (2025-12-12)
+  - [x] **#69.7** Design: Document API versioning and stability guarantees (2025-12-12)
+  - [x] **#69.6** Design: Define backward compatibility strategy for existing imports (2025-12-12)
+  - [x] **#69.5** Design: Design API for programmatic box detection and validation (2025-12-12)
+  - [x] **#69.4** Design: Design API for fix_file() - parameters, return types, error handling (2025-12-12)
+  - [x] **#69.3** Design: Design API for lint_file() - parameters, return types, error handling (2025-12-12)
+  - [x] **#69.2** Design: Define public API surface (what to export from __init__.py) (2025-12-12)
+  - [x] **#69.1** Design: Analyze current internal API and identify stable functions (2025-12-12)
+    > Analysis complete. See docs/API_ANALYSIS.md for full findings.
 - [x] **#59** Investigate: Validate ignore markers functionality (2025-12-02)
   > During testing of issue #11, ignore markers appeared to not work - boxes marked with <!-- ascii-guard-ignore-start/end --> were still being validated. Need to verify if this is expected behavior or a bug.
   - [x] **#59.6** Document: Update docs if behavior needs clarification (2025-12-02)
@@ -366,7 +366,7 @@
 
 ---
 
-**Last Updated:** Fri Dec 12 12:53:27 CET 2025
+**Last Updated:** Fri Dec 12 13:05:22 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata
