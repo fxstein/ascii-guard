@@ -1,5 +1,0 @@
-This release introduces a comprehensive, well-defined Python API for ascii-guard, making it easy to use the tool programmatically in Python applications and scripts. The API provides stable, well-documented functions for linting, fixing, and detecting ASCII art boxes, with full type hints and comprehensive error handling.
-
-Key improvements include a new FixResult dataclass that replaces the previous tuple return from fix_file(), providing a cleaner and more maintainable API. All file path parameters now accept both string and Path objects for better flexibility. The public API is now exported from the package root, allowing clean imports like `from ascii_guard import lint_file, fix_file, detect_boxes`.
-
-The release includes complete API documentation with a new API_REFERENCE.md guide, updated usage examples in USAGE.md, and enhanced FAQ entries. All existing functionality remains backward compatible, with old import paths still working while new package root imports are recommended. The implementation maintains 96% test coverage and all 247 tests pass successfully.
