@@ -8,9 +8,9 @@
   - [ ] **#69.19** Document: Add API reference documentation
   - [ ] **#69.18** Document: Update FAQ.md to reference official API
   - [ ] **#69.17** Document: Update USAGE.md with official Python API section
-  - [ ] **#69.16** Test: Verify backward compatibility with existing imports
-  - [ ] **#69.15** Test: Add integration tests for API usage patterns
-  - [ ] **#69.14** Test: Add unit tests for public API functions
+  - [x] **#69.16** Test: Verify backward compatibility with existing imports
+  - [x] **#69.15** Test: Add integration tests for API usage patterns
+  - [x] **#69.14** Test: Add unit tests for public API functions
   - [x] **#69.13** Implement: Add programmatic box detection API
   - [x] **#69.12** Implement: Update fix_file() API signature and documentation
   - [x] **#69.11** Implement: Update lint_file() API signature and documentation
@@ -366,7 +366,7 @@
 
 ---
 
-**Last Updated:** Fri Dec 12 12:48:27 CET 2025
+**Last Updated:** Fri Dec 12 12:50:52 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata
