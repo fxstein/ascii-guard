@@ -693,29 +693,92 @@ jobs:
       - run: ascii-guard lint docs/**/*.md
 ```
 
-### Python API (Future)
+### Python API
 
-While not yet officially supported, you can import modules directly:
+ascii-guard provides a stable Python API for programmatic use. Import from the package root:
 
 ```python
-from ascii_guard.detector import detect_boxes
-from ascii_guard.validator import validate_box
+from ascii_guard import lint_file, fix_file, detect_boxes
+from ascii_guard import Box, ValidationError, LintResult, FixResult
+```
 
-# Read file
-with open('README.md') as f:
-    lines = f.readlines()
+#### Basic Usage
 
-# Detect boxes
-boxes = detect_boxes(lines)
+**Lint a file:**
+```python
+from ascii_guard import lint_file
+
+result = lint_file("README.md")
+if result.has_errors:
+    print(f"Found {len(result.errors)} errors")
+    for error in result.errors:
+        print(f"  {error}")
+```
+
+**Fix a file:**
+```python
+from ascii_guard import fix_file
+
+result = fix_file("README.md", dry_run=True)
+print(f"Would fix {result.boxes_fixed} boxes")
+
+# Actually fix the file
+result = fix_file("README.md")
+if result.modified:
+    print(f"Fixed {result.boxes_fixed} boxes in {result.file_path}")
+```
+
+**Detect boxes programmatically:**
+```python
+from ascii_guard import detect_boxes, validate_box, fix_box
+
+# Detect boxes without validation
+boxes = detect_boxes("README.md")
+print(f"Found {len(boxes)} boxes")
 
 # Validate each box
 for box in boxes:
-    errors = validate_box(box, lines)
+    errors = validate_box(box)
     if errors:
-        print(f"Box at line {box.top_line}: {len(errors)} errors")
+        print(f"Box at line {box.top_line + 1} has {len(errors)} errors")
+        # Fix the box
+        fixed_lines = fix_box(box)
+        # Apply fixed_lines to file
 ```
 
-**Note**: The Python API is not yet stable and may change in future versions.
+#### Error Handling
+
+```python
+from ascii_guard import lint_file
+from pathlib import Path
+
+try:
+    result = lint_file("README.md")
+    if result.is_clean:
+        print("File is clean!")
+    else:
+        for error in result.errors:
+            print(f"{error}")
+except FileNotFoundError:
+    print("File not found")
+except OSError as e:
+    print(f"Error reading file: {e}")
+```
+
+#### Path Support
+
+All file path parameters accept both `str` and `Path` objects:
+
+```python
+from pathlib import Path
+from ascii_guard import lint_file
+
+# Both work
+result1 = lint_file("README.md")
+result2 = lint_file(Path("README.md"))
+```
+
+See [API Reference](API_REFERENCE.md) for complete documentation.
 
 ---
 

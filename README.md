@@ -168,6 +168,7 @@ Copyright 2025 Oliver Ratzesberger
 - **PyPI**: https://pypi.org/project/ascii-guard/
 - **Documentation**:
   - [User Guide](docs/USAGE.md) - Complete usage documentation
+  - [Python API Reference](docs/API_REFERENCE.md) - Complete API documentation
   - [Development Guide](docs/DEVELOPMENT.md) - Setup, workflow, architecture
   - [FAQ](docs/FAQ.md) - Frequently asked questions
 

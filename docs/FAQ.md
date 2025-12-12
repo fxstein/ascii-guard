@@ -167,15 +167,26 @@ Yes! Running `ascii-guard` multiple times on the same file produces identical re
 
 ### Can I use it programmatically?
 
-The Python API is not yet officially supported, but you can import modules directly:
+Yes! ascii-guard provides a stable Python API. Import from the package root:
 
 ```python
-from ascii_guard.linter import lint_file, fix_file
+from ascii_guard import lint_file, fix_file, detect_boxes
 
+# Lint a file
 result = lint_file('README.md')
+if result.has_errors:
+    print(f"Found {len(result.errors)} errors")
+
+# Fix a file
+fix_result = fix_file('README.md')
+print(f"Fixed {fix_result.boxes_fixed} boxes")
 ```
 
-**Warning**: The API may change in future versions. Use the CLI for stable interface.
+**Backward compatibility**: Old import paths still work:
+- `from ascii_guard import lint_file` (recommended)
+- `from ascii_guard.linter import lint_file` (still works)
+
+See [USAGE.md](USAGE.md#python-api) for complete examples and [API_REFERENCE.md](API_REFERENCE.md) for full API documentation.
 
 ### Does it preserve file encodings?
 

@@ -2,6 +2,9 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2025-12-12 12:53:27 | fxstein | COMPLETE | 69.19 | Document: Add API reference documentation
+2025-12-12 12:53:27 | fxstein | COMPLETE | 69.18 | Document: Update FAQ.md to reference official API
+2025-12-12 12:53:27 | fxstein | COMPLETE | 69.17 | Document: Update USAGE.md with official Python API section
 2025-12-12 12:50:52 | fxstein | COMPLETE | 69.16 | Test: Verify backward compatibility with existing imports
 2025-12-12 12:50:52 | fxstein | COMPLETE | 69.15 | Test: Add integration tests for API usage patterns
 2025-12-12 12:50:52 | fxstein | COMPLETE | 69.14 | Test: Add unit tests for public API functions

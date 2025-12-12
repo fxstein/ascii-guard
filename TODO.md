@@ -5,9 +5,9 @@
 ## Tasks
 - [ ] **#69** Design and implement well-defined Python API for ascii-guard `-p`
   - [ ] **#69.20** Release: Prepare release notes for Python API feature
-  - [ ] **#69.19** Document: Add API reference documentation
-  - [ ] **#69.18** Document: Update FAQ.md to reference official API
-  - [ ] **#69.17** Document: Update USAGE.md with official Python API section
+  - [x] **#69.19** Document: Add API reference documentation
+  - [x] **#69.18** Document: Update FAQ.md to reference official API
+  - [x] **#69.17** Document: Update USAGE.md with official Python API section
   - [x] **#69.16** Test: Verify backward compatibility with existing imports
   - [x] **#69.15** Test: Add integration tests for API usage patterns
   - [x] **#69.14** Test: Add unit tests for public API functions
@@ -366,7 +366,7 @@
 
 ---
 
-**Last Updated:** Fri Dec 12 12:50:52 CET 2025
+**Last Updated:** Fri Dec 12 12:53:27 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata
