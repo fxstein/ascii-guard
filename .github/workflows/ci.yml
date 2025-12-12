@@ -74,7 +74,7 @@ jobs:
         uses: codecov/codecov-action@v5
         continue-on-error: true
         with:
-          file: ./coverage.xml
+          files: ./coverage.xml
           fail_ci_if_error: false
           token: ${{ secrets.CODECOV_TOKEN }}
 
