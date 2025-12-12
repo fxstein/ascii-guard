@@ -3,7 +3,7 @@
 > **⚠️ IMPORTANT: This file should ONLY be edited through the `todo.ai` script!**
 
 ## Tasks
-- [ ] **#78** Fix: Resolve issue #17 - fix command does not fix all detected errors `-p`
+- [x] **#78** Fix: Resolve issue #17 - fix command does not fix all detected errors `-p`
   - [ ] **#78.6** Update validation document with final test results
   - [ ] **#78.5** Add comprehensive test cases for both bug patterns (nested boxes and junction characters)
   - [ ] **#78.4** Verify fixer handles all edge cases for nested box content with extra border characters
@@ -379,7 +379,7 @@
 
 ---
 
-**Last Updated:** Fri Dec 12 17:23:28 CET 2025
+**Last Updated:** Fri Dec 12 17:32:30 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata
