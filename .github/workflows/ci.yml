@@ -73,10 +73,12 @@ jobs:
         if: github.repository == 'fxstein/ascii-guard' && matrix.python-version == '3.12'
         uses: codecov/codecov-action@v5
         continue-on-error: true
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         with:
           files: ./coverage.xml
           fail_ci_if_error: false
-          token: ${{ secrets.CODECOV_TOKEN }}
+          token: ${{ env.CODECOV_TOKEN }}
 
   build:
     name: Build Package
