@@ -3,6 +3,17 @@
 > **⚠️ IMPORTANT: This file should ONLY be edited through the `todo.ai` script!**
 
 ## Tasks
+- [ ] **#78** Fix: Resolve issue #17 - fix command does not fix all detected errors `-p`
+  - [ ] **#78.6** Update validation document with final test results
+  - [ ] **#78.5** Add comprehensive test cases for both bug patterns (nested boxes and junction characters)
+  - [ ] **#78.4** Verify fixer handles all edge cases for nested box content with extra border characters
+  - [ ] **#78.3** Enhance fixer to adjust bottom border width when junction characters are present
+  - [ ] **#78.2** Fix border width calculation to correctly handle junction characters (▼, ┴, etc.)
+    > FIXED: Updated fixer to calculate top border width correctly (counting only HORIZONTAL_CHARS and JUNCTION_CHARS) and match bottom border width exactly. Also fixed linter.py to merge fixes when multiple boxes share the same line.
+  - [ ] **#78.1** Investigate why fixer reports fixing boxes but errors persist for border width mismatches
+    > User feedback: Fix must ensure (1) continuous borders with no spaces in middle, (2) no duplicate borders or extra corners. Current fix creates spaces where top border has non-border chars. Need to always make borders continuous regardless of validator errors.
+    > FIXED: Updated fixer to calculate top border width (counting only HORIZONTAL_CHARS and JUNCTION_CHARS) and match bottom border width exactly. Fixer now correctly handles cases where top border has non-border characters like ▼ that shouldn't be counted in width.
+    > Root cause identified: fixer builds bottom border from left_col to right_col (11 chars), but top border has only 8 horizontal/junction chars (▼ is not counted). Fixer needs to calculate top border width and match it exactly, not use right_col as endpoint.
 
 ------------------
 
@@ -366,7 +377,7 @@
 
 ---
 
-**Last Updated:** Fri Dec 12 13:05:22 CET 2025
+**Last Updated:** Fri Dec 12 16:20:24 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata

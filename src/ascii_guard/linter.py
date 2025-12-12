@@ -121,22 +121,141 @@ def fix_file(
 
     # Fix each box
     boxes_fixed = 0
+    # Track which lines have been modified and by which boxes
+    modified_lines: dict[int, str] = {}  # line_idx -> fixed_line
+
     for box in boxes:
         # Check if box needs fixing
         errors = validate_box(box)
-        if not errors:
+
+        # Also check if bottom border is non-continuous (has spaces in middle)
+        # or if there are duplicate borders in middle lines
+        # This should be fixed even if validator doesn't complain
+        needs_fixing = bool(errors)
+        if not needs_fixing and len(box.lines) > 1:
+            bottom_line = box.lines[-1]
+            # Check if bottom border has spaces between left_col and right_col
+            # that are not at the edges
+            has_gap = False
+            for i in range(box.left_col + 1, min(len(bottom_line), box.right_col)):
+                if i < len(bottom_line):
+                    char = bottom_line[i]
+                    # If we find a space that's not at the very end, it's a gap
+                    if char == " ":
+                        # Check if there are border chars before and after
+                        has_before = False
+                        has_after = False
+                        for j in range(box.left_col + 1, i):
+                            if j < len(bottom_line) and bottom_line[j] not in {" ", "│", "║", "┃"}:
+                                has_before = True
+                                break
+                        for j in range(i + 1, box.right_col):
+                            if j < len(bottom_line) and bottom_line[j] not in {" ", "│", "║", "┃"}:
+                                has_after = True
+                                break
+                        if has_before and has_after:
+                            has_gap = True
+                            break
+            needs_fixing = has_gap
+
+            # Also check for duplicate borders in middle lines and at boundaries
+            if not needs_fixing:
+                for i in range(1, len(box.lines) - 1):
+                    line = box.lines[i]
+                    # Check for consecutive border chars at boundaries
+                    for j in range(box.left_col, min(len(line), box.right_col + 2)):
+                        # Check for duplicate borders (││)
+                        has_dup = (
+                            j < len(line)
+                            and line[j] in {"│", "║", "┃"}
+                            and j + 1 < len(line)
+                            and line[j + 1] in {"│", "║", "┃"}
+                        )
+                        # Check position validity
+                        is_at_border = (
+                            (j == box.left_col and j + 1 > box.left_col)
+                            or (j == box.right_col and j + 1 > box.right_col)
+                            or (box.left_col < j < box.right_col)
+                        )
+                        if has_dup and is_at_border:
+                            needs_fixing = True
+                            break
+                    if needs_fixing:
+                        break
+
+        if not needs_fixing:
             continue  # Box is already correct
 
         # Fix the box
         fixed_box_lines = fix_box(box)
 
-        # Replace lines in result
+        # Replace lines in result, merging fixes for boxes on the same line
         for i, fixed_line in enumerate(fixed_box_lines):
             line_idx = box.top_line + i
             if line_idx < len(result_lines):
-                result_lines[line_idx] = fixed_line
+                if line_idx in modified_lines:
+                    # This line was already modified by another box - merge the fixes
+                    # Take the maximum length and merge character by character
+                    existing_line = modified_lines[line_idx]
+                    merged_line = list(existing_line)
+
+                    # Extend merged_line if fixed_line is longer
+                    if len(fixed_line) > len(merged_line):
+                        merged_line.extend([" "] * (len(fixed_line) - len(merged_line)))
+
+                    # Merge: use fixed_line characters ONLY in the box's column range
+                    # Each box should only update its own boundaries, not touch other boxes' areas
+                    for col in range(box.left_col, min(box.right_col + 1, len(fixed_line))):
+                        if col < len(fixed_line) and col < len(merged_line):
+                            char = fixed_line[col]
+                            existing_char = merged_line[col]
+                            # Check if this is a corner character
+                            if char in {"┌", "┐", "└", "┘", "╔", "╗", "╚", "╝"}:
+                                # Only overwrite if the existing char is not a corner
+                                # or if this is the right corner for this box
+                                if (
+                                    existing_char not in {"┌", "┐", "└", "┘", "╔", "╗", "╚", "╝"}
+                                    or col == box.right_col
+                                ):
+                                    merged_line[col] = char
+                            else:
+                                # Non-corner character - use the fixed_line character
+                                merged_line[col] = char
+
+                    # Remove any duplicate corners that might have been created
+                    # Look for corner chars immediately after any box's right_col on this line
+                    # We need to check all boxes that affect this line
+                    max_right_col = box.right_col
+                    for other_box in boxes:
+                        if other_box.top_line <= line_idx <= other_box.bottom_line:
+                            max_right_col = max(max_right_col, other_box.right_col)
+
+                    # Remove duplicate corners after the maximum right_col
+                    for col in range(max_right_col + 1, min(len(merged_line), max_right_col + 10)):
+                        if col < len(merged_line) and merged_line[col] in {
+                            "┌",
+                            "┐",
+                            "└",
+                            "┘",
+                            "╔",
+                            "╗",
+                            "╚",
+                            "╝",
+                        }:
+                            # Remove duplicate corner
+                            merged_line[col] = " "
+
+                    modified_lines[line_idx] = "".join(merged_line)
+                else:
+                    # First box to modify this line
+                    modified_lines[line_idx] = fixed_line
 
         boxes_fixed += 1
+
+    # Apply all modifications to result_lines
+    for line_idx, fixed_line in modified_lines.items():
+        if line_idx < len(result_lines):
+            result_lines[line_idx] = fixed_line
 
     # Write back to file if not dry-run
     if not dry_run and boxes_fixed > 0:

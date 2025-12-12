@@ -50,6 +50,15 @@ def fix_box(box: Box) -> list[str]:
     if len(fixed_lines) > 1:
         bottom_line = fixed_lines[-1]
 
+        # Calculate actual top border width (counting only HORIZONTAL_CHARS and JUNCTION_CHARS)
+        # This matches how the validator calculates width
+        top_border_width = 0
+        for i in range(box.left_col, min(len(top_line), box.right_col + 1)):
+            if i < len(top_line):
+                char = top_line[i]
+                if char in HORIZONTAL_CHARS or char in JUNCTION_CHARS:
+                    top_border_width += 1
+
         # Remember if we need to extend the line
         was_too_short = len(bottom_line) < box.right_col + 1
 
@@ -60,14 +69,22 @@ def fix_box(box: Box) -> list[str]:
         # Rebuild bottom border
         bottom_chars = list(bottom_line)
 
-        # Determine corner characters (use defaults if line was extended)
-        left_corner = bottom_chars[box.left_col] if box.left_col < len(bottom_chars) else "└"
-        if was_too_short:
-            # Line was extended with spaces, so use default right corner
-            right_corner = "┘"
+        # Determine corner characters
+        # Use existing corner if valid, otherwise use default
+        bottom_corner_chars = {"┘", "╝", "┙", "┛"}
+        left_corner = (
+            bottom_chars[box.left_col]
+            if box.left_col < len(bottom_chars)
+            and bottom_chars[box.left_col] in {"└", "╚", "┕", "┗"}
+            else "└"
+        )
+
+        # For right corner, check if there's a valid corner at the expected position
+        # If the original bottom border was misaligned, use default corner
+        if box.right_col < len(bottom_chars) and bottom_chars[box.right_col] in bottom_corner_chars:
+            right_corner = bottom_chars[box.right_col]
         else:
-            # Keep the existing right corner character
-            right_corner = bottom_chars[box.right_col] if box.right_col < len(bottom_chars) else "┘"
+            right_corner = "┘"
 
         # Determine which horizontal character to use (preserve junction chars)
         horizontal_char = "─"
@@ -80,24 +97,74 @@ def fix_box(box: Box) -> list[str]:
         column_positions = get_column_positions(box)
         column_positions_abs = {box.left_col + pos for pos in column_positions}
 
-        # Build the bottom border with junction points at column positions
-        for i in range(box.left_col, box.right_col + 1):
-            if i == box.left_col:
-                bottom_chars[i] = left_corner
-            elif i == box.right_col:
-                bottom_chars[i] = right_corner
-            elif i in column_positions_abs:
-                # Add bottom junction at column position
-                bottom_chars[i] = "┴"  # Use standard bottom junction
-            elif i < len(top_line) and top_line[i] in JUNCTION_CHARS:
-                # Preserve other junction characters from top border
-                # Convert top junction to bottom junction
-                junction_map = {"┬": "┴", "╦": "╩"}
-                bottom_chars[i] = junction_map.get(top_line[i], horizontal_char)
+        # Build a continuous bottom border that matches top border WIDTH
+        # The bottom border should be continuous (no gaps), with exactly top_border_width
+        # horizontal/junction characters between the corners
+
+        # Clear the border area first (from left_col to right_col)
+        for i in range(box.left_col, min(len(bottom_chars), box.right_col + 1)):
+            bottom_chars[i] = " "
+
+        # Place left corner
+        bottom_chars[box.left_col] = left_corner
+
+        # Identify junction positions that need to be preserved
+        junction_positions = set()
+        if column_positions_abs:
+            junction_positions.update(column_positions_abs)
+        # Also check for junction chars in top border that should be converted
+        for i in range(box.left_col + 1, box.right_col):
+            if i < len(top_line) and top_line[i] in JUNCTION_CHARS:
+                junction_positions.add(i)
+
+        # Use box.right_col as the definitive right corner position
+        # The box's structural width is determined by corner positions, NOT by counting
+        # horizontal characters. Non-border chars like ▼ are visual indicators inside
+        # the border but don't change the structural width.
+        right_corner_pos = box.right_col
+
+        # Ensure we have enough space in the array
+        if right_corner_pos >= len(bottom_chars):
+            bottom_chars.extend([" "] * (right_corner_pos - len(bottom_chars) + 1))
+
+        # Identify which positions need junction characters
+        # Only place junctions where the top border also has a junction
+        junction_positions_to_place = []
+        for i in sorted(junction_positions):
+            if i > box.left_col and i < right_corner_pos:
+                # Only include if top border has a junction at this position
+                # OR if it's a column position and top border has some junction structure
+                if i < len(top_line) and top_line[i] in JUNCTION_CHARS:
+                    junction_positions_to_place.append(i)
+                elif i in column_positions_abs:
+                    # Column position from content rows - always add junction
+                    # This ensures tables with column separators get proper ┴ in bottom border
+                    junction_positions_to_place.append(i)
+
+        # Place border characters continuously from left_col+1 to right_corner_pos-1
+        # Fill ALL positions - the structural width is determined by corner positions
+        for i in range(box.left_col + 1, right_corner_pos):
+            if i in junction_positions_to_place:
+                if i in column_positions_abs:
+                    bottom_chars[i] = "┴"
+                elif i < len(top_line) and top_line[i] in JUNCTION_CHARS:
+                    junction_map = {"┬": "┴", "╦": "╩"}
+                    bottom_chars[i] = junction_map.get(top_line[i], horizontal_char)
+                else:
+                    # Junction position but top border doesn't have junction - use horizontal
+                    bottom_chars[i] = horizontal_char
             else:
                 bottom_chars[i] = horizontal_char
 
-        fixed_lines[-1] = "".join(bottom_chars)
+        # Place right corner
+        bottom_chars[right_corner_pos] = right_corner
+
+        # Clear any old border characters beyond the right corner
+        for i in range(right_corner_pos + 1, min(len(bottom_chars), box.right_col + 10)):
+            if i < len(bottom_chars):
+                bottom_chars[i] = " "
+
+        fixed_lines[-1] = "".join(bottom_chars).rstrip()
 
     # Fix middle lines (ensure they have proper vertical borders)
     for i in range(1, len(fixed_lines) - 1):
@@ -124,6 +191,50 @@ def fix_box(box: Box) -> list[str]:
 
         line_chars = list(line)
 
+        # Only check for duplicate borders at THIS box's border positions
+        # Don't touch content inside the box (could be nested boxes)
+        # Check for duplicate at left_col (e.g., "││" at start)
+        if (
+            box.left_col < len(line_chars)
+            and box.left_col + 1 < len(line_chars)
+            and line_chars[box.left_col] in {"│", "║", "┃"}
+            and line_chars[box.left_col + 1] in {"│", "║", "┃"}
+        ):
+            # Replace the duplicate after left border with space
+            line_chars[box.left_col + 1] = " "
+
+        # Check for duplicate immediately before left_col (e.g., "││" where second is at left_col)
+        if (
+            box.left_col > 0
+            and box.left_col < len(line_chars)
+            and box.left_col - 1 >= 0
+            and line_chars[box.left_col] in {"│", "║", "┃"}
+            and line_chars[box.left_col - 1] in {"│", "║", "┃"}
+        ):
+            # Replace the duplicate before left border with space
+            line_chars[box.left_col - 1] = " "
+
+        # Check for duplicate at right_col (e.g., "││" at right border)
+        if (
+            box.right_col < len(line_chars)
+            and box.right_col + 1 < len(line_chars)
+            and line_chars[box.right_col] in {"│", "║", "┃"}
+            and line_chars[box.right_col + 1] in {"│", "║", "┃"}
+        ):
+            # Remove the duplicate after right border
+            line_chars.pop(box.right_col + 1)
+
+        # Check for duplicate before right_col (e.g., "││" where second is at right_col)
+        if (
+            box.right_col > 0
+            and box.right_col < len(line_chars)
+            and box.right_col - 1 >= 0
+            and line_chars[box.right_col] in {"│", "║", "┃"}
+            and line_chars[box.right_col - 1] in {"│", "║", "┃"}
+        ):
+            # Replace the duplicate before right border with space (keep position indices stable)
+            line_chars[box.right_col - 1] = " "
+
         # Check if this line is too short and needs the right border moved/added
         if len(line_chars) <= box.right_col:
             # If line has a border character at the end that should be at right_col
@@ -136,16 +247,30 @@ def fix_box(box: Box) -> list[str]:
                 line_chars.append(" ")
         elif len(line_chars) > box.right_col + 1:
             # Line is too long - check for double borders or trailing content
+            # Check for duplicate borders immediately after right_col
             if (
                 box.right_col + 1 < len(line_chars)
                 and line_chars[box.right_col] in {"│", "║", "┃"}
                 and line_chars[box.right_col + 1] in {"│", "║", "┃"}
             ):
-                # Double border detected - truncate after the correct position
-                line_chars = line_chars[: box.right_col + 1]
-            # Note: We don't truncate lines with extra content after the border
-            # as they might be part of flowcharts with multiple boxes per line
-            # This is addressed in task#35.6
+                # Double border detected - remove the duplicate
+                # Find where the duplicate border ends
+                dup_end = box.right_col + 1
+                while dup_end < len(line_chars) and line_chars[dup_end] in {"│", "║", "┃"}:
+                    dup_end += 1
+                # Remove duplicate borders, keep only one at right_col
+                line_chars = line_chars[: box.right_col + 1] + line_chars[dup_end:]
+            # Check for duplicate borders before right_col (inside the box)
+            # Handles cases like "││   CLI  │" with extra borders
+            if (
+                box.right_col > box.left_col + 1
+                and box.right_col - 1 >= 0
+                and box.right_col - 1 < len(line_chars)
+                and line_chars[box.right_col - 1] in {"│", "║", "┃"}
+                and line_chars[box.right_col] in {"│", "║", "┃"}
+            ):
+                # Remove the duplicate border before right_col
+                line_chars = line_chars[: box.right_col - 1] + line_chars[box.right_col :]
 
         # Fix left border if needed
         if box.left_col < len(line_chars) and line_chars[box.left_col] not in {
@@ -169,6 +294,18 @@ def fix_box(box: Box) -> list[str]:
         }:
             line_chars[box.right_col] = "│"
 
-        fixed_lines[i] = "".join(line_chars).rstrip()
+        # Remove any duplicate borders immediately after right_col
+        if box.right_col + 1 < len(line_chars):
+            # Remove consecutive border chars after right_col
+            while box.right_col + 1 < len(line_chars) and line_chars[box.right_col + 1] in {
+                "│",
+                "║",
+                "┃",
+            }:
+                line_chars.pop(box.right_col + 1)
+
+        # Safety check: ensure i is valid
+        if i < len(fixed_lines):
+            fixed_lines[i] = "".join(line_chars).rstrip()
 
     return fixed_lines
