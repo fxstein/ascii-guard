@@ -2,6 +2,25 @@
 # Format: TIMESTAMP | USER | STEP | MESSAGE
 # Generated: 2025-11-16
 #
+2025-12-12 12:59:22 | fxstein | RELEASE INITIATED | Release 2.0.0 initiated! GitHub Actions will complete publishing.
+2025-12-12 12:59:21 | fxstein | CLEANUP | Deleted working files and build artifacts
+2025-12-12 12:59:21 | fxstein | CLEANUP COMMITTED | Committed cleanup of release artifacts
+2025-12-12 12:59:18 | fxstein | GITHUB ACTIONS | Tag pushed, GitHub Actions will handle PyPI publish and GitHub release
+2025-12-12 12:59:16 | fxstein | PUSH TAG | Pushing tag v2.0.0 to origin
+2025-12-12 12:59:15 | fxstein | PUSH MAIN | Pushing main branch to origin
+2025-12-12 12:59:15 | fxstein | TAG CREATED | Git tag v2.0.0 created successfully
+2025-12-12 12:59:14 | fxstein | CREATE TAG | Creating git tag: v2.0.0
+2025-12-12 12:59:14 | fxstein | VERSION COMMITTED | Version change committed: ae0c40e6d6764e9ffc0c8801af5ba170677d646c
+2025-12-12 12:59:10 | fxstein | COMMIT VERSION | Committing version change and release files to git
+2025-12-12 12:59:10 | fxstein | BUILD SUCCESS | Package built successfully
+2025-12-12 12:59:06 | fxstein | BUILD PACKAGE | Building wheel and sdist
+2025-12-12 12:59:05 | fxstein | VALIDATE FILES | Validated and formatted release files
+2025-12-12 12:59:05 | fxstein | COPY NOTES | Copied RELEASE_NOTES.md to RELEASE_SUMMARY.md
+2025-12-12 12:56:27 | fxstein | VERSION OVERRIDE | Version override: 1.6.1 → 2.0.0 (major)
+2025-12-12 12:56:26 | fxstein | VERSION FILES OVERRIDDEN | Updated all version files to 2.0.0
+2025-12-12 12:56:15 | fxstein | PREPARE | Release preview prepared for v1.6.1
+2025-12-12 12:56:15 | fxstein | VERSION FILES UPDATED | Updated all version files to 1.6.1 (not yet committed)
+2025-12-12 12:56:14 | fxstein | RELEASE START | Starting release process: 1.6.0 → 1.6.1 (patch)
 2025-12-02 23:53:00 | fxstein | RELEASE INITIATED | Release 1.6.0 initiated! GitHub Actions will complete publishing.
 2025-12-02 23:53:00 | fxstein | CLEANUP | Deleted working files and build artifacts
 2025-12-02 23:52:59 | fxstein | CLEANUP COMMITTED | Committed cleanup of release artifacts
