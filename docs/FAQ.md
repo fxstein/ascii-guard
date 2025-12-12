@@ -22,18 +22,18 @@ Yes! `ascii-guard` is open source under the Apache 2.0 license.
 
 ### What are the requirements?
 
-- Python 3.12 or later
-- That's it! Zero other dependencies.
+- Python 3.10 or later
+- That's it! Zero other dependencies for Python 3.11+ (Python 3.10 requires `tomli` for config support)
 
-### Why Python 3.12+?
+### Why Python 3.10+?
 
-Python 3.12 is the current stable version (released October 2023) with excellent Unicode support, modern type hints, and will be supported until October 2028.
+Python 3.10+ provides excellent Unicode support, modern type hints, and is widely available. Python 3.11+ uses only the standard library (zero dependencies), while Python 3.10 requires one small dependency (`tomli`) for TOML configuration file support.
 
 ### Can I use it with older Python versions?
 
-No, `ascii-guard` requires Python 3.12+. If you're stuck on an older version, consider:
-- Using `pyenv` to install Python 3.12 alongside your system Python
-- Using Docker with Python 3.12
+No, `ascii-guard` requires Python 3.10+. If you're stuck on an older version, consider:
+- Using `pyenv` to install Python 3.10+ alongside your system Python
+- Using Docker with Python 3.10+
 - Updating your Python installation
 
 ### Does it work on Windows/macOS/Linux?
@@ -99,7 +99,7 @@ Yes! Add to `.pre-commit-config.yaml`:
 
 ```yaml
   - repo: https://github.com/fxstein/ascii-guard
-    rev: v1.5.1
+    rev: v1.6.0
     hooks:
       - id: ascii-guard
 ```

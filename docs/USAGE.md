@@ -38,8 +38,8 @@ pip install -e .
 
 ### Requirements
 
-- Python 3.12 or later
-- No other dependencies required!
+- Python 3.10 or later
+- No other dependencies required! (Python 3.11+ uses stdlib only; Python 3.10 requires `tomli` for config support)
 
 ---
 
@@ -392,7 +392,7 @@ Add to `.pre-commit-config.yaml`:
 ```yaml
 repos:
   - repo: https://github.com/fxstein/ascii-guard
-    rev: v1.5.1
+    rev: v1.6.0
     hooks:
       - id: ascii-guard
         args: [lint]
@@ -425,7 +425,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: '3.10'  # 3.10+ supported
 
       - name: Install ascii-guard
         run: pip install ascii-guard
