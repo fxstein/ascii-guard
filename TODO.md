@@ -16,13 +16,13 @@
   - [ ] **#69.11** Implement: Update lint_file() API signature and documentation
   - [ ] **#69.10** Implement: Export public API from __init__.py
   - [ ] **#69.9** Review: Review and approve API design document before implementation
-  - [ ] **#69.8** Design: Write design document in docs/API_DESIGN.md for review
-  - [ ] **#69.7** Design: Document API versioning and stability guarantees
-  - [ ] **#69.6** Design: Define backward compatibility strategy for existing imports
-  - [ ] **#69.5** Design: Design API for programmatic box detection and validation
-  - [ ] **#69.4** Design: Design API for fix_file() - parameters, return types, error handling
-  - [ ] **#69.3** Design: Design API for lint_file() - parameters, return types, error handling
-  - [ ] **#69.2** Design: Define public API surface (what to export from __init__.py)
+  - [x] **#69.8** Design: Write design document in docs/API_DESIGN.md for review
+  - [x] **#69.7** Design: Document API versioning and stability guarantees
+  - [x] **#69.6** Design: Define backward compatibility strategy for existing imports
+  - [x] **#69.5** Design: Design API for programmatic box detection and validation
+  - [x] **#69.4** Design: Design API for fix_file() - parameters, return types, error handling
+  - [x] **#69.3** Design: Design API for lint_file() - parameters, return types, error handling
+  - [x] **#69.2** Design: Define public API surface (what to export from __init__.py)
   - [x] **#69.1** Design: Analyze current internal API and identify stable functions
     > Analysis complete. See docs/API_ANALYSIS.md for full findings.
 
@@ -366,7 +366,7 @@
 
 ---
 
-**Last Updated:** Fri Dec 12 12:27:39 CET 2025
+**Last Updated:** Fri Dec 12 12:31:53 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata

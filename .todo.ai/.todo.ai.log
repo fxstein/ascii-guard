@@ -2,6 +2,13 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2025-12-12 12:31:53 | fxstein | COMPLETE | 69.8 | Design: Write design document in docs/API_DESIGN.md for review
+2025-12-12 12:31:53 | fxstein | COMPLETE | 69.7 | Design: Document API versioning and stability guarantees
+2025-12-12 12:31:53 | fxstein | COMPLETE | 69.6 | Design: Define backward compatibility strategy for existing imports
+2025-12-12 12:31:53 | fxstein | COMPLETE | 69.5 | Design: Design API for programmatic box detection and validation
+2025-12-12 12:31:53 | fxstein | COMPLETE | 69.4 | Design: Design API for fix_file() - parameters, return types, error handling
+2025-12-12 12:31:52 | fxstein | COMPLETE | 69.3 | Design: Design API for lint_file() - parameters, return types, error handling
+2025-12-12 12:31:52 | fxstein | COMPLETE | 69.2 | Design: Define public API surface (what to export from __init__.py)
 2025-12-12 12:27:39 | fxstein | NOTE | 69.1 | Analysis complete. See docs/API_ANALYSIS.md for full findings.
 2025-12-12 12:27:32 | fxstein | DELETE_NOTE | 69.1 | Deleted 61 line(s) of notes
 2025-12-12 12:25:08 | fxstein | COMPLETE | 69.1 | Design: Analyze current internal API and identify stable functions
@@ -11,7 +18,6 @@ CURRENT API STRUCTURE:
    - linter.lint_file(file_path: str, exclude_code_blocks: bool = False) -> LintResult
      * Well-documented, used in tests, CLI, and examples
      * Stable signature, clear return type
-
    - linter.fix_file(file_path: str, dry_run: bool = False, exclude_code_blocks: bool = False) -> tuple[int, list[str]]
      * Well-documented, used in tests and CLI
      * Returns (boxes_fixed_count, fixed_lines)
@@ -29,7 +35,6 @@ CURRENT API STRUCTURE:
    - validator.validate_box(box: Box) -> list[ValidationError]
      * Used internally, could be useful for programmatic validation
      * Stable signature
-
    - fixer.fix_box(box: Box) -> list[str]
      * Used internally, could be useful for programmatic fixing
      * Stable signature
