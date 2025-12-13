@@ -5,8 +5,16 @@ Complete guide for contributing to ascii-guard development.
 ## Prerequisites
 
 - **Python 3.10+** (3.12+ recommended)
+- **[uv](https://github.com/astral-sh/uv)** - Fast Python package manager
 - **git**
 - **Basic familiarity with**: pytest, type hints, pre-commit hooks
+
+**Install uv:**
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+# or: brew install uv
+# or: pipx install uv
+```
 
 ## Quick Start
 
@@ -15,23 +23,28 @@ Complete guide for contributing to ascii-guard development.
 git clone https://github.com/YOUR-USERNAME/ascii-guard.git
 cd ascii-guard
 
-# One-step setup (creates venv, installs deps, configures hooks, runs tests)
+# One-step setup (creates venv with uv, installs deps, configures hooks, runs tests)
 ./setup.sh
 
-# Activate virtual environment
-source .venv/bin/activate  # Linux/macOS/WSL
-.venv\Scripts\activate     # Windows (cmd.exe)
+# Use uv run for commands (no need to activate venv)
+uv run pytest              # Run tests
+uv run ruff check .        # Lint code
+uv run mypy src/           # Type check
+uv run ascii-guard lint .  # Try the tool
 ```
 
 The `setup.sh` script automatically:
 1. ✅ Checks Python version (3.10+ required)
-2. ✅ Creates isolated virtual environment (.venv)
-3. ✅ Installs ascii-guard in editable mode
-4. ✅ Installs all dev dependencies (pytest, ruff, mypy, pre-commit, build, twine)
-5. ✅ Configures pre-commit git hooks
-6. ✅ Runs verification tests
+2. ✅ Checks for uv installation
+3. ✅ Creates isolated virtual environment (.venv) with uv
+4. ✅ Syncs dependencies from uv.lock
+5. ✅ Installs ascii-guard in editable mode with dev dependencies
+6. ✅ Configures pre-commit git hooks
+7. ✅ Runs verification tests
 
 **Platform compatibility**: Linux, macOS, Windows (WSL/Git Bash)
+
+**Note**: Use `uv run <command>` instead of manually activating the venv. This is the recommended approach with uv.
 
 ---
 
@@ -47,10 +60,10 @@ git checkout -b feature/my-awesome-feature
 # ... edit code ...
 
 # Run tests
-pytest
+uv run pytest
 
 # Run pre-commit checks manually (optional - they run on commit)
-pre-commit run --all-files
+uv run pre-commit run --all-files
 
 # Commit changes (pre-commit hooks run automatically)
 git add .
@@ -130,10 +143,10 @@ We use `ruff` for linting and formatting:
 
 ```bash
 # Check code style
-ruff check src/ tests/
+uv run ruff check src/ tests/
 
 # Auto-format code
-ruff format src/ tests/
+uv run ruff format src/ tests/
 ```
 
 **Key rules**:
@@ -353,10 +366,10 @@ rm -rf .venv
 
 ```bash
 # Run hooks manually to see errors
-pre-commit run --all-files
+uv run pre-commit run --all-files
 
 # Update hooks
-pre-commit autoupdate
+uv run pre-commit autoupdate
 
 # Skip hooks temporarily (use sparingly!)
 git commit --no-verify
@@ -366,24 +379,27 @@ git commit --no-verify
 
 ```bash
 # Run tests with verbose output
-pytest -vv
+uv run pytest -vv
 
 # Run with print statements visible
-pytest -s
+uv run pytest -s
 
 # Run with debugger on failure
-pytest --pdb
+uv run pytest --pdb
 ```
 
 ### Import Errors
 
-Make sure you're in the virtual environment:
+Make sure you're using uv run or the virtual environment:
 ```bash
-# Check which python is active
+# Use uv run (recommended)
+uv run python -c "import ascii_guard"
+
+# Or check which python is active
 which python
 
 # Should show: /path/to/ascii-guard/.venv/bin/python
-# If not, activate:
+# If not, activate manually:
 source .venv/bin/activate
 ```
 
@@ -391,10 +407,10 @@ source .venv/bin/activate
 
 ```bash
 # Run mypy with verbose output
-mypy --show-error-codes src/
+uv run mypy --show-error-codes src/
 
 # Check specific file
-mypy src/ascii_guard/detector.py
+uv run mypy src/ascii_guard/detector.py
 ```
 
 ---

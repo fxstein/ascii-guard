@@ -61,6 +61,17 @@ Enhancement suggestions are welcome! Please:
 
 ## Development Setup
 
+**Prerequisites:**
+- Python 3.10 or later
+- [uv](https://github.com/astral-sh/uv) - Fast Python package manager
+
+**Install uv:**
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+# or: brew install uv
+# or: pipx install uv
+```
+
 **Quick Start:**
 
 ```bash
@@ -71,11 +82,14 @@ cd ascii-guard
 # One-step setup (handles everything automatically)
 ./setup.sh
 
-# Activate virtual environment
-source .venv/bin/activate  # Linux/macOS/WSL
+# Use uv run for commands (no need to activate venv)
+uv run pytest              # Run tests
+uv run ruff check .        # Lint code
+uv run mypy src/           # Type check
+uv run ascii-guard lint .  # Try the tool
 ```
 
-That's it! The script sets up everything you need.
+That's it! The script sets up everything you need using `uv`.
 
 **For detailed development guide (setup, workflow, testing, architecture), see [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md)**
 

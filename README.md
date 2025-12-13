@@ -136,13 +136,25 @@ ascii-guard checks for:
 
 We welcome contributions! Here's how to get started:
 
+**Prerequisites:**
+- Python 3.10+
+- [uv](https://github.com/astral-sh/uv) - Fast Python package manager
+
 ```bash
+# Install uv
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
 # Fork and clone the repository
 git clone https://github.com/YOUR-USERNAME/ascii-guard.git
 cd ascii-guard
 
-# One-step setup
+# One-step setup (creates venv, installs deps, configures hooks)
 ./setup.sh
+
+# Use uv run for commands
+uv run pytest              # Run tests
+uv run ruff check .        # Lint code
+uv run mypy src/           # Type check
 
 # Make your changes and submit a PR
 ```

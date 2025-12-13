@@ -422,10 +422,29 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+        with:
+          version: "latest"
+
+      - name: Set up Python
+        uses: astral-sh/setup-uv@v4
+        with:
+          python-version: '3.10'  # 3.10+ supported
+
+      - name: Install ascii-guard
+        run: uv pip install ascii-guard
+
+      - name: Check ASCII art
+        run: uv run ascii-guard lint **/*.md
+```
+
+**Alternative (using pip):**
+```yaml
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'  # 3.10+ supported
+          python-version: '3.10'
 
       - name: Install ascii-guard
         run: pip install ascii-guard

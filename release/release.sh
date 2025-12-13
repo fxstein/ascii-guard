@@ -73,6 +73,20 @@ validate_environment() {
 
     echo -e "${BLUE}🔍 Validating environment...${NC}"
 
+    # Check if uv is available
+    if ! command -v uv &> /dev/null; then
+        echo -e "${RED}❌ uv not found${NC}"
+        echo ""
+        echo -e "${YELLOW}Fix: Install uv:${NC}"
+        echo -e "${YELLOW}  curl -LsSf https://astral.sh/uv/install.sh | sh${NC}"
+        echo -e "${YELLOW}  or: brew install uv${NC}"
+        echo -e "${YELLOW}  or: pipx install uv${NC}"
+        errors=$((errors + 1))
+    else
+        local uv_version=$(uv --version 2>&1 | awk '{print $2}' || echo "unknown")
+        echo -e "${GREEN}✓ uv: ${uv_version}${NC}"
+    fi
+
     # Check if .venv exists and is properly set up
     if [[ ! -d .venv ]]; then
         echo -e "${RED}❌ Virtual environment not found${NC}"
@@ -106,8 +120,7 @@ validate_environment() {
             echo -e "${RED}   Current:  $current_version (in .venv/bin/python)${NC}"
             echo ""
             echo -e "${YELLOW}Fix: Rebuild virtual environment with correct version:${NC}"
-            echo -e "${YELLOW}  pyenv install $required_version${NC}"
-            echo -e "${YELLOW}  pyenv local $required_version${NC}"
+            echo -e "${YELLOW}  uv python pin $required_version${NC}"
             echo -e "${YELLOW}  rm -rf .venv && ./setup.sh${NC}"
             errors=$((errors + 1))
         else
@@ -122,7 +135,8 @@ validate_environment() {
         echo -e "${RED}❌ python3 -m build: not available in .venv${NC}"
         echo ""
         echo -e "${YELLOW}Fix: Install build module in venv:${NC}"
-        echo -e "${YELLOW}  .venv/bin/pip install build${NC}"
+        echo -e "${YELLOW}  uv pip install build${NC}"
+        echo -e "${YELLOW}  or: ./setup.sh (reinstalls all dependencies)${NC}"
         errors=$((errors + 1))
     fi
 
@@ -618,7 +632,7 @@ execute_release() {
 
     if [[ "$DRY_RUN" == "true" ]]; then
         echo -e "${YELLOW}[DRY-RUN] Would clean previous builds${NC}"
-        echo -e "${YELLOW}[DRY-RUN] Would run: .venv/bin/python -m build${NC}"
+        echo -e "${YELLOW}[DRY-RUN] Would run: uv run python -m build${NC}"
         echo -e "${YELLOW}[DRY-RUN] Package build simulated successfully${NC}"
     else
         log_release_step "BUILD PACKAGE" "Building wheel and sdist"
@@ -626,8 +640,8 @@ execute_release() {
         # Clean previous builds
         rm -rf dist/ build/ src/*.egg-info
 
-        # Build using .venv/bin/python -m build (uses venv, not global python)
-        .venv/bin/python -m build
+        # Build using uv run (uses project venv automatically)
+        uv run python -m build
 
         if [[ $? -ne 0 ]]; then
             echo -e "${RED}❌ Error: Package build failed${NC}"

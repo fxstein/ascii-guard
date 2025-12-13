@@ -25,52 +25,59 @@ When the user says "Release ascii-guard" or similar:
 
 ## CRITICAL: Python Environment Management
 
-**THIS PROJECT USES pyenv + venv FOR ISOLATION:**
+**THIS PROJECT USES uv FOR PACKAGE MANAGEMENT:**
 
 ### Rules for AI Agents:
 
-1. **NEVER install packages in pyenv global Python**
-   - The pyenv global environment MUST remain pristine (only `pip`)
-   - All development packages MUST be in `.venv` only
-
-2. **ALWAYS use `.venv` for package operations**
+1. **ALWAYS use `uv` for package operations**
    - ❌ NEVER run: `pip install <package>`
-   - ✅ ALWAYS run: `.venv/bin/pip install <package>` OR activate venv first
+   - ✅ ALWAYS run: `uv pip install <package>` OR `uv sync --dev`
    - ❌ NEVER run: `python -m pytest` (uses system Python)
-   - ✅ ALWAYS run: `.venv/bin/python -m pytest` (uses venv Python)
+   - ✅ ALWAYS run: `uv run pytest` (uses project venv automatically)
+   - ❌ NEVER run: `python3 -m venv .venv`
+   - ✅ ALWAYS run: `uv venv` to create virtual environment
+
+2. **Check uv is available before operations**
+   ```bash
+   if ! command -v uv &> /dev/null; then
+       echo "ERROR: uv not found!"
+       echo "Install: curl -LsSf https://astral.sh/uv/install.sh | sh"
+       exit 1
+   fi
+   ```
 
 3. **Check venv exists before operations**
    ```bash
    if [[ ! -d .venv ]]; then
        echo "ERROR: Virtual environment not found!"
-       echo "Run: ./setup-venv.sh"
+       echo "Run: ./setup.sh"
        exit 1
    fi
    ```
 
-4. **Pre-commit hooks are configured to use .venv explicitly**
+4. **Pre-commit hooks work with uv venv**
    - `.pre-commit-config.yaml` uses `.venv/bin/python` paths
    - No manual venv activation needed for commits
-   - If pre-commit fails with import errors, venv is broken - rebuild it
+   - If pre-commit fails with import errors, venv is broken - rebuild with `./setup.sh`
 
 5. **If you need to install a package for testing:**
    ```bash
-   .venv/bin/pip install <package>  # Correct
+   uv pip install <package>  # Correct - uses project venv
    # NOT: pip install <package>     # Wrong!
    ```
 
-6. **User has `PIP_REQUIRE_VIRTUALENV=true` set**
-   - This prevents accidental global installs
-   - If you see "Could not find an activated virtualenv" - this is GOOD
-   - It means you're trying to pollute global Python (don't do it!)
-
-7. **NEVER use `PIP_REQUIRE_VIRTUALENV=false` bypass without explicit user approval**
+6. **Use `uv run` for all commands**
+   - ✅ `uv run pytest` - runs pytest in project venv
+   - ✅ `uv run ruff check .` - runs ruff in project venv
+   - ✅ `uv run mypy src/` - runs mypy in project venv
+   - ✅ `uv run python -m build` - runs build in project venv
+   - No need to activate venv manually when using `uv run`
 
 **Why this matters:**
-- During task #24 we polluted pyenv global with pytest/pytest-cov
-- This broke pre-commit hooks (ascii_guard not in global)
-- Task #29 cleaned this up and hardened the setup
-- We must never repeat this mistake
+- uv provides faster, more reliable package management
+- uv run automatically uses the project's venv
+- Eliminates manual venv activation steps
+- Ensures consistent environment across all operations
 
 ---
 
@@ -347,7 +354,7 @@ If the human wants a specific version (e.g., "This should be 1.0.0"):
 
 **What it does:**
 1. Updates version in `pyproject.toml` and `src/ascii_guard/__init__.py`
-2. Builds Python package (`python -m build`)
+2. Builds Python package (`uv run python -m build`)
 3. Commits version changes and release notes
 4. Creates git tag `vX.Y.Z`
 5. Pushes tag and main branch to GitHub
@@ -434,7 +441,7 @@ vim release/RELEASE_NOTES.md  # THIS is the file to edit!
 - ALWAYS wait for human review before execute
 - ALWAYS let the human edit `release/RELEASE_NOTES.md` if they want
 - ALWAYS verify GitHub CLI is authenticated (`gh auth status`)
-- ALWAYS check build dependencies are installed (`python -m build`, available)
+- ALWAYS check build dependencies are installed (`uv run python -m build` works, or `uv pip install build`)
 
 **Editing release notes is MANUAL TEXT EDITING, not code changes.**
 
@@ -458,7 +465,8 @@ vim release/RELEASE_NOTES.md  # THIS is the file to edit!
 - Solution: Ensure new version > current version
 
 **Error: "Package build failed"**
-- Solution: Ensure `python -m build` is installed: `pip install build`
+- Solution: Ensure `python -m build` is installed: `uv pip install build`
+- Or run: `./setup.sh` to install all dev dependencies
 - Check pyproject.toml is valid
 
 **Error: "gh not authenticated"**
