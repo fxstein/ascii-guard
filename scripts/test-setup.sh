@@ -77,11 +77,20 @@ echo -e "${BLUE}🚀 Running setup.sh...${NC}"
 echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo ""
 
+# Temporarily disable set -e to allow verification even if setup.sh fails
+set +e
 ./setup.sh
+SETUP_EXIT_CODE=$?
+set -e
 
 echo ""
 echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-echo -e "${GREEN}✅ Test complete!${NC}"
+if [[ $SETUP_EXIT_CODE -eq 0 ]]; then
+    echo -e "${GREEN}✅ setup.sh completed successfully${NC}"
+else
+    echo -e "${RED}❌ setup.sh failed with exit code ${SETUP_EXIT_CODE}${NC}"
+    echo -e "${YELLOW}Continuing with verification to diagnose issues...${NC}"
+fi
 echo ""
 
 # Step 6: Verify the venv was created by uv
@@ -132,16 +141,35 @@ else
 fi
 echo ""
 
-if [[ $ERRORS -gt 0 ]]; then
-    echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo -e "${RED}❌ Verification failed with $ERRORS error(s)${NC}"
-    echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    exit 1
+# Determine overall test result
+OVERALL_FAILED=false
+
+if [[ $SETUP_EXIT_CODE -ne 0 ]]; then
+    OVERALL_FAILED=true
 fi
 
-echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-echo -e "${GREEN}🎉 All checks complete!${NC}"
-echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+if [[ $ERRORS -gt 0 ]]; then
+    OVERALL_FAILED=true
+fi
+
+# Report final status
+echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+if [[ "$OVERALL_FAILED" == "true" ]]; then
+    echo -e "${RED}❌ Test Summary:${NC}"
+    if [[ $SETUP_EXIT_CODE -ne 0 ]]; then
+        echo -e "${RED}  • setup.sh failed (exit code: ${SETUP_EXIT_CODE})${NC}"
+    fi
+    if [[ $ERRORS -gt 0 ]]; then
+        echo -e "${RED}  • Verification failed with $ERRORS error(s)${NC}"
+    fi
+    echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    exit 1
+else
+    echo -e "${GREEN}🎉 All checks complete!${NC}"
+    echo -e "${GREEN}  • setup.sh completed successfully${NC}"
+    echo -e "${GREEN}  • All verification checks passed${NC}"
+    echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+fi
 echo ""
 echo -e "${YELLOW}To clean up after testing:${NC}"
 echo "  rm -rf .venv"
