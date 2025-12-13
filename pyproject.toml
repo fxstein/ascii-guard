@@ -96,6 +96,10 @@ strict = true
 module = "tests.*"
 disallow_untyped_defs = false
 
+[[tool.mypy.overrides]]
+module = "tomli"
+ignore_missing_imports = true
+
 # Pytest configuration
 [tool.pytest.ini_options]
 testpaths = ["tests"]

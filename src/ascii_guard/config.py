@@ -29,7 +29,7 @@ if sys.version_info >= (3, 11):
     import tomllib
 else:
     try:
-        import tomli as tomllib  # type: ignore[import-not-found]
+        import tomli as tomllib
     except ImportError as e:
         raise ImportError(
             "tomli package is required for Python 3.10. Install with: pip install ascii-guard"
