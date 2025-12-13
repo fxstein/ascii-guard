@@ -43,18 +43,15 @@ jobs:
 
       - name: Run full test suite
         run: |
-          source .venv/bin/activate
-          pytest --cov=ascii_guard --cov-report=term-missing
+          uv run pytest --cov=ascii_guard --cov-report=term-missing
 
       - name: Run pre-commit checks
         run: |
-          source .venv/bin/activate
-          pre-commit run --all-files
+          uv run pre-commit run --all-files
 
       - name: Verify zero dependencies
         run: |
-          source .venv/bin/activate
-          pytest tests/test_stdlib_only.py -v
+          uv run pytest tests/test_stdlib_only.py -v
 
   build-and-publish:
     name: Build and Publish to PyPI
@@ -91,13 +88,11 @@ jobs:
 
       - name: Build package
         run: |
-          source .venv/bin/activate
-          python -m build
+          uv run python -m build
 
       - name: Check package
         run: |
-          source .venv/bin/activate
-          twine check dist/*
+          uv run twine check dist/*
 
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
@@ -135,8 +130,7 @@ jobs:
 
       - name: Build package
         run: |
-          source .venv/bin/activate
-          python -m build
+          uv run python -m build
 
       - name: Extract version from tag
         id: get_version

@@ -126,18 +126,15 @@ jobs:
 
       - name: Check code formatting
         run: |
-          source .venv/bin/activate
-          ruff format --check src/ tests/
+          uv run ruff format --check src/ tests/
 
       - name: Run linter
         run: |
-          source .venv/bin/activate
-          ruff check src/ tests/
+          uv run ruff check src/ tests/
 
       - name: Type checking
         run: |
-          source .venv/bin/activate
-          mypy src/
+          uv run mypy src/
 
       - name: Check for TODO/FIXME comments
         run: |
@@ -170,8 +167,7 @@ jobs:
         run: |
           uv venv
           uv pip install 'bandit[toml]'
-          source .venv/bin/activate
-          bandit -r src/ -ll || true
+          uv run bandit -r src/ -ll || true
 
       - name: Check for secrets
         run: |
@@ -209,8 +205,7 @@ jobs:
 
       - name: Run tests with coverage
         run: |
-          source .venv/bin/activate
-          pytest --cov=ascii_guard --cov-report=term-missing --cov-fail-under=80
+          uv run pytest --cov=ascii_guard --cov-report=term-missing --cov-fail-under=80
 
       - name: Generate coverage comment
         run: |

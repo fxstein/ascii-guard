@@ -45,13 +45,11 @@ jobs:
 
       - name: Run tests
         run: |
-          source .venv/bin/activate
-          pytest -v
+          uv run pytest -v
 
       - name: Verify zero dependencies
         run: |
-          source .venv/bin/activate
-          pytest tests/test_stdlib_only.py -v
+          uv run pytest tests/test_stdlib_only.py -v
 
   dependency-audit:
     name: Dependency Audit
@@ -82,12 +80,10 @@ jobs:
 
       - name: Run safety check on dev dependencies
         run: |
-          source .venv/bin/activate
-          safety check --json || true
+          uv run safety check --json || true
 
       - name: Check for outdated dependencies
         run: |
-          source .venv/bin/activate
           uv pip list --outdated
 
   performance-benchmark:
