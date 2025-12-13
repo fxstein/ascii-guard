@@ -40,19 +40,20 @@
       > Replace setup-python@v6 with astral-sh/setup-uv@v4. Replace 'pip install -e .[dev]' with 'uv sync --frozen --dev' (CRITICAL: use --frozen in CI). Use native caching. See UV_DESIGN.md section 4.6.
     - [ ] **#79.3.1** Update ci.yml: Migrate main CI workflow to use uv
       > Replace setup-python@v6 with astral-sh/setup-uv@v4. Replace pip cache with uv cache (~/.cache/uv). Replace 'python -m venv .venv' with 'uv venv'. Replace 'pip install -e .[dev]' with 'uv sync --frozen --dev' (CRITICAL: use --frozen in CI). Remove 'pip upgrade' step. See UV_DESIGN.md section 4.6 for details.
-  - [ ] **#79.2** Phase 2: Local Development - Install uv and test locally
-    - [ ] **#79.2.9** Update .gitignore: Ensure uv.lock is tracked (not ignored)
+  - [x] **#79.2** Phase 2: Local Development - Install uv and test locally
+    > Phase 2 complete. Note: uv sync --dev doesn't install dev dependencies automatically - need to use 'uv pip install -e .[dev]' after uv sync. This is expected behavior - uv sync only installs runtime deps, dev deps need explicit install. All tests passed: pre-commit, build, zero deps verification, frozen sync.
+    - [x] **#79.2.9** Update .gitignore: Ensure uv.lock is tracked (not ignored)
       > Check .gitignore to ensure uv.lock is NOT ignored. If any pattern matches it, add exclusion. uv.lock must be committed to repository for reproducible builds. See UV_DESIGN.md section 4.3.1.
-    - [ ] **#79.2.8** Pin Python version: Run uv python pin 3.14.2 to explicitly manage Python version
+    - [x] **#79.2.8** Pin Python version: Run uv python pin 3.14.2 to explicitly manage Python version
       > Use 'uv python pin 3.14.2' to explicitly manage Python version. Ensures uv run always uses exact interpreter version, preventing inconsistent local environments. See UV_DESIGN.md section 4.1.
-    - [ ] **#79.2.7** Generate uv.lock: Run uv sync --dev to create lock file and commit to repo
+    - [x] **#79.2.7** Generate uv.lock: Run uv sync --dev to create lock file and commit to repo
       > CRITICAL: Lock file ensures 100% reproducible builds. Run 'uv sync --dev' to generate uv.lock, then commit it. CI should use 'uv sync --frozen --dev' to fail if lock file is out of sync. See UV_DESIGN.md section 4.3.1.
-    - [ ] **#79.2.6** Test zero deps: Verify zero dependency verification works with uv
-    - [ ] **#79.2.5** Test build: Verify python -m build works with uv-installed packages
-    - [ ] **#79.2.4** Test pre-commit: Verify pre-commit hooks work with uv venv
-    - [ ] **#79.2.3** Test uv sync: Install dependencies with uv sync --dev
-    - [ ] **#79.2.2** Test uv venv: Create virtual environment with uv venv
-    - [ ] **#79.2.1** Install uv: Install uv locally and verify installation
+    - [x] **#79.2.6** Test zero deps: Verify zero dependency verification works with uv
+    - [x] **#79.2.5** Test build: Verify python -m build works with uv-installed packages
+    - [x] **#79.2.4** Test pre-commit: Verify pre-commit hooks work with uv venv
+    - [x] **#79.2.3** Test uv sync: Install dependencies with uv sync --dev
+    - [x] **#79.2.2** Test uv venv: Create virtual environment with uv venv
+    - [x] **#79.2.1** Install uv: Install uv locally and verify installation
   - [x] **#79.1** Phase 1: Preparation - Analysis and design documents completed
     - [x] **#79.1.2** Create design document: Design complete migration plan to uv
     - [x] **#79.1.1** Create analysis document: Analyze current venv, pip, pipx, Python version management
@@ -432,7 +433,7 @@
 
 ---
 
-**Last Updated:** Sat Dec 13 10:59:17 CET 2025
+**Last Updated:** Sat Dec 13 11:08:51 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata
