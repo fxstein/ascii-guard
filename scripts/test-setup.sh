@@ -77,11 +77,11 @@ echo -e "${BLUE}🚀 Running setup.sh...${NC}"
 echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo ""
 
-# Temporarily disable set -e to allow verification even if setup.sh fails
+# Disable set -e for setup.sh and all verification steps
+# This allows all verification to run even if setup.sh or individual checks fail
 set +e
 ./setup.sh
 SETUP_EXIT_CODE=$?
-set -e
 
 echo ""
 echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
@@ -96,12 +96,12 @@ echo ""
 # Step 6: Verify the venv was created by uv
 echo -e "${BLUE}🔍 Verifying venv was created by uv...${NC}"
 if [[ -f .venv/pyvenv.cfg ]]; then
-    if grep -q "uv = " .venv/pyvenv.cfg; then
+    if grep -q "uv = " .venv/pyvenv.cfg 2>/dev/null; then
         echo -e "${GREEN}  ✓ Venv created by uv${NC}"
-        grep "uv = " .venv/pyvenv.cfg | sed 's/^/    /'
+        grep "uv = " .venv/pyvenv.cfg 2>/dev/null | sed 's/^/    /' || true
     else
         echo -e "${YELLOW}  ⚠️  Venv does not appear to be created by uv${NC}"
-        cat .venv/pyvenv.cfg
+        cat .venv/pyvenv.cfg 2>/dev/null || echo "  (could not read pyvenv.cfg)"
     fi
 else
     echo -e "${RED}  ❌ No pyvenv.cfg found${NC}"
@@ -151,6 +151,9 @@ fi
 if [[ $ERRORS -gt 0 ]]; then
     OVERALL_FAILED=true
 fi
+
+# Re-enable set -e for final status reporting (we want to exit properly)
+set -e
 
 # Report final status
 echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
