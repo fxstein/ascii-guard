@@ -32,10 +32,26 @@ AI-generated ASCII flowcharts and diagrams often have subtle formatting errors w
 
 ## 📦 Installation
 
-### For Users (AI Agents)
+### Recommended: Using uv (Fastest)
+
+```bash
+# Install uv (if not already installed)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Install ascii-guard
+uv tool install ascii-guard
+```
+
+### Alternative: Using pip
 
 ```bash
 pip install ascii-guard
+```
+
+### Alternative: Using pipx (Isolated Environment)
+
+```bash
+pipx install ascii-guard
 ```
 
 That's it! No other dependencies needed.
