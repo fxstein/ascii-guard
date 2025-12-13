@@ -118,6 +118,7 @@ addopts = [
 [tool.coverage.run]
 source = ["src"]
 branch = true
+disable_warnings = ["module-not-measured"]
 
 [tool.coverage.report]
 exclude_lines = [
