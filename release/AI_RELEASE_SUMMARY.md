@@ -1,5 +1,0 @@
-This release completes the comprehensive migration from traditional Python package management (venv, pip, pyenv) to uv, a modern and fast package manager. The migration eliminates all manual virtual environment management and pip installations in favor of uv's unified toolchain, significantly improving developer experience and CI/CD reliability.
-
-Key improvements include comprehensive updates to all CI/CD workflows using uv's native caching and frozen lock file support, complete migration of local development scripts (setup.sh, release.sh) to use uv commands, and thorough documentation updates across all developer-facing guides. The migration maintains full backward compatibility while providing faster dependency resolution, better reproducibility through uv.lock, and simplified developer workflows.
-
-Developers can now set up the project with a single command using uv, and all CI/CD pipelines benefit from faster builds and more reliable dependency management. The zero-dependency promise of ascii-guard remains intact, with verification tests confirming the package works standalone without external runtime dependencies.
