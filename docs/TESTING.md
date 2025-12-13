@@ -394,8 +394,60 @@ fixtures_dir = Path(__file__).parent / "fixtures"
 **Coverage not measuring**:
 ```bash
 # Install coverage
-pip install pytest-cov
+uv pip install pytest-cov
 ```
+
+## Testing the Setup Process
+
+The setup process (`setup.sh`) can be tested to ensure it works correctly, especially after changes to dependencies or the setup script itself.
+
+### Automated Setup Testing
+
+Use the test script to verify `setup.sh` works from scratch:
+
+```bash
+# Run the test script (removes .venv and tests from scratch)
+./scripts/test-setup.sh
+```
+
+**What it tests:**
+1. Removes existing `.venv` and build artifacts
+2. Verifies prerequisites (`uv`, `python3`)
+3. Runs `setup.sh` from scratch
+4. Verifies venv was created by `uv`
+5. Verifies all packages and tools are working
+
+**When to use:**
+- After modifying `setup.sh`
+- After updating dependencies in `pyproject.toml`
+- After uv migration or version changes
+- Before releasing a new version
+- When onboarding new developers
+
+### Manual Setup Testing
+
+For manual verification:
+
+```bash
+# Clean up existing environment
+rm -rf .venv dist/ build/ src/*.egg-info
+
+# Run setup
+./setup.sh
+
+# Verify everything works
+uv run pytest
+uv run ruff check .
+uv run mypy src/
+uv run ascii-guard --version
+```
+
+### CI/CD Setup Validation
+
+The setup process is implicitly tested in CI/CD:
+- All GitHub Actions workflows run `uv sync --frozen --dev`
+- This validates that `uv.lock` is correct and dependencies install correctly
+- See `.github/workflows/ci.yml` for the setup steps
 
 ## Resources
 

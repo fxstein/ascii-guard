@@ -362,6 +362,36 @@ rm -rf .venv
 ./setup.sh
 ```
 
+### Testing the Setup Process
+
+To verify that `setup.sh` works correctly (especially after changes):
+
+```bash
+# Run the test script (removes .venv and tests from scratch)
+./scripts/test-setup.sh
+```
+
+This script:
+1. Removes existing `.venv` and build artifacts
+2. Verifies prerequisites (`uv`, `python3`)
+3. Runs `setup.sh` from scratch
+4. Verifies venv was created by `uv`
+5. Verifies all packages and tools are working
+
+**Manual testing:**
+```bash
+# Clean up existing environment
+rm -rf .venv dist/ build/ src/*.egg-info
+
+# Run setup
+./setup.sh
+
+# Verify everything works
+uv run pytest
+uv run ruff check .
+uv run mypy src/
+```
+
 ### Pre-commit Hook Failures
 
 ```bash

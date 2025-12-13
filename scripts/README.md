@@ -62,6 +62,44 @@ Monitor a specific workflow by name.
 
 ## Python Environment
 
+### `test-setup.sh`
+
+Tests the `setup.sh` script from scratch by removing the existing venv and verifying a clean setup.
+
+**Usage:**
+```bash
+./scripts/test-setup.sh
+```
+
+**What it does:**
+1. Backs up current venv state (for reference)
+2. Removes existing `.venv` and build artifacts
+3. Verifies prerequisites (`uv`, `python3`)
+4. Runs `setup.sh` from scratch
+5. Verifies venv was created by `uv`
+6. Verifies all packages and tools are working
+
+**Returns:**
+- `0` - All checks passed
+- `1` - Prerequisites missing or verification failed
+
+**Example:**
+```bash
+# Test setup.sh after making changes
+./scripts/test-setup.sh
+
+# Clean up after testing (optional)
+rm -rf .venv
+```
+
+**Use cases:**
+- Testing `setup.sh` changes
+- Verifying uv migration works correctly
+- Ensuring new developers can set up the project
+- CI/CD validation of setup process
+
+---
+
 ### `check-python-env.sh`
 
 Validates the Python environment setup (see task #30).
