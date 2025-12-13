@@ -2,6 +2,9 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2025-12-13 16:41:13 | fxstein | COMPLETE | 79.6.3 | Standardize CI Workflows: Replace 'uv pip install' with 'uv sync --frozen --dev' in all workflows
+2025-12-13 16:41:12 | fxstein | COMPLETE | 79.6.2 | Update Cursor Rules: Refresh .cursor/rules to explicitly prefer uv commands
+2025-12-13 16:41:12 | fxstein | COMPLETE | 79.6.1 | Update Developer Documentation: Replace legacy venv/pip instructions in DEVELOPMENT.md, USAGE.md, CI_CD.md
 2025-12-13 16:39:50 | fxstein | NOTE | 79.6 | Phase 6 complete. All implementation gaps addressed: CI workflows standardized (removed redundant uv pip install), developer documentation updated to use uv, and Cursor rules enhanced to explicitly prefer uv sync over uv pip install. All workflows now use strict lockfile enforcement.
 2025-12-13 16:39:50 | fxstein | COMPLETE | 79.6 | Phase 6: Implementation Gaps - Address remaining documentation and workflow gaps
 2025-12-13 16:06:12 | fxstein | ADD_SUBTASK | 79.6.2 | Standardize CI Workflows: Replace 'uv pip install' with 'uv sync --frozen --dev' in all workflows (parent: #79.6)
