@@ -4,9 +4,7 @@
 
 ## Tasks
 - [ ] **#79** Migrate project to uv: Complete migration from venv/pip to uv package manager `-p`
-  > See docs/migration/UV_ANALYSIS.md for complete analysis. See docs/migration/UV_DESIGN.md for detailed migration design (updated with gap analysis recommendations). See docs/migration/UV_DESIGN_GAP_ANALYSIS.md for security and reliability improvements (SHA pinning, permissions, lock file strategy, native caching). Migration eliminates all venv/pip/pyenv usage in favor of uv, while maintaining full compatibility with existing workflows.
-  > Added docs/migration/UV_DESIGN_GAP_ANALYSIS.md with security and reliability improvements (SHA pinning, permissions, lock file) to be incorporated into migration.
-  > See docs/migration/UV_ANALYSIS.md for complete analysis of current setup (venv, pip, pipx, Python version management, CI/CD, pre-commit hooks). See docs/migration/UV_DESIGN.md for detailed migration design. Migration eliminates all venv/pip/pyenv usage in favor of uv, while maintaining full compatibility with existing workflows.
+  > See docs/migration/UV_ANALYSIS.md for complete analysis of current setup (venv, pip, pipx, Python version management, CI/CD, pre-commit hooks). See docs/migration/UV_DESIGN.md for detailed migration design with security and reliability improvements (lock file strategy, SHA pinning, permissions, native caching). Migration eliminates all venv/pip/pyenv usage in favor of uv, while maintaining full compatibility with existing workflows.
   - [ ] **#79.5** Phase 5: Testing and Release - Full testing and release new version
     - [ ] **#79.5.5** Release new version: Publish migration as new version
     - [ ] **#79.5.4** Test developer setup: Verify new developers can set up with uv
@@ -23,24 +21,32 @@
     - [ ] **#79.4.1** Update setup.sh: Convert to use uv venv and uv sync
       > Replace 'python3 -m venv .venv' with 'uv venv'. Replace 'pip install --upgrade pip' and 'pip install -e .[dev]' with 'uv sync --dev'. Add uv installation check. Keep pre-commit installation (works as-is). See UV_DESIGN.md section 4.7.
   - [ ] **#79.3** Phase 3: CI/CD Migration - Update all GitHub Actions workflows
+    - [ ] **#79.3.10** Update zero dependency verification: Replace 'pip list' with 'uv pip list' in CI workflows
+      > Update CI workflows that verify zero dependencies: Replace 'pip list' with 'uv pip list' in verify-zero-dependencies job (ci.yml line 141) and release.yml. Same output format, minimal changes needed. See UV_DESIGN.md section 6.2.
+    - [ ] **#79.3.9** Configure Dependabot: Set up Dependabot to manage GitHub Actions SHA updates
+      > Configure Dependabot to automatically manage GitHub Actions SHA updates. This automates security updates for pinned action SHAs. See UV_DESIGN.md section 4.6.1 and .github/dependabot.yml.
     - [ ] **#79.3.8** Use native caching: Switch to enable-cache: true in setup-uv instead of manual cache
-      > Use 'enable-cache: true' in setup-uv action with 'cache-dependency-glob: uv.lock'. Replaces manual cache configuration. See UV_DESIGN_GAP_ANALYSIS.md section 3.1.
+      > Use 'enable-cache: true' in setup-uv action with 'cache-dependency-glob: uv.lock'. Replaces manual cache configuration. See UV_DESIGN.md section 5.3.
     - [ ] **#79.3.7** Pin action SHAs: Pin all GitHub Actions to commit SHAs instead of tags
-      > Pin all Actions to commit SHAs instead of tags for immutable security. Configure Dependabot to manage SHA updates. See UV_DESIGN_GAP_ANALYSIS.md section 1.1.
+      > Pin all Actions to commit SHAs instead of tags for immutable security. Configure Dependabot to manage SHA updates. See UV_DESIGN.md section 4.6.1.
     - [ ] **#79.3.6** Add workflow permissions: Set permissions: contents: read to all workflows (least privilege)
-      > Set 'permissions: contents: read' as default (least privilege). Only grant write permissions to specific jobs that need them (e.g., releases). See UV_DESIGN_GAP_ANALYSIS.md section 1.2.
+      > Set 'permissions: contents: read' as default (least privilege). Only grant write permissions to specific jobs that need them (e.g., releases). See UV_DESIGN.md section 4.6.1.
     - [ ] **#79.3.5** Test CI workflows: Verify all workflows pass with uv
     - [ ] **#79.3.4** Update release.yml: Migrate release workflow to use uv (most critical)
-      > CRITICAL: Release workflow is most important - test thoroughly. Update validate-release, build-and-publish, and create-github-release jobs. Keep build/twine commands (they work with uv-installed packages). See UV_DESIGN.md section 4.6 for CI/CD migration details.
+      > CRITICAL: Release workflow is most important - test thoroughly. Update validate-release, build-and-publish, and create-github-release jobs. Replace 'pip install -e .[dev]' with 'uv sync --frozen --dev' (use --frozen in CI). Keep build/twine commands (they work with uv-installed packages). See UV_DESIGN.md section 4.6 for CI/CD migration details.
     - [ ] **#79.3.3** Update scheduled.yml: Migrate scheduled tests workflow to use uv
+      > Replace setup-python@v6 with astral-sh/setup-uv@v4. Replace 'pip install -e .[dev]' with 'uv sync --frozen --dev' (CRITICAL: use --frozen in CI). Use native caching. See UV_DESIGN.md section 4.6.
     - [ ] **#79.3.2** Update pr-checks.yml: Migrate PR checks workflow to use uv
+      > Replace setup-python@v6 with astral-sh/setup-uv@v4. Replace 'pip install -e .[dev]' with 'uv sync --frozen --dev' (CRITICAL: use --frozen in CI). Use native caching. See UV_DESIGN.md section 4.6.
     - [ ] **#79.3.1** Update ci.yml: Migrate main CI workflow to use uv
-      > Replace setup-python@v6 with astral-sh/setup-uv@v4. Replace pip cache with uv cache (~/.cache/uv). Replace 'python -m venv .venv' with 'uv venv'. Replace 'pip install -e .[dev]' with 'uv sync --dev'. Remove 'pip upgrade' step. See UV_DESIGN.md section 4.6 for details.
+      > Replace setup-python@v6 with astral-sh/setup-uv@v4. Replace pip cache with uv cache (~/.cache/uv). Replace 'python -m venv .venv' with 'uv venv'. Replace 'pip install -e .[dev]' with 'uv sync --frozen --dev' (CRITICAL: use --frozen in CI). Remove 'pip upgrade' step. See UV_DESIGN.md section 4.6 for details.
   - [ ] **#79.2** Phase 2: Local Development - Install uv and test locally
+    - [ ] **#79.2.9** Update .gitignore: Ensure uv.lock is tracked (not ignored)
+      > Check .gitignore to ensure uv.lock is NOT ignored. If any pattern matches it, add exclusion. uv.lock must be committed to repository for reproducible builds. See UV_DESIGN.md section 4.3.1.
     - [ ] **#79.2.8** Pin Python version: Run uv python pin 3.14.2 to explicitly manage Python version
-      > Use 'uv python pin 3.14.2' to explicitly manage Python version. Ensures uv run always uses exact interpreter version, preventing inconsistent local environments. See UV_DESIGN_GAP_ANALYSIS.md section 4.1.
+      > Use 'uv python pin 3.14.2' to explicitly manage Python version. Ensures uv run always uses exact interpreter version, preventing inconsistent local environments. See UV_DESIGN.md section 4.1.
     - [ ] **#79.2.7** Generate uv.lock: Run uv sync --dev to create lock file and commit to repo
-      > CRITICAL: Lock file ensures 100% reproducible builds. Run 'uv sync --dev' to generate uv.lock, then commit it. CI should use 'uv sync --frozen --dev' to fail if lock file is out of sync. See UV_DESIGN_GAP_ANALYSIS.md section 2.1 and UV_DESIGN.md section 4.3.1.
+      > CRITICAL: Lock file ensures 100% reproducible builds. Run 'uv sync --dev' to generate uv.lock, then commit it. CI should use 'uv sync --frozen --dev' to fail if lock file is out of sync. See UV_DESIGN.md section 4.3.1.
     - [ ] **#79.2.6** Test zero deps: Verify zero dependency verification works with uv
     - [ ] **#79.2.5** Test build: Verify python -m build works with uv-installed packages
     - [ ] **#79.2.4** Test pre-commit: Verify pre-commit hooks work with uv venv
@@ -426,7 +432,7 @@
 
 ---
 
-**Last Updated:** Sat Dec 13 10:40:15 CET 2025
+**Last Updated:** Sat Dec 13 10:59:17 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata
