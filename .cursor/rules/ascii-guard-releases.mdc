@@ -31,11 +31,17 @@ When the user says "Release ascii-guard" or similar:
 
 1. **ALWAYS use `uv` for package operations**
    - ❌ NEVER run: `pip install <package>`
-   - ✅ ALWAYS run: `uv pip install <package>` OR `uv sync --dev`
+   - ✅ PREFER: `uv sync --frozen --dev` for installing project dependencies (enforces lockfile)
+   - ✅ ALTERNATIVE: `uv pip install <package>` for installing individual tools/packages
    - ❌ NEVER run: `python -m pytest` (uses system Python)
    - ✅ ALWAYS run: `uv run pytest` (uses project venv automatically)
    - ❌ NEVER run: `python3 -m venv .venv`
    - ✅ ALWAYS run: `uv venv` to create virtual environment
+
+   **Dependency Installation Priority:**
+   - **For project dependencies (from pyproject.toml):** Use `uv sync --frozen --dev` (strict lockfile enforcement)
+   - **For CI/CD workflows:** ALWAYS use `uv sync --frozen --dev` (never `uv pip install -e ".[dev]"`)
+   - **For installing tools (bandit, safety, etc.):** Use `uv pip install <tool>` (acceptable for one-off tools)
 
 2. **Check uv is available before operations**
    ```bash
@@ -62,8 +68,14 @@ When the user says "Release ascii-guard" or similar:
 
 5. **If you need to install a package for testing:**
    ```bash
-   uv pip install <package>  # Correct - uses project venv
-   # NOT: pip install <package>     # Wrong!
+   # For project dependencies (from pyproject.toml/uv.lock):
+   uv sync --frozen --dev  # Preferred - enforces lockfile
+
+   # For one-off tools or packages not in lockfile:
+   uv pip install <package>  # Acceptable for tools like bandit, safety
+
+   # NEVER:
+   pip install <package>     # Wrong! Bypasses uv
    ```
 
 6. **Use `uv run` for all commands**
@@ -441,7 +453,7 @@ vim release/RELEASE_NOTES.md  # THIS is the file to edit!
 - ALWAYS wait for human review before execute
 - ALWAYS let the human edit `release/RELEASE_NOTES.md` if they want
 - ALWAYS verify GitHub CLI is authenticated (`gh auth status`)
-- ALWAYS check build dependencies are installed (`uv run python -m build` works, or `uv pip install build`)
+- ALWAYS check build dependencies are installed (`uv run python -m build` works, or run `uv sync --dev` to install all dependencies)
 
 **Editing release notes is MANUAL TEXT EDITING, not code changes.**
 
@@ -465,7 +477,7 @@ vim release/RELEASE_NOTES.md  # THIS is the file to edit!
 - Solution: Ensure new version > current version
 
 **Error: "Package build failed"**
-- Solution: Ensure `python -m build` is installed: `uv pip install build`
+- Solution: Ensure dependencies are installed: `uv sync --dev` (preferred) or `uv pip install build`
 - Or run: `./setup.sh` to install all dev dependencies
 - Check pyproject.toml is valid
 

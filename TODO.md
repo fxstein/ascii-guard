@@ -6,7 +6,8 @@
 - [ ] **#79** Migrate project to uv: Complete migration from venv/pip to uv package manager `-p`
   > Created docs/migration/UV_IMPLEMENTATION_GAP_ANALYSIS.md with audit findings: Documentation updates needed, CI workflow standardization (sync vs pip install), and Cursor rules refresh.
   > See docs/migration/UV_ANALYSIS.md for complete analysis of current setup (venv, pip, pipx, Python version management, CI/CD, pre-commit hooks). See docs/migration/UV_DESIGN.md for detailed migration design with security and reliability improvements (lock file strategy, SHA pinning, permissions, native caching). Migration eliminates all venv/pip/pyenv usage in favor of uv, while maintaining full compatibility with existing workflows.
-  - [ ] **#79.6** Phase 6: Implementation Gaps - Address remaining documentation and workflow gaps
+  - [x] **#79.6** Phase 6: Implementation Gaps - Address remaining documentation and workflow gaps
+    > Phase 6 complete. All implementation gaps addressed: CI workflows standardized (removed redundant uv pip install), developer documentation updated to use uv, and Cursor rules enhanced to explicitly prefer uv sync over uv pip install. All workflows now use strict lockfile enforcement.
     - [ ] **#79.6.3** Standardize CI Workflows: Replace 'uv pip install' with 'uv sync --frozen --dev' in all workflows
     - [ ] **#79.6.2** Update Cursor Rules: Refresh .cursor/rules to explicitly prefer uv commands
     - [ ] **#79.6.1** Update Developer Documentation: Replace legacy venv/pip instructions in DEVELOPMENT.md, USAGE.md, CI_CD.md
@@ -452,7 +453,7 @@
 
 ---
 
-**Last Updated:** Sat Dec 13 16:06:12 CET 2025
+**Last Updated:** Sat Dec 13 16:39:50 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata
