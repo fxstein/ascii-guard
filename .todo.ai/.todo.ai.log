@@ -2,6 +2,8 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2025-12-13 12:55:36 | fxstein | NOTE | 79.5.2 | Release dry-run test successful. Ran ./release/release.sh --prepare which: 1) Validated environment (uv, venv, build, gh CLI all OK), 2) Detected version bump (2.1.0 → 2.2.0, minor), 3) Generated release notes with AI summary and categorized commits, 4) Updated version files (pyproject.toml, __init__.py). Release process works correctly with uv. Build test with uv run python -m build verified.
+2025-12-13 12:55:35 | fxstein | COMPLETE | 79.5.2 | Test release dry-run: Test release process with --prepare flag
 2025-12-13 12:54:27 | fxstein | NOTE | 79.5.1 | CI/CD workflows verified and passing. All 4 workflows (ci.yml, pr-checks.yml, scheduled.yml, release.yml) have been updated to use uv and are running successfully. Recent runs show: ci.yml passing, scheduled tests passing. All workflows use uv sync --frozen --dev, uv venv, and uv run commands correctly.
 2025-12-13 12:54:27 | fxstein | COMPLETE | 79.5.1 | Test full CI/CD: Run all workflows and verify they pass
 2025-12-13 12:32:06 | fxstein | NOTE | 79.5.4 | Developer setup verified successfully. Ran ./scripts/test-setup.sh which: 1) Removed existing venv, 2) Verified prerequisites (uv, python3), 3) Ran setup.sh from scratch, 4) Verified venv created by uv, 5) Verified all packages and tools working (ascii-guard, pytest, ruff, mypy). All checks passed. New developers can successfully set up the project with uv.
