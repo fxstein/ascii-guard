@@ -2,6 +2,21 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2025-12-13 16:06:12 | fxstein | ADD_SUBTASK | 79.6.2 | Standardize CI Workflows: Replace 'uv pip install' with 'uv sync --frozen --dev' in all workflows (parent: #79.6)
+2025-12-13 16:05:55 | fxstein | RESOLVE_CONFLICTS | 1 | Resolved 1 duplicate task ID(s)
+2025-12-13 16:05:19 | fxstein | ADD_SUBTASK | 79.6.1 | Standardize CI Workflows: Replace 'uv pip install' with 'uv sync --frozen --dev' in all workflows (parent: #79.6)
+2025-12-13 16:05:19 | fxstein | ADD_SUBTASK | 79.6.1 | Update Developer Documentation: Replace legacy venv/pip instructions in DEVELOPMENT.md, USAGE.md, CI_CD.md (parent: #79.6)
+2025-12-13 16:05:13 | fxstein | ADD_SUBTASK | 79.6 | Phase 6: Implementation Gaps - Address remaining documentation and workflow gaps (parent: #79)
+2025-12-13 16:05:08 | fxstein | DELETE | 81 | 79.6
+2025-12-13 16:04:39 | fxstein | RESOLVE_CONFLICTS | 1 | Resolved 1 duplicate task ID(s)
+2025-12-13 16:04:15 | fxstein | DELETE | 81 | 79.6
+2025-12-13 16:04:15 | fxstein | DELETE | 82 | 79.6
+2025-12-13 16:01:17 | fxstein | DELETE | 81 | 79.6
+2025-12-13 15:59:24 | fxstein | ADD | 82 | 79.6
+2025-12-13 15:59:24 | fxstein | ADD | 82 | 79.6
+2025-12-13 15:59:24 | fxstein | ADD | 81 | 79.6
+2025-12-13 15:59:24 | fxstein | ADD | 80 | 79
+2025-12-13 15:57:20 | fxstein | NOTE | 79 | Created docs/migration/UV_IMPLEMENTATION_GAP_ANALYSIS.md with audit findings: Documentation updates needed, CI workflow standardization (sync vs pip install), and Cursor rules refresh.
 2025-12-13 15:51:49 | fxstein | NOTE | 79.5 | Phase 5 complete. All testing and release tasks completed successfully: CI/CD workflows verified, release dry-run tested, zero dependencies verified, developer setup tested, and version 2.2.0 released. The uv migration is fully tested and published.
 2025-12-13 15:51:49 | fxstein | COMPLETE | 79.5 | Phase 5: Testing and Release - Full testing and release new version
 2025-12-13 13:01:09 | fxstein | NOTE | 79.5.5 | Release 2.2.0 published successfully. Package built with uv run python -m build (wheel and sdist), version changes committed, tag v2.2.0 pushed to GitHub. GitHub Actions is handling PyPI publishing and GitHub release creation. Migration to uv is complete and released.

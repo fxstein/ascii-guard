@@ -4,7 +4,12 @@
 
 ## Tasks
 - [ ] **#79** Migrate project to uv: Complete migration from venv/pip to uv package manager `-p`
+  > Created docs/migration/UV_IMPLEMENTATION_GAP_ANALYSIS.md with audit findings: Documentation updates needed, CI workflow standardization (sync vs pip install), and Cursor rules refresh.
   > See docs/migration/UV_ANALYSIS.md for complete analysis of current setup (venv, pip, pipx, Python version management, CI/CD, pre-commit hooks). See docs/migration/UV_DESIGN.md for detailed migration design with security and reliability improvements (lock file strategy, SHA pinning, permissions, native caching). Migration eliminates all venv/pip/pyenv usage in favor of uv, while maintaining full compatibility with existing workflows.
+  - [ ] **#79.6** Phase 6: Implementation Gaps - Address remaining documentation and workflow gaps
+    - [ ] **#79.6.3** Standardize CI Workflows: Replace 'uv pip install' with 'uv sync --frozen --dev' in all workflows
+    - [ ] **#79.6.2** Update Cursor Rules: Refresh .cursor/rules to explicitly prefer uv commands
+    - [ ] **#79.6.1** Update Developer Documentation: Replace legacy venv/pip instructions in DEVELOPMENT.md, USAGE.md, CI_CD.md
   - [x] **#79.5** Phase 5: Testing and Release - Full testing and release new version
     > Phase 5 complete. All testing and release tasks completed successfully: CI/CD workflows verified, release dry-run tested, zero dependencies verified, developer setup tested, and version 2.2.0 released. The uv migration is fully tested and published.
     - [x] **#79.5.5** Release new version: Publish migration as new version
@@ -401,6 +406,10 @@
 
 
 ## Deleted Tasks
+- [D] **#81** 79.6 `Update` `Developer` `Documentation:` `Replace` `legacy` `venv/pip` `instructions` `in` `DEVELOPMENT.md,` `USAGE.md,` `CI_CD.md` (deleted 2025-12-13, expires 2026-01-12)
+- [D] **#83** 79.6 `Update` `Developer` `Documentation:` `Replace` `legacy` `venv/pip` `instructions` `in` `DEVELOPMENT.md,` `USAGE.md,` `CI_CD.md` (deleted 2025-12-13, expires 2026-01-12)
+- [D] **#82** 79.6 `Standardize` `CI` `Workflows:` `Replace` `'uv` `pip` `install'` `with` `'uv` `sync` `--frozen` `--dev'` `in` `all` `workflows` (deleted 2025-12-13, expires 2026-01-12)
+- [D] **#84** 79.6 `Update` `Developer` `Documentation:` `Replace` `legacy` `venv/pip` `instructions` `in` `DEVELOPMENT.md,` `USAGE.md,` `CI_CD.md` (deleted 2025-12-13, expires 2026-01-12)
 - [D] **#60** Design: Create Python API design document for public programmatic interface `-p` (deleted 2025-12-12, expires 2026-01-11)
 - [D] **#77** 69.8 `Design:` `Write` `design` `document` `in` `docs/API_DESIGN.md` `for` `review` (deleted 2025-12-12, expires 2026-01-11)
 - [D] **#76** 69.7 `Design:` `Document` `API` `versioning` `and` `stability` `guarantees` (deleted 2025-12-12, expires 2026-01-11)
@@ -443,7 +452,7 @@
 
 ---
 
-**Last Updated:** Sat Dec 13 15:51:49 CET 2025
+**Last Updated:** Sat Dec 13 16:06:12 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata
