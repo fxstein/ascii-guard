@@ -32,6 +32,8 @@ AI-generated ASCII flowcharts and diagrams often have subtle formatting errors w
 
 ## 📦 Installation
 
+We recommend using `uv` for the fastest installation experience, but `pip` and `pipx` are fully supported alternatives. `uv` provides faster dependency resolution and better reproducibility, while `pip` and `pipx` work with any standard Python environment.
+
 ### Recommended: Using uv (Fastest)
 
 ```bash
