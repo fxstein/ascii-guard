@@ -41,7 +41,7 @@ We recommend using `uv` for the fastest installation experience, but `pip` and `
 uv tool install ascii-guard
 ```
 
-> **Note:** If `uv` is not installed, install it with: `curl -LsSf https://astral.sh/uv/install.sh | sh`
+> **Note:** If `uv` is not installed, you may install it with: `curl -LsSf https://astral.sh/uv/install.sh | sh`
 
 ### Alternative: Using pip
 
