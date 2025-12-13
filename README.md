@@ -35,12 +35,11 @@ AI-generated ASCII flowcharts and diagrams often have subtle formatting errors w
 ### Recommended: Using uv (Fastest)
 
 ```bash
-# Install uv (if not already installed)
-curl -LsSf https://astral.sh/uv/install.sh | sh
-
 # Install ascii-guard
 uv tool install ascii-guard
 ```
+
+> **Note:** If `uv` is not installed, install it with: `curl -LsSf https://astral.sh/uv/install.sh | sh`
 
 ### Alternative: Using pip
 
