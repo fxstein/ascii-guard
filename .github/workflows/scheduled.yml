@@ -6,6 +6,9 @@ on:
     - cron: "0 0 * * 1"
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   test-multi-platform:
     name: Test Python ${{ matrix.python-version }} on ${{ matrix.os }}
@@ -22,22 +25,32 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
 
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+        with:
+          version: "latest"
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
+
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v6
+        uses: astral-sh/setup-uv@v4
         with:
           python-version: ${{ matrix.python-version }}
 
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install -e .[dev]
+          uv venv
+          uv sync --frozen --dev
+          uv pip install -e ".[dev]"
 
       - name: Run tests
         run: |
+          source .venv/bin/activate
           pytest -v
 
       - name: Verify zero dependencies
         run: |
+          source .venv/bin/activate
           pytest tests/test_stdlib_only.py -v
 
   dependency-audit:
@@ -48,24 +61,34 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
 
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+        with:
+          version: "latest"
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
+
       - name: Set up Python
-        uses: actions/setup-python@v6
+        uses: astral-sh/setup-uv@v4
         with:
           python-version: "3.12"
 
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install -e .[dev]
-          pip install safety
+          uv venv
+          uv sync --frozen --dev
+          uv pip install -e ".[dev]"
+          uv pip install safety
 
       - name: Run safety check on dev dependencies
         run: |
+          source .venv/bin/activate
           safety check --json || true
 
       - name: Check for outdated dependencies
         run: |
-          pip list --outdated
+          source .venv/bin/activate
+          uv pip list --outdated
 
   performance-benchmark:
     name: Performance Benchmark
@@ -75,15 +98,22 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
 
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+        with:
+          version: "latest"
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
+
       - name: Set up Python
-        uses: actions/setup-python@v6
+        uses: astral-sh/setup-uv@v4
         with:
           python-version: "3.12"
 
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install -e .
+          uv venv
+          uv sync --frozen
 
       - name: Benchmark detection
         run: |
