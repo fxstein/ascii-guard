@@ -422,14 +422,14 @@ uv run pytest --pdb
 
 Make sure you're using uv run or the virtual environment:
 ```bash
-# Use uv run (recommended)
+# Use uv run (recommended - no activation needed)
 uv run python -c "import ascii_guard"
 
-# Or check which python is active
+# Alternative: Check which python is active
 which python
 
 # Should show: /path/to/ascii-guard/.venv/bin/python
-# If not, activate manually:
+# If uv run doesn't work, you can activate manually (fallback):
 source .venv/bin/activate
 ```
 

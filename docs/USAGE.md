@@ -28,13 +28,16 @@ pip install ascii-guard
 pipx install ascii-guard
 ```
 
-### From Source
+### From Source (For Developers)
 
 ```bash
 git clone https://github.com/fxstein/ascii-guard.git
 cd ascii-guard
-pip install -e .
+# Install uv if not already installed: curl -LsSf https://astral.sh/uv/install.sh | sh
+uv sync --dev
 ```
+
+**Note:** For end users, we recommend installing from PyPI using `pip install ascii-guard` or `uv tool install ascii-guard`. The source installation above is for developers contributing to the project.
 
 ### Requirements
 

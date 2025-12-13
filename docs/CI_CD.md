@@ -233,12 +233,12 @@ pre-commit run --all-files
 pytest --cov=ascii_guard --cov-report=term-missing
 
 # Build package (same as CI)
-python -m build
-twine check dist/*
+uv run python -m build
+uv run twine check dist/*
 
 # Verify zero dependencies
-pip install -e .
-python -c "import ascii_guard; print(ascii_guard.__version__)"
+uv sync --dev
+uv run python -c "import ascii_guard; print(ascii_guard.__version__)"
 ```
 
 ### Test Matrix Locally

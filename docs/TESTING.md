@@ -381,7 +381,7 @@ def test_with_debug_output(self, capsys: pytest.CaptureFixture[str]) -> None:
 **Import errors**:
 ```bash
 # Ensure package is installed in dev mode
-pip install -e .[dev]
+uv sync --dev
 ```
 
 **Fixture not found**:
