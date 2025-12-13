@@ -2,6 +2,8 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2025-12-13 13:01:09 | fxstein | NOTE | 79.5.5 | Release 2.2.0 published successfully. Package built with uv run python -m build (wheel and sdist), version changes committed, tag v2.2.0 pushed to GitHub. GitHub Actions is handling PyPI publishing and GitHub release creation. Migration to uv is complete and released.
+2025-12-13 13:01:09 | fxstein | COMPLETE | 79.5.5 | Release new version: Publish migration as new version
 2025-12-13 12:55:36 | fxstein | NOTE | 79.5.2 | Release dry-run test successful. Ran ./release/release.sh --prepare which: 1) Validated environment (uv, venv, build, gh CLI all OK), 2) Detected version bump (2.1.0 → 2.2.0, minor), 3) Generated release notes with AI summary and categorized commits, 4) Updated version files (pyproject.toml, __init__.py). Release process works correctly with uv. Build test with uv run python -m build verified.
 2025-12-13 12:55:35 | fxstein | COMPLETE | 79.5.2 | Test release dry-run: Test release process with --prepare flag
 2025-12-13 12:54:27 | fxstein | NOTE | 79.5.1 | CI/CD workflows verified and passing. All 4 workflows (ci.yml, pr-checks.yml, scheduled.yml, release.yml) have been updated to use uv and are running successfully. Recent runs show: ci.yml passing, scheduled tests passing. All workflows use uv sync --frozen --dev, uv venv, and uv run commands correctly.
