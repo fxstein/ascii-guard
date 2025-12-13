@@ -11,14 +11,15 @@
     - [ ] **#79.5.3** Verify zero deps: Ensure zero dependency verification still works
     - [ ] **#79.5.2** Test release dry-run: Test release process with --prepare flag
     - [ ] **#79.5.1** Test full CI/CD: Run all workflows and verify they pass
-  - [ ] **#79.4** Phase 4: Scripts and Documentation - Update setup.sh, release.sh, and all docs
-    - [ ] **#79.4.6** Update Cursor rules: Update venv references to uv where appropriate
-    - [ ] **#79.4.5** Update CONTRIBUTING.md: Update development setup to use uv
-    - [ ] **#79.4.4** Update docs/USAGE.md: Update developer setup examples to use uv
-    - [ ] **#79.4.3** Update README.md: Add uv installation instructions for developers
-    - [ ] **#79.4.2** Update release.sh: Convert to use uv sync and verify uv availability
+  - [x] **#79.4** Phase 4: Scripts and Documentation - Update setup.sh, release.sh, and all docs
+    > Phase 4 complete. All scripts and documentation updated to use uv. Key changes: setup.sh uses uv venv/sync, release.sh checks uv and uses uv run, all docs updated with uv examples, Cursor rules updated to use uv instead of venv/pip.
+    - [x] **#79.4.6** Update Cursor rules: Update venv references to uv where appropriate
+    - [x] **#79.4.5** Update CONTRIBUTING.md: Update development setup to use uv
+    - [x] **#79.4.4** Update docs/USAGE.md: Update developer setup examples to use uv
+    - [x] **#79.4.3** Update README.md: Add uv installation instructions for developers
+    - [x] **#79.4.2** Update release.sh: Convert to use uv sync and verify uv availability
       > Add uv availability check. Replace pip install with 'uv sync --dev'. Keep all validation logic (uv venvs are compatible). Keep build commands (work with uv-installed packages). See UV_DESIGN.md section 4.8.
-    - [ ] **#79.4.1** Update setup.sh: Convert to use uv venv and uv sync
+    - [x] **#79.4.1** Update setup.sh: Convert to use uv venv and uv sync
       > Replace 'python3 -m venv .venv' with 'uv venv'. Replace 'pip install --upgrade pip' and 'pip install -e .[dev]' with 'uv sync --dev'. Add uv installation check. Keep pre-commit installation (works as-is). See UV_DESIGN.md section 4.7.
   - [x] **#79.3** Phase 3: CI/CD Migration - Update all GitHub Actions workflows
     > Phase 3 complete. All 4 workflows updated to use uv. Key changes: Added permissions: contents: read, replaced setup-python with setup-uv, used native caching, replaced venv/pip with uv venv/sync, updated zero deps verification to uv pip list. Note: Action SHA pinning (79.3.7) is manual - Dependabot already configured to manage updates once pinned.
@@ -436,7 +437,7 @@
 
 ---
 
-**Last Updated:** Sat Dec 13 11:16:33 CET 2025
+**Last Updated:** Sat Dec 13 12:15:42 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata

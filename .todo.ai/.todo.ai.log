@@ -2,6 +2,13 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2025-12-13 12:15:42 | fxstein | COMPLETE | 79.4 | Phase 4: Scripts and Documentation - Update setup.sh, release.sh, and all docs
+2025-12-13 12:15:42 | fxstein | COMPLETE | 79.4.5 | Update CONTRIBUTING.md: Update development setup to use uv
+2025-12-13 12:15:42 | fxstein | COMPLETE | 79.4.4 | Update docs/USAGE.md: Update developer setup examples to use uv
+2025-12-13 12:15:42 | fxstein | COMPLETE | 79.4.3 | Update README.md: Add uv installation instructions for developers
+2025-12-13 12:15:42 | fxstein | COMPLETE | 79.4.2 | Update release.sh: Convert to use uv sync and verify uv availability
+2025-12-13 12:15:42 | fxstein | COMPLETE | 79.4.1 | Update setup.sh: Convert to use uv venv and uv sync
+2025-12-13 12:15:41 | fxstein | NOTE | 79.4 | Phase 4 complete. All scripts and documentation updated to use uv. Key changes: setup.sh uses uv venv/sync, release.sh checks uv and uses uv run, all docs updated with uv examples, Cursor rules updated to use uv instead of venv/pip.
 2025-12-13 11:16:33 | fxstein | NOTE | 79.3.5 | CI workflows updated and YAML syntax validated. Actual testing requires pushing to GitHub and running workflows. Syntax validation passed for all 4 workflows. Ready for CI testing once pushed.
 2025-12-13 11:16:21 | fxstein | COMPLETE | 79.3 | Phase 3: CI/CD Migration - Update all GitHub Actions workflows
 2025-12-13 11:16:09 | fxstein | NOTE | 79.3.7 | MANUAL TASK: Pin all GitHub Actions to commit SHAs. Dependabot is already configured to manage updates. To complete: 1) For each action (checkout@v6, setup-uv@v4, cache@v4, etc.), find the commit SHA for the version tag, 2) Replace 'uses: action@version' with 'uses: action@sha', 3) Dependabot will then create PRs for SHA updates. Example: actions/checkout@v6 -> actions/checkout@<sha>. This is a security best practice but can be done incrementally.
