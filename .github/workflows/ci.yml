@@ -158,8 +158,8 @@ jobs:
 
       - name: Test package works standalone
         run: |
-          python -c "import ascii_guard; print(f'Version: {ascii_guard.__version__}')"
-          python -m ascii_guard.cli --version
+          uv run python -c "import ascii_guard; print(f'Version: {ascii_guard.__version__}')"
+          uv run python -m ascii_guard.cli --version
 
   test-import-without-deps:
     name: Test Import Without Dependencies
