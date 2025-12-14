@@ -2,6 +2,11 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2025-12-14 12:27:39 | fxstein | COMPLETE | 85.3 | Simplify Auto-merge: Remove wait-on-check-action and use native auto-merge
+2025-12-14 12:27:39 | fxstein | COMPLETE | 85.2 | Pin Actions: Pin all GitHub Actions to commit SHAs
+2025-12-14 12:27:39 | fxstein | COMPLETE | 85.1 | Refactor Workflows: Consolidate redundant checks in ci.yml and pr-checks.yml
+2025-12-14 12:27:38 | fxstein | COMPLETE | 85.4 | Update Schedule: Add Python 3.13 and 3.14 to scheduled tests matrix
+2025-12-14 12:16:25 | fxstein | MODIFY | 85.1 | Refactor Workflows: Consolidate redundant checks in ci.yml and pr-checks.yml
 2025-12-14 12:15:58 | fxstein | ADD_SUBTASK | 85.4 | Update Schedule: Add Python 3.13 and 3.14 to scheduled tests matrix (parent: #85)
 2025-12-14 12:11:44 | fxstein | ADD_SUBTASK | 85.3 | Simplify Auto-merge: Remove wait-on-check-action and use native auto-merge (parent: #85)
 2025-12-14 12:11:44 | fxstein | ADD_SUBTASK | 85.2 | Pin Actions: Pin all GitHub Actions to commit SHAs (parent: #85)
