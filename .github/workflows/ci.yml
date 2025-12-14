@@ -157,6 +157,8 @@ jobs:
         with:
           version: "latest"
           python-version: "3.12"
+          enable-cache: true
+          save-cache: false
 
       - name: Test imports (no installation)
         run: |
