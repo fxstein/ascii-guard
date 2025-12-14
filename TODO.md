@@ -3,7 +3,7 @@
 > **⚠️ IMPORTANT: This file should ONLY be edited through the `todo.ai` script!**
 
 ## Tasks
-- [ ] **#85** CI/CD Hardening & Optimization - Implement audit findings
+- [x] **#85** CI/CD Hardening & Optimization - Implement audit findings
   - [x] **#85.4** Update Schedule: Add Python 3.13 and 3.14 to scheduled tests matrix
   - [x] **#85.3** Simplify Auto-merge: Remove wait-on-check-action and use native auto-merge
   - [x] **#85.2** Pin Actions: Pin all GitHub Actions to commit SHAs
@@ -459,7 +459,7 @@
 
 ---
 
-**Last Updated:** Sun Dec 14 12:27:39 CET 2025
+**Last Updated:** Sun Dec 14 12:32:58 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata
