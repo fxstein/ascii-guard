@@ -106,11 +106,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
 
-      - name: Set up Python 3.12 with uv
+      - name: Set up Python 3.14 with uv
         uses: astral-sh/setup-uv@v7
         with:
           version: "latest"
-          python-version: "3.12"
+          python-version: "3.14"
           enable-cache: true
           cache-dependency-glob: "uv.lock"
           cache-suffix: "code-quality"
@@ -146,11 +146,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
 
-      - name: Set up Python 3.12 with uv
+      - name: Set up Python 3.14 with uv
         uses: astral-sh/setup-uv@v7
         with:
           version: "latest"
-          python-version: "3.12"
+          python-version: "3.14"
           enable-cache: true
           cache-dependency-glob: "uv.lock"
           cache-suffix: "security-scan"
@@ -178,11 +178,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
 
-      - name: Set up Python 3.12 with uv
+      - name: Set up Python 3.14 with uv
         uses: astral-sh/setup-uv@v7
         with:
           version: "latest"
-          python-version: "3.12"
+          python-version: "3.14"
           enable-cache: true
           cache-dependency-glob: "uv.lock"
           cache-suffix: "test-coverage"
