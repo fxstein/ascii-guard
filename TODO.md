@@ -3,6 +3,11 @@
 > **⚠️ IMPORTANT: This file should ONLY be edited through the `todo.ai` script!**
 
 ## Tasks
+- [ ] **#85** CI/CD Hardening & Optimization - Implement audit findings
+  - [ ] **#85.4** Update Schedule: Add Python 3.13 and 3.14 to scheduled tests matrix
+  - [ ] **#85.3** Simplify Auto-merge: Remove wait-on-check-action and use native auto-merge
+  - [ ] **#85.2** Pin Actions: Pin all GitHub Actions to commit SHAs
+  - [ ] **#85.1** Refactor Workflows: Consolidate redundant checks in ci.yml and pr-checks.yml
 - [x] **#79** Migrate project to uv: Complete migration from venv/pip to uv package manager `-p`
   > Complete uv migration: All phases (1-6) successfully completed. Project fully migrated from venv/pip/pyenv to uv. All CI/CD workflows, documentation, scripts, and Cursor rules updated. Version 2.2.0 released with uv migration. Zero dependencies verified. Developer setup tested. All implementation gaps addressed.
   > Created docs/migration/UV_IMPLEMENTATION_GAP_ANALYSIS.md with audit findings: Documentation updates needed, CI workflow standardization (sync vs pip install), and Cursor rules refresh.
@@ -454,7 +459,7 @@
 
 ---
 
-**Last Updated:** Sat Dec 13 16:46:22 CET 2025
+**Last Updated:** Sun Dec 14 12:15:58 CET 2025
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata

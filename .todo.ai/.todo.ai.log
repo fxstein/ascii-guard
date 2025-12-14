@@ -2,6 +2,11 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2025-12-14 12:15:58 | fxstein | ADD_SUBTASK | 85.4 | Update Schedule: Add Python 3.13 and 3.14 to scheduled tests matrix (parent: #85)
+2025-12-14 12:11:44 | fxstein | ADD_SUBTASK | 85.3 | Simplify Auto-merge: Remove wait-on-check-action and use native auto-merge (parent: #85)
+2025-12-14 12:11:44 | fxstein | ADD_SUBTASK | 85.2 | Pin Actions: Pin all GitHub Actions to commit SHAs (parent: #85)
+2025-12-14 12:11:44 | fxstein | ADD_SUBTASK | 85.1 | Refactor Workflows: Consolidate redundant checks in ci.yml and pr-checks.yml (parent: #85)
+2025-12-14 12:11:40 | fxstein | ADD | 85 | CI/CD Hardening & Optimization - Implement audit findings
 2025-12-13 16:46:22 | fxstein | NOTE | 79 | Complete uv migration: All phases (1-6) successfully completed. Project fully migrated from venv/pip/pyenv to uv. All CI/CD workflows, documentation, scripts, and Cursor rules updated. Version 2.2.0 released with uv migration. Zero dependencies verified. Developer setup tested. All implementation gaps addressed.
 2025-12-13 16:46:21 | fxstein | COMPLETE | 79 | Migrate project to uv: Complete migration from venv/pip to uv package manager
 2025-12-13 16:41:13 | fxstein | COMPLETE | 79.6.3 | Standardize CI Workflows: Replace 'uv pip install' with 'uv sync --frozen --dev' in all workflows
