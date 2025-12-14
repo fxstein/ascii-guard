@@ -2,6 +2,8 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2025-12-14 12:43:27 | fxstein | ARCHIVE | 85 | CI/CD Hardening & Optimization - Implement audit findings (with 4 subtasks)
+2025-12-14 12:43:24 | fxstein | ARCHIVE | 79 | Migrate project to uv: Complete migration from venv/pip to uv package manager (with 41 subtasks)
 2025-12-14 12:32:58 | fxstein | COMPLETE | 85.1 | Refactor Workflows: Consolidate redundant checks in ci.yml and pr-checks.yml
 2025-12-14 12:32:58 | fxstein | COMPLETE | 85.2 | Pin Actions: Pin all GitHub Actions to commit SHAs
 2025-12-14 12:32:58 | fxstein | COMPLETE | 85.3 | Simplify Auto-merge: Remove wait-on-check-action and use native auto-merge
