@@ -85,10 +85,7 @@ echo ""
 # Step 4: Install dependencies
 echo -e "${BLUE}4/7 Installing dependencies...${NC}"
 echo "  Syncing dependencies from uv.lock..."
-uv sync --dev
-
-echo "  Installing ascii-guard in editable mode with dev dependencies..."
-uv pip install -e ".[dev]"
+uv sync --extra dev
 
 echo -e "${GREEN}  ${CHECK} Dependencies installed${NC}"
 echo ""

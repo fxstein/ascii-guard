@@ -38,7 +38,7 @@ jobs:
       - name: Install dependencies
         run: |
           uv venv
-          uv sync --frozen --dev
+          uv sync --frozen --extra dev
 
       - name: Run full test suite
         run: |
@@ -82,7 +82,7 @@ jobs:
       - name: Install dependencies
         run: |
           uv venv
-          uv sync --frozen --dev
+          uv sync --frozen --extra dev
 
       - name: Build package
         run: |
@@ -123,7 +123,7 @@ jobs:
       - name: Install dependencies
         run: |
           uv venv
-          uv sync --frozen --dev
+          uv sync --frozen --extra dev
 
       - name: Build package
         run: |
