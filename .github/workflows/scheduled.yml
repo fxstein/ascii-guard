@@ -23,10 +23,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8  # v6
 
       - name: Set up Python ${{ matrix.python-version }} with uv
-        uses: astral-sh/setup-uv@v7
+        uses: astral-sh/setup-uv@afb3baf78d56a259980b76d3fc18fe1e99d867c2  # v7
         with:
           version: "latest"
           python-version: ${{ matrix.python-version }}
@@ -53,10 +53,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8  # v6
 
       - name: Set up Python 3.14 with uv
-        uses: astral-sh/setup-uv@v7
+        uses: astral-sh/setup-uv@afb3baf78d56a259980b76d3fc18fe1e99d867c2  # v7
         with:
           version: "latest"
           python-version: "3.14"
@@ -83,10 +83,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8  # v6
 
       - name: Set up Python 3.14 with uv
-        uses: astral-sh/setup-uv@v7
+        uses: astral-sh/setup-uv@afb3baf78d56a259980b76d3fc18fe1e99d867c2  # v7
         with:
           version: "latest"
           python-version: "3.14"
@@ -121,7 +121,7 @@ jobs:
 
     steps:
       - name: Create issue on failure
-        uses: actions/github-script@v8
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd  # v8
         with:
           script: |
             const runUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;

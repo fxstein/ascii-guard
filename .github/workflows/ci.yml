@@ -21,10 +21,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8  # v6
 
       - name: Set up Python ${{ matrix.python-version }} with uv
-        uses: astral-sh/setup-uv@v7
+        uses: astral-sh/setup-uv@afb3baf78d56a259980b76d3fc18fe1e99d867c2  # v7
         with:
           version: "latest"
           python-version: ${{ matrix.python-version }}
@@ -33,7 +33,7 @@ jobs:
           cache-suffix: "py${{ matrix.python-version }}"
 
       - name: Cache pre-commit hooks
-        uses: actions/cache@v4
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830  # v4
         with:
           path: ~/.cache/pre-commit
           key: ${{ runner.os }}-pre-commit-${{ matrix.python-version }}-${{ hashFiles('.pre-commit-config.yaml') }}
@@ -56,7 +56,7 @@ jobs:
 
       - name: Upload coverage to Codecov
         if: github.repository == 'fxstein/ascii-guard' && matrix.python-version == '3.14'
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de  # v5
         continue-on-error: true
         with:
           files: ./coverage.xml
@@ -70,10 +70,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8  # v6
 
       - name: Set up Python 3.14 with uv
-        uses: astral-sh/setup-uv@v7
+        uses: astral-sh/setup-uv@afb3baf78d56a259980b76d3fc18fe1e99d867c2  # v7
         with:
           version: "latest"
           python-version: "3.14"
@@ -94,7 +94,7 @@ jobs:
           uv run twine check dist/*
 
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4  # v5
         with:
           name: dist-packages
           path: dist/
@@ -107,10 +107,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8  # v6
 
       - name: Set up Python 3.14 with uv
-        uses: astral-sh/setup-uv@v7
+        uses: astral-sh/setup-uv@afb3baf78d56a259980b76d3fc18fe1e99d867c2  # v7
         with:
           version: "latest"
           python-version: "3.14"
@@ -150,10 +150,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8  # v6
 
       - name: Set up Python 3.14 with uv
-        uses: astral-sh/setup-uv@v7
+        uses: astral-sh/setup-uv@afb3baf78d56a259980b76d3fc18fe1e99d867c2  # v7
         with:
           version: "latest"
           python-version: "3.14"
