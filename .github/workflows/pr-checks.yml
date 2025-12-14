@@ -113,6 +113,7 @@ jobs:
           python-version: "3.12"
           enable-cache: true
           cache-dependency-glob: "uv.lock"
+          cache-suffix: "code-quality"
 
       - name: Install dependencies
         run: |
@@ -152,6 +153,7 @@ jobs:
           python-version: "3.12"
           enable-cache: true
           cache-dependency-glob: "uv.lock"
+          cache-suffix: "security-scan"
 
       - name: Run Bandit security scan
         continue-on-error: true
@@ -183,6 +185,7 @@ jobs:
           python-version: "3.12"
           enable-cache: true
           cache-dependency-glob: "uv.lock"
+          cache-suffix: "test-coverage"
 
       - name: Install dependencies
         run: |

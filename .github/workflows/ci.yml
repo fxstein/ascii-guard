@@ -30,6 +30,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
           enable-cache: true
           cache-dependency-glob: "uv.lock"
+          cache-suffix: "py${{ matrix.python-version }}"
 
       - name: Cache pre-commit hooks
         uses: actions/cache@v4
