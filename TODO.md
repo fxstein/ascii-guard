@@ -3,24 +3,24 @@
 > **⚠️ IMPORTANT: This file should ONLY be edited through the `todo.ai` script!**
 
 ## Tasks
-- [x] **#93** Harden uv setup to prevent dependency on system/Homebrew Python
-  - [x] **#93.6** Update release.sh validation to check for uv-managed Python source
-  - [x] **#93.5** Test hardened setup: verify venv creation uses uv-managed Python even when Homebrew Python is available
-  - [x] **#93.4** Update documentation (DEVELOPMENT.md, README.md) to document uv hardening approach
-  - [x] **#93.3** Update CI/CD workflows to use --managed-python flag in uv venv commands
-  - [x] **#93.2** Add validation in setup.sh to verify venv uses uv-managed Python (not system/Homebrew)
-  - [x] **#93.1** Update setup.sh to use explicit Python version with --managed-python flag
-- [x] **#86** Fix scheduled CI test failures and review Dependabot PRs
-  - [x] **#86.6** Review and merge Dependabot PR #21 (actions/upload-artifact 5.0.0 → 6.0.0)
-  - [x] **#86.5** Review and merge Dependabot PR #20 (astral-sh/setup-uv commit update)
-  - [x] **#86.4** Review and merge Dependabot PR #19 (actions/cache 4.3.0 → 5.0.1)
-  - [x] **#86.3** Close duplicate scheduled test failure issues (#18, #22, #23, #24) after fix is verified
-  - [x] **#86.2** Test the scheduled workflow fix locally or via workflow_dispatch
-  - [x] **#86.1** Fix Performance Benchmark job in scheduled.yml - use 'uv run' instead of 'python'
 
 ------------------
 
 ## Recently Completed
+- [x] **#93** Harden uv setup to prevent dependency on system/Homebrew Python (2026-01-11)
+  - [x] **#93.6** Update release.sh validation to check for uv-managed Python source (2026-01-11)
+  - [x] **#93.5** Test hardened setup: verify venv creation uses uv-managed Python even when Homebrew Python is available (2026-01-11)
+  - [x] **#93.4** Update documentation (DEVELOPMENT.md, README.md) to document uv hardening approach (2026-01-11)
+  - [x] **#93.3** Update CI/CD workflows to use --managed-python flag in uv venv commands (2026-01-11)
+  - [x] **#93.2** Add validation in setup.sh to verify venv uses uv-managed Python (not system/Homebrew) (2026-01-11)
+  - [x] **#93.1** Update setup.sh to use explicit Python version with --managed-python flag (2026-01-11)
+- [x] **#86** Fix scheduled CI test failures and review Dependabot PRs (2026-01-11)
+  - [x] **#86.6** Review and merge Dependabot PR #21 (actions/upload-artifact 5.0.0 → 6.0.0) (2026-01-11)
+  - [x] **#86.5** Review and merge Dependabot PR #20 (astral-sh/setup-uv commit update) (2026-01-11)
+  - [x] **#86.4** Review and merge Dependabot PR #19 (actions/cache 4.3.0 → 5.0.1) (2026-01-11)
+  - [x] **#86.3** Close duplicate scheduled test failure issues (#18, #22, #23, #24) after fix is verified (2026-01-11)
+  - [x] **#86.2** Test the scheduled workflow fix locally or via workflow_dispatch (2026-01-11)
+  - [x] **#86.1** Fix Performance Benchmark job in scheduled.yml - use 'uv run' instead of 'python' (2026-01-11)
 - [x] **#85** CI/CD Hardening & Optimization - Implement audit findings (2025-12-14)
   - [x] **#85.4** Update Schedule: Add Python 3.13 and 3.14 to scheduled tests matrix (2025-12-14)
   - [x] **#85.3** Simplify Auto-merge: Remove wait-on-check-action and use native auto-merge (2025-12-14)
@@ -457,7 +457,7 @@
 
 ---
 
-**Last Updated:** Sun Jan 11 21:40:17 CET 2026
+**Last Updated:** Sun Jan 11 22:36:15 CET 2026
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata
