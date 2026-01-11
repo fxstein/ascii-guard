@@ -18,6 +18,13 @@ This document lists all files that contain version numbers for ascii-guard.
 **Format**: String assignment
 **Purpose**: Runtime version accessible via `ascii_guard.__version__`
 
+### 3. uv.lock
+**Location**: `uv.lock`
+**Field**: `version = "X.Y.Z"` (within `[[package]]` section for `name = "ascii-guard"`)
+**Line Range**: Variable (within package section)
+**Format**: TOML string in quotes
+**Purpose**: Lock file version for reproducible builds and dependency resolution
+
 ## Update Process
 
 All version files MUST be updated together atomically during the release process to maintain consistency.
@@ -32,17 +39,24 @@ All version files MUST be updated together atomically during the release process
 
 The `release.sh` script contains an `update_version()` function that updates all files in this list.
 
-**Update function location**: `release/release.sh` lines ~76-92
+**Update function location**: `release/release.sh` lines ~212-229
 
 ```bash
 update_version() {
     local new_version="$1"
 
     # Update pyproject.toml
-    sed -i[.bak] 's/^version = ".*"/version = "'"$new_version"'"/' pyproject.toml
+    sed -i '' 's/^version = ".*"/version = "'"$new_version"'"/' pyproject.toml
 
     # Update __init__.py
-    sed -i[.bak] 's/^__version__ = ".*"/__version__ = "'"$new_version"'"/' src/ascii_guard/__init__.py
+    sed -i '' 's/^__version__ = ".*"/__version__ = "'"$new_version"'"/' src/ascii_guard/__init__.py
+
+    # Update uv.lock (package version in lock file)
+    if [[ -f uv.lock ]]; then
+        sed -i '' '/^name = "ascii-guard"$/,/^version = / {
+            s/^version = ".*"/version = "'"$new_version"'"/
+        }' uv.lock
+    fi
 }
 ```
 
@@ -57,7 +71,10 @@ grep '^version = ' pyproject.toml
 # Check __init__.py
 grep '^__version__ = ' src/ascii_guard/__init__.py
 
-# Both should show the same version
+# Check uv.lock
+grep -A 2 'name = "ascii-guard"' uv.lock | grep '^version = '
+
+# All should show the same version
 ```
 
 ## Version Source of Truth

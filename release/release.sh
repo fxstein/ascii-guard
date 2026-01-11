@@ -209,7 +209,7 @@ get_local_version() {
     grep '^version = ' pyproject.toml | sed 's/version = "\([^"]*\)"/\1/'
 }
 
-# Update version in pyproject.toml and __init__.py
+# Update version in pyproject.toml, __init__.py, and uv.lock
 update_version() {
     local new_version="$1"
 
@@ -225,6 +225,17 @@ update_version() {
         sed -i '' 's/^__version__ = ".*"/__version__ = "'"$new_version"'"/' src/ascii_guard/__init__.py
     else
         sed -i 's/^__version__ = ".*"/__version__ = "'"$new_version"'"/' src/ascii_guard/__init__.py
+    fi
+
+    # Update uv.lock (package version in lock file)
+    # The version line appears right after "name = "ascii-guard""
+    if [[ -f uv.lock ]]; then
+        # Use awk to find the ascii-guard package section and update version
+        awk -v new_version="$new_version" '
+            /^name = "ascii-guard"$/ { found=1; print; next }
+            found && /^version = / { print "version = \"" new_version "\""; found=0; next }
+            { print }
+        ' uv.lock > uv.lock.tmp && mv uv.lock.tmp uv.lock
     fi
 }
 
