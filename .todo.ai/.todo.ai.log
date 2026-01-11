@@ -2,6 +2,13 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2026-01-11 21:27:56 | fxstein | ADD_SUBTASK | 93.6 | Update release.sh validation to check for uv-managed Python source (parent: #93)
+2026-01-11 21:27:55 | fxstein | ADD_SUBTASK | 93.5 | Test hardened setup: verify venv creation uses uv-managed Python even when Homebrew Python is available (parent: #93)
+2026-01-11 21:27:55 | fxstein | ADD_SUBTASK | 93.4 | Update documentation (DEVELOPMENT.md, README.md) to document uv hardening approach (parent: #93)
+2026-01-11 21:27:54 | fxstein | ADD_SUBTASK | 93.3 | Update CI/CD workflows to use --managed-python flag in uv venv commands (parent: #93)
+2026-01-11 21:27:53 | fxstein | ADD_SUBTASK | 93.2 | Add validation in setup.sh to verify venv uses uv-managed Python (not system/Homebrew) (parent: #93)
+2026-01-11 21:27:52 | fxstein | ADD_SUBTASK | 93.1 | Update setup.sh to use explicit Python version with --managed-python flag (parent: #93)
+2026-01-11 21:27:49 | fxstein | ADD | 93 | Harden uv setup to prevent dependency on system/Homebrew Python
 2026-01-11 21:16:04 | fxstein | ADD_SUBTASK | 86.6 | Review and merge Dependabot PR #21 (actions/upload-artifact 5.0.0 → 6.0.0) (parent: #86)
 2026-01-11 21:16:04 | fxstein | ADD_SUBTASK | 86.5 | Review and merge Dependabot PR #20 (astral-sh/setup-uv commit update) (parent: #86)
 2026-01-11 21:16:03 | fxstein | ADD_SUBTASK | 86.4 | Review and merge Dependabot PR #19 (actions/cache 4.3.0 → 5.0.1) (parent: #86)
