@@ -55,7 +55,7 @@ jobs:
 
       - name: Install package (no dev dependencies)
         run: |
-          uv venv
+          uv venv --python 3.12 --managed-python
           uv sync --frozen
 
       - name: Check runtime dependencies using uv
@@ -124,7 +124,7 @@ jobs:
       - name: Run Bandit security scan
         continue-on-error: true
         run: |
-          uv venv
+          uv venv --python 3.12 --managed-python
           uv pip install 'bandit[toml]'
           uv run bandit -r src/ -ll || true
 

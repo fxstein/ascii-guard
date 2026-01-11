@@ -27,28 +27,17 @@ echo -e "${BLUE}${ROCKET} ascii-guard Development Setup${NC}"
 echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo ""
 
-# Step 1: Check Python version
-echo -e "${BLUE}1/6 Checking Python version...${NC}"
-if ! command -v python3 &> /dev/null; then
-    echo -e "${RED}${CROSS} Error: python3 not found${NC}"
-    echo "Please install Python 3.10 or later"
-    exit 1
+# Step 1: Check Python version (optional - uv will manage Python)
+echo -e "${BLUE}1/7 Checking Python version...${NC}"
+# Note: We use uv-managed Python, so system Python check is informational only
+if command -v python3 &> /dev/null; then
+    if PYTHON_VERSION=$(python3 --version 2>&1 | awk '{print $2}' 2>/dev/null); then
+        if [[ -n "$PYTHON_VERSION" ]] && [[ "$PYTHON_VERSION" != "line" ]]; then
+            echo "  Found system Python ${PYTHON_VERSION} (uv will use managed Python)"
+        fi
+    fi
 fi
-
-PYTHON_VERSION=$(python3 --version 2>&1 | awk '{print $2}')
-REQUIRED_VERSION="3.10"
-echo "  Found Python ${PYTHON_VERSION}"
-
-# Version comparison
-MAJOR=$(echo "$PYTHON_VERSION" | cut -d. -f1)
-MINOR=$(echo "$PYTHON_VERSION" | cut -d. -f2)
-
-if [[ $MAJOR -lt 3 ]] || [[ $MAJOR -eq 3 && $MINOR -lt 10 ]]; then
-    echo -e "${RED}${CROSS} Error: Python ${REQUIRED_VERSION}+ required, found ${PYTHON_VERSION}${NC}"
-    exit 1
-fi
-
-echo -e "${GREEN}  ${CHECK} Python ${PYTHON_VERSION} OK${NC}"
+echo -e "${GREEN}  ${CHECK} Python check skipped (uv manages Python versions)${NC}"
 echo ""
 
 # Step 2: Check for uv
@@ -72,13 +61,47 @@ echo ""
 
 # Step 3: Create/verify virtual environment
 echo -e "${BLUE}3/7 Setting up virtual environment...${NC}"
+
+# Determine Python version from .python-version file or use default
+if [[ -f .python-version ]]; then
+    PYTHON_VERSION=$(cat .python-version)
+    echo "  Using Python version from .python-version: ${PYTHON_VERSION}"
+else
+    PYTHON_VERSION="3.14"
+    echo -e "${YELLOW}  ${WARNING} .python-version not found, using default: ${PYTHON_VERSION}${NC}"
+fi
+
+# Ensure uv-managed Python is available
+echo "  Ensuring uv-managed Python ${PYTHON_VERSION} is installed..."
+if ! uv python find "${PYTHON_VERSION}" &> /dev/null; then
+    echo "  Installing Python ${PYTHON_VERSION} via uv..."
+    uv python install "${PYTHON_VERSION}"
+fi
+
 if [[ -d .venv ]]; then
     echo -e "${YELLOW}  ${WARNING} Virtual environment already exists${NC}"
     echo "  Reusing existing .venv/"
 else
-    echo "  Creating .venv/ with uv..."
-    uv venv
+    echo "  Creating .venv/ with uv (using managed Python ${PYTHON_VERSION})..."
+    uv venv --python "${PYTHON_VERSION}" --managed-python
     echo -e "${GREEN}  ${CHECK} Virtual environment created${NC}"
+fi
+
+# Verify venv uses uv-managed Python (not system/Homebrew)
+if [[ -f .venv/bin/python3 ]]; then
+    VENV_PYTHON_PATH=$(readlink -f .venv/bin/python3 2>/dev/null || .venv/bin/python3)
+    if [[ "$VENV_PYTHON_PATH" == *"/.local/share/uv/python/"* ]] || [[ "$VENV_PYTHON_PATH" == *"/uv/python/"* ]]; then
+        echo -e "${GREEN}  ${CHECK} Venv uses uv-managed Python${NC}"
+    elif [[ "$VENV_PYTHON_PATH" == *"/opt/homebrew/"* ]] || [[ "$VENV_PYTHON_PATH" == "/usr/bin/"* ]] || [[ "$VENV_PYTHON_PATH" == "/usr/local/"* ]]; then
+        echo -e "${RED}  ${CROSS} ERROR: Venv uses system/Homebrew Python instead of uv-managed Python${NC}"
+        echo -e "${RED}     Python path: ${VENV_PYTHON_PATH}${NC}"
+        echo ""
+        echo -e "${YELLOW}  Fix: Remove .venv and run setup.sh again${NC}"
+        echo -e "${YELLOW}    rm -rf .venv && ./setup.sh${NC}"
+        exit 1
+    else
+        echo -e "${YELLOW}  ${WARNING} Could not verify Python source (path: ${VENV_PYTHON_PATH})${NC}"
+    fi
 fi
 echo ""
 

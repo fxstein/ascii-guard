@@ -36,15 +36,18 @@ uv run ascii-guard lint .  # Try the tool
 The `setup.sh` script automatically:
 1. ✅ Checks Python version (3.10+ required)
 2. ✅ Checks for uv installation
-3. ✅ Creates isolated virtual environment (.venv) with uv
-4. ✅ Syncs dependencies from uv.lock
-5. ✅ Installs ascii-guard in editable mode with dev dependencies
-6. ✅ Configures pre-commit git hooks
-7. ✅ Runs verification tests
+3. ✅ Creates isolated virtual environment (.venv) with uv using **uv-managed Python only**
+4. ✅ Verifies venv uses uv-managed Python (not system/Homebrew Python)
+5. ✅ Syncs dependencies from uv.lock
+6. ✅ Installs ascii-guard in editable mode with dev dependencies
+7. ✅ Configures pre-commit git hooks
+8. ✅ Runs verification tests
 
 **Platform compatibility**: Linux, macOS, Windows (WSL/Git Bash)
 
 **Note**: Use `uv run <command>` instead of manually activating the venv. This is the recommended approach with uv.
+
+**Python Isolation**: The setup uses `--managed-python` flag to ensure complete isolation from system Python installations. This prevents issues with corrupted or mismatched system Python versions.
 
 ---
 

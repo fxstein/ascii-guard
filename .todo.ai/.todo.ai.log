@@ -2,6 +2,12 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2026-01-11 21:34:36 | fxstein | COMPLETE | 93.6 | Update release.sh validation to check for uv-managed Python source
+2026-01-11 21:34:35 | fxstein | COMPLETE | 93.5 | Test hardened setup: verify venv creation uses uv-managed Python even when Homebrew Python is available
+2026-01-11 21:34:35 | fxstein | COMPLETE | 93.4 | Update documentation (DEVELOPMENT.md, README.md) to document uv hardening approach
+2026-01-11 21:34:35 | fxstein | COMPLETE | 93.3 | Update CI/CD workflows to use --managed-python flag in uv venv commands
+2026-01-11 21:34:35 | fxstein | COMPLETE | 93.2 | Add validation in setup.sh to verify venv uses uv-managed Python (not system/Homebrew)
+2026-01-11 21:34:35 | fxstein | COMPLETE | 93.1 | Update setup.sh to use explicit Python version with --managed-python flag
 2026-01-11 21:27:56 | fxstein | ADD_SUBTASK | 93.6 | Update release.sh validation to check for uv-managed Python source (parent: #93)
 2026-01-11 21:27:55 | fxstein | ADD_SUBTASK | 93.5 | Test hardened setup: verify venv creation uses uv-managed Python even when Homebrew Python is available (parent: #93)
 2026-01-11 21:27:55 | fxstein | ADD_SUBTASK | 93.4 | Update documentation (DEVELOPMENT.md, README.md) to document uv hardening approach (parent: #93)

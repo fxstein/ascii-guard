@@ -128,6 +128,23 @@ validate_environment() {
         fi
     fi
 
+    # Verify venv uses uv-managed Python (not system/Homebrew)
+    if [[ -f .venv/bin/python3 ]]; then
+        local venv_python_path=$(readlink -f .venv/bin/python3 2>/dev/null || .venv/bin/python3)
+        if [[ "$venv_python_path" == *"/.local/share/uv/python/"* ]] || [[ "$venv_python_path" == *"/uv/python/"* ]]; then
+            echo -e "${GREEN}✓ Venv uses uv-managed Python${NC}"
+        elif [[ "$venv_python_path" == *"/opt/homebrew/"* ]] || [[ "$venv_python_path" == "/usr/bin/"* ]] || [[ "$venv_python_path" == "/usr/local/"* ]]; then
+            echo -e "${RED}❌ Venv uses system/Homebrew Python instead of uv-managed Python${NC}"
+            echo -e "${RED}   Python path: ${venv_python_path}${NC}"
+            echo ""
+            echo -e "${YELLOW}Fix: Rebuild virtual environment with uv-managed Python:${NC}"
+            echo -e "${YELLOW}  rm -rf .venv && ./setup.sh${NC}"
+            errors=$((errors + 1))
+        else
+            echo -e "${YELLOW}⚠️  Could not verify Python source (path: ${venv_python_path})${NC}"
+        fi
+    fi
+
     # Check if python3 -m build is available in venv
     if .venv/bin/python -c "import build" 2>/dev/null; then
         echo -e "${GREEN}✓ python3 -m build: available${NC}"

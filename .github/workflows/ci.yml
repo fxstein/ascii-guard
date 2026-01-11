@@ -43,7 +43,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          uv venv
+          uv venv --python ${{ matrix.python-version }} --managed-python
           uv sync --frozen --extra dev
 
       - name: Run pre-commit hooks
@@ -119,7 +119,7 @@ jobs:
 
       - name: Install package (no dev dependencies)
         run: |
-          uv venv
+          uv venv --python 3.14 --managed-python
           uv sync --frozen
 
       - name: Verify zero dependencies
