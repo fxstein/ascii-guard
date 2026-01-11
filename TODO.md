@@ -3,7 +3,7 @@
 > **⚠️ IMPORTANT: This file should ONLY be edited through the `todo.ai` script!**
 
 ## Tasks
-- [ ] **#93** Harden uv setup to prevent dependency on system/Homebrew Python
+- [x] **#93** Harden uv setup to prevent dependency on system/Homebrew Python
   - [x] **#93.6** Update release.sh validation to check for uv-managed Python source
   - [x] **#93.5** Test hardened setup: verify venv creation uses uv-managed Python even when Homebrew Python is available
   - [x] **#93.4** Update documentation (DEVELOPMENT.md, README.md) to document uv hardening approach
@@ -457,7 +457,7 @@
 
 ---
 
-**Last Updated:** Sun Jan 11 21:34:36 CET 2026
+**Last Updated:** Sun Jan 11 21:36:26 CET 2026
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata

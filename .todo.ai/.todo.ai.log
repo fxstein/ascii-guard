@@ -2,6 +2,7 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2026-01-11 21:36:26 | fxstein | COMPLETE | 93 | Harden uv setup to prevent dependency on system/Homebrew Python
 2026-01-11 21:34:36 | fxstein | COMPLETE | 93.6 | Update release.sh validation to check for uv-managed Python source
 2026-01-11 21:34:35 | fxstein | COMPLETE | 93.5 | Test hardened setup: verify venv creation uses uv-managed Python even when Homebrew Python is available
 2026-01-11 21:34:35 | fxstein | COMPLETE | 93.4 | Update documentation (DEVELOPMENT.md, README.md) to document uv hardening approach
