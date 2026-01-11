@@ -3,6 +3,13 @@
 > **⚠️ IMPORTANT: This file should ONLY be edited through the `todo.ai` script!**
 
 ## Tasks
+- [ ] **#86** Fix scheduled CI test failures and review Dependabot PRs
+  - [ ] **#86.6** Review and merge Dependabot PR #21 (actions/upload-artifact 5.0.0 → 6.0.0)
+  - [ ] **#86.5** Review and merge Dependabot PR #20 (astral-sh/setup-uv commit update)
+  - [ ] **#86.4** Review and merge Dependabot PR #19 (actions/cache 4.3.0 → 5.0.1)
+  - [ ] **#86.3** Close duplicate scheduled test failure issues (#18, #22, #23, #24) after fix is verified
+  - [ ] **#86.2** Test the scheduled workflow fix locally or via workflow_dispatch
+  - [ ] **#86.1** Fix Performance Benchmark job in scheduled.yml - use 'uv run' instead of 'python'
 
 ------------------
 
@@ -413,6 +420,12 @@
 
 
 ## Deleted Tasks
+- [D] **#92** 86.6 `Review` `and` `merge` `Dependabot` `PR` `#21` `(actions/upload-artifact` `5.0.0` `→` `6.0.0)` (deleted 2026-01-11, expires 2026-02-10)
+- [D] **#91** 86.5 `Review` `and` `merge` `Dependabot` `PR` `#20` `(astral-sh/setup-uv` `commit` `update)` (deleted 2026-01-11, expires 2026-02-10)
+- [D] **#90** 86.4 `Review` `and` `merge` `Dependabot` `PR` `#19` `(actions/cache` `4.3.0` `→` `5.0.1)` (deleted 2026-01-11, expires 2026-02-10)
+- [D] **#89** 86.3 `Close` `duplicate` `scheduled` `test` `failure` `issues` `(#18,` `#22,` `#23,` `#24)` `after` `fix` `is` `verified` (deleted 2026-01-11, expires 2026-02-10)
+- [D] **#88** 86.2 `Test` `the` `scheduled` `workflow` `fix` `locally` `or` `via` `workflow_dispatch` (deleted 2026-01-11, expires 2026-02-10)
+- [D] **#87** 86.1 `Fix` `Performance` `Benchmark` `job` `in` `scheduled.yml` `-` `use` `'uv` `run'` `instead` `of` `'python'` (deleted 2026-01-11, expires 2026-02-10)
 - [D] **#81** 79.6 `Update` `Developer` `Documentation:` `Replace` `legacy` `venv/pip` `instructions` `in` `DEVELOPMENT.md,` `USAGE.md,` `CI_CD.md` (deleted 2025-12-13, expires 2026-01-12)
 - [D] **#83** 79.6 `Update` `Developer` `Documentation:` `Replace` `legacy` `venv/pip` `instructions` `in` `DEVELOPMENT.md,` `USAGE.md,` `CI_CD.md` (deleted 2025-12-13, expires 2026-01-12)
 - [D] **#82** 79.6 `Standardize` `CI` `Workflows:` `Replace` `'uv` `pip` `install'` `with` `'uv` `sync` `--frozen` `--dev'` `in` `all` `workflows` (deleted 2025-12-13, expires 2026-01-12)
@@ -434,32 +447,10 @@
 - [D] **#63** 60.3 `Design:` `Design` `API` `for` `lint_file()` `-` `parameters,` `return` `types,` `error` `handling` (deleted 2025-12-12, expires 2026-01-11)
 - [D] **#62** 60.2 `Design:` `Define` `public` `API` `surface` `(what` `to` `export` `from` `__init__.py)` (deleted 2025-12-12, expires 2026-01-11)
 - [D] **#61** 60.1 `Design:` `Analyze` `current` `internal` `API` `and` `identify` `stable` `functions` (deleted 2025-12-12, expires 2026-01-11)
-- [D] **#51** 35:Verify: Re-test EXAMPLE-GCP_DEVOPS_STRATEGY.md - fix should reach 0 errors (deleted 2025-11-18, expires 2025-12-18)
-- [D] **#50** 35:Test: Add test cases for tables, junction points, and multi-box lines (deleted 2025-11-18, expires 2025-12-18)
-- [D] **#49** 35:Implement: Add support for multiple boxes on same line (deleted 2025-11-18, expires 2025-12-18)
-- [D] **#48** 35:Implement: Fix fixer logic to properly handle malformed lines (deleted 2025-11-18, expires 2025-12-18)
-- [D] **#47** 35:Implement: Add junction point detection in box borders (deleted 2025-11-18, expires 2025-12-18)
-- [D] **#46** 35:Implement: Add table column separator detection and validation (deleted 2025-11-18, expires 2025-12-18)
-- [D] **#45** 35:Design: Define support for table column separators (├─┬─┼─┤) and junction points (deleted 2025-11-18, expires 2025-12-18)
-- [D] **#44** 35:Investigate: Reproduce issue #10 bugs with EXAMPLE-GCP_DEVOPS_STRATEGY.md test file (deleted 2025-11-18, expires 2025-12-18)
-- [D] **#43** 35.8 `Verify:` `Re-test` `EXAMPLE-GCP_DEVOPS_STRATEGY.md` `-` `fix` `should` `reach` `0` `errors` (deleted 2025-11-18, expires 2025-12-18)
-- [D] **#42** 35.7 `Test:` `Add` `test` `cases` `for` `tables,` `junction` `points,` `and` `multi-box` `lines` (deleted 2025-11-18, expires 2025-12-18)
-- [D] **#41** 35.6 `Implement:` `Add` `support` `for` `multiple` `boxes` `on` `same` `line` `(flowcharts)` (deleted 2025-11-18, expires 2025-12-18)
-- [D] **#40** 35.5 `Implement:` `Fix` `fixer` `logic` `to` `properly` `handle` `malformed` `lines` `(extra` `chars,` `missing` `borders)` (deleted 2025-11-18, expires 2025-12-18)
-- [D] **#39** 35.4 `Implement:` `Add` `junction` `point` `detection` `in` `box` `borders` `(┴┬` `in` `width` `calculations)` (deleted 2025-11-18, expires 2025-12-18)
-- [D] **#38** 35.3 `Implement:` `Add` `table` `column` `separator` `detection` `and` `validation` (deleted 2025-11-18, expires 2025-12-18)
-- [D] **#37** 35.2 `Design:` `Define` `support` `for` `table` `column` `separators` `(├─┬─┼─┤)` `and` `junction` `points` `(┴┬)` (deleted 2025-11-18, expires 2025-12-18)
-- [D] **#36** 35.1 `Investigate:` `Reproduce` `issue` `#10` `bugs` `with` `EXAMPLE-GCP_DEVOPS_STRATEGY.md` `test` `file` (deleted 2025-11-18, expires 2025-12-18)
-- [D] **#27** Remove H2 header from release notes - fix markdown hierarchy (deleted 2025-11-17, expires 2025-12-17)
-- [D] **#22** 16.5 `Test` `complete` `release` `workflow` `end-to-end` (deleted 2025-11-16, expires 2025-12-16)
-- [D] **#21** 16.4 `Create` `.cursor/rules/ascii-guard-releases.mdc` `for` `AI` `release` `guidance` (deleted 2025-11-16, expires 2025-12-16)
-- [D] **#20** 16.3 `Implement` `release.sh` `execute` `mode` `with` `GitHub` `tag` `push` (deleted 2025-11-16, expires 2025-12-16)
-- [D] **#19** 16.2 `Implement` `release.sh` `set-version` `override` `mode` (deleted 2025-11-16, expires 2025-12-16)
-- [D] **#18** 16.1 `Implement` `release.sh` `core` `functions` `and` `prepare` `mode` (deleted 2025-11-16, expires 2025-12-16)
 
 ---
 
-**Last Updated:** Sun Dec 14 12:43:27 CET 2025
+**Last Updated:** Sun Jan 11 21:16:04 CET 2026
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata

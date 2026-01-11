@@ -2,6 +2,25 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2026-01-11 21:16:04 | fxstein | ADD_SUBTASK | 86.6 | Review and merge Dependabot PR #21 (actions/upload-artifact 5.0.0 → 6.0.0) (parent: #86)
+2026-01-11 21:16:04 | fxstein | ADD_SUBTASK | 86.5 | Review and merge Dependabot PR #20 (astral-sh/setup-uv commit update) (parent: #86)
+2026-01-11 21:16:03 | fxstein | ADD_SUBTASK | 86.4 | Review and merge Dependabot PR #19 (actions/cache 4.3.0 → 5.0.1) (parent: #86)
+2026-01-11 21:16:02 | fxstein | ADD_SUBTASK | 86.3 | Close duplicate scheduled test failure issues (#18, #22, #23, #24) after fix is verified (parent: #86)
+2026-01-11 21:16:02 | fxstein | ADD_SUBTASK | 86.2 | Test the scheduled workflow fix locally or via workflow_dispatch (parent: #86)
+2026-01-11 21:16:01 | fxstein | ADD_SUBTASK | 86.1 | Fix Performance Benchmark job in scheduled.yml - use 'uv run' instead of 'python' (parent: #86)
+2026-01-11 21:15:56 | fxstein | DELETE | 92 | 86.6
+2026-01-11 21:15:56 | fxstein | DELETE | 91 | 86.5
+2026-01-11 21:15:56 | fxstein | DELETE | 90 | 86.4
+2026-01-11 21:15:56 | fxstein | DELETE | 89 | 86.3
+2026-01-11 21:15:56 | fxstein | DELETE | 88 | 86.2
+2026-01-11 21:15:56 | fxstein | DELETE | 87 | 86.1
+2026-01-11 21:14:20 | fxstein | ADD | 92 | 86.6
+2026-01-11 21:14:19 | fxstein | ADD | 91 | 86.5
+2026-01-11 21:14:18 | fxstein | ADD | 90 | 86.4
+2026-01-11 21:14:17 | fxstein | ADD | 89 | 86.3
+2026-01-11 21:14:16 | fxstein | ADD | 88 | 86.2
+2026-01-11 21:14:15 | fxstein | ADD | 87 | 86.1
+2026-01-11 21:14:12 | fxstein | ADD | 86 | Fix scheduled CI test failures and review Dependabot PRs
 2025-12-14 12:43:27 | fxstein | ARCHIVE | 85 | CI/CD Hardening & Optimization - Implement audit findings (with 4 subtasks)
 2025-12-14 12:43:24 | fxstein | ARCHIVE | 79 | Migrate project to uv: Complete migration from venv/pip to uv package manager (with 41 subtasks)
 2025-12-14 12:32:58 | fxstein | COMPLETE | 85.1 | Refactor Workflows: Consolidate redundant checks in ci.yml and pr-checks.yml
