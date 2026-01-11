@@ -35,7 +35,7 @@ from ascii_guard.linter import fix_file, lint_file
 from ascii_guard.models import Box, FixResult, LintResult, ValidationError
 from ascii_guard.validator import validate_box
 
-__version__ = "2.2.1"
+__version__ = "2.2.2"
 __all__ = [
     "__version__",
     # High-level functions
