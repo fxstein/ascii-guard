@@ -100,11 +100,11 @@ jobs:
 
       - name: Benchmark detection
         run: |
-          time python -m ascii_guard.cli lint tests/fixtures/benchmark_test.md
+          time uv run python -m ascii_guard.cli lint tests/fixtures/benchmark_test.md
 
       - name: Benchmark fixing
         run: |
-          time python -m ascii_guard.cli fix tests/fixtures/benchmark_test.md --dry-run
+          time uv run python -m ascii_guard.cli fix tests/fixtures/benchmark_test.md --dry-run
 
   notify-failures:
     name: Notify on Failure
