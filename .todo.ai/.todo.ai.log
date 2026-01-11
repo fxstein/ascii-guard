@@ -2,6 +2,13 @@
 # Format: TIMESTAMP | USER | ACTION | TASK_ID | DESCRIPTION
 # Generated: Sun Nov 16 10:34:30 CET 2025
 
+2026-01-11 21:40:17 | fxstein | COMPLETE | 86 | Fix scheduled CI test failures and review Dependabot PRs
+2026-01-11 21:40:16 | fxstein | COMPLETE | 86.6 | Review and merge Dependabot PR #21 (actions/upload-artifact 5.0.0 → 6.0.0)
+2026-01-11 21:40:16 | fxstein | COMPLETE | 86.5 | Review and merge Dependabot PR #20 (astral-sh/setup-uv commit update)
+2026-01-11 21:40:16 | fxstein | COMPLETE | 86.4 | Review and merge Dependabot PR #19 (actions/cache 4.3.0 → 5.0.1)
+2026-01-11 21:40:16 | fxstein | COMPLETE | 86.3 | Close duplicate scheduled test failure issues (#18, #22, #23, #24) after fix is verified
+2026-01-11 21:40:16 | fxstein | COMPLETE | 86.2 | Test the scheduled workflow fix locally or via workflow_dispatch
+2026-01-11 21:40:16 | fxstein | COMPLETE | 86.1 | Fix Performance Benchmark job in scheduled.yml - use 'uv run' instead of 'python'
 2026-01-11 21:36:26 | fxstein | COMPLETE | 93 | Harden uv setup to prevent dependency on system/Homebrew Python
 2026-01-11 21:34:36 | fxstein | COMPLETE | 93.6 | Update release.sh validation to check for uv-managed Python source
 2026-01-11 21:34:35 | fxstein | COMPLETE | 93.5 | Test hardened setup: verify venv creation uses uv-managed Python even when Homebrew Python is available

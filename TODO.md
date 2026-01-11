@@ -10,13 +10,13 @@
   - [x] **#93.3** Update CI/CD workflows to use --managed-python flag in uv venv commands
   - [x] **#93.2** Add validation in setup.sh to verify venv uses uv-managed Python (not system/Homebrew)
   - [x] **#93.1** Update setup.sh to use explicit Python version with --managed-python flag
-- [ ] **#86** Fix scheduled CI test failures and review Dependabot PRs
-  - [ ] **#86.6** Review and merge Dependabot PR #21 (actions/upload-artifact 5.0.0 → 6.0.0)
-  - [ ] **#86.5** Review and merge Dependabot PR #20 (astral-sh/setup-uv commit update)
-  - [ ] **#86.4** Review and merge Dependabot PR #19 (actions/cache 4.3.0 → 5.0.1)
-  - [ ] **#86.3** Close duplicate scheduled test failure issues (#18, #22, #23, #24) after fix is verified
-  - [ ] **#86.2** Test the scheduled workflow fix locally or via workflow_dispatch
-  - [ ] **#86.1** Fix Performance Benchmark job in scheduled.yml - use 'uv run' instead of 'python'
+- [x] **#86** Fix scheduled CI test failures and review Dependabot PRs
+  - [x] **#86.6** Review and merge Dependabot PR #21 (actions/upload-artifact 5.0.0 → 6.0.0)
+  - [x] **#86.5** Review and merge Dependabot PR #20 (astral-sh/setup-uv commit update)
+  - [x] **#86.4** Review and merge Dependabot PR #19 (actions/cache 4.3.0 → 5.0.1)
+  - [x] **#86.3** Close duplicate scheduled test failure issues (#18, #22, #23, #24) after fix is verified
+  - [x] **#86.2** Test the scheduled workflow fix locally or via workflow_dispatch
+  - [x] **#86.1** Fix Performance Benchmark job in scheduled.yml - use 'uv run' instead of 'python'
 
 ------------------
 
@@ -457,7 +457,7 @@
 
 ---
 
-**Last Updated:** Sun Jan 11 21:36:26 CET 2026
+**Last Updated:** Sun Jan 11 21:40:17 CET 2026
 **Maintenance:** Use `todo.ai` script only
 
 ## Task Metadata
