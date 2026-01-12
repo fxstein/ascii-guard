@@ -149,6 +149,42 @@ ascii-guard checks for:
 
 ---
 
+## 🐍 Python API
+
+ascii-guard provides a stable Python API for programmatic use. Perfect for integrating into documentation pipelines, CI/CD scripts, or custom tooling.
+
+```python
+from ascii_guard import lint_file, fix_file, detect_boxes
+
+# Lint a file for issues
+result = lint_file("README.md")
+if result.has_errors:
+    print(f"Found {len(result.errors)} alignment errors")
+    for error in result.errors:
+        print(f"  Line {error.line + 1}: {error.message}")
+
+# Auto-fix alignment issues
+result = fix_file("README.md", dry_run=True)  # Preview first
+print(f"Would fix {result.boxes_fixed} boxes")
+
+# Detect boxes without validation
+boxes = detect_boxes("docs/guide.md")
+print(f"Found {len(boxes)} ASCII art boxes")
+```
+
+**Available functions:**
+- `lint_file()` - Lint a file for ASCII art alignment issues
+- `fix_file()` - Fix alignment issues in a file
+- `detect_boxes()` - Detect ASCII art boxes without validation
+- `validate_box()` - Validate a single Box object
+- `fix_box()` - Fix a single Box object
+
+**Data models:** `Box`, `ValidationError`, `LintResult`, `FixResult`
+
+> 📖 **Full API documentation**: See [API Reference](docs/API_REFERENCE.md) for complete details, type signatures, and advanced examples.
+
+---
+
 ## 🤝 Contributing
 
 We welcome contributions! Here's how to get started:
