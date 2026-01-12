@@ -25,6 +25,7 @@ AI-generated ASCII flowcharts and diagrams often have subtle formatting errors w
 - 🔒 **Minimal supply chain risk** - Pure stdlib on 3.11+
 - ⚡ **Quick startup** - No import overhead
 - 📦 **Simple installation** - One command, automatic dependency handling
+- 🐍 **Python API** - Stable programmatic interface for integration into pipelines and scripts
 - 🛡️ **Type-safe** - Full mypy strict mode
 - ✅ **Well tested** - Comprehensive test coverage
 
