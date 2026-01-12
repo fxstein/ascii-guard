@@ -105,8 +105,8 @@ ascii-guard fix --dry-run docs/guide.md  # Preview changes first
 └──────┬───────┘
        │
 ┌──────▼───────┐
-│     End      ││        ← Duplicate right border
-└──────────────          ← Broken bottom right corner
+│     End      ││      ← Duplicate right border
+└──────────────        ← Broken bottom right corner
 ```
 
 **After** (all boxes aligned):
