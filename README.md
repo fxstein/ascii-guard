@@ -76,7 +76,7 @@ ascii-guard fix README.md
 ascii-guard fix --dry-run docs/guide.md  # Preview changes first
 ```
 
-### Example
+### Example 1: Simple Box
 
 **Before** (misaligned):
 ```
@@ -91,6 +91,40 @@ ascii-guard fix --dry-run docs/guide.md  # Preview changes first
 │ Box Content         │
 └─────────────────────┘  ← Perfect alignment ✓
 ```
+
+### Example 2: Flowchart
+
+**Before** (multiple alignment issues):
+```
+┌──────────────┐
+│   Start      │
+└──────┬───────┘
+       │
+┌──────▼───────┐
+│    Step     │        ← Right border misaligned
+└──────┬───────┘
+       │
+┌──────▼───────┐
+│     End      ││        ← Duplicate right border
+└──────────────          ← Broken bottom right corner
+```
+
+**After** (all boxes aligned):
+```
+┌──────────────┐
+│   Start      │
+└──────┬───────┘
+       │
+┌──────▼───────┐
+│    Step      │
+└──────┬───────┘
+       │
+┌──────▼───────┐
+│     End      │
+└──────────────┘
+```
+
+ascii-guard automatically detects and fixes alignment issues across multiple boxes, nested structures, and complex flowcharts.
 
 ---
 
