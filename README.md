@@ -97,7 +97,7 @@ ascii-guard fix --dry-run docs/guide.md  # Preview changes first
 **Before** (multiple alignment issues):
 ```
 ┌──────────────┐
-│   Start      │
+│    Start     │
 └──────┬───────┘
        │
 ┌──────▼───────┐
@@ -112,7 +112,7 @@ ascii-guard fix --dry-run docs/guide.md  # Preview changes first
 **After** (all boxes aligned):
 ```
 ┌──────────────┐
-│   Start      │
+│    Start     │
 └──────┬───────┘
        │
 ┌──────▼───────┐
