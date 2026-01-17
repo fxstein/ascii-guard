@@ -30,6 +30,14 @@ jobs:
         run: |
           # Skip detailed PR body check - just verify it exists
           # Use printf to avoid shell parsing issues with special characters
+          if python -c "import os, re, sys; body=os.environ.get('PR_BODY',''); sys.exit(1 if re.search(r'<[^>]+>', body or '') else 0)"
+          then
+            : # No HTML found
+          else
+            echo "::error::PR description contains HTML. Please remove all HTML tags."
+            exit 1
+          fi
+
           BODY_LENGTH=$(printf '%s' "${PR_BODY}" | wc -c)
 
           if [ "$BODY_LENGTH" -lt 10 ]; then
