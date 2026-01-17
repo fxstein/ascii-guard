@@ -200,6 +200,28 @@ See [USAGE.md](USAGE.md#python-api) for complete examples and [API_REFERENCE.md]
 
 ## Troubleshooting
 
+### pip install fails with ModuleNotFoundError: No module named 'distutils'
+This usually means the system `pip` (Ubuntu 22.04 ships `python3-pip` for Python 3.10)
+is being used with Python 3.12, where `distutils` was removed. Use a `pip` tied to
+the same interpreter, or install one for Python 3.12:
+
+1. Install `ensurepip` support (if missing):
+   ```bash
+   sudo apt install python3.12-venv
+   ```
+2. Install/upgrade `pip` for Python 3.12:
+   ```bash
+   python3.12 -m ensurepip --upgrade
+   python3.12 -m pip install --upgrade pip
+   ```
+3. Install ascii-guard with the same interpreter:
+   ```bash
+   python3.12 -m pip install ascii-guard
+   ```
+
+As an alternative, use `uv tool install ascii-guard` or `pipx install ascii-guard` to
+avoid system `pip` entirely.
+
 ### It's not detecting my boxes
 
 **Possible causes:**
