@@ -25,10 +25,12 @@ jobs:
           fi
 
       - name: Check PR description
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
         run: |
           # Skip detailed PR body check - just verify it exists
-          # PR body can contain special characters that break shell parsing
-          BODY_LENGTH=$(echo '${{ github.event.pull_request.body }}' | wc -c)
+          # Use printf to avoid shell parsing issues with special characters
+          BODY_LENGTH=$(printf '%s' "${PR_BODY}" | wc -c)
 
           if [ "$BODY_LENGTH" -lt 10 ]; then
             echo "::error::PR description is too short or empty"
