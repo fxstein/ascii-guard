@@ -57,7 +57,8 @@ Enhancement suggestions are welcome! Please:
 6. **Ensure all tests pass** (`pytest`)
 7. **Run pre-commit hooks** (`pre-commit run --all-files`)
 8. **Write clear commit messages**
-9. **Submit your pull request**
+9. **Keep the PR description HTML-free** (plain Markdown only; CI rejects HTML)
+10. **Submit your pull request**
 
 ## Development Setup
 
