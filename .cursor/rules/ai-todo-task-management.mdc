@@ -1,0 +1,15 @@
+---
+description: "Task management via ai-todo MCP server"
+alwaysApply: true
+---
+# ai-todo Task Management
+
+**USE THE MCP SERVER** for all task management operations.
+
+- Use `ai-todo` MCP tools (`add_task`, `complete_task`, `list_tasks`, etc.)
+- **NEVER** use Cursor's built-in TODO tools
+- **NEVER** edit TODO.md directly (protected by tamper detection)
+- **ASK** before completing root tasks or archiving
+- Tasks are displayed in **reverse chronological order** (newest on top)
+
+The MCP server name is typically `ai-todo` or similar in your `.cursor/mcp.json`.

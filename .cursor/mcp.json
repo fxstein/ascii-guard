@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "ai-todo": {
+      "command": "uvx",
+      "args": ["ai-todo==4.0.0b2", "serve", "--root", "${workspaceFolder}"]
+    }
+  }
+}
