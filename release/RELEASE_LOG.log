@@ -2,6 +2,23 @@
 # Format: TIMESTAMP | USER | STEP | MESSAGE
 # Generated: 2025-11-16
 #
+2026-02-12 08:21:53 | pi-oliver-pionizer | RELEASE INITIATED | Release 2.3.0 initiated! GitHub Actions will complete publishing.
+2026-02-12 08:21:53 | pi-oliver-pionizer | CLEANUP | Deleted working files and build artifacts
+2026-02-12 08:21:53 | pi-oliver-pionizer | CLEANUP COMMITTED | Committed cleanup of release artifacts
+2026-02-12 08:21:51 | pi-oliver-pionizer | GITHUB ACTIONS | Tag pushed, GitHub Actions will handle PyPI publish and GitHub release
+2026-02-12 08:21:49 | pi-oliver-pionizer | PUSH TAG | Pushing tag v2.3.0 to origin
+2026-02-12 08:21:48 | pi-oliver-pionizer | PUSH MAIN | Pushing main branch to origin
+2026-02-12 08:21:47 | pi-oliver-pionizer | TAG CREATED | Git tag v2.3.0 created successfully
+2026-02-12 08:21:47 | pi-oliver-pionizer | CREATE TAG | Creating git tag: v2.3.0
+2026-02-12 08:21:47 | pi-oliver-pionizer | VERSION COMMITTED | Version change committed: 86a5ecaf169dcaa9bdfebbe5be3cd03552ed3a04
+2026-02-12 08:21:45 | pi-oliver-pionizer | COMMIT VERSION | Committing version change and release files to git
+2026-02-12 08:21:45 | pi-oliver-pionizer | BUILD SUCCESS | Package built successfully
+2026-02-12 08:21:41 | pi-oliver-pionizer | BUILD PACKAGE | Building wheel and sdist
+2026-02-12 08:21:40 | pi-oliver-pionizer | VALIDATE FILES | Validated and formatted release files
+2026-02-12 08:21:27 | pi-oliver-pionizer | COPY NOTES | Copied RELEASE_NOTES.md to RELEASE_SUMMARY.md
+2026-02-12 08:21:06 | pi-oliver-pionizer | PREPARE | Release preview prepared for v2.3.0
+2026-02-12 08:21:06 | pi-oliver-pionizer | VERSION FILES UPDATED | Updated all version files to 2.3.0 (not yet committed)
+2026-02-12 08:21:05 | pi-oliver-pionizer | RELEASE START | Starting release process: 2.2.2 → 2.3.0 (minor)
 2026-01-11 21:46:15 | fxstein | RELEASE INITIATED | Release 2.2.2 initiated! GitHub Actions will complete publishing.
 2026-01-11 21:46:14 | fxstein | CLEANUP | Deleted working files and build artifacts
 2026-01-11 21:46:13 | fxstein | CLEANUP COMMITTED | Committed cleanup of release artifacts
