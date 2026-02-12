@@ -1,0 +1,6 @@
+- id: ascii-guard
+  name: ascii-guard
+  description: Lint ASCII art box alignment
+  entry: ascii-guard lint
+  language: python
+  types: [markdown]
