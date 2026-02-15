@@ -346,6 +346,10 @@ get_repo_url() {
         remote_url=$(echo "$remote_url" | sed 's/git@github.com:/https:\/\/github.com\//')
     fi
 
+    # Strip credentials from HTTPS URLs (e.g. x-access-token:ghp_xxx@)
+    # Prevents token leakage into commit URLs in release notes
+    remote_url=$(echo "$remote_url" | sed 's|https://[^@]*@|https://|')
+
     remote_url=$(echo "$remote_url" | sed 's/\.git$//')
 
     echo "$remote_url"
