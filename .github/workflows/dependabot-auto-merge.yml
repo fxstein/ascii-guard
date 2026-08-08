@@ -1,0 +1,55 @@
+name: Dependabot auto-merge
+
+# Patch and minor Dependabot updates merge themselves once CI is green; major
+# updates are labelled and left for a human. Without this the PRs accumulate
+# and Dependabot's own update jobs start failing with
+# `pull_request_exists_for_latest_version` on every retry, which is what
+# produced most of this repo's red CI (PIO-1867).
+#
+# `secrets.GITHUB_TOKEN` is deliberate. A Dependabot-triggered run cannot read
+# Actions secrets, but the automatic token is still injected, and the
+# `permissions:` block below grants it what the merge needs. There is no
+# approval step because `main` here carries no required-review rule.
+
+on: pull_request
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write # label creation is issues-scoped, not pull-requests-scoped
+
+jobs:
+  dependabot:
+    runs-on: ubuntu-latest
+    if: github.actor == 'dependabot[bot]'
+    steps:
+      - name: Fetch Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@25dd0e34f4fe68f24cc83900b1fe3fe149efef98 # v3.1.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Auto-merge patch and minor updates
+        if: >
+          steps.metadata.outputs.update-type == 'version-update:semver-patch' ||
+          steps.metadata.outputs.update-type == 'version-update:semver-minor'
+        run: gh pr merge --auto --squash "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Label major updates for manual review
+        if: steps.metadata.outputs.update-type == 'version-update:semver-major'
+        # Create-or-reuse rather than assume. The operator script provisions
+        # this label, but a workflow that depends on state it does not
+        # establish turns a deleted label into a red run - the exact failure
+        # mode this rail exists to remove. `--force` makes it idempotent.
+        run: |
+          gh label create "needs-review-major" \
+            --color d93f0b \
+            --description "Dependabot semver-major update, human review required (DEC-0095)" \
+            --force
+          gh pr edit "$PR_URL" --add-label "needs-review-major"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
