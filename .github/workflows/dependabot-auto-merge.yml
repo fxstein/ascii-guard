@@ -16,6 +16,7 @@ on: pull_request
 permissions:
   contents: write
   pull-requests: write
+  issues: write # label creation is issues-scoped, not pull-requests-scoped
 
 jobs:
   dependabot:
@@ -39,7 +40,16 @@ jobs:
 
       - name: Label major updates for manual review
         if: steps.metadata.outputs.update-type == 'version-update:semver-major'
-        run: gh pr edit "$PR_URL" --add-label "needs-review-major"
+        # Create-or-reuse rather than assume. The operator script provisions
+        # this label, but a workflow that depends on state it does not
+        # establish turns a deleted label into a red run - the exact failure
+        # mode this rail exists to remove. `--force` makes it idempotent.
+        run: |
+          gh label create "needs-review-major" \
+            --color d93f0b \
+            --description "Dependabot semver-major update, human review required (DEC-0095)" \
+            --force
+          gh pr edit "$PR_URL" --add-label "needs-review-major"
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
