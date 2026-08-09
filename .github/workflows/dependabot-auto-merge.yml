@@ -44,12 +44,19 @@ jobs:
         # this label, but a workflow that depends on state it does not
         # establish turns a deleted label into a red run - the exact failure
         # mode this rail exists to remove. `--force` makes it idempotent.
+        #
+        # `--repo` is load-bearing: this job never checks the repo out, so
+        # `gh label create` has no git remote to infer a repo from and dies
+        # with "fatal: not a git repository". `gh pr edit` escapes that only
+        # because the PR URL names the repo itself.
         run: |
           gh label create "needs-review-major" \
+            --repo "$GH_REPO" \
             --color d93f0b \
             --description "Dependabot semver-major update, human review required (DEC-0095)" \
             --force
           gh pr edit "$PR_URL" --add-label "needs-review-major"
         env:
+          GH_REPO: ${{ github.repository }}
           PR_URL: ${{ github.event.pull_request.html_url }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
